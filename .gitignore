@@ -1,5 +1,11 @@
 # Created by https://www.gitignore.io/api/maven,netbeans
 
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
 ### Maven ###
 target/
 pom.xml.tag
