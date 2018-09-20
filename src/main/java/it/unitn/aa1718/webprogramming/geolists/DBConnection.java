@@ -28,7 +28,7 @@ public class DBConnection {
     public DBConnection() throws SQLException{
 
         try {
-            this.Connect = DriverManager.getConnection(DB_URL+"create=true", "DoppioDiPig", "DoppioDiPig"); // link al database, username e passworld
+            this.Connect = DriverManager.getConnection(DB_URL, "DoppioDiPig", "DoppioDiPig"); // link al database, username e passworld
             if(this.Connect != null){
                 System.out.println("Connesso al database");
             }
