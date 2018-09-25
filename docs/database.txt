@@ -28,3 +28,5 @@ Prodotto(idprodotto,categoria,...)
 
 CategoriaProdotti(idcategoriap,...)
 	pk is idcategoriap
+
+
