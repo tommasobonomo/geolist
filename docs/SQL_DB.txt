@@ -1,30 +1,69 @@
-Utente(username,...)
-	pk is username
+CREATE TABLE "USERS" (
+    "USERID" INTEGER not null primary key,
+    "USERNAME" VARCHAR(30) not null unique, 
+    "NAME" VARCHAR(30) not null ,
+    "LASTNAME" VARCHAR(30) ,
+    "EMAIL" VARCHAR(30) not null unique, 
+    "IMAGINE" VARCHAR(20),
+    "PASSWORD" VARCHAR(60) not null 
+);
 
-Accesso(user,lista)
-	pk is (user,lista)
+CREATE TABLE "USERSANONIMOUS" (
+    COOCKIE varchar(30),
+    PRIMARY KEY (COOCKIE)
 
-Lista(idlista,user,categoria...)
-	pk is idlista
-	userCREATOR fk to Utente(username)
-	categoria fk to CategoriaLista(idcategorial)
-	categoria not null
-	
-UtenteAnonimo(cookieid,lista) //errore
-	pk is cookieid
-	lista fk to Lista(idlista)
+);
 
-CategoriaLista(idcategorial,...)
-	pk is idcategorial
+CREATE TABLE "LIST" (
+    "IDLIST" INTEGER not null primary key,
+    "USERCREATOR" INTEGER,  
+    "NAME" VARCHAR(30),
+    "DESCRIPTION" VARCHAR(30),
+    "IMAGINE" VARCHAR(10),
+    FOREIGN KEY ("USERCREATOR") REFERENCES USERS(USERID)
+);
 
-Composta(lista,prodotto)
-	lista fk to Lista(idlista)
-	prodotto fk to Prodotti(idprodotto)	
 
-Prodotto(idprodotto,categoria,...)
-	pk is idprodotto
-	categoria fk to CategoriaProdotti(idcategoriap)
-	categoria not null
+CREATE TABLE "CLIST" (
+    "IDCATEGORY" INTEGER not null primary key,
+    "NAME" VARCHAR(30),
+    "DESCRIPTION" VARCHAR(30),
+    "IMAGINE" VARCHAR(10)
+);
 
-CategoriaProdotti(idcategoriap,...)
-	pk is idcategoriap
+
+
+CREATE TABLE "ITEM" (
+    "IDITEM" INTEGER not null primary key,
+    "NAME" VARCHAR(30),
+    "LOGO" VARCHAR(30),
+    "NOTE" VARCHAR(10)
+);
+
+CREATE TABLE "CITEM" (
+    "IDCATEGORY" INTEGER not null primary key,
+    "NOTE" VARCHAR(30),
+    "DESCRIPTION" VARCHAR(30),
+    "IMAGINE" VARCHAR(10)
+);
+
+
+
+CREATE TABLE "COMPOSE"(
+    "CCITEM" INTEGER ,
+    "CCLIST" INTEGER,
+    FOREIGN KEY ("CCITEM") REFERENCES ITEM(IDITEM),
+    FOREIGN KEY ("CCLIST") REFERENCES LIST(IDLIST),
+    primary key (CCITEM, CCLIST)  
+);
+
+CREATE TABLE "ACCESS"(
+    "AAUSER" INTEGER ,
+    "AALIST" INTEGER,
+    FOREIGN KEY ("AAUSER") REFERENCES USERS(USERID),
+    FOREIGN KEY ("AALIST") REFERENCES LIST(IDLIST),
+    primary key (AAUSER, AALIST)    
+);
+
+
+
