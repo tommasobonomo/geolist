@@ -1,0 +1,30 @@
+Utente(username,...)
+	pk is username
+
+Accesso(user,lista)
+	pk is (user,lista)
+
+Lista(idlista,user,categoria...)
+	pk is idlista
+	userCREATOR fk to Utente(username)
+	categoria fk to CategoriaLista(idcategorial)
+	categoria not null
+	
+UtenteAnonimo(cookieid,lista) //errore
+	pk is cookieid
+	lista fk to Lista(idlista)
+
+CategoriaLista(idcategorial,...)
+	pk is idcategorial
+
+Composta(lista,prodotto)
+	lista fk to Lista(idlista)
+	prodotto fk to Prodotti(idprodotto)	
+
+Prodotto(idprodotto,categoria,...)
+	pk is idprodotto
+	categoria fk to CategoriaProdotti(idcategoriap)
+	categoria not null
+
+CategoriaProdotti(idcategoriap,...)
+	pk is idcategoriap
