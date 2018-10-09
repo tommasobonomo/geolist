@@ -1,4 +1,4 @@
-INSERT INTO DOPPIODIPIG.USERS(USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, "ADMIN")
+INSERT INTO GEODB.USERS(USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, "ADMIN")
 VALUES ('rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','pasta',TRUE),
        ('gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGE','c123456',FALSE),
        ( 'minestrone','Tommaso','Bonomo','Tommasoni394@gmail.com','IMAGEN','qwerty',FALSE),
@@ -11,14 +11,14 @@ VALUES ('rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','past
        ('Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', 'feluakh',FALSE);
 
 
-INSERT INTO DOPPIODIPIG.CITEM(IDCATEGORY,"NAME",DESCRIPTION, IMAGE)
+INSERT INTO GEODB.CITEM(IDCATEGORY,"NAME",DESCRIPTION, IMAGE)
 VALUES  (3627, 'meat', 'GOOD', 'CIBO'),
         (9382, 'fridge', 'GOOD', 'CIBO'),
         (4873, 'vegetable', 'GOOD', 'CIBO'),
         (3903, 'fruit', 'GOOD', 'CIBO'),
         (6348, 'bread', 'GOOD', 'CIBO');
 
-INSERT INTO DOPPIODIPIG.ITEM(IDDCAT,IDITEM,CALORIE, "NAME",LOGO, NOTE)
+INSERT INTO GEODB.ITEM(IDDCAT,IDITEM,CALORIE, "NAME",LOGO, NOTE)
 VALUES (3627,374895, 304, 'wurstel', 'LIDL','pasta'),
        (3627,475326, 389,'chicken','ROSSETTO','sdflkje'),
        (3627,329755, 239,'horse','AEO','sdflkj'),

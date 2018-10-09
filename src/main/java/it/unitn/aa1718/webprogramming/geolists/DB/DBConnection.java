@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class DBConnection {
     private static final String DRIVER ="org.apache.derby.jdbc.EmbeddedDriver"; 
-    private static final String DB_URL = "jdbc:derby://localhost:1527/Supermarket";  // link al database in localhost    
+    private static final String DB_URL = "jdbc:derby://localhost:1527/GEODB";  // link al database in localhost    
     Connection Connect;
     
 
@@ -28,7 +28,7 @@ public class DBConnection {
     public DBConnection() throws SQLException{
 
         try {
-            this.Connect = DriverManager.getConnection(DB_URL, "DoppioDiPig", "DoppioDiPig"); // link al database, username e passworld
+            this.Connect = DriverManager.getConnection(DB_URL, "GEODB", "GEODB"); // link al database, username e passworld
             if(this.Connect != null){
                 System.out.println("Connesso al database");
             }
