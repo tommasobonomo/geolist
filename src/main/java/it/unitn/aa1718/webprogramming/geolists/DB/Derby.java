@@ -18,6 +18,6 @@ public class Derby {
     public static void main(String[] args) throws SQLException {
         // TODO code application logic here
         DBConnection Connection = new DBConnection();
-        DBInsert Insert = new DBInsert();   
+        //DBInsert Insert = new DBInsert();   
     }
 }

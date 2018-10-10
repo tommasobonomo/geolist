@@ -18,7 +18,7 @@ import java.sql.SQLException;
 class DBInsert {
     
     
-    private static final String DB_URL = "jdbc:derby://localhost:1527/Supermarket";
+    private static final String DB_URL = "jdbc:derby://localhost:1527/GEODB";
     private String Name;
     private String Surname;
     private String Email;
@@ -52,7 +52,7 @@ class DBInsert {
         
         Class.forName("org.apache.derby.jdbc.ClientDriver");
         
-        Connection Connect = DriverManager.getConnection(DB_URL, "DoppioDiPig", "DoppioDiPig");
+        Connection Connect = DriverManager.getConnection(DB_URL, "GEODB", "GEODB");
         
         PreparedStatement ps = Connect.prepareStatement("insert into doppiodipig(name,surname,email) values(?,?,?)");
         
