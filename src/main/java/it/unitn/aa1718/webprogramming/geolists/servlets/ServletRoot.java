@@ -46,7 +46,7 @@ public class ServletRoot extends HttpServlet {
             String query =    "select * "
                             + "from users "
                             + "where username=\'" + request.getParameter("username")
-                            + "\' and password=\'"+ request.getParameter("password")+"\'";
+                            + "\' and password=\'"+ request.getParameter("password").hashCode()+"\'";
             ResultSet rs = stmt.executeQuery(query);
             
             
