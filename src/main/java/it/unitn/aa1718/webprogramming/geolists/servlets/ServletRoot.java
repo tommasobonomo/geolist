@@ -18,23 +18,30 @@ public class ServletRoot extends HttpServlet {
     
     private static final String DB_URL = "jdbc:derby://localhost:1527/GEODB";  // link al database in localhost
 
+    // Funzione di gestione del metodo GET della pagina principale dell'applicazione
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         
+        // Setto il contenxt della risposta della servlet
         response.setContentType("text/html;");
         PrintWriter writer = response.getWriter();
         
+        // Provo a caricare il driver necessario per il collegamento al database
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");            
         } catch (ClassNotFoundException ex) {
             System.out.println("DRIVER NON TROVATO");
         }
         
+        
         try {    
+            // Attivo la connessione al DB
             Connection conn = DriverManager.getConnection(DB_URL, "GEODB", "GEODB");
             
+            
+            //creo lo statement che serve a interrogare il DB
             Statement stmt = conn.createStatement();
             String query =    "select * "
                             + "from users "
@@ -43,6 +50,7 @@ public class ServletRoot extends HttpServlet {
             ResultSet rs = stmt.executeQuery(query);
             
             
+            // controllo che il risultato sia presente nel database
             boolean trovato = true;
             if (!rs.next() ) {
                 trovato = false;
@@ -67,6 +75,7 @@ public class ServletRoot extends HttpServlet {
     }
     
     
+    // Nel caso serva questa è la funzione che restituisce le info sulla servlet
     @Override
     public String getServletInfo() {
         return "This is the servlet that handles requests in the main root of the server";
