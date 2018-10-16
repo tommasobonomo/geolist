@@ -33,9 +33,9 @@ INSERT INTO GEODB.LIST(IDLIST,USERCREATOR, IDCAT, "NAME",DESCRIPTION, IMAGE)
 VALUES  (3627, 'rappasta', 45673, 'BIRTHDAY', 'SO MUCH FOOD','image'),
         (7893, 'gesuSesso', 78443, 'GRANDMA', 'GOING TO DIE','image'),
         (6545, 'piediPiatti', 98034, 'CHEESE', 'CHEESY','image'),
-        (3456, 'minestrone', 43985, 'PICNIK', 'SANDWICHES AND STUFF','image'),
+        (3456, 'rappasta', 43985, 'PICNIK', 'SANDWICHES AND STUFF','image'),
         (7453, 'Maialino69', 54054, 'COLLEGE', 'CHEAP AND FAT','image'),
-        (8675, 'Iphonneeee', 59348, 'WEEKEND', 'OMG LMFAO','image'),
+        (8675, 'rappasta', 59348, 'WEEKEND', 'OMG LMFAO','image'),
         (8465, 'Bottiglia', 54646, 'FATTY', 'REALLY NOT GOOD','image'),
         (7635, 'Fratak', 45676, 'FRIEND', 'BROOOOOOOOOOO','image');
     
