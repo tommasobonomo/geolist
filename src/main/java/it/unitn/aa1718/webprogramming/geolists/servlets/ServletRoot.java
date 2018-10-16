@@ -46,9 +46,8 @@ public class ServletRoot extends HttpServlet {
             String query =    "select * "
                             + "from users "
                             + "where username=\'" + request.getParameter("username")
-                            + "\' and password=\'"+ request.getParameter("password").hashCode()+"\'";
+                            + "\' and password=\'"+ request.getParameter("password").hashCode()+"\'"; //utilizzo l'hashcode
             ResultSet rs = stmt.executeQuery(query);
-            
             
             // controllo che il risultato sia presente nel database
             boolean trovato = true;
