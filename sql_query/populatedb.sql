@@ -18,6 +18,19 @@ VALUES  (3627, 'meat', 'GOOD', 'CIBO'),
         (3903, 'fruit', 'GOOD', 'CIBO'),
         (6348, 'bread', 'GOOD', 'CIBO');
 
+
+INSERT INTO GEODB.ISFRIEND(CC1,CC2)
+VALUES  ('rappasta','gesuSesso'),
+        ('rappasta','piediPiatti'),
+        ('OrcoBue','Fratak'),
+        ('Fratak','Bottiglia'),
+        ('Fratak','rappasta'),
+        ('gesuSesso','Bottiglia'),
+        ('Fratak','gesuSesso'),
+        ('rappasta','Bottiglia'),
+        ('Fratak','piediPiatti'),
+        ('piediPiatti','Bottiglia');
+
 INSERT INTO GEODB.ITEM(IDDCAT,IDITEM,CALORIE, "NAME",LOGO, NOTE)
 VALUES (3627,374895, 304, 'wurstel', 'LIDL','pasta'),
        (3627,475326, 389,'chicken','ROSSETTO','sdflkje'),
