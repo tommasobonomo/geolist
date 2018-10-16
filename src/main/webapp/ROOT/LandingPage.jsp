@@ -10,17 +10,25 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style><%@include file="./css/LandingPage.css" %></style>
         <title>Landing Page</title>
     </head>
 
     <body>
-        <form action="login" method="GET">
-            username <input type="text" name="username">
-            <br>
-            password <input type="password" name="password">
-            <br>
-            <input type="submit" value="Submit">
-        </form>
+        
+        <div class="header">Geolist</div>
+        
+        <div class="list-category">
+            <div class="name">
+                Famiglia
+            </div>
+            <div class="items">
+                <c:forEach items="${[0,1,2,3,4,5,6]}">
+                    <div class="list"></div>
+                </c:forEach>
+            </div>
+        </div>
+        
     </body>
 
 </html>
