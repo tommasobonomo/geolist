@@ -1,7 +1,9 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -40,13 +42,15 @@ public class ServletRoot extends HttpServlet {
             // Attivo la connessione al DB
             Connection conn = DriverManager.getConnection(DB_URL, "GEODB", "GEODB");
             
+            // Genero l'hash per controllare la password
+            String hash = HashGenerator.Hash(request.getParameter("password"));
             
             //creo lo statement che serve a interrogare il DB
             Statement stmt = conn.createStatement();
             String query =    "select * "
                             + "from users "
                             + "where username=\'" + request.getParameter("username")
-                            + "\' and password=\'"+ request.getParameter("password").hashCode()+"\'"; //utilizzo l'hashcode
+                            + "\' and password=\'"+ hash +"\'"; //utilizzo l'hash ottenuto prima
             ResultSet rs = stmt.executeQuery(query);
             
             // controllo che il risultato sia presente nel database
@@ -64,7 +68,7 @@ public class ServletRoot extends HttpServlet {
             conn.close();
             stmt.close();
             
-        } catch (SQLException ex) {
+        } catch (SQLException | NoSuchAlgorithmException ex) {
             System.out.println(ex.toString());
         }
        

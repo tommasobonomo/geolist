@@ -1,14 +1,14 @@
 INSERT INTO GEODB.USERS(USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, "ADMIN")
-VALUES ('rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','106438287',TRUE),
-       ('gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGE','-880873338',FALSE),
-       ('minestrone','Tommaso','Bonomo','Tommasoni394@gmail.com','IMAGEN','-946852072',FALSE),
-       ('XDSNIPERXD','Leonardo','Remondini', 'Remoromolo@gmail.com','IMAGEN', '-907121836',FALSE),
-       ('piediPiatti','Giorgio','Segalla','Giorgionelo@gmail.com','IMAGEN', '-907121836',FALSE),
-       ('Maialino69','Marta','Tonnona', 'Martinasesso@gmail.com','IMAGEN', '193997486',FALSE),
-       ('Fratak','Elia','Salame','piselloni@gmail.com','IMAGEN', '-1417685348',FALSE),
-       ('OrcoBue','Luca', 'Rossi', 'marione@gmail.com','IMAGEN', '169089448',FALSE),
-       ('Iphonneeee','Nicola','Nicoli', 'naso@gmail.com','IMAGEN', '-933096028',FALSE),
-       ('Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', '-969038346',FALSE);
+VALUES ('rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','4613-650b16-29696468-5818-11-7f-55-7e-5736-6f-9-2b',TRUE),
+       ('gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGE','29-7076-4506768-67-36-49-2-c-f6e16526b-6e-4245',FALSE),
+       ('minestrone','Tommaso','Bonomo','Tommasoni394@gmail.com','IMAGEN','-4f-4d773a05-40-130176787a4f1574-10075-9521e',FALSE),
+       ('XDSNIPERXD','Leonardo','Remondini', 'Remoromolo@gmail.com','IMAGEN', '39493509-13f-2c7e-1b-3-1e-366c-60-2f-4e5a-313a75',FALSE),
+       ('piediPiatti','Giorgio','Segalla','Giorgionelo@gmail.com','IMAGEN', '39493509-13f-2c7e-1b-3-1e-366c-60-2f-4e5a-313a75',FALSE),
+       ('Maialino69','Marta','Tonnona', 'Martinasesso@gmail.com','IMAGEN', '6b-8-8-7a3f2035320026-360-3f-6773c-f09-33-6a',FALSE),
+       ('Fratak','Elia','Salame','piselloni@gmail.com','IMAGEN', '27-2b-33-57425e-2-6-38-11-3-44-c636c-401b25-40-7a',FALSE),
+       ('OrcoBue','Luca', 'Rossi', 'marione@gmail.com','IMAGEN', '42-a-497b-6c62-4474-15-483e173a21-17-5a64-666e-65',FALSE),
+       ('Iphonneeee','Nicola','Nicoli', 'naso@gmail.com','IMAGEN', '-5b-41455d06-3c7b-7e-1c-7e-69-7a2526-1c-5f-7c-53-27-80',FALSE),
+       ('Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', '0e2355-7c11-275d-16-5852-44-67-1730147418-524644',FALSE);
 
 INSERT INTO GEODB.CLIST(IDCATEGORY,"NAME", DESCRIPTION, IMAGE )
 VALUES  (45673, 'PRETTY HEALTHY', 'EATING A LOT FOR LITTLE MONEY','image'),
