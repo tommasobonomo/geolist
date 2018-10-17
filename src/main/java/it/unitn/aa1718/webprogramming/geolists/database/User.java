@@ -17,7 +17,12 @@ public class User {
     private String password;
     private boolean isAdmin;
     
-    public User(String username,String name,String lastname,String email,String Password,boolean isAdmin){
+    public User(String username,String name,String lastname,String email,String password,boolean admin){
+        this.username=username;
+        this.name=name;
+        this.lastname=lastname;
+        this.password=password;
+        this.isAdmin=admin;
     }
     
     public void setUsername(String username){

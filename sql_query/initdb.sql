@@ -1,7 +1,7 @@
 CREATE TABLE USERS (
     USERNAME VARCHAR(30) not null primary key, 
     NAME VARCHAR(30) not null ,
-    LASTNAME VARCHAR(30) ,
+    LASTNAME VARCHAR(30),
     EMAIL VARCHAR(30) not null unique, 
     IMAGE VARCHAR(20),
     PASSWORD VARCHAR(60) not null,
