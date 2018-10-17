@@ -65,4 +65,10 @@ public class User {
         return this.isAdmin;
     }
     
+    public String toString(){
+        return "username: "+this.username+" name: "+this.name +
+                            " lastname: "+this.lastname+" password: "+this.password+
+                            " isAdmin? "+this.isAdmin;
+    }
+    
 }
