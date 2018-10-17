@@ -1,4 +1,4 @@
-package it.unitn.aa1718.webprogramming.geolists.servlets;
+package it.unitn.aa1718.webprogramming.geolists.utility;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
