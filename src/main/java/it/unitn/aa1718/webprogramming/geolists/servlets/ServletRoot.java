@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "ServletRoot", urlPatterns = {"/login"})
+
+@WebServlet(name = "ServletRoot", urlPatterns = {"/mattia"})
 public class ServletRoot extends HttpServlet {
     
     private static final String DB_URL = "jdbc:derby://localhost:1527/GEODB";  // link al database in localhost
