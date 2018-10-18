@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unitn.aa1718.webprogramming.geolists.database;
+package it.unitn.aa1718.webprogramming.geolists.database.models;
 
 /**
  * Class to model the User relation
@@ -81,6 +81,31 @@ public class User {
     
     public boolean isAdmin(){
         return this.isAdmin;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + (int) (this.id ^ (this.id >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
     }
     
     @Override
