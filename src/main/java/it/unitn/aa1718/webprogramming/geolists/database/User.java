@@ -6,7 +6,7 @@
 package it.unitn.aa1718.webprogramming.geolists.database;
 
 /**
- *
+ * Class to model the User relation
  * @author giorgiosgl
  */
 public class User {
@@ -41,6 +41,10 @@ public class User {
         this.password=password;
     }
     
+    public void setEmail(String email) {
+        this.email=email;
+    }
+    
     public void setIsAdmin(boolean admin){
         this.isAdmin=admin;
     }
@@ -61,10 +65,15 @@ public class User {
         return this.password;
     }
     
+    public String getEmail(){
+        return this.email;
+    }
+    
     public boolean isAdmin(){
         return this.isAdmin;
     }
     
+    @Override
     public String toString(){
         return "username: "+this.username+" name: "+this.name +
                             " lastname: "+this.lastname+" password: "+this.password+
