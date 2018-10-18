@@ -29,8 +29,7 @@ public class Database {
         
     }
     
-    public static void closeConnection(Connection c) throws SQLException{
-    
+    public static void closeConnection(Connection c) throws SQLException{    
         c.close();
     }
     

@@ -9,7 +9,7 @@ package it.unitn.aa1718.webprogramming.geolists.database.models;
  * Model of the List relation
  * @author tommaso
  */
-public class List {
+public class ProductList {
 
     private long idList;
     private String userCreator;
@@ -18,7 +18,7 @@ public class List {
     private String description;
     private String image;
 
-    public List(long idList, String userCreator, long idCat, String name, String description, String image) {
+    public ProductList(long idList, String userCreator, long idCat, String name, String description, String image) {
         this.idList = idList;
         this.userCreator = userCreator;
         this.idCat = idCat;
@@ -95,7 +95,7 @@ public class List {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final List other = (List) obj;
+        final ProductList other = (ProductList) obj;
         return this.idList == other.idList;
     }
 
