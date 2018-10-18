@@ -20,13 +20,37 @@ import java.util.Optional;
 public class UserDAO implements CrudDao<User> {
     
     private User createUser(ResultSet rs) throws SQLException {
-        return new User(rs.getString("username"), rs.getString("name"), rs.getString("lastname")
+        return new User(rs.getLong("id"),rs.getString("username"), rs.getString("name"), rs.getString("lastname")
                 , rs.getString("email"), rs.getString("password"), rs.getBoolean("admin"));
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Optional<User> get(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query= "SELECT * FROM Users as U WHERE U.id="+id;
+        User u=null;
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs=s.executeQuery(query);
+        
+            while(rs.next()){
+                u=createUser(rs);
+            }
+        
+            rs.close();
+            s.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }        
+        return Optional.of(u);
     }
 
     /** 
