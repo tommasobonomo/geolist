@@ -10,6 +10,7 @@ package it.unitn.aa1718.webprogramming.geolists.database;
  * @author giorgiosgl
  */
 public class User {
+    private long id;
     private String username;
     private String name;
     private String lastname;
@@ -17,12 +18,17 @@ public class User {
     private String password;
     private boolean isAdmin;
     
-    public User(String username,String name,String lastname,String email,String password,boolean admin){
+    public User(long id,String username,String name,String lastname,String email,String password,boolean admin){
+        this.id=id;
         this.username=username;
         this.name=name;
         this.lastname=lastname;
         this.password=password;
         this.isAdmin=admin;
+    }
+    
+    public void setId(long id){
+        this.id=id;
     }
     
     public void setUsername(String username){
@@ -47,6 +53,10 @@ public class User {
     
     public void setIsAdmin(boolean admin){
         this.isAdmin=admin;
+    }
+    
+    public long getId(){
+        return this.id;
     }
     
     public String getUsername(){
@@ -75,7 +85,7 @@ public class User {
     
     @Override
     public String toString(){
-        return "username: "+this.username+" name: "+this.name +
+        return "id: "+this.id+"username: "+this.username+" name: "+this.name +
                             " lastname: "+this.lastname+" password: "+this.password+
                             " isAdmin? "+this.isAdmin;
     }
