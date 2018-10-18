@@ -23,9 +23,12 @@
                 <div class="name">
                     <c:out value="${list.getName()}" />
                 </div>
+                <c:set var="listID" value="${list.getIdList()}" />
                 <div class="items">
-                    <c:forEach items="${[0,1,2,3,4,5,6]}">
-                        <div class="list"></div>
+                    <c:forEach var="item" items="${itemsOfList.get(Long.valueOf(listID))}">
+                        <div class="list">
+                            <c:out value="${item.getName()}" />
+                        </div>
                     </c:forEach>
                 </div>
             </c:forEach>

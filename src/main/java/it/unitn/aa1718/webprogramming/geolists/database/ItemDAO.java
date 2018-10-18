@@ -22,7 +22,7 @@ import java.util.Optional;
 public class ItemDAO implements CrudDao<Item>{
 
     private Item createItem(ResultSet rs) throws SQLException {
-        return new Item(rs.getLong("idItem"), rs.getLong("idCat"), rs.getString("calorie"),
+        return new Item(rs.getLong("idItem"), rs.getLong("iddCat"), rs.getString("calorie"),
                 rs.getString("name"), rs.getString("logo"), rs.getString("note"));
     }
     

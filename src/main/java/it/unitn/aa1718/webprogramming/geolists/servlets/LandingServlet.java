@@ -5,13 +5,19 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
+import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,11 +42,30 @@ public class LandingServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         ProductListDAO plistDAO = new ProductListDAO();
+        ItemDAO itemDAO = new ItemDAO();
+        ComposeDAO composedDAO = new ComposeDAO();
         
         // Get the names of all the lists
         List<ProductList> listOfPL = plistDAO.getAll();
         request.setAttribute("listOfPL", listOfPL);
         
+        // For each list save in a map list of it's items
+        Map<Long,List<Item>> dict = new HashMap<>();
+        for (ProductList list : listOfPL) {            
+            long listID = list.getIdList();
+            List<Compose> relationList = composedDAO.getItemsID(listID);
+            List<Item> items = new ArrayList<>();
+            for (Compose rel : relationList) {
+                Optional<Item> res = itemDAO.get(rel.getIdItem());
+                if (res.isPresent()) {
+                    items.add(res.get());
+                }
+            }
+            if (!items.isEmpty()) {
+                dict.put(Long.valueOf(listID), items);
+            }
+        }
+        request.setAttribute("itemsOfList", dict);
         
         request.getRequestDispatcher("ROOT/LandingPage.jsp").forward(request,response);
     }
