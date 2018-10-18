@@ -19,14 +19,16 @@
         <div class="header">Geolist</div>
         
         <div class="list-category">
-            <div class="name">
-                Famiglia
-            </div>
-            <div class="items">
-                <c:forEach items="${[0,1,2,3,4,5,6]}">
-                    <div class="list"></div>
-                </c:forEach>
-            </div>
+            <c:forEach var="list" items="${listOfPL}">
+                <div class="name">
+                    <c:out value="${list.getName()}" />
+                </div>
+                <div class="items">
+                    <c:forEach items="${[0,1,2,3,4,5,6]}">
+                        <div class="list"></div>
+                    </c:forEach>
+                </div>
+            </c:forEach>
         </div>
         
     </body>

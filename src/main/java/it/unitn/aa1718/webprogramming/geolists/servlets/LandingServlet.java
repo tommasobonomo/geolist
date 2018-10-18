@@ -5,7 +5,11 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +34,14 @@ public class LandingServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setAttribute("prova", "bubusettete");
+        
+        ProductListDAO plistDAO = new ProductListDAO();
+        
+        // Get the names of all the lists
+        List<ProductList> listOfPL = plistDAO.getAll();
+        request.setAttribute("listOfPL", listOfPL);
+        
+        
         request.getRequestDispatcher("ROOT/LandingPage.jsp").forward(request,response);
     }
 
