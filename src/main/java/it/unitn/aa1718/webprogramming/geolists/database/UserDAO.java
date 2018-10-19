@@ -7,6 +7,7 @@ package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,12 +22,12 @@ import java.util.Optional;
 public class UserDAO implements CrudDao<User> {
     
     private User createUser(ResultSet rs) throws SQLException {
-        return new User(rs.getLong("id"),rs.getString("username"), rs.getString("name"), rs.getString("lastname")
-                , rs.getString("email"), rs.getString("password"), rs.getBoolean("admin"));
+        return new User(rs.getLong("id"),rs.getString("cookie"),rs.getString("username"), rs.getString("name"), rs.getString("lastname")
+                , rs.getString("email"), rs.getString("password"),rs.getString("image"), rs.getBoolean("admin"));
     }
 
     /**
-     *
+     * Get a user from id
      * @param id
      * @return
      */
@@ -85,9 +86,33 @@ public class UserDAO implements CrudDao<User> {
     
     @Override
     public void create(User obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query= "INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,\"NAME\",LASTNAME,EMAIL,IMAGE, PASSWORD, \"ADMIN\")\n" +
+                        "VALUES (?,?,?,?,?,?,?,?,?)";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+            ps.setLong(1, obj.getId());
+            ps.setString(2, "\'" + obj.getCookie()   + "\'");
+            ps.setString(3, "\'" + obj.getUsername() + "\'");
+            ps.setString(4, "\'" + obj.getName()     + "\'");
+            ps.setString(5, "\'" + obj.getLastname() + "\'");
+            ps.setString(6, "\'" + obj.getEmail()    + "\'");
+            ps.setString(7, "\'" + obj.getImage()    + "\'");
+            ps.setString(8, "\'" + obj.getPassword() + "\'");
+            ps.setBoolean(9, obj.isAdmin());
+            
+            ps.executeUpdate(query);
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
+    
     }
-
+    
     @Override
     public void update(long id, User obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
