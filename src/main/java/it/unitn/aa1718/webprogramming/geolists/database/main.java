@@ -12,7 +12,7 @@ package it.unitn.aa1718.webprogramming.geolists.database;
 public class main {
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
-        System.out.println(dao.get(1423879));
+        dao.create();
     }
     
 }

@@ -11,24 +11,32 @@ package it.unitn.aa1718.webprogramming.geolists.database.models;
  */
 public class User {
     private long id;
+    private String cookie;
     private String username;
     private String name;
     private String lastname;
     private String email;
     private String password;
+    private String image;
     private boolean isAdmin;
     
-    public User(long id,String username,String name,String lastname,String email,String password,boolean admin){
+    public User(long id,String cookie,String username,String name,String lastname,String email,String password,String image,boolean admin){
         this.id=id;
+        this.cookie=cookie;
         this.username=username;
         this.name=name;
         this.lastname=lastname;
         this.password=password;
+        this.image=image;
         this.isAdmin=admin;
     }
     
     public void setId(long id){
         this.id=id;
+    }
+    
+    public void setCookie(String cookie){
+        this.cookie=cookie;
     }
     
     public void setUsername(String username){
@@ -51,12 +59,20 @@ public class User {
         this.email=email;
     }
     
+    public void setImage(String image){
+        this.image=image;
+    }
+    
     public void setIsAdmin(boolean admin){
         this.isAdmin=admin;
     }
     
     public long getId(){
         return this.id;
+    }
+    
+    public String getCookie(){
+        return this.cookie;
     }
     
     public String getUsername(){
@@ -77,6 +93,10 @@ public class User {
     
     public String getEmail(){
         return this.email;
+    }
+    
+    public String getImage(){
+        return this.image;
     }
     
     public boolean isAdmin(){
