@@ -28,6 +28,7 @@ public class User {
         this.lastname=lastname;
         this.password=password;
         this.image=image;
+        this.email=email;
         this.isAdmin=admin;
     }
     

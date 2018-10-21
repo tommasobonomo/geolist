@@ -84,26 +84,31 @@ public class UserDAO implements CrudDao<User> {
         return resList;
     }
     
+    //to do
+    private String hash(String pass){
+        return "4613-650b16-29696468-5818-11-7f-55-7e-5736-6f-9-2b"; //this means pasta
+    }
+    
     @Override
     public void create(User obj) {
-        String query= "INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,\"NAME\",LASTNAME,EMAIL,IMAGE, PASSWORD, \"ADMIN\")\n" +
-                        "VALUES (?,?,?,?,?,?,?,?,?)";
+        String query= "INSERT INTO GEODB.USERS(COOKIE, USERNAME,\"NAME\",LASTNAME,EMAIL,IMAGE, PASSWORD, \"ADMIN\")\n" +
+                        "VALUES (?,?,?,?,?,?,?,?)";
         
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             
-            ps.setLong(1, obj.getId());
-            ps.setString(2, "\'" + obj.getCookie()   + "\'");
-            ps.setString(3, "\'" + obj.getUsername() + "\'");
-            ps.setString(4, "\'" + obj.getName()     + "\'");
-            ps.setString(5, "\'" + obj.getLastname() + "\'");
-            ps.setString(6, "\'" + obj.getEmail()    + "\'");
-            ps.setString(7, "\'" + obj.getImage()    + "\'");
-            ps.setString(8, "\'" + obj.getPassword() + "\'");
-            ps.setBoolean(9, obj.isAdmin());
             
-            ps.executeUpdate(query);
+            ps.setString(1, obj.getCookie());
+            ps.setString(2, obj.getUsername());
+            ps.setString(3, obj.getName());
+            ps.setString(4, obj.getLastname());
+            ps.setString(5, obj.getEmail());
+            ps.setString(6, obj.getImage());
+            ps.setString(7, hash(obj.getPassword()));
+            ps.setBoolean(8, obj.isAdmin());
+            
+            ps.executeUpdate();
             ps.close();
             Database.closeConnection(c);
             
