@@ -98,7 +98,7 @@ public class UserDAO implements CrudDao<User> {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             
-            
+
             ps.setString(1, obj.getCookie());
             ps.setString(2, obj.getUsername());
             ps.setString(3, obj.getName());
