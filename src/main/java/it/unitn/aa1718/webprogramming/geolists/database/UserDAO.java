@@ -120,7 +120,32 @@ public class UserDAO implements CrudDao<User> {
     
     @Override
     public void update(long id, User obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query="UPDATE Users "
+                + "SET cookie=?, username=?, name=?, lastname=?, email=?, image=?, admin=?"
+                + "WHERE id=?";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+
+            ps.setString(1, obj.getCookie());
+            ps.setString(2, obj.getUsername());
+            ps.setString(3, obj.getName());
+            ps.setString(4, obj.getLastname());
+            ps.setString(5, obj.getEmail());
+            ps.setString(6, obj.getImage());
+            ps.setBoolean(7, obj.isAdmin());
+            ps.setLong(8, id);
+            
+            ps.executeUpdate();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
+        
     }
 
     @Override
