@@ -54,6 +54,35 @@ public class UserDAO implements CrudDao<User> {
         }        
         return Optional.of(u);
     }
+    
+    /**
+     * Get a user from id
+     * @param id
+     * @return
+     */
+    public Optional<User> get(String username) {
+        String query= "SELECT * FROM Users as U WHERE U.username=?";
+        User u=null;
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+            ps.setString(1, username);
+            
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                u=createUser(rs);
+            }
+            
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return Optional.of(u);
+    }
 
     /** 
      * Return a list of all user in the database
@@ -89,6 +118,10 @@ public class UserDAO implements CrudDao<User> {
         return "4613-650b16-29696468-5818-11-7f-55-7e-5736-6f-9-2b"; //this means pasta
     }
     
+    /**
+     * insert in the db the User obj
+     * @param obj that are User
+     */
     @Override
     public void create(User obj) {
         String query= "INSERT INTO GEODB.USERS(COOKIE, USERNAME,\"NAME\",LASTNAME,EMAIL,IMAGE, PASSWORD, \"ADMIN\")\n" +
@@ -150,7 +183,22 @@ public class UserDAO implements CrudDao<User> {
 
     @Override
     public void delete(User obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        String query ="DELETE FROM Users WHERE id=?";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+
+            ps.setLong(1, obj.getId());
+            
+            ps.executeUpdate();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }  
+    } 
     
 }
