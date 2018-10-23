@@ -26,7 +26,7 @@ dist/
 nbdist/
 .nb-gradle/
 
-### Main ###
+### test ###
 main.java
 
 # End of https://www.gitignore.io/api/maven,netbeans
