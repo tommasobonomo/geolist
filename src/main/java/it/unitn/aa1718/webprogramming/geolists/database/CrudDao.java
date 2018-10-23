@@ -23,5 +23,5 @@ public interface CrudDao<T> {
     
     void update(long id, T obj);
     
-    void delete(T obj);
+    void delete(long id);
 }

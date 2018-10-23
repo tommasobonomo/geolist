@@ -181,8 +181,12 @@ public class UserDAO implements CrudDao<User> {
         
     }
 
+    /**
+     * 
+     * @param obj
+     */
     @Override
-    public void delete(User obj) {
+    public void delete(long id) {
         String query ="DELETE FROM Users WHERE id=?";
         
         try {
@@ -190,7 +194,7 @@ public class UserDAO implements CrudDao<User> {
             PreparedStatement ps = c.prepareStatement(query);
             
 
-            ps.setLong(1, obj.getId());
+            ps.setLong(1, id);
             
             ps.executeUpdate();
             ps.close();
