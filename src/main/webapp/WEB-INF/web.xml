@@ -8,11 +8,12 @@
     <display-name>Geolist</display-name>
 
     <servlet>
-        <servlet-name>LandingPage</servlet-name>
+        <servlet-name>LandingServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.geolists.servlets.LandingServlet</servlet-class>
     </servlet>
+    
     <servlet-mapping>
-        <servlet-name>LandingPage</servlet-name>
+        <servlet-name>LandingServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
