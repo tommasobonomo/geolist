@@ -67,7 +67,7 @@ public class LandingServlet extends HttpServlet {
         }
         request.setAttribute("itemsOfList", dict);
         
-        request.getRequestDispatcher("ROOT/LandingPage.jsp").forward(request,response);
+        request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
