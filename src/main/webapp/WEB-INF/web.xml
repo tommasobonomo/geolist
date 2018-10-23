@@ -11,10 +11,18 @@
         <servlet-name>LandingServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.geolists.servlets.LandingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>it.unitn.aa1718.webprogramming.geolists.servlets.LoginServlet</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>LandingServlet</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/form-actions/login</url-pattern>
     </servlet-mapping>
 
 </web-app>
