@@ -83,7 +83,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
     }
 
     @Override
-    public void delete(ProductList obj) {
+    public void delete(long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

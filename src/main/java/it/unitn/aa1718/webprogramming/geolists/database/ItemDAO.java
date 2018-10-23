@@ -85,7 +85,7 @@ public class ItemDAO implements CrudDao<Item>{
     }
 
     @Override
-    public void delete(Item obj) {
+    public void delete(long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
