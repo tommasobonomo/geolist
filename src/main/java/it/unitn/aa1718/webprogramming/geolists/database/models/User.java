@@ -20,8 +20,42 @@ public class User {
     private String image;
     private boolean isAdmin;
     
+    /**
+     * complete constructor with all parameter
+     * @param id
+     * @param cookie
+     * @param username
+     * @param name
+     * @param lastname
+     * @param email
+     * @param password
+     * @param image
+     * @param admin
+     */
     public User(long id,String cookie,String username,String name,String lastname,String email,String password,String image,boolean admin){
         this.id=id;
+        this.cookie=cookie;
+        this.username=username;
+        this.name=name;
+        this.lastname=lastname;
+        this.password=password;
+        this.image=image;
+        this.email=email;
+        this.isAdmin=admin;
+    }
+    
+    /**
+     * constructor without id parameter
+     * @param cookie
+     * @param username
+     * @param name
+     * @param lastname
+     * @param email
+     * @param password
+     * @param image
+     * @param admin
+     */
+    public User(String cookie,String username,String name,String lastname,String email,String password,String image,boolean admin){
         this.cookie=cookie;
         this.username=username;
         this.name=name;
