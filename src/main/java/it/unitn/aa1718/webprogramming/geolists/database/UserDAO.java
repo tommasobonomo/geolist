@@ -6,6 +6,8 @@
 package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Data access object for the table user in the database
@@ -113,9 +117,13 @@ public class UserDAO implements CrudDao<User> {
         return resList;
     }
     
-    //to do
     private String hash(String pass){
-        return "4613-650b16-29696468-5818-11-7f-55-7e-5736-6f-9-2b"; //this means pasta
+        try {
+            return HashGenerator.Hash(pass); //this means pasta
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     /**
@@ -182,7 +190,7 @@ public class UserDAO implements CrudDao<User> {
     }
 
     /**
-     * 
+     * delete the user with that value
      * @param obj
      */
     @Override
