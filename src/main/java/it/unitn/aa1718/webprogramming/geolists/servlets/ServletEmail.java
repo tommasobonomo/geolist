@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import java.io.IOException;
@@ -74,7 +74,6 @@ public class ServletEmail extends HttpServlet {
        
         writer.close();
         
-        
     }
     
     
@@ -96,7 +95,7 @@ public class VerificationToken {
     
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+    //private User user;
      
     private Date expiryDate;
     
@@ -159,3 +158,4 @@ public class VerificationToken {
 
     }
 }
+ */
