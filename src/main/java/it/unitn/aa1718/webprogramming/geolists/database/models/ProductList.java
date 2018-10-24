@@ -26,8 +26,6 @@ public class ProductList {
         this.description = description;
         this.image = image;
     }
-
-    
     
     public long getIdList() {
         return idList;
@@ -102,7 +100,5 @@ public class ProductList {
     @Override
     public String toString() {
         return "List{" + "idList=" + idList + ", userCreator=" + userCreator + ", idCat=" + idCat + ", name=" + name + ", description=" + description + ", image=" + image + '}';
-    }
-  
-    
+    }   
 }
