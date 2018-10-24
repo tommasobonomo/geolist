@@ -11,13 +11,18 @@ import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.utility.CookieManager;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +43,7 @@ public class LandingServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NoSuchAlgorithmException {
         response.setContentType("text/html;charset=UTF-8");
         
         ProductListDAO plistDAO = new ProductListDAO();
@@ -82,7 +87,28 @@ public class LandingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        try {
+            //Richiedo i cookie in ingresso
+            CookieManager cm = new CookieManager(request.getCookies());
+            if(cm.checkExistenceUser("Cookie")){
+                System.out.println("COOKIE TROVATO");
+                
+                //aggiorno il cookie
+                Cookie c = cm.updateUser("Cookie");
+                response.addCookie(c);
+                
+                ////////////////////////////////////////////
+                //inviare all'utente pagina inerente a lui//
+                ////////////////////////////////////////////
+            }
+            
+            
+            processRequest(request, response);
+            
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LandingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -96,7 +122,11 @@ public class LandingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LandingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

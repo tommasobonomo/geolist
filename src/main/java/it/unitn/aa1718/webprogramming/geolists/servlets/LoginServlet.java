@@ -1,8 +1,8 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.utility.CookieManager;
 import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,6 +55,11 @@ public class LoginServlet extends HttpServlet {
             if(rs.next()) {
                 logged = true;
                 username = rs.getString("username");
+                
+                System.out.println("USER TROVATO NEL DATABASE");
+                CookieManager mn = new CookieManager(request.getCookies());
+                Cookie c = mn.updateUser("Cookie");
+                response.addCookie(c);
             }
             
             conn.close();
