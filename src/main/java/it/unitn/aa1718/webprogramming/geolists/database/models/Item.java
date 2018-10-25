@@ -17,8 +17,34 @@ public class Item {
     private String logo;
     private String note;
 
+    /**
+     * constructor with all field
+     * @param idItem
+     * @param idCat
+     * @param calorie
+     * @param name
+     * @param logo
+     * @param note
+     */
     public Item(long idItem, long idCat, String calorie, String name, String logo, String note) {
         this.idItem = idItem;
+        this.idCat = idCat;
+        this.calorie = calorie;
+        this.name = name;
+        this.logo = logo;
+        this.note = note;
+    }
+    
+    /**
+     * constructor without id
+     *
+     * @param idCat
+     * @param calorie
+     * @param name
+     * @param logo
+     * @param note
+     */
+    public Item(long idCat, String calorie, String name, String logo, String note) {
         this.idCat = idCat;
         this.calorie = calorie;
         this.name = name;
