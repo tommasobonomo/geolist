@@ -7,6 +7,7 @@ package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,7 +22,7 @@ import java.util.Optional;
 public class ProductListDAO implements CrudDao<ProductList> {
 
     private ProductList createProductList(ResultSet rs) throws SQLException {
-        return new ProductList(rs.getLong("idList"),rs.getString("userCreator"), rs.getLong("idCat"),
+        return new ProductList(rs.getLong("idList"),rs.getLong("userCreator"), rs.getLong("idCat"),
             rs.getString("name"),rs.getString("description"), rs.getString("image"));        
     }
     
@@ -74,7 +75,27 @@ public class ProductListDAO implements CrudDao<ProductList> {
 
     @Override
     public void create(ProductList obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         String query= "INSERT INTO GEODB.LIST(USERCREATOR,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
+                        "VALUES (?,?,?,?,?)";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+
+            ps.setLong(1, obj.getUserCreator());
+            ps.setLong(2, obj.getIdCat());
+            ps.setString(3, obj.getName());
+            ps.setString(4, obj.getDescription());
+            ps.setString(5, obj.getImage());
+            
+            ps.executeUpdate();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

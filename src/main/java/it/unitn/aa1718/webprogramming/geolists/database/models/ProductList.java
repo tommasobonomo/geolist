@@ -12,14 +12,41 @@ package it.unitn.aa1718.webprogramming.geolists.database.models;
 public class ProductList {
 
     private long idList;
-    private String userCreator;
+    private long userCreator;
     private long idCat;
     private String name;
     private String description;
     private String image;
 
-    public ProductList(long idList, String userCreator, long idCat, String name, String description, String image) {
+    /**
+     *  constructor with all element
+     * 
+     * @param idList
+     * @param userCreator
+     * @param idCat
+     * @param name
+     * @param description
+     * @param image
+     */
+    public ProductList(long idList, long userCreator, long idCat, String name, String description, String image) {
         this.idList = idList;
+        this.userCreator = userCreator;
+        this.idCat = idCat;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+    }
+    
+    /**
+     * constructor without id
+     *
+     * @param userCreator
+     * @param idCat
+     * @param name
+     * @param description
+     * @param image
+     */
+    public ProductList(long userCreator, long idCat, String name, String description, String image) {
         this.userCreator = userCreator;
         this.idCat = idCat;
         this.name = name;
@@ -37,11 +64,11 @@ public class ProductList {
         this.idList = idList;
     }
 
-    public String getUserCreator() {
+    public long getUserCreator() {
         return userCreator;
     }
 
-    public void setUserCreator(String userCreator) {
+    public void setUserCreator(long userCreator) {
         this.userCreator = userCreator;
     }
 
