@@ -100,7 +100,30 @@ public class ProductListDAO implements CrudDao<ProductList> {
 
     @Override
     public void update(long id, ProductList obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query="UPDATE List "
+                + "SET userCreator=?, idCat=?, name=?, description=?, image=?"
+                + "WHERE idList=?";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+
+            ps.setLong(1, obj.getUserCreator());
+            ps.setLong(2, obj.getIdCat());
+            ps.setString(3, obj.getName());
+            ps.setString(4, obj.getDescription());
+            ps.setString(5, obj.getImage());
+            ps.setLong(6,obj.getIdList());
+            
+            ps.executeUpdate();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
+        
     }
 
     @Override
