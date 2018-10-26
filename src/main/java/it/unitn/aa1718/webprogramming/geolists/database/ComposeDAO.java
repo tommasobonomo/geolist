@@ -88,4 +88,12 @@ public class ComposeDAO {
         
         return list;
     }
+    
+    public void create(){
+    
+    }
+    
+    public void delete(){
+    
+    }
 }
