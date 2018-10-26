@@ -61,7 +61,7 @@ public class UserDAO implements CrudDao<User> {
     
     /**
      * Get a user from id
-     * @param id
+     * @param username
      * @return
      */
     public Optional<User> get(String username) {
