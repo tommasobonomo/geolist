@@ -22,13 +22,13 @@ import java.util.Optional;
 public class ProductListDAO implements CrudDao<ProductList> {
 
     private ProductList createProductList(ResultSet rs) throws SQLException {
-        return new ProductList(rs.getLong("idList"),rs.getLong("userCreator"), rs.getLong("idCat"),
+        return new ProductList(rs.getLong("id"),rs.getLong("userCreator"), rs.getLong("idCat"),
             rs.getString("name"),rs.getString("description"), rs.getString("image"));        
     }
     
     @Override
     public Optional<ProductList> get(long id) {
-        String query = "SELECT * FROM List AS L WHERE L.idList=" + id; 
+        String query = "SELECT * FROM List AS L WHERE L.id=" + id; 
                 
         try {
             Connection c = Database.openConnection();
@@ -102,7 +102,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
     public void update(long id, ProductList obj) {
         String query="UPDATE List "
                 + "SET userCreator=?, idCat=?, name=?, description=?, image=?"
-                + "WHERE idList=?";
+                + "WHERE id=?";
         
         try {
             Connection c = Database.openConnection();
@@ -114,7 +114,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setString(3, obj.getName());
             ps.setString(4, obj.getDescription());
             ps.setString(5, obj.getImage());
-            ps.setLong(6,obj.getIdList());
+            ps.setLong(6,obj.getId());
             
             ps.executeUpdate();
             ps.close();
@@ -128,7 +128,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
 
     @Override
     public void delete(long id) {
-        String query ="DELETE FROM List WHERE idList=?";
+        String query ="DELETE FROM List WHERE id=?";
         
         try {
             Connection c = Database.openConnection();
