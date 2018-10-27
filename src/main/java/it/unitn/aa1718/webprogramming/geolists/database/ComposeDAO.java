@@ -22,11 +22,11 @@ import java.util.Optional;
 public class ComposeDAO {
 
     private Compose createCompose(ResultSet rs) throws SQLException {
-        return new Compose(rs.getLong("CCLIST"), rs.getLong("CCITEM"));
+        return new Compose(rs.getLong("LIST"), rs.getLong("ITEM"));
     }
     
     public List<Compose> getItemsID(long listID) {
-        String query = "SELECT * FROM Compose AS C WHERE CCLIST = " + listID;
+        String query = "SELECT * FROM Compose AS C WHERE C.list = " + listID;
         List<Compose> list = new ArrayList<>();
         
         try {
@@ -46,7 +46,7 @@ public class ComposeDAO {
     }
     
     public List<Compose> getListID(long itemID) {
-        String query = "SELECT * FROM Compose AS C WHERE CCITEM = " + itemID;
+        String query = "SELECT * FROM Compose AS C WHERE C.item = " + itemID;
         List<Compose> list = new ArrayList<>();
         
         try {
@@ -74,7 +74,7 @@ public class ComposeDAO {
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
-            while (rs.next()) {
+            while (rs.next()) { 
                 list.add(createCompose(rs));
             }
             
@@ -87,5 +87,19 @@ public class ComposeDAO {
         }
         
         return list;
+    }
+    
+    /**
+     * TO DO
+     */
+    public void create(){
+    
+    }
+    
+    /**
+     * TO DO
+     */
+    public void delete(){
+    
     }
 }

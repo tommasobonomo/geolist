@@ -10,7 +10,7 @@ VALUES (DEFAULT,' ','rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','
        (DEFAULT,' ','Iphonneeee','Nicola','Nicoli', 'naso@gmail.com','IMAGEN', '-5b-41455d06-3c7b-7e-1c-7e-69-7a2526-1c-5f-7c-53-27-80',FALSE),
        (DEFAULT,' ','Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', '0e2355-7c11-275d-16-5852-44-67-1730147418-524644',FALSE);
 
-INSERT INTO GEODB.CLIST(IDCATEGORY,"NAME", DESCRIPTION, IMAGE )
+INSERT INTO GEODB.CLIST(ID,"NAME", DESCRIPTION, IMAGE )
 VALUES  (DEFAULT, 'PRETTY HEALTHY', 'EATING A LOT FOR LITTLE MONEY','image'),
         (DEFAULT, 'PRETTY UNHEALTHY', 'EATING BADLY FOR LITTLE MONEY','image'),
         (DEFAULT, 'PRETTY AVERAGE', 'SHYLY EATING ','image'),
@@ -22,14 +22,14 @@ VALUES  (DEFAULT, 'PRETTY HEALTHY', 'EATING A LOT FOR LITTLE MONEY','image'),
         (DEFAULT, 'PRETTY EXPENSIVE', 'WASTING SHIT ON FOOD','image');
 
 
-INSERT INTO GEODB.CITEM(IDCATEGORY,"NAME",DESCRIPTION, IMAGE)
+INSERT INTO GEODB.CITEM(ID,"NAME",DESCRIPTION, IMAGE)
 VALUES  (DEFAULT, 'meat', 'GOOD', 'CIBO'),
         (DEFAULT, 'fridge', 'GOOD', 'CIBO'),
         (DEFAULT, 'vegetable', 'GOOD', 'CIBO'),
         (DEFAULT, 'fruit', 'GOOD', 'CIBO'),
         (DEFAULT, 'bread', 'GOOD', 'CIBO');
 
-INSERT INTO GEODB.LIST(IDLIST,USERCREATOR, IDCAT, "NAME",DESCRIPTION, IMAGE)
+INSERT INTO GEODB.LIST(ID,USERCREATOR, IDCAT, "NAME",DESCRIPTION, IMAGE)
 VALUES  (DEFAULT, 1, 1, 'BIRTHDAY', 'SO MUCH FOOD','image'),
         (DEFAULT, 2, 2, 'GRANDMA', 'GOING TO DIE','image'),
         (DEFAULT, 3, 3, 'CHEESE', 'CHEESY','image'),
@@ -53,7 +53,7 @@ VALUES  (1,2),
         (2,6),
         (4,2);
 
-INSERT INTO GEODB.ITEM(IDDCAT,IDITEM,CALORIE, "NAME",LOGO, NOTE)
+INSERT INTO GEODB.ITEM(IDCAT,ID,CALORIE, "NAME",LOGO, NOTE)
 VALUES (1,DEFAULT, 304, 'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
        (2,DEFAULT, 389,'chicken','c:\docs\DB_photos\chicken.png','sdflkje'),
        (3,DEFAULT, 239,'horse','c:\docs\DB_photos\horse.png','sdflkj'),
@@ -92,7 +92,7 @@ VALUES (1,DEFAULT, 304, 'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
 
  
  
-INSERT INTO GEODB.COMPOSE(CCLIST,CCITEM)
+INSERT INTO GEODB.COMPOSE(LIST,ITEM)
 VALUES (1,1),
        (1,2),
        (1,3),
