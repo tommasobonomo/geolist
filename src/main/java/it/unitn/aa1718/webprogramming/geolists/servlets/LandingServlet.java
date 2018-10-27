@@ -11,7 +11,8 @@ import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
-import it.unitn.aa1718.webprogramming.geolists.utility.CookieManager;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.utility.CookiesManager;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -44,6 +45,27 @@ public class LandingServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NoSuchAlgorithmException {
+        
+
+        //Richiedo i cookie in ingresso
+        CookiesManager cm = new CookiesManager(request.getCookies());
+        User u = cm.checkExistenceCookie("Cookie");
+        if(u != null){
+            System.out.println("COOKIE TROVATO DI DEFAULT");
+
+            //aggiorno il cookie
+            Cookie c = cm.updateUser("Cookie", u);
+            response.addCookie(c);
+            System.out.println(c.getValue());
+
+            ////////////////////////////////////////////
+            //inviare all'utente pagina inerente a lui//
+            ////////////////////////////////////////////
+        }else{
+            System.out.println("COOKIE NON TROVATO DI DEFAULT");
+        }
+
+        
         response.setContentType("text/html;charset=UTF-8");
         
         ProductListDAO plistDAO = new ProductListDAO();
@@ -87,28 +109,13 @@ public class LandingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+            
         try {
-            //Richiedo i cookie in ingresso
-            CookieManager cm = new CookieManager(request.getCookies());
-            if(cm.checkExistenceUser("Cookie")){
-                System.out.println("COOKIE TROVATO");
-                
-                //aggiorno il cookie
-                Cookie c = cm.updateUser("Cookie");
-                response.addCookie(c);
-                
-                ////////////////////////////////////////////
-                //inviare all'utente pagina inerente a lui//
-                ////////////////////////////////////////////
-            }
-            
-            
             processRequest(request, response);
-            
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(LandingServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+  
     }
 
     /**
@@ -122,11 +129,11 @@ public class LandingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(LandingServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            processRequest(request, response);
+//        } catch (NoSuchAlgorithmException ex) {
+//            Logger.getLogger(LandingServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     /**

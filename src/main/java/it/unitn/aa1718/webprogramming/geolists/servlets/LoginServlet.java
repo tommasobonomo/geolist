@@ -1,6 +1,8 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
-import it.unitn.aa1718.webprogramming.geolists.utility.CookieManager;
+import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.utility.CookiesManager;
 import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -56,10 +58,15 @@ public class LoginServlet extends HttpServlet {
                 logged = true;
                 username = rs.getString("username");
                 
+                // qui sono sicuro che lo user esiste già
                 System.out.println("USER TROVATO NEL DATABASE");
-                CookieManager mn = new CookieManager(request.getCookies());
-                Cookie c = mn.updateUser("Cookie");
-                response.addCookie(c);
+                CookiesManager cm = new CookiesManager();
+                User u = new UserDAO().get(username).get();
+                if (u != null){
+                    Cookie c = cm.updateUser("Cookie", u);
+                    response.addCookie(c);
+                    System.out.println(c.getValue());
+                }
             }
             
             conn.close();
