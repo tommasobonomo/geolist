@@ -23,14 +23,14 @@ import java.util.Optional;
 public class ItemDAO implements CrudDao<Item>{
 
     private Item createItem(ResultSet rs) throws SQLException {
-        return new Item(rs.getLong("idItem"), rs.getLong("iddCat"), rs.getString("calorie"),
+        return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("calorie"),
                 rs.getString("name"), rs.getString("logo"), rs.getString("note"));
     }
     
     @Override
     public Optional<Item> get(long id) {
         
-        String query = "SELECT * FROM Item AS I WHERE I.idItem = " + id;
+        String query = "SELECT * FROM Item AS I WHERE I.id = " + id;
         
         try {
             Connection c = Database.openConnection();
@@ -77,7 +77,7 @@ public class ItemDAO implements CrudDao<Item>{
 
     @Override
     public void create(Item obj) {
-        String query= "INSERT INTO GEODB.ITEM(IDDCAT, CALORIE,\"NAME\",LOGO,NOTE)\n" +
+        String query= "INSERT INTO GEODB.ITEM(IDCAT, CALORIE,\"NAME\",LOGO,NOTE)\n" +
                         "VALUES (?,?,?,?,?)";
         
         try {
@@ -103,8 +103,8 @@ public class ItemDAO implements CrudDao<Item>{
     @Override
     public void update(long id, Item obj) {
         String query="UPDATE Item "
-                + "SET iddcat=?, calorie=?, name=?, logo=?, note=?"
-                + "WHERE idItem=?";
+                + "SET idcat=?, calorie=?, name=?, logo=?, note=?"
+                + "WHERE id=?";
         
         try {
             Connection c = Database.openConnection();
@@ -129,7 +129,7 @@ public class ItemDAO implements CrudDao<Item>{
 
     @Override
     public void delete(long id) {
-        String query ="DELETE FROM Item WHERE idItem=?";
+        String query ="DELETE FROM Item WHERE id=?";
         
         try {
             Connection c = Database.openConnection();

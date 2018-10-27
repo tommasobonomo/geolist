@@ -7,24 +7,24 @@ CREATE TABLE users (
     email VARCHAR(30) NOT NULL UNIQUE, 
     image VARCHAR(20),
     password VARCHAR(60) NOT NULL,
-    "admin" BOOLEAN,
+    "ADMIN" BOOLEAN,
     CONSTRAINT user_pk PRIMARY KEY (id)
  );
 
 CREATE TABLE email(
-    idmail INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    idUser INTEGER NOT NULL,
     info INTEGER, 
     text  VARCHAR(400),
     sender INTEGER NOT NULL,
     receiver INTEGER NOT NULL,
-    CONSTRAINT email_pk PRIMARY KEY (idmail),
+    CONSTRAINT email_pk PRIMARY KEY (idUser),
     FOREIGN KEY (sender) 
         REFERENCES users(id)
         ON DELETE CASCADE,
     FOREIGN KEY (receiver) 
         REFERENCES users(id)
         ON DELETE CASCADE,
-    FOREIGN KEY (idmail) 
+    FOREIGN KEY (idUser) 
         REFERENCES users(id)
         ON DELETE CASCADE
 );
@@ -36,63 +36,63 @@ CREATE TABLE usersanonimous (
 );
 
 CREATE TABLE clist (
-    idcategory INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
-    "name" VARCHAR(30),
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    "NAME" VARCHAR(30),
     description VARCHAR(30),
     image VARCHAR(10),
-    CONSTRAINT clist_pk PRIMARY KEY (idcategory)
+    CONSTRAINT clist_pk PRIMARY KEY (id)
 );
 
 
 CREATE TABLE list (
-    idlist INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     usercreator INTEGER,  
     idcat INTEGER,
-    "name" VARCHAR(30),
+    "NAME" VARCHAR(30),
     description VARCHAR(30),
     image VARCHAR(50),
     FOREIGN KEY (usercreator) 
         REFERENCES users(id)
         ON DELETE CASCADE,
     FOREIGN KEY (idcat) 
-        REFERENCES clist(idcategory)
+        REFERENCES clist(id)
         ON DELETE CASCADE,
-    CONSTRAINT idlist_pk PRIMARY KEY (idlist)
+    CONSTRAINT idlist_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE citem (
-    idcategory INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
-    "name" VARCHAR(30),
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    "NAME" VARCHAR(30),
     description VARCHAR(30),
     image VARCHAR(10),
-    CONSTRAINT citem_pk PRIMARY KEY (idcategory)
+    CONSTRAINT citem_pk PRIMARY KEY (id)
 );
 
 
 CREATE TABLE item (
-    iditem INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
-    iddcat INTEGER NOT NULL,
-    FOREIGN KEY (iddcat) 
-        REFERENCES citem(idcategory)
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    idcat INTEGER NOT NULL,
+    FOREIGN KEY (idcat) 
+        REFERENCES citem(id)
         ON DELETE CASCADE,
     calorie INTEGER,
-    "name" VARCHAR(30),
+    "NAME" VARCHAR(30),
     logo VARCHAR(50),
     note VARCHAR(30),
-    CONSTRAINT item_pk PRIMARY KEY (iditem)
+    CONSTRAINT item_pk PRIMARY KEY (id)
 );
 
 
 CREATE TABLE compose(
-    cclist INTEGER,
-    ccitem INTEGER ,
-    FOREIGN KEY (ccitem) 
-        REFERENCES item(iditem)
+    list INTEGER,
+    item INTEGER ,
+    FOREIGN KEY (item) 
+        REFERENCES item(id)
         ON DELETE CASCADE,
-    FOREIGN KEY (cclist) 
-        REFERENCES list(idlist)
+    FOREIGN KEY (list) 
+        REFERENCES list(id)
         ON DELETE CASCADE,
-    PRIMARY KEY (ccitem, cclist)  
+    PRIMARY KEY (item, list)  
 );
 
 CREATE TABLE isfriend(
@@ -108,16 +108,16 @@ CREATE TABLE isfriend(
 );
 
 CREATE TABLE access(
-    id INTEGER NOT NULL PRIMARY KEY,
-    aauser INTEGER,
-    aalist INTEGER,
-    FOREIGN KEY (aauser) 
+    iduser INTEGER,
+    idlist INTEGER,
+    FOREIGN KEY (iduser) 
         REFERENCES users(id)
         ON DELETE CASCADE,
-    FOREIGN KEY (aalist) 
-        REFERENCES list(idlist)
+    FOREIGN KEY (idlist) 
+        REFERENCES list(id)
         ON DELETE CASCADE,
-    UNIQUE (aauser, aalist)    
-);
+    primary key (iduser, idlist)    
+)
+
 
 

@@ -81,7 +81,7 @@ public class LandingServlet extends HttpServlet {
         // For each list save in a map list of it's items
         Map<Long,List<Item>> dict = new HashMap<>();
         for (ProductList list : listOfPL) {            
-            long listID = list.getIdList();
+            long listID = list.getId();
             List<Compose> relationList = composedDAO.getItemsID(listID);
             List<Item> items = new ArrayList<>();
             for (Compose rel : relationList) {
