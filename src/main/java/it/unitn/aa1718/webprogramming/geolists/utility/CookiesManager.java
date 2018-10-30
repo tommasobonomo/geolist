@@ -32,10 +32,10 @@ public class CookiesManager{
         //controllo tra i miei cookies che ci sia quello che cerco e cioè "Cookie"
         if(this.cookies != null){
             for(Cookie c : this.cookies){
-                if(c.getName() == name){
+                if(c.getName().equals(name)){
                     //appena trovato controllo che ci sia almeno uno User con quel cookie
                     for (User u : lu){
-                        if(u.getCookie() == c.getValue())
+                        if(u.getCookie().equals(c.getValue()))
                             return u;
                     }
                 }
@@ -63,7 +63,7 @@ public class CookiesManager{
         // genero il nuovo cookie della sessione
         String cookieVal = HashGenerator.Hash(Integer.toString(n));
         Cookie cookieNew = new Cookie(name, cookieVal);
-        cookieNew.setMaxAge(20);
+        cookieNew.setMaxAge(30000000);
 
         // aggiorno il database
         User uNew = db.get(uOld.getUsername()).get();

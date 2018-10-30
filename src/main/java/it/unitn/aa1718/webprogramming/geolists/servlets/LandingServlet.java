@@ -6,8 +6,10 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
+import static it.unitn.aa1718.webprogramming.geolists.database.Database.DB_URL;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
@@ -129,11 +131,11 @@ public class LandingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        try {
-//            processRequest(request, response);
-//        } catch (NoSuchAlgorithmException ex) {
-//            Logger.getLogger(LandingServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            processRequest(request, response);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LandingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
