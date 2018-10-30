@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 
     // Funzione di gestione del metodo GET della pagina principale dell'applicazione
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         // Variabili dove salvare risultato query
@@ -64,6 +64,8 @@ public class LoginServlet extends HttpServlet {
                 User u = new UserDAO().get(username).get();
                 if (u != null){
                     Cookie c = cm.updateUser("Cookie", u);
+                    //NON FUNZIA!!!
+                    c.setPath("/");
                     response.addCookie(c);
                     System.out.println(c.getValue());
                 }
