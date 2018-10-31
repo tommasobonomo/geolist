@@ -11,20 +11,20 @@ package it.unitn.aa1718.webprogramming.geolists.database.models;
  */
 public class UserAnonimous {
     
-    private long idAnon;
+    private long id;
     private String cookie;
 
-    public UserAnonimous(long idAnon, String cookie) {
-        this.idAnon = idAnon;
+    public UserAnonimous(long id, String cookie) {
+        this.id = id;
         this.cookie = cookie;
     }
 
-    public long getIdAnon() {
-        return idAnon;
+    public long getId() {
+        return id;
     }
 
-    public void setIdAnon(long idAnon) {
-        this.idAnon = idAnon;
+    public void setId(long idAnon) {
+        this.id = idAnon;
     }
 
     public String getCookie() {
@@ -38,7 +38,7 @@ public class UserAnonimous {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 59 * hash + (int) (this.idAnon ^ (this.idAnon >>> 32));
+        hash = 59 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 
@@ -54,7 +54,7 @@ public class UserAnonimous {
             return false;
         }
         final UserAnonimous other = (UserAnonimous) obj;
-        if (this.idAnon != other.idAnon) {
+        if (this.id != other.id) {
             return false;
         }
         return true;
@@ -62,7 +62,7 @@ public class UserAnonimous {
 
     @Override
     public String toString() {
-        return "UserAnonimous{" + "idAnon=" + idAnon + ", cookie=" + cookie + '}';
+        return "UserAnonimous{" + "idAnon=" + id + ", cookie=" + cookie + '}';
     }
     
 }
