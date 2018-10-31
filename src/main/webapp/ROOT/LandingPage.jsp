@@ -23,7 +23,7 @@
                 <div class="name">
                     <c:out value="${list.getName()}" />
                 </div>
-                <c:set var="listID" value="${list.getIdList()}" />
+                <c:set var="listID" value="${list.getId()}" />
                 <div class="items">
                     <c:forEach var="item" items="${itemsOfList.get(Long.valueOf(listID))}">
                         <div class="list">
