@@ -62,12 +62,11 @@ public class LoginServlet extends HttpServlet {
                 System.out.println("USER TROVATO NEL DATABASE");
                 CookiesManager cm = new CookiesManager();
                 User u = new UserDAO().get(username).get();
+                
                 if (u != null){
                     Cookie c = cm.updateUser("Cookie", u);
-                    //NON FUNZIA!!!
                     c.setPath("/");
                     response.addCookie(c);
-                    System.out.println(c.getValue() + "\n");
                 }
             }
             

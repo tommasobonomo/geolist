@@ -5,6 +5,7 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
@@ -50,33 +51,22 @@ public class LandingServlet extends HttpServlet {
         //Richiedo i cookie in ingresso
         CookiesManager cm = new CookiesManager(request.getCookies());
         User u = cm.checkExistenceUser("Cookie");
-        if(u != null){
-            System.out.println("COOKIE TROVATO DI DEFAULT TRA GLI USER");
-
-            //aggiorno il cookie
-            Cookie c = cm.updateUser("Cookie", u);
-            response.addCookie(c); 
-            System.out.println(c.getValue() + "\n");
-
-            ////////////////////////////////////////////
-            //inviare all'utente pagina inerente a lui//
-            ////////////////////////////////////////////
-        }else{
-            System.out.println("COOKIE NON TROVATO DI DEFAULT");
-            /////////////////////////////////////////////////////
-            //non lo setto fino a che l'utente non fa una lista//
-            /////////////////////////////////////////////////////
-        }
-
-        
+        if (u == null)
+            request.getSession().setAttribute("logged", false);
+      
         response.setContentType("text/html;charset=UTF-8");
         
         ProductListDAO plistDAO = new ProductListDAO();
         ItemDAO itemDAO = new ItemDAO();
         ComposeDAO composedDAO = new ComposeDAO();
+        AccessDAO accessDAO = new AccessDAO();
         
         // Get the names of all the lists
-        List<ProductList> listOfPL = plistDAO.getAll();
+        List<ProductList> listOfPL = null;
+        if(u!=null)
+            listOfPL = accessDAO.getAll(u.getId());
+        else
+            listOfPL = plistDAO.getAll();
         request.setAttribute("listOfPL", listOfPL);
         
         // For each list save in a map list of it's items

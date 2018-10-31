@@ -58,10 +58,10 @@ public class CookiesManager{
         
         // genero un numero random per creare il Cookie
         Random rand = new Random();
-        int n = rand.nextInt(50000)+1;
+        int n = rand.nextInt(5000000)+1;
 
         // genero il nuovo cookie della sessione
-        String cookieVal = HashGenerator.Hash(Integer.toString(n));
+        String cookieVal = Integer.toString(n);
         Cookie cookieNew = new Cookie(name, cookieVal);
         cookieNew.setMaxAge(120);
 

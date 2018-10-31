@@ -37,15 +37,17 @@
         <c:if test="${logged}">
             <p>User <c:out value="${username}"/> is logged in</p>
         </c:if>
-        <div class="login-form">
-            <form method="POST" action="/form-actions/login">
-                username <input type="text" name="username">
-                <br/>
-                password <input type="password" name="password">
-                <br/>
-                <input type="submit" value="Submit">
-            </form>
-        </div>
+        <c:if test="${not logged}">
+            <div class="login-form">
+                <form method="POST" action="/form-actions/login">
+                    username <input type="text" name="username">
+                    <br/>
+                    password <input type="password" name="password">
+                    <br/>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </c:if>
         
     </body>
 
