@@ -30,9 +30,9 @@ CREATE TABLE email(
 );
 
 CREATE TABLE usersanonimous (
-    cookie VARCHAR(30),
-    PRIMARY KEY (cookie)
-
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    cookie VARCHAR(30) NOT NULL UNIQUE,
+    CONSTRAINT useranonimous_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE clist (
