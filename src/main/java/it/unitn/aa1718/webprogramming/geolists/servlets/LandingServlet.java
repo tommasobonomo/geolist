@@ -6,10 +6,8 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
-import static it.unitn.aa1718.webprogramming.geolists.database.Database.DB_URL;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
@@ -51,20 +49,23 @@ public class LandingServlet extends HttpServlet {
 
         //Richiedo i cookie in ingresso
         CookiesManager cm = new CookiesManager(request.getCookies());
-        User u = cm.checkExistenceCookie("Cookie");
+        User u = cm.checkExistenceUser("Cookie");
         if(u != null){
-            System.out.println("COOKIE TROVATO DI DEFAULT");
+            System.out.println("COOKIE TROVATO DI DEFAULT TRA GLI USER");
 
             //aggiorno il cookie
             Cookie c = cm.updateUser("Cookie", u);
-            response.addCookie(c);
-            System.out.println(c.getValue());
+            response.addCookie(c); 
+            System.out.println(c.getValue() + "\n");
 
             ////////////////////////////////////////////
             //inviare all'utente pagina inerente a lui//
             ////////////////////////////////////////////
         }else{
             System.out.println("COOKIE NON TROVATO DI DEFAULT");
+            /////////////////////////////////////////////////////
+            //non lo setto fino a che l'utente non fa una lista//
+            /////////////////////////////////////////////////////
         }
 
         

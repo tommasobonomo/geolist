@@ -24,7 +24,7 @@ public class CookiesManager{
      * @param name  nome del cookie di cui controllare l'esistenza della associazione
      * @return User con quel Cookie se trovato altrimenti Null
      */
-    public User checkExistenceCookie(String name){
+    public User checkExistenceUser(String name){
         UserDAO db = new UserDAO();
         List<User> lu = db.getAll();
         boolean res = false;
@@ -63,7 +63,7 @@ public class CookiesManager{
         // genero il nuovo cookie della sessione
         String cookieVal = HashGenerator.Hash(Integer.toString(n));
         Cookie cookieNew = new Cookie(name, cookieVal);
-        cookieNew.setMaxAge(30000000);
+        cookieNew.setMaxAge(120);
 
         // aggiorno il database
         User uNew = db.get(uOld.getUsername()).get();
@@ -75,9 +75,4 @@ public class CookiesManager{
       
         return cookieNew;
     }
-    
-    
-    
-    
-    
 }

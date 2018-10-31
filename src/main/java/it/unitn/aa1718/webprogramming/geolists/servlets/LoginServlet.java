@@ -67,7 +67,7 @@ public class LoginServlet extends HttpServlet {
                     //NON FUNZIA!!!
                     c.setPath("/");
                     response.addCookie(c);
-                    System.out.println(c.getValue());
+                    System.out.println(c.getValue() + "\n");
                 }
             }
             
