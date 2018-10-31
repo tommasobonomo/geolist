@@ -5,7 +5,8 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database;
 
-import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,78 +17,74 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * DAO pattern for the List relation
- * @author tommaso
+ *
+ * @author giorgiosgl
  */
-public class ProductListDAO implements CrudDao<ProductList> {
-
-    private ProductList createProductList(ResultSet rs) throws SQLException {
-        return new ProductList(rs.getLong("id"),rs.getLong("userCreator"), rs.getLong("idCat"),
-            rs.getString("name"),rs.getString("description"), rs.getString("image"));        
+public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
+    
+    private UserAnonimous createUserAnonimous(ResultSet rs) throws SQLException {
+        return new UserAnonimous(rs.getLong("id"),rs.getString("cookie"));
     }
     
     @Override
-    public Optional<ProductList> get(long id) {
-        String query = "SELECT * FROM List AS L WHERE L.id=" + id; 
-                
-        try {
-            Connection c = Database.openConnection();
-            Statement s = c.createStatement();
-            ResultSet rs = s.executeQuery(query);
-            
-            if (rs.next()) {
-                return Optional.of(createProductList(rs));
-            } else {
-                return Optional.empty();
-            }
-            
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        
-        return Optional.empty();
-    }
-
-    @Override
-    public List<ProductList> getAll() {
-        String query = "SELECT * FROM List";
-        List list = new ArrayList<>();
+    public Optional<UserAnonimous> get(long id) {
+        String query= "SELECT * FROM UsersAnonimous as U WHERE U.id="+id;
+        UserAnonimous u=null;
         
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
-            ResultSet rs = s.executeQuery(query);
-            
-            while (rs.next()) {
-                list.add(createProductList(rs));
+            ResultSet rs=s.executeQuery(query);
+        
+            while(rs.next()){
+                u=createUserAnonimous(rs);
             }
-            
+        
             rs.close();
             s.close();
             Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
+        }        
+        return Optional.of(u);
+    }
+    
+    @Override
+    public List<UserAnonimous> getAll() {
+        String query= "SELECT * FROM UsersAnonimous";
+        List<UserAnonimous> resList = new ArrayList<>();
         
-        return list;
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs=s.executeQuery(query);
+        
+            while(rs.next()){
+                resList.add(createUserAnonimous(rs));
+            }
+        
+            rs.close();
+            s.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }        
+        return resList; //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void create(ProductList obj) {
-        String query= "INSERT INTO GEODB.LIST(USERCREATOR,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
-                        "VALUES (?,?,?,?,?)";
+    public void create(UserAnonimous obj) {
+        String query= "INSERT INTO GEODB.USERSANONIMOUS(COOKIE)\n" +
+                        "VALUES (?)";
         
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             
 
-            ps.setLong(1, obj.getUserCreator());
-            ps.setLong(2, obj.getIdCat());
-            ps.setString(3, obj.getName());
-            ps.setString(4, obj.getDescription());
-            ps.setString(5, obj.getImage());
+            ps.setString(1, obj.getCookie());
             
             ps.executeUpdate();
             ps.close();
@@ -99,9 +96,9 @@ public class ProductListDAO implements CrudDao<ProductList> {
     }
 
     @Override
-    public void update(long id, ProductList obj) {
-        String query="UPDATE List "
-                + "SET userCreator=?, idCat=?, name=?, description=?, image=?"
+    public void update(long id, UserAnonimous obj) {
+        String query="UPDATE UsersAnonimous "
+                + "SET cookie=?"
                 + "WHERE id=?";
         
         try {
@@ -109,12 +106,8 @@ public class ProductListDAO implements CrudDao<ProductList> {
             PreparedStatement ps = c.prepareStatement(query);
             
 
-            ps.setLong(1, obj.getUserCreator());
-            ps.setLong(2, obj.getIdCat());
-            ps.setString(3, obj.getName());
-            ps.setString(4, obj.getDescription());
-            ps.setString(5, obj.getImage());
-            ps.setLong(6,obj.getId());
+            ps.setString(1, obj.getCookie());
+            ps.setLong(2, id);
             
             ps.executeUpdate();
             ps.close();
@@ -122,13 +115,12 @@ public class ProductListDAO implements CrudDao<ProductList> {
             
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }   
-        
+        } 
     }
 
     @Override
     public void delete(long id) {
-        String query ="DELETE FROM List WHERE id=?";
+        String query ="DELETE FROM UsersAnonimous WHERE id=?";
         
         try {
             Connection c = Database.openConnection();
@@ -145,5 +137,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ex.printStackTrace();
         }
     }
+
+    
     
 }
