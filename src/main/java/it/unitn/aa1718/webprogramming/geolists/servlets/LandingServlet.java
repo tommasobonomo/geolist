@@ -5,18 +5,24 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.utility.CookiesManager;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,15 +44,28 @@ public class LandingServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NoSuchAlgorithmException {
+        
+
+        //Richiedo i cookie in ingresso
+        CookiesManager cm = new CookiesManager(request.getCookies());
+        User u = cm.checkExistenceUser("Cookie");
+        if (u == null)
+            request.getSession().setAttribute("logged", false);
+      
         response.setContentType("text/html;charset=UTF-8");
         
         ProductListDAO plistDAO = new ProductListDAO();
         ItemDAO itemDAO = new ItemDAO();
         ComposeDAO composedDAO = new ComposeDAO();
+        AccessDAO accessDAO = new AccessDAO();
         
         // Get the names of all the lists
-        List<ProductList> listOfPL = plistDAO.getAll();
+        List<ProductList> listOfPL = null;
+        if(u!=null)
+            listOfPL = accessDAO.getAll(u.getId());
+        else
+            listOfPL = plistDAO.getAll();
         request.setAttribute("listOfPL", listOfPL);
         
         // For each list save in a map list of it's items
@@ -67,7 +86,7 @@ public class LandingServlet extends HttpServlet {
         }
         request.setAttribute("itemsOfList", dict);
         
-        request.getRequestDispatcher("ROOT/LandingPage.jsp").forward(request,response);
+        request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -82,7 +101,13 @@ public class LandingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            
+        try {
+            processRequest(request, response);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LandingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+  
     }
 
     /**
@@ -96,7 +121,11 @@ public class LandingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LandingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

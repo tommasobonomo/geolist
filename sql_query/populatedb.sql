@@ -1,14 +1,14 @@
 INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, "ADMIN")
-VALUES (DEFAULT,' ','rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','4613-650b16-29696468-5818-11-7f-55-7e-5736-6f-9-2b',TRUE),
-       (DEFAULT,' ','gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGE','29-7076-4506768-67-36-49-2-c-f6e16526b-6e-4245',FALSE),
-       (DEFAULT,' ','minestrone','Tommaso','Bonomo','Tommasoni394@gmail.com','IMAGEN','-4f-4d773a05-40-130176787a4f1574-10075-9521e',FALSE),
-       (DEFAULT,' ','XDSNIPERXD','Leonardo','Remondini', 'Remoromolo@gmail.com','IMAGEN', '39493509-13f-2c7e-1b-3-1e-366c-60-2f-4e5a-313a75',FALSE),
-       (DEFAULT,' ','piediPiatti','Giorgio','Segalla','Giorgionelo@gmail.com','IMAGEN', '39493509-13f-2c7e-1b-3-1e-366c-60-2f-4e5a-313a75',FALSE),
-       (DEFAULT,' ','Maialino69','Marta','Tonnona', 'Martinasesso@gmail.com','IMAGEN', '6b-8-8-7a3f2035320026-360-3f-6773c-f09-33-6a',FALSE),
-       (DEFAULT,' ','Fratak','Elia','Salame','piselloni@gmail.com','IMAGEN', '27-2b-33-57425e-2-6-38-11-3-44-c636c-401b25-40-7a',FALSE),
-       (DEFAULT,' ','OrcoBue','Luca', 'Rossi', 'marione@gmail.com','IMAGEN', '42-a-497b-6c62-4474-15-483e173a21-17-5a64-666e-65',FALSE),
-       (DEFAULT,' ','Iphonneeee','Nicola','Nicoli', 'naso@gmail.com','IMAGEN', '-5b-41455d06-3c7b-7e-1c-7e-69-7a2526-1c-5f-7c-53-27-80',FALSE),
-       (DEFAULT,' ','Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', '0e2355-7c11-275d-16-5852-44-67-1730147418-524644',FALSE);
+VALUES (DEFAULT,' ','rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','4613650b16296964685818117f557e57366f92b',TRUE),
+       (DEFAULT,' ','gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGE','29707645067686736492cf6e16526b6e4245',FALSE),
+       (DEFAULT,' ','minestrone','Tommaso','Bonomo','Tommasoni394@gmail.com','IMAGEN','4f4d773a0540130176787a4f1574100759521e',FALSE),
+       (DEFAULT,' ','XDSNIPERXD','Leonardo','Remondini', 'Remoromolo@gmail.com','IMAGEN', '3949350913f2c7e1b31e366c602f4e5a313a75',FALSE),
+       (DEFAULT,' ','piediPiatti','Giorgio','Segalla','Giorgionelo@gmail.com','IMAGEN', '3949350913f2c7e1b31e366c602f4e5a313a75',FALSE),
+       (DEFAULT,' ','Maialino69','Marta','Tonnona', 'Martinasesso@gmail.com','IMAGEN', '6b887a3f20353200263603f6773cf09336a',FALSE),
+       (DEFAULT,' ','Fratak','Elia','Salame','piselloni@gmail.com','IMAGEN', '272b3357425e263811344c636c401b25407a',FALSE),
+       (DEFAULT,' ','OrcoBue','Luca', 'Rossi', 'marione@gmail.com','IMAGEN', '42a497b6c62447415483e173a21175a64666e65',FALSE),
+       (DEFAULT,' ','Iphonneeee','Nicola','Nicoli', 'naso@gmail.com','IMAGEN', '5b41455d063c7b7e1c7e697a25261c5f7c532780',FALSE),
+       (DEFAULT,' ','Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', '0e23557c11275d16585244671730147418524644',FALSE);
 
 INSERT INTO GEODB.CLIST(ID,"NAME", DESCRIPTION, IMAGE )
 VALUES  (DEFAULT, 'PRETTY HEALTHY', 'EATING A LOT FOR LITTLE MONEY','image'),
@@ -122,9 +122,17 @@ VALUES (1,1),
        (8,4),
        (8,5);
 
+<<<<<<< HEAD
 INSERT INTO GEODB.OWN(IDUSER,IDLIST)
 VALUES (1,1),
        (1,2),
        (2,3),
        (3,4);
 
+=======
+
+INSERT INTO GEODB.ACCESS(IDUSER, IDLIST)
+VALUES(1,1),
+      (1,2),
+      (2,1);
+>>>>>>> 19-cookie-dei-vari-utenti
