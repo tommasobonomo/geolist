@@ -117,7 +117,28 @@ CREATE TABLE access(
         REFERENCES list(id)
         ON DELETE CASCADE,
     primary key (iduser, idlist)    
-)
+);
 
+CREATE TABLE own(
+    iduser INTEGER,
+    idlist INTEGER,
+    FOREIGN KEY (iduser) 
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (idlist) 
+        REFERENCES list(id)
+        ON DELETE CASCADE,
+    primary key (idlist)    
+);
 
-
+CREATE TABLE ownAnonimous(
+    idUserAnonimous INTEGER,
+    idList INTEGER,
+    FOREIGN KEY (idUserAnonimous) 
+        REFERENCES usersAnonimous(id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (idList) 
+        REFERENCES list(id)
+        ON DELETE CASCADE,
+    primary key (idList)    
+);
