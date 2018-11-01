@@ -30,7 +30,7 @@ public class AccessDAO implements CrudDao<Access>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<ProductList> getAll(long userID) {
+    public List<ProductList> getList(long userID) {
         String query = "SELECT * FROM Access AS A WHERE A.iduser = " + userID;
         List<ProductList> list = new ArrayList<>();
         ProductListDAO a = new ProductListDAO();

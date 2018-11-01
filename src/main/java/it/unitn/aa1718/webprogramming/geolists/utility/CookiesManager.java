@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 
 public class CookiesManager{
     private Cookie cookie = null;
+    private final int MAXAGE = 120;
     
     
     /**
@@ -18,9 +19,11 @@ public class CookiesManager{
      * @param cookies lista di cookies da request.getCookies
      */
     public CookiesManager(Cookie[] cookies) {
-        for(Cookie c : cookies){
-            if ("Cookie".equals(c.getName())){
-                this.cookie = c;
+        if(cookies != null){
+            for(Cookie c : cookies){
+                if ("Cookie".equals(c.getName())){
+                    this.cookie = c;
+                }
             }
         }
     }
@@ -54,32 +57,32 @@ public class CookiesManager{
     
     
     /**  
-     * @param uOld  nome dello user a cui cambiare il cookie
-     * @return      ritorna il cookie con il nome specificato aggiornato e aggionra il database oppure null in caso di fallimento. 
-     *              Da usare solamente se si è certi dell'esistenza del cookie nel database!! (dopo avere usato checkExistance!) 
+     * preso uno user controllo se esiste un cookie associato a lui e lo ritorno oppure ne creo uno.
+     * Da usare solamente con un utente valido!
+     * @param u     user a cui controllare il cookie
+     * @return      il cookie inerente all'utente o null
      */
-    public Cookie updateUser(User uOld){
-        UserDAO db = new UserDAO();
+    public Cookie setCookieOldUser(User u){
         
-        // genero un numero random per creare il Cookie
-        Random rand = new Random();
-        int n = rand.nextInt(5000000)+1;
-
-        // genero il nuovo cookie della sessione
-        String cookieVal = Integer.toString(n);
-        Cookie cookieNew = new Cookie(this.cookie.getName(), cookieVal);
-        cookieNew.setMaxAge(120);
-
-        // aggiorno il database
-        User uNew = db.get(uOld.getUsername()).get();
-        uNew.setCookie(cookieVal);
-        db.update(uOld.getId(), uNew);
-
-        System.out.println("COOKIE AGGIORNATO");
-
+        Cookie cookieNew = null;
+        String cookieVal = u.getCookie();
+                
+        if (cookieVal == null){
+            Random rand = new Random();
+            int n = rand.nextInt(5000000)+1;
+            cookieVal = Integer.toString(n);
+            
+            UserDAO db = new UserDAO();
+            u.setCookie(cookieVal);
+            db.update(u.getId(), u);
+        }
       
+        cookieNew = new Cookie("Cookie", cookieVal);
+        cookieNew.setMaxAge(MAXAGE);
+        
         return cookieNew;
     }
+    
     
     
     /**

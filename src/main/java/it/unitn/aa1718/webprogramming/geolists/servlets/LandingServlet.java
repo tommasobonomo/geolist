@@ -69,7 +69,7 @@ public class LandingServlet extends HttpServlet {
         // Get the names of all the lists
         List<ProductList> listOfPL = null;
         if(u!=null)
-            listOfPL = accessDAO.getAll(u.getId());
+            listOfPL = accessDAO.getList(u.getId());
         else
             listOfPL = plistDAO.getAll();
         request.setAttribute("listOfPL", listOfPL);
