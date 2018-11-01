@@ -5,7 +5,6 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database;
 
-import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

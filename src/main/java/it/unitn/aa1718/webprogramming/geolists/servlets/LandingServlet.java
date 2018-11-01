@@ -13,6 +13,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import it.unitn.aa1718.webprogramming.geolists.utility.CookiesManager;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -47,11 +48,16 @@ public class LandingServlet extends HttpServlet {
             throws ServletException, IOException, NoSuchAlgorithmException {
         
 
-        //Richiedo i cookie in ingresso
+        //Richiedo i cookie in ingresso e controllo che faccia parte di un utente loggato
+        //oppure di uno anonimo
         CookiesManager cm = new CookiesManager(request.getCookies());
-        User u = cm.checkExistenceUser("Cookie");
+        User u = cm.checkExistenceUser();
+        UserAnonimous ua = null;
         if (u == null)
             request.getSession().setAttribute("logged", false);
+        else{
+            ua = cm.checkExistenceAnonimous();
+        }
       
         response.setContentType("text/html;charset=UTF-8");
         
