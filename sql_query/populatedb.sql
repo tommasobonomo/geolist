@@ -122,8 +122,17 @@ VALUES (1,1),
        (8,4),
        (8,5);
 
+<<<<<<< HEAD
+INSERT INTO GEODB.OWN(IDUSER,IDLIST)
+VALUES (1,1),
+       (1,2),
+       (2,3),
+       (3,4);
+
+=======
 
 INSERT INTO GEODB.ACCESS(IDUSER, IDLIST)
 VALUES(1,1),
       (1,2),
       (2,1);
+>>>>>>> 19-cookie-dei-vari-utenti
