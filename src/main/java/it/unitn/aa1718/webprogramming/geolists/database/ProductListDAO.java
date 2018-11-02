@@ -6,6 +6,7 @@
 package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,6 +25,27 @@ public class ProductListDAO implements CrudDao<ProductList> {
     private ProductList createProductList(ResultSet rs) throws SQLException {
         return new ProductList(rs.getLong("id"),rs.getLong("userCreator"), rs.getLong("idCat"),
             rs.getString("name"),rs.getString("description"), rs.getString("image"));        
+    }
+    
+    public List<ProductList> getListOfUser(User u) {
+        long userId = u.getId();
+        String query = "SELECT * FROM List WHERE USERCREATOR = " + userId;
+        List<ProductList> list = new ArrayList<>();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while (rs.next()) {
+                list.add(createProductList(rs));
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return list;
     }
     
     @Override
