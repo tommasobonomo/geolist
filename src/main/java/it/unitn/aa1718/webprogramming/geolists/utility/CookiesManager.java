@@ -4,6 +4,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import javax.servlet.http.Cookie;
 
@@ -22,9 +23,9 @@ public class CookiesManager{
     /**
      * controlla che il cookie con il nome specificato sia associato ad un utente in User
      * @param name  nome del cookie di cui controllare l'esistenza della associazione
-     * @return User con quel Cookie se trovato altrimenti Null
+     * @return Optional con quel Cookie se trovato altrimenti empty
      */
-    public User checkExistenceCookie(String name){
+    public Optional<User> checkExistenceCookie(String name){
         UserDAO db = new UserDAO();
         List<User> lu = db.getAll();
         boolean res = false;
@@ -36,13 +37,13 @@ public class CookiesManager{
                     //appena trovato controllo che ci sia almeno uno User con quel cookie
                     for (User u : lu){
                         if(u.getCookie().equals(c.getValue()))
-                            return u;
+                            return Optional.of(u);
                     }
                 }
             }
         }
         
-        return null;
+        return Optional.empty();
     }
     
     /**

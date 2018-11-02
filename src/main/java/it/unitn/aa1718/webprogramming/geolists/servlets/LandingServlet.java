@@ -51,51 +51,58 @@ public class LandingServlet extends HttpServlet {
 
         //Richiedo i cookie in ingresso
         CookiesManager cm = new CookiesManager(request.getCookies());
-        User u = cm.checkExistenceCookie("Cookie");
-        if(u != null){
+        
+        // Prepare data to send to the JSP page        
+        Optional<User> optU = cm.checkExistenceCookie("Cookie");
+        Optional<List<ProductList>> listOfPL;
+        Optional<Map<Long,List<Item>>> itemsOfList;
+        
+        if(optU.isPresent()){
             System.out.println("COOKIE TROVATO DI DEFAULT");
-
+            User u = optU.get();
+            
             //aggiorno il cookie
             Cookie c = cm.updateUser("Cookie", u);
             response.addCookie(c);
             System.out.println(c.getValue());
 
-            ////////////////////////////////////////////
-            //inviare all'utente pagina inerente a lui//
-            ////////////////////////////////////////////
-        }else{
-            System.out.println("COOKIE NON TROVATO DI DEFAULT");
-        }
+            // Based on the user u, retrieve his lists and items of those lists 
+            
+            ProductListDAO plistDAO = new ProductListDAO();
+            ItemDAO itemDAO = new ItemDAO();
+            ComposeDAO composedDAO = new ComposeDAO();
+            
+            // Get lists of user u
+            listOfPL = Optional.of(plistDAO.getListOfUser(u));
+            
+            // For each list save in a map list of it's items
+            Map<Long,List<Item>> dict = new HashMap<>();
 
-        
-        response.setContentType("text/html;charset=UTF-8");
-        
-        ProductListDAO plistDAO = new ProductListDAO();
-        ItemDAO itemDAO = new ItemDAO();
-        ComposeDAO composedDAO = new ComposeDAO();
-        
-        // Get the names of all the lists
-        List<ProductList> listOfPL = plistDAO.getAll();
-        request.setAttribute("listOfPL", listOfPL);
-        
-        // For each list save in a map list of it's items
-        Map<Long,List<Item>> dict = new HashMap<>();
-        for (ProductList list : listOfPL) {            
-            long listID = list.getId();
-            List<Compose> relationList = composedDAO.getItemsID(listID);
-            List<Item> items = new ArrayList<>();
-            for (Compose rel : relationList) {
-                Optional<Item> res = itemDAO.get(rel.getIdItem());
-                if (res.isPresent()) {
-                    items.add(res.get());
+            for (ProductList list : listOfPL.get()) {            
+                long listID = list.getId();
+                List<Compose> relationList = composedDAO.getItemsID(listID);
+                List<Item> items = new ArrayList<>();
+                for (Compose rel : relationList) {
+                    Optional<Item> res = itemDAO.get(rel.getIdItem());
+                    if (res.isPresent()) {
+                        items.add(res.get());
+                    }
+                }
+                if (!items.isEmpty()) {
+                    dict.put(Long.valueOf(listID), items);
                 }
             }
-            if (!items.isEmpty()) {
-                dict.put(Long.valueOf(listID), items);
-            }
+            itemsOfList = Optional.of(dict);
+        } else {
+            // No cookie --> no user, so we don't have any lists or items            
+            System.out.println("COOKIE NON TROVATO DI DEFAULT");
+            listOfPL = Optional.empty();
+            itemsOfList = Optional.empty();
         }
-        request.setAttribute("itemsOfList", dict);
-        
+
+        request.setAttribute("user", optU);
+        request.setAttribute("lists", listOfPL);
+        request.setAttribute("itemsPerList", itemsOfList);
         request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
     }
 
