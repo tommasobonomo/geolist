@@ -1,0 +1,10 @@
+DROP TABLE compose;
+DROP TABLE isfriend;
+DROP TABLE access;
+DROP TABLE email;
+DROP TABLE list;
+DROP TABLE clist;
+DROP TABLE item;
+DROP TABLE citem;
+DROP TABLE usersanonimous;
+DROP TABLE users;
