@@ -140,5 +140,5 @@ CREATE TABLE ownAnonimous(
     FOREIGN KEY (idList) 
         REFERENCES list(id)
         ON DELETE CASCADE,
-    primary key (idList)    
+    primary key (idUserAnonimous)    
 );

@@ -22,7 +22,7 @@ import java.util.Optional;
 public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
     
     private UserAnonimous createUserAnonimous(ResultSet rs) throws SQLException {
-        return new UserAnonimous(rs.getLong("id"),rs.getString("cookie"));
+        return new UserAnonimous(rs.getLong(1),rs.getString("cookie"));
     }
     
     @Override

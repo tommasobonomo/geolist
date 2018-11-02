@@ -2,15 +2,10 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
-import it.unitn.aa1718.webprogramming.geolists.utility.CookiesManager;
+import it.unitn.aa1718.webprogramming.geolists.utility.CookieManager;
 import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -59,10 +54,9 @@ public class LoginServlet extends HttpServlet {
 
                     // qui sono sicuro che lo user esiste già
                     System.out.println("USER TROVATO NEL DATABASE");
-                    CookiesManager cm = new CookiesManager();
+                    CookieManager cm = new CookieManager();
 
                     Cookie c = cm.setCookieOldUser(u);
-                    c.setPath("/");
                     response.addCookie(c);
                 }
             }
