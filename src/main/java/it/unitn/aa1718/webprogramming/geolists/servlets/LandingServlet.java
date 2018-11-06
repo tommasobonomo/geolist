@@ -8,7 +8,6 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.OwnAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
@@ -72,7 +71,7 @@ public class LandingServlet extends HttpServlet {
         ItemDAO itemDAO = new ItemDAO();
         ComposeDAO composedDAO = new ComposeDAO();
         AccessDAO accessDAO = new AccessDAO();
-        OwnAnonimousDAO ownAnonimDAO = new OwnAnonimousDAO();
+//        OwnAnonimousDAO ownAnonimDAO = new OwnAnonimousDAO();
         
         
         // Get the names of all the lists
@@ -80,8 +79,8 @@ public class LandingServlet extends HttpServlet {
         if(u != null)
             listOfPL = accessDAO.getList(u.getId());
         else if (ua != null)
-            listOfPL = ownAnonimDAO.getList(ua.getId());
-        else
+//            listOfPL = ownAnonimDAO.getList(ua.getId());
+//        else
             listOfPL = plistDAO.getAll();
         request.setAttribute("listOfPL", listOfPL);
         

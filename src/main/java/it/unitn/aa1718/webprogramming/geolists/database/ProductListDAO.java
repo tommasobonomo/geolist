@@ -83,7 +83,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             PreparedStatement ps = c.prepareStatement(query);
             
 
-            ps.setLong(1, obj.getUserCreator());
+            ps.setLong(1, obj.getUserOwner());
             ps.setLong(2, obj.getIdCat());
             ps.setString(3, obj.getName());
             ps.setString(4, obj.getDescription());
@@ -109,7 +109,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             PreparedStatement ps = c.prepareStatement(query);
             
 
-            ps.setLong(1, obj.getUserCreator());
+            ps.setLong(1, obj.getUserOwner());
             ps.setLong(2, obj.getIdCat());
             ps.setString(3, obj.getName());
             ps.setString(4, obj.getDescription());
