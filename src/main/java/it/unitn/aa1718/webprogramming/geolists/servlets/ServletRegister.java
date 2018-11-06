@@ -58,7 +58,7 @@ public class ServletRegister extends HttpServlet {
             ID = rand.nextInt(1000000)+1;
             IMAGE = COOKIE = " ";
             
-            USERNAME=request.getParameter("UserName9");
+            USERNAME=request.getParameter("UserName");
             EMAIL=request.getParameter("Email");
             NAME=request.getParameter("FirstName");
             LASTNAME=request.getParameter("LastName");
