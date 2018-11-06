@@ -71,16 +71,18 @@ public class LandingServlet extends HttpServlet {
         ItemDAO itemDAO = new ItemDAO();
         ComposeDAO composedDAO = new ComposeDAO();
         AccessDAO accessDAO = new AccessDAO();
-//        OwnAnonimousDAO ownAnonimDAO = new OwnAnonimousDAO();
         
         
         // Get the names of all the lists
         List<ProductList> listOfPL = null;
         if(u != null)
-            listOfPL = accessDAO.getList(u.getId());
-        else if (ua != null)
-//            listOfPL = ownAnonimDAO.getList(ua.getId());
-//        else
+            listOfPL = plistDAO.getListUser(u.getId());
+        else if (ua != null){
+            listOfPL = plistDAO.getListAnon(ua.getId());
+            System.out.println("ID USER ANONIMO " +ua.getId());
+            System.out.println("COOKIE ANONIMO ATTUALE " + ua.getCookie());
+        }
+        else
             listOfPL = plistDAO.getAll();
         request.setAttribute("listOfPL", listOfPL);
         

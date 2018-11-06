@@ -29,17 +29,21 @@ VALUES  (DEFAULT, 'meat', 'GOOD', 'CIBO'),
         (DEFAULT, 'fruit', 'GOOD', 'CIBO'),
         (DEFAULT, 'bread', 'GOOD', 'CIBO');
 
-INSERT INTO GEODB.LIST(ID,USERCREATOR, IDCAT, "NAME",DESCRIPTION, IMAGE)
-VALUES  (DEFAULT, 1, 1, 'BIRTHDAY', 'SO MUCH FOOD','image'),
-        (DEFAULT, 2, 2, 'GRANDMA', 'GOING TO DIE','image'),
-        (DEFAULT, 3, 3, 'CHEESE', 'CHEESY','image'),
-        (DEFAULT, 4, 4, 'PICNIK', 'SANDWICHES AND STUFF','image'),
-        (DEFAULT, 5, 4, 'COLLEGE', 'CHEAP AND FAT','image'),
-        (DEFAULT, 6, 2, 'WEEKEND', 'OMG LMFAO','image'),
-        (DEFAULT, 7, 1, 'FATTY', 'REALLY NOT GOOD','image'),
-        (DEFAULT, 8, 3, 'FRIEND', 'BROOOOOOOOOOO','image');
-    
+INSERT INTO GEODB.USERSANONIMOUS(ID, COOKIE)
+VALUES (DEFAULT, 'cookiediprova');
 
+INSERT INTO GEODB.LIST(ID,USEROWNER, USERANONOWNER, IDCAT, "NAME",DESCRIPTION, IMAGE)
+VALUES  (DEFAULT, 1, null, 1,  'BIRTHDAY', 'SO MUCH FOOD','image'),
+        (DEFAULT, 1, null, 1,  'LISTA DI PROVA DI RAPPASTA', 'DESCRIZIONE DI POSTA RAPPASTA','image'),
+        (DEFAULT, 2, null, 2, 'GRANDMA', 'GOING TO DIE','image'),
+        (DEFAULT, 3, null, 3, 'CHEESE', 'CHEESY','image'),
+        (DEFAULT, 4, null, 4, 'PICNIK', 'SANDWICHES AND STUFF','image'),
+        (DEFAULT, 5, null, 4, 'COLLEGE', 'CHEAP AND FAT','image'),
+        (DEFAULT, 6, null, 2, 'WEEKEND', 'OMG LMFAO','image'),
+        (DEFAULT, 7, null, 1, 'FATTY', 'REALLY NOT GOOD','image'),
+        (DEFAULT, 8, null, 3, 'FRIEND', 'BROOOOOOOOOOO','image'),
+        (DEFAULT, null, 1, 3, 'LISTA DI PROVA ANONIMA', 'DESCRIZIONE','image');
+    
 
 INSERT INTO GEODB.ISFRIEND(USR1,USR2)
 VALUES  (1,2),
@@ -53,7 +57,7 @@ VALUES  (1,2),
         (2,6),
         (4,2);
 
-INSERT INTO GEODB.ITEM(IDCAT,ID,CALORIE, "NAME",LOGO, NOTE)
+INSERT INTO GEODB.ITEM(IDCAT,ID,"NAME",LOGO, NOTE)
 VALUES (1,DEFAULT,'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
        (2,DEFAULT,'chicken','c:\docs\DB_photos\chicken.png','sdflkje'),
        (3,DEFAULT,'horse','c:\docs\DB_photos\horse.png','sdflkj'),
@@ -121,13 +125,6 @@ VALUES (1,1),
        (8,2),
        (8,4),
        (8,5);
-
-
-INSERT INTO GEODB.OWN(IDUSER,IDLIST)
-VALUES (1,1),
-       (1,2),
-       (2,3),
-       (3,4);
 
 
 INSERT INTO GEODB.ACCESS(IDUSER, IDLIST)
