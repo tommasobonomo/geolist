@@ -99,9 +99,10 @@ public class CookieManager{
         if(this.cookie != null){
             //appena trovato controllo che ci sia almeno uno User con quel cookie
             for (UserAnonimous u : lu){
-                if(u.getCookie().equals(this.cookie.getValue()))
+                if(u.getCookie().equals(this.cookie.getValue())){
                     System.out.println("TROVATO ANONIMO NEL DATABASE");
                     return u;
+                }
             }
         }
         
