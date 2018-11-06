@@ -5,7 +5,6 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database;
 
-import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +22,7 @@ import java.util.Optional;
 public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
     
     private UserAnonimous createUserAnonimous(ResultSet rs) throws SQLException {
-        return new UserAnonimous(rs.getLong("id"),rs.getString("cookie"));
+        return new UserAnonimous(rs.getLong(1),rs.getString("cookie"));
     }
     
     @Override

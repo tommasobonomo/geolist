@@ -1,14 +1,14 @@
 INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, "ADMIN")
-VALUES (DEFAULT,' ','rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','4613-650b16-29696468-5818-11-7f-55-7e-5736-6f-9-2b',TRUE),
-       (DEFAULT,' ','gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGE','29-7076-4506768-67-36-49-2-c-f6e16526b-6e-4245',FALSE),
-       (DEFAULT,' ','minestrone','Tommaso','Bonomo','Tommasoni394@gmail.com','IMAGEN','-4f-4d773a05-40-130176787a4f1574-10075-9521e',FALSE),
-       (DEFAULT,' ','XDSNIPERXD','Leonardo','Remondini', 'Remoromolo@gmail.com','IMAGEN', '39493509-13f-2c7e-1b-3-1e-366c-60-2f-4e5a-313a75',FALSE),
-       (DEFAULT,' ','piediPiatti','Giorgio','Segalla','Giorgionelo@gmail.com','IMAGEN', '39493509-13f-2c7e-1b-3-1e-366c-60-2f-4e5a-313a75',FALSE),
-       (DEFAULT,' ','Maialino69','Marta','Tonnona', 'Martinasesso@gmail.com','IMAGEN', '6b-8-8-7a3f2035320026-360-3f-6773c-f09-33-6a',FALSE),
-       (DEFAULT,' ','Fratak','Elia','Salame','piselloni@gmail.com','IMAGEN', '27-2b-33-57425e-2-6-38-11-3-44-c636c-401b25-40-7a',FALSE),
-       (DEFAULT,' ','OrcoBue','Luca', 'Rossi', 'marione@gmail.com','IMAGEN', '42-a-497b-6c62-4474-15-483e173a21-17-5a64-666e-65',FALSE),
-       (DEFAULT,' ','Iphonneeee','Nicola','Nicoli', 'naso@gmail.com','IMAGEN', '-5b-41455d06-3c7b-7e-1c-7e-69-7a2526-1c-5f-7c-53-27-80',FALSE),
-       (DEFAULT,' ','Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', '0e2355-7c11-275d-16-5852-44-67-1730147418-524644',FALSE);
+VALUES (DEFAULT,null,'rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','4613650b16296964685818117f557e57366f92b',TRUE),
+       (DEFAULT,null,'gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGE','29707645067686736492cf6e16526b6e4245',FALSE),
+       (DEFAULT,null,'minestrone','Tommaso','Bonomo','Tommasoni394@gmail.com','IMAGEN','4f4d773a0540130176787a4f1574100759521e',FALSE),
+       (DEFAULT,null,'XDSNIPERXD','Leonardo','Remondini', 'Remoromolo@gmail.com','IMAGEN', '3949350913f2c7e1b31e366c602f4e5a313a75',FALSE),
+       (DEFAULT,null,'piediPiatti','Giorgio','Segalla','Giorgionelo@gmail.com','IMAGEN', '3949350913f2c7e1b31e366c602f4e5a313a75',FALSE),
+       (DEFAULT,null,'Maialino69','Marta','Tonnona', 'Martinasesso@gmail.com','IMAGEN', '6b887a3f20353200263603f6773cf09336a',FALSE),
+       (DEFAULT,null,'Fratak','Elia','Salame','piselloni@gmail.com','IMAGEN', '272b3357425e263811344c636c401b25407a',FALSE),
+       (DEFAULT,null,'OrcoBue','Luca', 'Rossi', 'marione@gmail.com','IMAGEN', '42a497b6c62447415483e173a21175a64666e65',FALSE),
+       (DEFAULT,null,'Iphonneeee','Nicola','Nicoli', 'naso@gmail.com','IMAGEN', '5b41455d063c7b7e1c7e697a25261c5f7c532780',FALSE),
+       (DEFAULT,null,'Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', '0e23557c11275d16585244671730147418524644',FALSE);
 
 INSERT INTO GEODB.CLIST(ID,"NAME", DESCRIPTION, IMAGE )
 VALUES  (DEFAULT, 'PRETTY HEALTHY', 'EATING A LOT FOR LITTLE MONEY','image'),
@@ -54,43 +54,41 @@ VALUES  (1,2),
         (4,2);
 
 INSERT INTO GEODB.ITEM(IDCAT,ID,CALORIE, "NAME",LOGO, NOTE)
-VALUES (1,DEFAULT, 304, 'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
-       (2,DEFAULT, 389,'chicken','c:\docs\DB_photos\chicken.png','sdflkje'),
-       (3,DEFAULT, 239,'horse','c:\docs\DB_photos\horse.png','sdflkj'),
-       (1,DEFAULT, 769,'cow','c:\docs\DB_photos\cow.png','fdsjlh'),
-       (1,DEFAULT, 868,'beef','c:\docs\DB_photos\beef.png','lkdsfgj'),
-       (1,DEFAULT, 343,'pork','c:\docs\DB_photos\pork.png','orkewjl'),
-       (1,DEFAULT, 234,'ribs','c:\docs\DB_photos\ribs.png','ewlrjk'),
-       (1,DEFAULT, 876,'sausage','c:\docs\DB_photos\sausage.png','reuirre'),
-       (2,DEFAULT,932,'caciotta','c:\docs\DB_photos\caciotta.png','qwerty'),
-       (2,DEFAULT,830, 'yogurt','c:\docs\DB_photos\yogurt.png', 'sdfghj'),
-       (2,DEFAULT,830, 'cheese','c:\docs\DB_photos\cheese.png', 'sdfghj'),  
-       (3,DEFAULT,102,'carrot','c:\docs\DB_photos\carrot.png', 'sdfghj'),
-       (3,DEFAULT,642,'pickle','c:\docs\DB_photos\pickle.png', 'sdfghj'),
-       (3,DEFAULT,242,'salad','c:\docs\DB_photos\salad.png', 'sdfghj'),
-       (3,DEFAULT,152,'spinach','c:\docs\DB_photos\spinach.png', 'sdfghj'),
-       (3,DEFAULT,132,'potato','c:\docs\DB_photos\potato.png', 'sdfghj'),
-       (3,DEFAULT,294, 'tomato','c:\docs\DB_photos\tomato.png', 'sdfghjekrf'),
-       (4,DEFAULT,489,'apple','c:\docs\DB_photos\apple.png', 'texyckv'),
-       (4,DEFAULT,49,'lemon','c:\docs\DB_photos\lemon.png', 'texyckv'),
-       (4,DEFAULT,39,'orange','c:\docs\DB_photos\orange.png', 'texyckv'),
-       (4,DEFAULT,59,'mandarin','c:\docs\DB_photos\mandarin.png', 'texyckv'),
-       (4,DEFAULT,83,'pear','c:\docs\DB_photos\pear.png', 'texyckv'),
-       (4,DEFAULT,39,'strawberry','c:\docs\DB_photos\strawberry.png', 'texyckv'),
-       (4,DEFAULT,76,'raspberry','c:\docs\DB_photos\raspberry.png', 'texyckv'),
-       (4,DEFAULT,49, 'banana','c:\docs\DB_photos\banana.png', 'lieuwhf'),
-       (5,DEFAULT,48, 'pizza','c:\docs\DB_photos\pizza.png', 'fieguwkh'),              
-       (5,DEFAULT,137, 'breadsticks','c:\docs\DB_photos\breadsticks.png', 'feluakh'),
-       (5,DEFAULT,35, 'bread','c:\docs\DB_photos\bread.png', 'feluakh'),
-       (5,DEFAULT,865, 'ciabatt','c:\docs\DB_photos\ciabatt.png', 'feluakh'),
-       (5,DEFAULT,684, 'cracker','c:\docs\DB_photos\cracker.png', 'feluakh'),
-       (5,DEFAULT,76, 'flour','c:\docs\DB_photos\flour.png', 'feluakh'),
-       (5,DEFAULT,34, 'piada','c:\docs\DB_photos\piada.png', 'feluakh'),
-       (5,DEFAULT,98, 'piadina','c:\docs\DB_photos\piadina.png', 'feluakh'),
-       (5,DEFAULT,96, 'burrito','c:\docs\DB_photos\burrito.png', 'feluakh'),
-       (5,DEFAULT,34, 'paella','c:\docs\DB_photos\paella.png', 'feluakh'); 
-
- 
+VALUES (1,DEFAULT,'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
+       (2,DEFAULT,'chicken','c:\docs\DB_photos\chicken.png','sdflkje'),
+       (3,DEFAULT,'horse','c:\docs\DB_photos\horse.png','sdflkj'),
+       (1,DEFAULT,'cow','c:\docs\DB_photos\cow.png','fdsjlh'),
+       (1,DEFAULT,'beef','c:\docs\DB_photos\beef.png','lkdsfgj'),
+       (1,DEFAULT,'pork','c:\docs\DB_photos\pork.png','orkewjl'),
+       (1,DEFAULT,'ribs','c:\docs\DB_photos\ribs.png','ewlrjk'),
+       (1,DEFAULT,'sausage','c:\docs\DB_photos\sausage.png','reuirre'),
+       (2,DEFAULT,'caciotta','c:\docs\DB_photos\caciotta.png','qwerty'),
+       (2,DEFAULT,'yogurt','c:\docs\DB_photos\yogurt.png', 'sdfghj'),
+       (2,DEFAULT,'cheese','c:\docs\DB_photos\cheese.png', 'sdfghj'),  
+       (3,DEFAULT,'carrot','c:\docs\DB_photos\carrot.png', 'sdfghj'),
+       (3,DEFAULT,'pickle','c:\docs\DB_photos\pickle.png', 'sdfghj'),
+       (3,DEFAULT,'salad','c:\docs\DB_photos\salad.png', 'sdfghj'),
+       (3,DEFAULT,'spinach','c:\docs\DB_photos\spinach.png', 'sdfghj'),
+       (3,DEFAULT,'potato','c:\docs\DB_photos\potato.png', 'sdfghj'),
+       (3,DEFAULT,'tomato','c:\docs\DB_photos\tomato.png', 'sdfghjekrf'),
+       (4,DEFAULT,'apple','c:\docs\DB_photos\apple.png', 'texyckv'),
+       (4,DEFAULT,'lemon','c:\docs\DB_photos\lemon.png', 'texyckv'),
+       (4,DEFAULT,'orange','c:\docs\DB_photos\orange.png', 'texyckv'),
+       (4,DEFAULT,'mandarin','c:\docs\DB_photos\mandarin.png', 'texyckv'),
+       (4,DEFAULT,'pear','c:\docs\DB_photos\pear.png', 'texyckv'),
+       (4,DEFAULT,'strawberry','c:\docs\DB_photos\strawberry.png', 'texyckv'),
+       (4,DEFAULT,'raspberry','c:\docs\DB_photos\raspberry.png', 'texyckv'),
+       (4,DEFAULT,'banana','c:\docs\DB_photos\banana.png', 'lieuwhf'),
+       (5,DEFAULT,'pizza','c:\docs\DB_photos\pizza.png', 'fieguwkh'),              
+       (5,DEFAULT,'breadsticks','c:\docs\DB_photos\breadsticks.png', 'feluakh'),
+       (5,DEFAULT,'bread','c:\docs\DB_photos\bread.png', 'feluakh'),
+       (5,DEFAULT,'ciabatt','c:\docs\DB_photos\ciabatt.png', 'feluakh'),
+       (5,DEFAULT,'cracker','c:\docs\DB_photos\cracker.png', 'feluakh'),
+       (5,DEFAULT,'flour','c:\docs\DB_photos\flour.png', 'feluakh'),
+       (5,DEFAULT,'piada','c:\docs\DB_photos\piada.png', 'feluakh'),
+       (5,DEFAULT,'piadina','c:\docs\DB_photos\piadina.png', 'feluakh'),
+       (5,DEFAULT,'burrito','c:\docs\DB_photos\burrito.png', 'feluakh'),
+       (5,DEFAULT,'paella','c:\docs\DB_photos\paella.png', 'feluakh'); 
  
 INSERT INTO GEODB.COMPOSE(LIST,ITEM)
 VALUES (1,1),
@@ -121,4 +119,16 @@ VALUES (1,1),
        (8,2),
        (8,4),
        (8,5);
+
+INSERT INTO GEODB.OWN(IDUSER,IDLIST)
+VALUES (1,1),
+       (1,2),
+       (2,3),
+       (3,4);
+
+
+INSERT INTO GEODB.ACCESS(IDUSER, IDLIST)
+VALUES(1,1),
+      (1,2),
+      (2,1);
 

@@ -12,7 +12,6 @@ package it.unitn.aa1718.webprogramming.geolists.database.models;
 public class Item {
     private long id;
     private long idCat;
-    private String calorie;
     private String name;
     private String logo;
     private String note;
@@ -26,10 +25,9 @@ public class Item {
      * @param logo
      * @param note
      */
-    public Item(long id, long idCat, String calorie, String name, String logo, String note) {
+    public Item(long id, long idCat, String name, String logo, String note) {
         this.id = id;
         this.idCat = idCat;
-        this.calorie = calorie;
         this.name = name;
         this.logo = logo;
         this.note = note;
@@ -44,9 +42,8 @@ public class Item {
      * @param logo
      * @param note
      */
-    public Item(long idCat, String calorie, String name, String logo, String note) {
+    public Item(long idCat, String name, String logo, String note) {
         this.idCat = idCat;
-        this.calorie = calorie;
         this.name = name;
         this.logo = logo;
         this.note = note;
@@ -66,14 +63,6 @@ public class Item {
 
     public void setIdCat(long idCat) {
         this.idCat = idCat;
-    }
-
-    public String getCalorie() {
-        return calorie;
-    }
-
-    public void setCalorie(String calorie) {
-        this.calorie = calorie;
     }
 
     public String getName() {
@@ -124,7 +113,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" + "idItem=" + id + ", idCat=" + idCat + ", calorie=" + calorie + ", name=" + name + ", logo=" + logo + ", note=" + note + '}';
+        return "Item{" + "idItem=" + id + ", idCat=" + idCat + ", name=" + name + ", logo=" + logo + ", note=" + note + '}';
     }
     
 }

@@ -34,36 +34,20 @@
             </c:forEach>
         </div>
         
-        <c:choose>
-            <c:when test="${not empty logged}">
-                <c:if test="${logged}">
-                    <p>User <c:out value="${username}"/> is logged in</p>
-                </c:if>
-                <c:if test="${logged}">
-                    <p>No user for those credentials!</p>
-                    <div class="login-form">
-                    <form method="GET" action="/form-actions/login">
-                        username <input type="text" name="username">
-                        <br/>
-                        password <input type="password" name="password">
-                        <br/>
-                        <input type="submit" value="Submit">
-                    </form>
-                </div>
-                </c:if>
-            </c:when>
-            <c:otherwise>
-                <div class="login-form">
-                    <form method="POST" action="/form-actions/login">
-                        username <input type="text" name="username">
-                        <br/>
-                        password <input type="password" name="password">
-                        <br/>
-                        <input type="submit" value="Submit">
-                    </form>
-                </div>
-            </c:otherwise>
-        </c:choose>
+        <c:if test="${logged}">
+            <p>User <c:out value="${username}"/> is logged in</p>
+        </c:if>
+        <c:if test="${not logged}">
+            <div class="login-form">
+                <form method="POST" action="/form-actions/login">
+                    username <input type="text" name="username">
+                    <br/>
+                    password <input type="password" name="password">
+                    <br/>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </c:if>
         
     </body>
 

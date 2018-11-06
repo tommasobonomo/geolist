@@ -2,15 +2,10 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
-import it.unitn.aa1718.webprogramming.geolists.utility.CookiesManager;
+import it.unitn.aa1718.webprogramming.geolists.utility.CookieManager;
 import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -40,41 +35,34 @@ public class LoginServlet extends HttpServlet {
         
         
         try {    
-            // Attivo la connessione al DB
-            Connection conn = DriverManager.getConnection(DB_URL, "GEODB", "GEODB");
-            
             // Genero l'hash per controllare la password
             String hash = HashGenerator.Hash(request.getParameter("password"));
             
-            //creo lo statement che serve a interrogare il DB
-            Statement stmt = conn.createStatement();
-            String query =    "select * "
-                            + "from users "
-                            + "where username=\'" + request.getParameter("username")
-                            + "\' and password=\'"+ hash +"\'"; //utilizzo l'hash ottenuto prima
-            ResultSet rs = stmt.executeQuery(query);
+            // Uso i DAO per controllare che l'utente ci sia nel database
+            UserDAO db = new UserDAO();
+            User u = null;
             
-            if(rs.next()) {
-                logged = true;
-                username = rs.getString("username");
-                
-                // qui sono sicuro che lo user esiste già
-                System.out.println("USER TROVATO NEL DATABASE");
-                CookiesManager cm = new CookiesManager();
-                User u = new UserDAO().get(username).get();
-                if (u != null){
-                    Cookie c = cm.updateUser("Cookie", u);
-                    //NON FUNZIA!!!
-                    c.setPath("/");
+            try{
+                u = db.get(request.getParameter("username")).get();
+            }catch(Exception e){}
+            
+            if(u != null){
+                String password = u.getPassword();
+                if(password.equals(hash)){
+                    logged = true;
+                    username = u.getUsername();
+
+                    // qui sono sicuro che lo user esiste già
+                    System.out.println("USER TROVATO NEL DATABASE");
+                    CookieManager cm = new CookieManager();
+
+                    Cookie c = cm.setCookieOldUser(u);
                     response.addCookie(c);
-                    System.out.println(c.getValue());
                 }
             }
             
-            conn.close();
-            stmt.close();
             
-        } catch (SQLException | NoSuchAlgorithmException ex) {
+        } catch (NoSuchAlgorithmException ex) {
             System.out.println(ex.toString());
         } 
         
