@@ -27,7 +27,7 @@ public class UserDAO implements CrudDao<User> {
     
     private User createUser(ResultSet rs) throws SQLException {
         return new User(rs.getLong("id"),rs.getString("cookie"),rs.getString("username"), rs.getString("name"), rs.getString("lastname")
-                , rs.getString("email"), rs.getString("password"),rs.getString("image"), rs.getBoolean("admin"));
+                , rs.getString("email"), rs.getString("password"),rs.getString("image"), rs.getString("token"), rs.getBoolean("active"), rs.getBoolean("admin"));
     }
 
     /**
@@ -132,8 +132,8 @@ public class UserDAO implements CrudDao<User> {
      */
     @Override
     public void create(User obj) {
-        String query= "INSERT INTO GEODB.USERS(COOKIE, USERNAME,\"NAME\",LASTNAME,EMAIL,IMAGE, PASSWORD, \"ADMIN\")\n" +
-                        "VALUES (?,?,?,?,?,?,?,?)";
+        String query= "INSERT INTO GEODB.USERS(COOKIE, USERNAME,\"NAME\",LASTNAME,EMAIL,IMAGE, PASSWORD, TOKEN, ACTIVE, \"ADMIN\")\n" +
+                        "VALUES (?,?,?,?,?,?,?,?,?,?)";
         
         try {
             Connection c = Database.openConnection();
@@ -147,7 +147,9 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(5, obj.getEmail());
             ps.setString(6, obj.getImage());
             ps.setString(7, hash(obj.getPassword()));
-            ps.setBoolean(8, obj.isAdmin());
+            ps.setString(8, obj.getToken());
+            ps.setBoolean(9, obj.isActive());
+            ps.setBoolean(10, obj.isAdmin());
             
             ps.executeUpdate();
             ps.close();
@@ -162,7 +164,7 @@ public class UserDAO implements CrudDao<User> {
     @Override
     public void update(long id, User obj) {
         String query="UPDATE Users "
-                + "SET cookie=?, username=?, name=?, lastname=?, email=?, image=?, admin=?"
+                + "SET cookie=?, username=?, name=?, lastname=?, email=?, image=?, token=?, active=?, admin=?"
                 + "WHERE id=?";
         
         try {
@@ -176,8 +178,10 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(4, obj.getLastname());
             ps.setString(5, obj.getEmail());
             ps.setString(6, obj.getImage());
-            ps.setBoolean(7, obj.isAdmin());
-            ps.setLong(8, id);
+            ps.setString(7, obj.getToken());
+            ps.setBoolean(8, obj.isActive());
+            ps.setBoolean(9, obj.isAdmin());
+            ps.setLong(10, id);
             
             ps.executeUpdate();
             ps.close();

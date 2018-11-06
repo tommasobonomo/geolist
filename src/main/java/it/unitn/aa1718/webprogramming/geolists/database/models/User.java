@@ -16,8 +16,10 @@ public class User {
     private String name;
     private String lastname;
     private String email;
-    private String password;
     private String image;
+    private String password;
+    private String token;
+    private boolean isActive;
     private boolean isAdmin;
     
     /**
@@ -30,9 +32,11 @@ public class User {
      * @param email
      * @param password
      * @param image
+     * @param token
+     * @param active
      * @param admin
      */
-    public User(long id,String cookie,String username,String name,String lastname,String email,String password,String image,boolean admin){
+    public User(long id,String cookie,String username,String name,String lastname,String email,String password,String image,String token,boolean active,boolean admin){
         this.id=id;
         this.cookie=cookie;
         this.username=username;
@@ -53,9 +57,11 @@ public class User {
      * @param email
      * @param password
      * @param image
+     * @param token
+     * @param active
      * @param admin
      */
-    public User(String cookie,String username,String name,String lastname,String email,String password,String image,boolean admin){
+    public User(String cookie,String username,String name,String lastname,String email,String password,String image,String token,boolean active,boolean admin){
         this.cookie=cookie;
         this.username=username;
         this.name=name;
@@ -102,6 +108,14 @@ public class User {
         this.isAdmin=admin;
     }
     
+    public void setToken(String token) {
+        this.token = token;
+    }
+    
+    public void setIsActive(boolean active){
+        this.isActive = active;
+    }
+    
     public long getId(){
         return this.id;
     }
@@ -130,12 +144,20 @@ public class User {
         return this.email;
     }
     
+    public String getToken() {
+        return this.token;
+    }
+    
     public String getImage(){
         return this.image;
     }
     
     public boolean isAdmin(){
         return this.isAdmin;
+    }
+    
+    public boolean isActive(){
+        return this.isActive;
     }
 
     @Override

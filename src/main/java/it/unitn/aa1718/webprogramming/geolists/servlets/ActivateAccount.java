@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Lorenzo
  */
-@WebServlet(name = "ActivateAccount", urlPatterns = {"/ActivateAccount"})
 public class ActivateAccount extends HttpServlet {
 
     /**

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unitn.aa1718.webprogramming.geolists.servlets;
+package it.unitn.aa1718.webprogramming.geolists.utility;
 
 import java.util.Date;
 import java.util.Properties;
@@ -12,7 +12,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -33,10 +32,10 @@ public class ConfirmationEmail {
             String host ="smtp.gmail.com" ;
             String ServerEmail = ("geolistunitn");
             String ServerPass = ("Geolist2018");
-            String UserAddress = ("lorenzo.framba6@gmail.com");
+            String UserAddress = (this.UserEmail);
             String from = ("geolistunitn@gmail.com");
             String subject = "This is confirmation number for your GeoList account";
-            String messageText = ("Verification Link ::  "+"http://localhost:8080/geolist/servlets/ActivateAccount?key1="+ UserEmail+"&key2="+Token );
+            String messageText = ("Verification Link ::  "+"http://localhost:8080/geolist/servlets/ActivateAccount?key1="+ this.UserEmail+"&key2="+ this.Token );
             Properties props = new Properties();
             
             props.put("mail.smtp.auth", "true");
@@ -48,13 +47,13 @@ public class ConfirmationEmail {
             java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
             Session mailSession = Session.getDefaultInstance(props, null);
             
-            /*Session mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-                    protected PasswordAuthentification getPasswordAuthentification(){
-                    
-                        return new PasswordAuthentification(ServerEmail,ServerPass);
-                    }
-            });
-            */
+//            Session mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+//                    protected PasswordAuthentification getPasswordAuthentification(){
+//                    
+//                        return new PasswordAuthentification(ServerEmail,ServerPass);
+//                    }
+//            });
+            
         try{
             
             

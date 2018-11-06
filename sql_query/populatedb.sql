@@ -1,6 +1,6 @@
 INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, TOKEN, ACTIVE, "ADMIN")
-VALUES (DEFAULT,null,'rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','4613650b16296964685818117f557e57366f92b', null, FALSE, TRUE),
-       (DEFAULT,null,'gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGE','29707645067686736492cf6e16526b6e4245',null, TRUE,FALSE),
+VALUES (DEFAULT,null,'rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','IMAGEN','4613650b16296964685818117f557e57366f92b', null, FALSE, TRUE),
+       (DEFAULT,null,'gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGEN','29707645067686736492cf6e16526b6e4245',null, TRUE,FALSE),
        (DEFAULT,null,'minestrone','Tommaso','Bonomo','Tommasoni394@gmail.com','IMAGEN','4f4d773a0540130176787a4f1574100759521e',null, TRUE,FALSE),
        (DEFAULT,null,'XDSNIPERXD','Leonardo','Remondini', 'Remoromolo@gmail.com','IMAGEN', '3949350913f2c7e1b31e366c602f4e5a313a75',null, TRUE,FALSE),
        (DEFAULT,null,'piediPiatti','Giorgio','Segalla','Giorgionelo@gmail.com','IMAGEN', '3949350913f2c7e1b31e366c602f4e5a313a75',null, TRUE,FALSE),

@@ -1,5 +1,7 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.utility.ConfirmationEmail;
+import it.unitn.aa1718.webprogramming.geolists.utility.RegisterUser;
 import java.util.Random;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,99 +10,77 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.digest.DigestUtils;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.Database;
-import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 
-@WebServlet(name = "ServletRegister", urlPatterns = {"/register"})
+
 public class ServletRegister extends HttpServlet {
     
     private static final String DB_URL = "jdbc:derby://localhost:1527/GEODB";  // link al database in localhost
 
     Random rand = new Random();
-    String USERNAME, EMAIL, NAME, LASTNAME, PASSWORD, COOKIE,IMAGE,TOKEN;
-    int ID;
-    boolean ADMIN=false, ACTIVE=false;
+    String username, email, name, lastname, password,
+            cookie= Integer.toString(rand.nextInt(5000000)+1), 
+            image = "IMAGEN", token;
+    boolean admin=false, active=false;
 
     /**
      *
      * @param request
      * @param response
-     * @return
      * @throws ServletException
      * @throws IOException
      */
     @Override
-    protected void  doPost(HttpServletRequest request, HttpServletResponse response) //String
+    protected void  doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
-        
-        response.setContentType("text/html;");
-        PrintWriter writer = response.getWriter();
-        
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");            
-        } catch (ClassNotFoundException ex) {
-            System.out.println("DRIVER NON TROVATO");
-        }
+        System.out.println("SONO ENTRATO!");
         
         try {    
+            //connessione al database per salvare nuovo utente
             Connection conn = DriverManager.getConnection(DB_URL, "GEODB", "GEODB");
-            Statement stmt = conn.createStatement();
-            ID = rand.nextInt(1000000)+1;
-            IMAGE = COOKIE = " ";
             
-            USERNAME=request.getParameter("UserName");
-            EMAIL=request.getParameter("Email");
-            NAME=request.getParameter("FirstName");
-            LASTNAME=request.getParameter("LastName");
-            PASSWORD=request.getParameter("Password");
+            //prendo valori variabili dalla richiesta
+            this.username = request.getParameter("UserName");
+            this.email = request.getParameter("Email");
+            this.name = request.getParameter("FirstName");
+            this.lastname = request.getParameter("LastName");
+            this.password = request.getParameter("Password");
             
-            
+            //creo il token (PER ORA A RANDOM)
             Random random = new Random();
-            random.nextInt(999999);
-            TOKEN = DigestUtils.md5Hex(""+random);
+            random.nextInt(999999999);
+            token = DigestUtils.md5Hex(""+random);
             
-            
-            RegisterUser ru = new RegisterUser();
-            ru.setFirstName(NAME);
-            ru.setLastName(LASTNAME);
-            ru.setPassword(PASSWORD);
-            ru.setUserName(USERNAME);
-            ru.setEmail(EMAIL);
-            ru.setToken(NAME);
+            //creo user che andrò a ficcare nel database
+            User u = new User(this.cookie, this.username, this.name, this.lastname, this.email, this.password, this.image, this.token, false, false);
             
             UserDAO UD = new UserDAO();
-            User PERSONA = new User(123213, "", USERNAME, NAME, LASTNAME, EMAIL, PASSWORD, "", false);
-            UD.create(PERSONA);
+            UD.create(u);
            
             
             
             
-            String query=" insert into GEODB.USERS(USERNAME,\"NAME\",LASTNAME,EMAIL,IMAGE, PASSWORD,TOKEN, ACTIVE, \"ADMIN\")"
-                    + " values('"+ID+"','"+COOKIE+"','"+USERNAME+"','"+NAME+"','"+LASTNAME+"','"+EMAIL+"','"+IMAGE+"','"+PASSWORD+"','"+TOKEN+"','"+ACTIVE+"','"+ADMIN+"')";
-            stmt.execute(query);
-            int i=stmt.executeUpdate(query);
-            
-            if(i!=0){
-            
-                ConfirmationEmail se = new ConfirmationEmail(EMAIL,TOKEN);
-                se.sendEmail();
-                conn.close();
-                writer.close();
-                stmt.close();
-                response.sendRedirect("verify.jsp");
-              //  return "SUCCESS";
-            }
-            
+//            String query=" insert into GEODB.USERS(username,\"name\",lastname,email,image, password,token, active, \"admin\")"
+//                    + " values('"+id+"','"+cookie+"','"+username+"','"+name+"','"+lastname+"','"+email+"','"+image+"','"+password+"','"+token+"','"+active+"','"+admin+"')";
+//            stmt.execute(query);
+//            int i=stmt.executeUpdate(query);
+//            
+//            if(i!=0){
+//            
+//                ConfirmationEmail se = new ConfirmationEmail(email,token);
+//                se.sendEmail();
+//                conn.close();
+//                stmt.close();
+//                response.sendRedirect("verify.jsp");
+//              //  return "SUCCESS";
+//            }
+//            
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         }

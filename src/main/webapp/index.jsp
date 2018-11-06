@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Pagina di Registrazione</h1>
-        <form action="ServletRegister" method="POST">
+        <form action="/ServletRegister" method="POST">
             <label>First Name :: </label>
             <input name="FirstName" id="n1" type="text">
             <br>         

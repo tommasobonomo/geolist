@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unitn.aa1718.webprogramming.geolists.servlets;
+package it.unitn.aa1718.webprogramming.geolists.utility;
 
 /**
  *
@@ -16,6 +16,15 @@ public class RegisterUser {
     private String Password;
     private String Email;
     private String Token;
+    
+    public RegisterUser(String username, String firstname, String lastname, String password, String email, String token){
+        this.UserName = username;
+        this.Email = email;
+        this.FirstName = firstname;
+        this.LastName = lastname;
+        this.Password = password;
+        this.Token = token;
+    }
 
     public String getEmail() {
         return Email;
