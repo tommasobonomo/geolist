@@ -60,7 +60,7 @@ public class UserDAO implements CrudDao<User> {
     }
     
     /**
-     * Get a user from id
+     * Get a user from username
      * @param username
      * @return
      */
