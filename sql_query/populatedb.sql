@@ -29,17 +29,21 @@ VALUES  (DEFAULT, 'meat', 'GOOD', 'CIBO'),
         (DEFAULT, 'fruit', 'GOOD', 'CIBO'),
         (DEFAULT, 'bread', 'GOOD', 'CIBO');
 
-INSERT INTO GEODB.LIST(ID,USERCREATOR, IDCAT, "NAME",DESCRIPTION, IMAGE)
-VALUES  (DEFAULT, 1, 1, 'BIRTHDAY', 'SO MUCH FOOD','image'),
-        (DEFAULT, 2, 2, 'GRANDMA', 'GOING TO DIE','image'),
-        (DEFAULT, 3, 3, 'CHEESE', 'CHEESY','image'),
-        (DEFAULT, 4, 4, 'PICNIK', 'SANDWICHES AND STUFF','image'),
-        (DEFAULT, 5, 4, 'COLLEGE', 'CHEAP AND FAT','image'),
-        (DEFAULT, 6, 2, 'WEEKEND', 'OMG LMFAO','image'),
-        (DEFAULT, 7, 1, 'FATTY', 'REALLY NOT GOOD','image'),
-        (DEFAULT, 8, 3, 'FRIEND', 'BROOOOOOOOOOO','image');
-    
+INSERT INTO GEODB.USERSANONIMOUS(ID, COOKIE)
+VALUES (DEFAULT, 'cookiediprova');
 
+INSERT INTO GEODB.LIST(ID,USEROWNER, USERANONOWNER, IDCAT, "NAME",DESCRIPTION, IMAGE)
+VALUES  (DEFAULT, 1, null, 1,  'BIRTHDAY', 'SO MUCH FOOD','image'),
+        (DEFAULT, 1, null, 1,  'LISTA DI PROVA DI RAPPASTA', 'DESCRIZIONE DI POSTA RAPPASTA','image'),
+        (DEFAULT, 2, null, 2, 'GRANDMA', 'GOING TO DIE','image'),
+        (DEFAULT, 3, null, 3, 'CHEESE', 'CHEESY','image'),
+        (DEFAULT, 4, null, 4, 'PICNIK', 'SANDWICHES AND STUFF','image'),
+        (DEFAULT, 5, null, 4, 'COLLEGE', 'CHEAP AND FAT','image'),
+        (DEFAULT, 6, null, 2, 'WEEKEND', 'OMG LMFAO','image'),
+        (DEFAULT, 7, null, 1, 'FATTY', 'REALLY NOT GOOD','image'),
+        (DEFAULT, 8, null, 3, 'FRIEND', 'BROOOOOOOOOOO','image'),
+        (DEFAULT, null, 1, 3, 'LISTA DI PROVA ANONIMA', 'DESCRIZIONE','image');
+    
 
 INSERT INTO GEODB.ISFRIEND(USR1,USR2)
 VALUES  (1,2),
@@ -53,42 +57,42 @@ VALUES  (1,2),
         (2,6),
         (4,2);
 
-INSERT INTO GEODB.ITEM(IDCAT,ID,CALORIE, "NAME",LOGO, NOTE)
-VALUES (1,DEFAULT, 304, 'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
-       (2,DEFAULT, 389,'chicken','c:\docs\DB_photos\chicken.png','sdflkje'),
-       (3,DEFAULT, 239,'horse','c:\docs\DB_photos\horse.png','sdflkj'),
-       (1,DEFAULT, 769,'cow','c:\docs\DB_photos\cow.png','fdsjlh'),
-       (1,DEFAULT, 868,'beef','c:\docs\DB_photos\beef.png','lkdsfgj'),
-       (1,DEFAULT, 343,'pork','c:\docs\DB_photos\pork.png','orkewjl'),
-       (1,DEFAULT, 234,'ribs','c:\docs\DB_photos\ribs.png','ewlrjk'),
-       (1,DEFAULT, 876,'sausage','c:\docs\DB_photos\sausage.png','reuirre'),
-       (2,DEFAULT,932,'caciotta','c:\docs\DB_photos\caciotta.png','qwerty'),
-       (2,DEFAULT,830, 'yogurt','c:\docs\DB_photos\yogurt.png', 'sdfghj'),
-       (2,DEFAULT,830, 'cheese','c:\docs\DB_photos\cheese.png', 'sdfghj'),  
-       (3,DEFAULT,102,'carrot','c:\docs\DB_photos\carrot.png', 'sdfghj'),
-       (3,DEFAULT,642,'pickle','c:\docs\DB_photos\pickle.png', 'sdfghj'),
-       (3,DEFAULT,242,'salad','c:\docs\DB_photos\salad.png', 'sdfghj'),
-       (3,DEFAULT,152,'spinach','c:\docs\DB_photos\spinach.png', 'sdfghj'),
-       (3,DEFAULT,132,'potato','c:\docs\DB_photos\potato.png', 'sdfghj'),
-       (3,DEFAULT,294, 'tomato','c:\docs\DB_photos\tomato.png', 'sdfghjekrf'),
-       (4,DEFAULT,489,'apple','c:\docs\DB_photos\apple.png', 'texyckv'),
-       (4,DEFAULT,49,'lemon','c:\docs\DB_photos\lemon.png', 'texyckv'),
-       (4,DEFAULT,39,'orange','c:\docs\DB_photos\orange.png', 'texyckv'),
-       (4,DEFAULT,59,'mandarin','c:\docs\DB_photos\mandarin.png', 'texyckv'),
-       (4,DEFAULT,83,'pear','c:\docs\DB_photos\pear.png', 'texyckv'),
-       (4,DEFAULT,39,'strawberry','c:\docs\DB_photos\strawberry.png', 'texyckv'),
-       (4,DEFAULT,76,'raspberry','c:\docs\DB_photos\raspberry.png', 'texyckv'),
-       (4,DEFAULT,49, 'banana','c:\docs\DB_photos\banana.png', 'lieuwhf'),
-       (5,DEFAULT,48, 'pizza','c:\docs\DB_photos\pizza.png', 'fieguwkh'),              
-       (5,DEFAULT,137, 'breadsticks','c:\docs\DB_photos\breadsticks.png', 'feluakh'),
-       (5,DEFAULT,35, 'bread','c:\docs\DB_photos\bread.png', 'feluakh'),
-       (5,DEFAULT,865, 'ciabatt','c:\docs\DB_photos\ciabatt.png', 'feluakh'),
-       (5,DEFAULT,684, 'cracker','c:\docs\DB_photos\cracker.png', 'feluakh'),
-       (5,DEFAULT,76, 'flour','c:\docs\DB_photos\flour.png', 'feluakh'),
-       (5,DEFAULT,34, 'piada','c:\docs\DB_photos\piada.png', 'feluakh'),
-       (5,DEFAULT,98, 'piadina','c:\docs\DB_photos\piadina.png', 'feluakh'),
-       (5,DEFAULT,96, 'burrito','c:\docs\DB_photos\burrito.png', 'feluakh'),
-       (5,DEFAULT,34, 'paella','c:\docs\DB_photos\paella.png', 'feluakh'); 
+INSERT INTO GEODB.ITEM(IDCAT,ID,"NAME",LOGO, NOTE)
+VALUES (1,DEFAULT,'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
+       (2,DEFAULT,'chicken','c:\docs\DB_photos\chicken.png','sdflkje'),
+       (3,DEFAULT,'horse','c:\docs\DB_photos\horse.png','sdflkj'),
+       (1,DEFAULT,'cow','c:\docs\DB_photos\cow.png','fdsjlh'),
+       (1,DEFAULT,'beef','c:\docs\DB_photos\beef.png','lkdsfgj'),
+       (1,DEFAULT,'pork','c:\docs\DB_photos\pork.png','orkewjl'),
+       (1,DEFAULT,'ribs','c:\docs\DB_photos\ribs.png','ewlrjk'),
+       (1,DEFAULT,'sausage','c:\docs\DB_photos\sausage.png','reuirre'),
+       (2,DEFAULT,'caciotta','c:\docs\DB_photos\caciotta.png','qwerty'),
+       (2,DEFAULT,'yogurt','c:\docs\DB_photos\yogurt.png', 'sdfghj'),
+       (2,DEFAULT,'cheese','c:\docs\DB_photos\cheese.png', 'sdfghj'),  
+       (3,DEFAULT,'carrot','c:\docs\DB_photos\carrot.png', 'sdfghj'),
+       (3,DEFAULT,'pickle','c:\docs\DB_photos\pickle.png', 'sdfghj'),
+       (3,DEFAULT,'salad','c:\docs\DB_photos\salad.png', 'sdfghj'),
+       (3,DEFAULT,'spinach','c:\docs\DB_photos\spinach.png', 'sdfghj'),
+       (3,DEFAULT,'potato','c:\docs\DB_photos\potato.png', 'sdfghj'),
+       (3,DEFAULT,'tomato','c:\docs\DB_photos\tomato.png', 'sdfghjekrf'),
+       (4,DEFAULT,'apple','c:\docs\DB_photos\apple.png', 'texyckv'),
+       (4,DEFAULT,'lemon','c:\docs\DB_photos\lemon.png', 'texyckv'),
+       (4,DEFAULT,'orange','c:\docs\DB_photos\orange.png', 'texyckv'),
+       (4,DEFAULT,'mandarin','c:\docs\DB_photos\mandarin.png', 'texyckv'),
+       (4,DEFAULT,'pear','c:\docs\DB_photos\pear.png', 'texyckv'),
+       (4,DEFAULT,'strawberry','c:\docs\DB_photos\strawberry.png', 'texyckv'),
+       (4,DEFAULT,'raspberry','c:\docs\DB_photos\raspberry.png', 'texyckv'),
+       (4,DEFAULT,'banana','c:\docs\DB_photos\banana.png', 'lieuwhf'),
+       (5,DEFAULT,'pizza','c:\docs\DB_photos\pizza.png', 'fieguwkh'),              
+       (5,DEFAULT,'breadsticks','c:\docs\DB_photos\breadsticks.png', 'feluakh'),
+       (5,DEFAULT,'bread','c:\docs\DB_photos\bread.png', 'feluakh'),
+       (5,DEFAULT,'ciabatt','c:\docs\DB_photos\ciabatt.png', 'feluakh'),
+       (5,DEFAULT,'cracker','c:\docs\DB_photos\cracker.png', 'feluakh'),
+       (5,DEFAULT,'flour','c:\docs\DB_photos\flour.png', 'feluakh'),
+       (5,DEFAULT,'piada','c:\docs\DB_photos\piada.png', 'feluakh'),
+       (5,DEFAULT,'piadina','c:\docs\DB_photos\piadina.png', 'feluakh'),
+       (5,DEFAULT,'burrito','c:\docs\DB_photos\burrito.png', 'feluakh'),
+       (5,DEFAULT,'paella','c:\docs\DB_photos\paella.png', 'feluakh'); 
 
  
  
@@ -121,13 +125,6 @@ VALUES (1,1),
        (8,2),
        (8,4),
        (8,5);
-
-
-INSERT INTO GEODB.OWN(IDUSER,IDLIST)
-VALUES (1,1),
-       (1,2),
-       (2,3),
-       (3,4);
 
 
 INSERT INTO GEODB.ACCESS(IDUSER, IDLIST)

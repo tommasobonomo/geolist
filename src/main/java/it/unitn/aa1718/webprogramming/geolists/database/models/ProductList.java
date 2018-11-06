@@ -12,42 +12,45 @@ package it.unitn.aa1718.webprogramming.geolists.database.models;
 public class ProductList {
 
     private long id;
-    private long userCreator;
+    private long userOwner;
+    private long userAnonOwner;
     private long idCat;
     private String name;
     private String description;
     private String image;
 
     /**
-     *  constructor with all element
-     * 
+     * constructor with id
      * @param id
-     * @param userCreator
+     * @param userOwner
+     * @param userAnonOwner
      * @param idCat
      * @param name
      * @param description
      * @param image
      */
-    public ProductList(long id, long userCreator, long idCat, String name, String description, String image) {
+    public ProductList(long id, long userOwner, long userAnonOwner, long idCat, String name, String description, String image) {
         this.id = id;
-        this.userCreator = userCreator;
+        this.userOwner = userOwner;
+        this.userAnonOwner = userAnonOwner;
         this.idCat = idCat;
         this.name = name;
         this.description = description;
         this.image = image;
     }
-    
+  
     /**
      * constructor without id
-     *
-     * @param userCreator
+     * @param userOwner
+     * @param userAnonOwner
      * @param idCat
      * @param name
      * @param description
      * @param image
      */
-    public ProductList(long userCreator, long idCat, String name, String description, String image) {
-        this.userCreator = userCreator;
+    public ProductList(long userOwner, long userAnonOwner, long idCat, String name, String description, String image) {
+        this.userOwner = userOwner;
+        this.userAnonOwner = userAnonOwner;
         this.idCat = idCat;
         this.name = name;
         this.description = description;
@@ -62,14 +65,22 @@ public class ProductList {
         this.id = id;
     }
 
-    public long getUserCreator() {
-        return userCreator;
+    public long getUserOwner() {
+        return userOwner;
     }
 
-    public void setUserCreator(long userCreator) {
-        this.userCreator = userCreator;
+    public void setUserOwner(long userOwner) {
+        this.userOwner = userOwner;
+    }
+    
+    public long getUserAnonOwner() {
+        return userAnonOwner;
     }
 
+    public void setUserAnonOwner(long userAnonOwner) {
+        this.userAnonOwner = userAnonOwner;
+    }
+    
     public long getIdCat() {
         return idCat;
     }
@@ -126,7 +137,7 @@ public class ProductList {
 
     @Override
     public String toString() {
-        return "List{" + "id=" + id + ", userCreator=" + userCreator + ", idCat=" + idCat + ", name=" + name + ", description=" + description + ", image=" + image + '}';
+        return "List{" + "id=" + id + ", userCreator=" + userOwner + ", idCat=" + idCat + ", name=" + name + ", description=" + description + ", image=" + image + '}';
     }
   
 }

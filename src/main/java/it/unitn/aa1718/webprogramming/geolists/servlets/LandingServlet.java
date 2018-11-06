@@ -8,7 +8,6 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.OwnAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
@@ -72,15 +71,17 @@ public class LandingServlet extends HttpServlet {
         ItemDAO itemDAO = new ItemDAO();
         ComposeDAO composedDAO = new ComposeDAO();
         AccessDAO accessDAO = new AccessDAO();
-        OwnAnonimousDAO ownAnonimDAO = new OwnAnonimousDAO();
         
         
         // Get the names of all the lists
         List<ProductList> listOfPL = null;
         if(u != null)
-            listOfPL = accessDAO.getList(u.getId());
-        else if (ua != null)
-            listOfPL = ownAnonimDAO.getList(ua.getId());
+            listOfPL = plistDAO.getListUser(u.getId());
+        else if (ua != null){
+            listOfPL = plistDAO.getListAnon(ua.getId());
+            System.out.println("ID USER ANONIMO " +ua.getId());
+            System.out.println("COOKIE ANONIMO ATTUALE " + ua.getCookie());
+        }
         else
             listOfPL = plistDAO.getAll();
         request.setAttribute("listOfPL", listOfPL);

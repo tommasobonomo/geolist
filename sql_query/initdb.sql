@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id INTEGER GENERATED ALWAYS AS IDENTITY,
     cookie VARCHAR(30),
     username VARCHAR(30) NOT NULL UNIQUE, 
     name VARCHAR(30) NOT NULL ,
@@ -32,7 +32,7 @@ CREATE TABLE email(
 );
 
 CREATE TABLE usersanonimous (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id INTEGER GENERATED ALWAYS AS IDENTITY,
     cookie VARCHAR(30) NOT NULL UNIQUE,
     CONSTRAINT useranonimous_pk PRIMARY KEY (id)
 );
@@ -48,13 +48,17 @@ CREATE TABLE clist (
 
 CREATE TABLE list (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
-    usercreator INTEGER,  
+    userowner INTEGER,
+    useranonowner INTEGER UNIQUE,
     idcat INTEGER,
     "NAME" VARCHAR(30),
     description VARCHAR(30),
     image VARCHAR(50),
-    FOREIGN KEY (usercreator) 
+    FOREIGN KEY (userowner) 
         REFERENCES users(id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (useranonowner)
+        REFERENCES usersanonimous(id)
         ON DELETE CASCADE,
     FOREIGN KEY (idcat) 
         REFERENCES clist(id)
@@ -77,7 +81,6 @@ CREATE TABLE item (
     FOREIGN KEY (idcat) 
         REFERENCES citem(id)
         ON DELETE CASCADE,
-    calorie INTEGER,
     "NAME" VARCHAR(30),
     logo VARCHAR(50),
     note VARCHAR(30),
@@ -118,29 +121,16 @@ CREATE TABLE access(
     FOREIGN KEY (idlist) 
         REFERENCES list(id)
         ON DELETE CASCADE,
-    primary key (iduser, idlist)    
+    PRIMARY KEY (iduser, idlist)    
 );
 
-CREATE TABLE own(
-    iduser INTEGER,
-    idlist INTEGER,
-    FOREIGN KEY (iduser) 
-        REFERENCES users(id)
+CREATE TABLE productsoflists(
+    idlistcat INTEGER,
+    idprodcat INTEGER,
+    FOREIGN KEY (idlistcat)
+        REFERENCES clist(id)
         ON DELETE CASCADE,
-    FOREIGN KEY (idlist) 
-        REFERENCES list(id)
-        ON DELETE CASCADE,
-    primary key (idlist)    
-);
-
-CREATE TABLE ownAnonimous(
-    idUserAnonimous INTEGER,
-    idList INTEGER,
-    FOREIGN KEY (idUserAnonimous) 
-        REFERENCES usersAnonimous(id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (idList) 
-        REFERENCES list(id)
-        ON DELETE CASCADE,
-    primary key (idUserAnonimous)    
-);
+    FOREIGN KEY (idprodcat)
+        REFERENCES citem(id)
+        ON DELETE CASCADE
+);    

@@ -22,7 +22,7 @@ import java.util.Optional;
 public class ProductListDAO implements CrudDao<ProductList> {
 
     private ProductList createProductList(ResultSet rs) throws SQLException {
-        return new ProductList(rs.getLong("id"),rs.getLong("userCreator"), rs.getLong("idCat"),
+        return new ProductList(rs.getLong("id"),rs.getLong("userowner"),rs.getLong("useranonowner"), rs.getLong("idCat"),
             rs.getString("name"),rs.getString("description"), rs.getString("image"));        
     }
     
@@ -83,7 +83,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             PreparedStatement ps = c.prepareStatement(query);
             
 
-            ps.setLong(1, obj.getUserCreator());
+            ps.setLong(1, obj.getUserOwner());
             ps.setLong(2, obj.getIdCat());
             ps.setString(3, obj.getName());
             ps.setString(4, obj.getDescription());
@@ -109,7 +109,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             PreparedStatement ps = c.prepareStatement(query);
             
 
-            ps.setLong(1, obj.getUserCreator());
+            ps.setLong(1, obj.getUserOwner());
             ps.setLong(2, obj.getIdCat());
             ps.setString(3, obj.getName());
             ps.setString(4, obj.getDescription());
@@ -145,5 +145,56 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ex.printStackTrace();
         }
     }
+    
+    /**
+     * restituisce tutte le liste di un utente loggato
+     * @param userID
+     */
+    public List<ProductList> getListUser(long userID) {
+        String query = "SELECT * FROM List AS L WHERE L.userowner = " + userID;
+        List<ProductList> list = new ArrayList<>();
+        ProductListDAO a = new ProductListDAO();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while (rs.next()) {
+                list.add(a.get(rs.getLong("id")).get());
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return list;
+    }
+    
+    /**
+     * restituisce la lista di un utente anonimo
+     * @param userAnonID
+     */
+    public List<ProductList> getListAnon(long userAnonID) {
+        String query = "SELECT * FROM List AS L WHERE L.useranonowner = " + userAnonID;
+        List<ProductList> list = new ArrayList<>();
+        ProductListDAO a = new ProductListDAO();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while (rs.next()) {
+                list.add(a.get(rs.getLong("id")).get());
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return list;
+    }
+    
     
 }
