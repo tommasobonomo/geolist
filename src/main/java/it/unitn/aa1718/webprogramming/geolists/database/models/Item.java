@@ -10,15 +10,41 @@ package it.unitn.aa1718.webprogramming.geolists.database.models;
  * @author tommaso
  */
 public class Item {
-    private long idItem;
+    private long id;
     private long idCat;
     private String calorie;
     private String name;
     private String logo;
     private String note;
 
-    public Item(long idItem, long idCat, String calorie, String name, String logo, String note) {
-        this.idItem = idItem;
+    /**
+     * constructor with all field
+     * @param id
+     * @param idCat
+     * @param calorie
+     * @param name
+     * @param logo
+     * @param note
+     */
+    public Item(long id, long idCat, String calorie, String name, String logo, String note) {
+        this.id = id;
+        this.idCat = idCat;
+        this.calorie = calorie;
+        this.name = name;
+        this.logo = logo;
+        this.note = note;
+    }
+    
+    /**
+     * constructor without id
+     *
+     * @param idCat
+     * @param calorie
+     * @param name
+     * @param logo
+     * @param note
+     */
+    public Item(long idCat, String calorie, String name, String logo, String note) {
         this.idCat = idCat;
         this.calorie = calorie;
         this.name = name;
@@ -26,12 +52,12 @@ public class Item {
         this.note = note;
     }
 
-    public long getIdItem() {
-        return idItem;
+    public long getId() {
+        return id;
     }
 
-    public void setIdItem(long idItem) {
-        this.idItem = idItem;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getIdCat() {
@@ -77,7 +103,7 @@ public class Item {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 59 * hash + (int) (this.idItem ^ (this.idItem >>> 32));
+        hash = 59 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 
@@ -93,12 +119,12 @@ public class Item {
             return false;
         }
         final Item other = (Item) obj;
-        return this.idItem == other.idItem;
+        return this.id == other.id;
     }
 
     @Override
     public String toString() {
-        return "Item{" + "idItem=" + idItem + ", idCat=" + idCat + ", calorie=" + calorie + ", name=" + name + ", logo=" + logo + ", note=" + note + '}';
+        return "Item{" + "idItem=" + id + ", idCat=" + idCat + ", calorie=" + calorie + ", name=" + name + ", logo=" + logo + ", note=" + note + '}';
     }
     
 }

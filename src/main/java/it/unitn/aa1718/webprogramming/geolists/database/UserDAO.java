@@ -60,8 +60,8 @@ public class UserDAO implements CrudDao<User> {
     }
     
     /**
-     * Get a user from id
-     * @param id
+     * Get a user from username
+     * @param username
      * @return
      */
     public Optional<User> get(String username) {

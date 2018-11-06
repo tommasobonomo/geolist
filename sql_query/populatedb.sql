@@ -1,16 +1,16 @@
-INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD,TOKEN,ACTIVE, "ADMIN")
-VALUES (DEFAULT,' ','rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','4613-650b16-29696468-5818-11-7f-55-7e-5736-6f-9-2b','',FALSE,TRUE),
-       (DEFAULT,' ','gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGE','29-7076-4506768-67-36-49-2-c-f6e16526b-6e-4245','',FALSE,FALSE),
-       (DEFAULT,' ','minestrone','Tommaso','Bonomo','Tommasoni394@gmail.com','IMAGEN','-4f-4d773a05-40-130176787a4f1574-10075-9521e','',FALSE,FALSE),
-       (DEFAULT,' ','XDSNIPERXD','Leonardo','Remondini', 'Remoromolo@gmail.com','IMAGEN', '39493509-13f-2c7e-1b-3-1e-366c-60-2f-4e5a-313a75','',FALSE,FALSE),
-       (DEFAULT,' ','piediPiatti','Giorgio','Segalla','Giorgionelo@gmail.com','IMAGEN', '39493509-13f-2c7e-1b-3-1e-366c-60-2f-4e5a-313a75','',FALSE,FALSE),
-       (DEFAULT,' ','Maialino69','Marta','Tonnona', 'Martinasesso@gmail.com','IMAGEN', '6b-8-8-7a3f2035320026-360-3f-6773c-f09-33-6a','',FALSE,FALSE),
-       (DEFAULT,' ','Fratak','Elia','Salame','piselloni@gmail.com','IMAGEN', '27-2b-33-57425e-2-6-38-11-3-44-c636c-401b25-40-7a','',FALSE,FALSE),
-       (DEFAULT,' ','OrcoBue','Luca', 'Rossi', 'marione@gmail.com','IMAGEN', '42-a-497b-6c62-4474-15-483e173a21-17-5a64-666e-65','',FALSE,FALSE),
-       (DEFAULT,' ','Iphonneeee','Nicola','Nicoli', 'naso@gmail.com','IMAGEN', '-5b-41455d06-3c7b-7e-1c-7e-69-7a2526-1c-5f-7c-53-27-80','',FALSE,FALSE),
-       (DEFAULT,' ','Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', '0e2355-7c11-275d-16-5852-44-67-1730147418-524644','',FALSE,FALSE);
+INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, TOKEN, ACTIVE, "ADMIN")
+VALUES (DEFAULT,null,'rappasta', 'Lorenzo', 'Framba', 'Lorenzoframba@gmail.com','image','4613650b16296964685818117f557e57366f92b', null, FALSE, TRUE),
+       (DEFAULT,null,'gesuSesso','Mattia', 'Molon','Molon@gmail.com','IMAGE','29707645067686736492cf6e16526b6e4245',null, TRUE,FALSE),
+       (DEFAULT,null,'minestrone','Tommaso','Bonomo','Tommasoni394@gmail.com','IMAGEN','4f4d773a0540130176787a4f1574100759521e',null, TRUE,FALSE),
+       (DEFAULT,null,'XDSNIPERXD','Leonardo','Remondini', 'Remoromolo@gmail.com','IMAGEN', '3949350913f2c7e1b31e366c602f4e5a313a75',null, TRUE,FALSE),
+       (DEFAULT,null,'piediPiatti','Giorgio','Segalla','Giorgionelo@gmail.com','IMAGEN', '3949350913f2c7e1b31e366c602f4e5a313a75',null, TRUE,FALSE),
+       (DEFAULT,null,'Maialino69','Marta','Tonnona', 'Martinasesso@gmail.com','IMAGEN', '6b887a3f20353200263603f6773cf09336a',null, TRUE,FALSE),
+       (DEFAULT,null,'Fratak','Elia','Salame','piselloni@gmail.com','IMAGEN', '272b3357425e263811344c636c401b25407a',null, TRUE,FALSE),
+       (DEFAULT,null,'OrcoBue','Luca', 'Rossi', 'marione@gmail.com','IMAGEN', '42a497b6c62447415483e173a21175a64666e65',null, TRUE,FALSE),
+       (DEFAULT,null,'Iphonneeee','Nicola','Nicoli', 'naso@gmail.com','IMAGEN', '5b41455d063c7b7e1c7e697a25261c5f7c532780',null, TRUE,FALSE),
+       (DEFAULT,null,'Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', '0e23557c11275d16585244671730147418524644',null, TRUE,FALSE);
 
-INSERT INTO GEODB.CLIST(IDCATEGORY,"NAME", DESCRIPTION, IMAGE )
+INSERT INTO GEODB.CLIST(ID,"NAME", DESCRIPTION, IMAGE )
 VALUES  (DEFAULT, 'PRETTY HEALTHY', 'EATING A LOT FOR LITTLE MONEY','image'),
         (DEFAULT, 'PRETTY UNHEALTHY', 'EATING BADLY FOR LITTLE MONEY','image'),
         (DEFAULT, 'PRETTY AVERAGE', 'SHYLY EATING ','image'),
@@ -22,14 +22,14 @@ VALUES  (DEFAULT, 'PRETTY HEALTHY', 'EATING A LOT FOR LITTLE MONEY','image'),
         (DEFAULT, 'PRETTY EXPENSIVE', 'WASTING SHIT ON FOOD','image');
 
 
-INSERT INTO GEODB.CITEM(IDCATEGORY,"NAME",DESCRIPTION, IMAGE)
+INSERT INTO GEODB.CITEM(ID,"NAME",DESCRIPTION, IMAGE)
 VALUES  (DEFAULT, 'meat', 'GOOD', 'CIBO'),
         (DEFAULT, 'fridge', 'GOOD', 'CIBO'),
         (DEFAULT, 'vegetable', 'GOOD', 'CIBO'),
         (DEFAULT, 'fruit', 'GOOD', 'CIBO'),
         (DEFAULT, 'bread', 'GOOD', 'CIBO');
 
-INSERT INTO GEODB.LIST(IDLIST,USERCREATOR, IDCAT, "NAME",DESCRIPTION, IMAGE)
+INSERT INTO GEODB.LIST(ID,USERCREATOR, IDCAT, "NAME",DESCRIPTION, IMAGE)
 VALUES  (DEFAULT, 1, 1, 'BIRTHDAY', 'SO MUCH FOOD','image'),
         (DEFAULT, 2, 2, 'GRANDMA', 'GOING TO DIE','image'),
         (DEFAULT, 3, 3, 'CHEESE', 'CHEESY','image'),
@@ -53,7 +53,7 @@ VALUES  (1,2),
         (2,6),
         (4,2);
 
-INSERT INTO GEODB.ITEM(IDDCAT,IDITEM,CALORIE, "NAME",LOGO, NOTE)
+INSERT INTO GEODB.ITEM(IDCAT,ID,CALORIE, "NAME",LOGO, NOTE)
 VALUES (1,DEFAULT, 304, 'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
        (2,DEFAULT, 389,'chicken','c:\docs\DB_photos\chicken.png','sdflkje'),
        (3,DEFAULT, 239,'horse','c:\docs\DB_photos\horse.png','sdflkj'),
@@ -92,7 +92,7 @@ VALUES (1,DEFAULT, 304, 'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
 
  
  
-INSERT INTO GEODB.COMPOSE(CCLIST,CCITEM)
+INSERT INTO GEODB.COMPOSE(LIST,ITEM)
 VALUES (1,1),
        (1,2),
        (1,3),
@@ -121,4 +121,17 @@ VALUES (1,1),
        (8,2),
        (8,4),
        (8,5);
+
+
+INSERT INTO GEODB.OWN(IDUSER,IDLIST)
+VALUES (1,1),
+       (1,2),
+       (2,3),
+       (3,4);
+
+
+INSERT INTO GEODB.ACCESS(IDUSER, IDLIST)
+VALUES(1,1),
+      (1,2),
+      (2,1);
 

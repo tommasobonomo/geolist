@@ -8,6 +8,7 @@ package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,14 +23,14 @@ import java.util.Optional;
 public class ItemDAO implements CrudDao<Item>{
 
     private Item createItem(ResultSet rs) throws SQLException {
-        return new Item(rs.getLong("idItem"), rs.getLong("iddCat"), rs.getString("calorie"),
+        return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("calorie"),
                 rs.getString("name"), rs.getString("logo"), rs.getString("note"));
     }
     
     @Override
     public Optional<Item> get(long id) {
         
-        String query = "SELECT * FROM Item AS I WHERE I.idItem = " + id;
+        String query = "SELECT * FROM Item AS I WHERE I.id = " + id;
         
         try {
             Connection c = Database.openConnection();
@@ -76,17 +77,74 @@ public class ItemDAO implements CrudDao<Item>{
 
     @Override
     public void create(Item obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query= "INSERT INTO GEODB.ITEM(IDCAT, CALORIE,\"NAME\",LOGO,NOTE)\n" +
+                        "VALUES (?,?,?,?,?)";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+
+            ps.setLong(1, obj.getIdCat());
+            ps.setString(2, obj.getCalorie());
+            ps.setString(3, obj.getName());
+            ps.setString(4, obj.getLogo());
+            ps.setString(5, obj.getNote());
+            
+            ps.executeUpdate();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
     public void update(long id, Item obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query="UPDATE Item "
+                + "SET idcat=?, calorie=?, name=?, logo=?, note=?"
+                + "WHERE id=?";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+
+            ps.setLong(1, obj.getIdCat());
+            ps.setString(2, obj.getCalorie());
+            ps.setString(3, obj.getName());
+            ps.setString(4, obj.getLogo());
+            ps.setString(5, obj.getNote());
+            ps.setLong(6, id);
+            
+            ps.executeUpdate();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
     }
 
     @Override
     public void delete(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query ="DELETE FROM Item WHERE id=?";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+
+            ps.setLong(1, id);
+            
+            ps.executeUpdate();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
     
 }

@@ -11,15 +11,25 @@ package it.unitn.aa1718.webprogramming.geolists.database.models;
  */
 public class ProductList {
 
-    private long idList;
-    private String userCreator;
+    private long id;
+    private long userCreator;
     private long idCat;
     private String name;
     private String description;
     private String image;
 
-    public ProductList(long idList, String userCreator, long idCat, String name, String description, String image) {
-        this.idList = idList;
+    /**
+     *  constructor with all element
+     * 
+     * @param id
+     * @param userCreator
+     * @param idCat
+     * @param name
+     * @param description
+     * @param image
+     */
+    public ProductList(long id, long userCreator, long idCat, String name, String description, String image) {
+        this.id = id;
         this.userCreator = userCreator;
         this.idCat = idCat;
         this.name = name;
@@ -27,19 +37,36 @@ public class ProductList {
         this.image = image;
     }
     
-    public long getIdList() {
-        return idList;
+    /**
+     * constructor without id
+     *
+     * @param userCreator
+     * @param idCat
+     * @param name
+     * @param description
+     * @param image
+     */
+    public ProductList(long userCreator, long idCat, String name, String description, String image) {
+        this.userCreator = userCreator;
+        this.idCat = idCat;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+    }
+    
+    public long getId() {
+        return id;
     }
 
-    public void setIdList(long idList) {
-        this.idList = idList;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getUserCreator() {
+    public long getUserCreator() {
         return userCreator;
     }
 
-    public void setUserCreator(String userCreator) {
+    public void setUserCreator(long userCreator) {
         this.userCreator = userCreator;
     }
 
@@ -78,7 +105,7 @@ public class ProductList {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 19 * hash + (int) (this.idList ^ (this.idList >>> 32));
+        hash = 19 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 
@@ -94,11 +121,12 @@ public class ProductList {
             return false;
         }
         final ProductList other = (ProductList) obj;
-        return this.idList == other.idList;
+        return this.id == other.id;
     }
 
     @Override
     public String toString() {
-        return "List{" + "idList=" + idList + ", userCreator=" + userCreator + ", idCat=" + idCat + ", name=" + name + ", description=" + description + ", image=" + image + '}';
-    }   
+        return "List{" + "id=" + id + ", userCreator=" + userCreator + ", idCat=" + idCat + ", name=" + name + ", description=" + description + ", image=" + image + '}';
+    }
+  
 }

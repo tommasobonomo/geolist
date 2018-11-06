@@ -167,7 +167,7 @@ public class User {
     public String toString(){
         return "id: "+this.id+"username: "+this.username+" name: "+this.name +
                             " lastname: "+this.lastname+" password: "+this.password+
-                            " isAdmin? "+this.isAdmin;
+                            " isAdmin? "+this.isAdmin+" cookie:"+this.cookie;
     }
     
 }
