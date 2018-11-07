@@ -3,12 +3,15 @@ package it.unitn.aa1718.webprogramming.geolists.utility;
 
 import java.util.Date;
 import java.util.Properties;
+import javax.mail.Authenticator;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.PasswordAuthentication;
+
 
 /**
  * @author Lorenzo
@@ -29,50 +32,51 @@ public class EmailSender {
 
     
     public void sendEmail(){
+        
+        
         String host ="smtp.gmail.com" ;
-        final String ServerEmail = ("geolistunitn");
-        final String ServerPass = ("Geolist2018");
         String UserAddress = (this.userEmail);
         String from = ("geolistunitn@gmail.com");
         String subject = "This is confirmation number for your GeoList account";
-        String messageText = ("Verification Link :: http://localhost:8080/geolist/servlets/ActivateAccount?key1="+ this.userEmail+"&key2="+ this.token );
+        String messageText = (" Hello, Thanks for Subscribing to Our Website"
+                + "Click the link to activate your account "
+                + "Verification Link :: http://localhost:8080/geolist/servlets/ActivateAccount?key1="+ this.userEmail+"&key2="+ this.token );
         Properties props = new Properties();
 
+        Authenticator auth = new SMTPAuthenticator();
+        
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);    
-        props.put("mail.smtp.port", "587");//465
+        props.put("mail.smtp.port", "587");
 
-        //props.put("mail.smtp.starttls.required", "true");
+        Session mailSession = Session.getDefaultInstance(props, auth);
         java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         
-
-//            Session mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-//                    protected PasswordAuthentication getPasswordAuthentification(){
-//                        return new PasswordAuthentication(ServerEmail,ServerPass);
-//                    }
-//            });
-            
         try{
-            
-            
             InternetAddress[] address = {new InternetAddress(UserAddress)};
             
             Message messaggio = new MimeMessage(mailSession);
-            messaggio.setFrom(new InternetAddress(from));
+            
+            messaggio.setFrom(new InternetAddress("geolistunitn@gmail.com"));
             messaggio.setRecipients(Message.RecipientType.TO, address);
             messaggio.setSubject(subject); 
             messaggio.setSentDate(new Date());
             messaggio.setText(messageText);
-
             Transport.send(messaggio);
-           
-           
-        }catch(Exception ex)
+        }catch(MessagingException ex)
         {
-            System.out.println("SendingEmail..x "+ex);
+            System.out.println("SendingEmail....x "+ex);
         }
 
     }
         
+    
+       private class SMTPAuthenticator extends javax.mail.Authenticator {
+        public PasswordAuthentication getPasswordAuthentication() {
+           String username = "geolistunitn";
+           String password = "Geolist2018";
+           return new PasswordAuthentication(username, password);
+        }
+    }
 }
