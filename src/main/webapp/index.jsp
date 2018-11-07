@@ -13,24 +13,18 @@
     </head>
     <body>
         <h1>Pagina di Registrazione</h1>
-        <form action="/ServletRegister" method="POST">
-            <label>First Name :: </label>
-            <input name="FirstName" id="n1" type="text">
-            <br>         
-            <label>Last Name :: </label>
-            <input name="LastName" id="n2" type="text">
-            <br>            
-            <label>UserName :: </label>
-            <input name="UserName" id="n3" type="text">
-            <br>            
-            <label>Email :: </label>
-            <input name="Email" id="n4" type="text">
-            <br>            
-            <label>Password :: </label>
-            <input name="Password" id="n5" type="password">
-            <br>            
-            <input name="Confirm" id="Submit" type="submit">
-            <br> 
+        <form method="POST" action="/form-actions/register">
+            first name <input type="text" name="FirstName">
+            <br/>
+            last name <input type="text" name="LastName">
+            <br/>
+            username <input type="text" name="UserName">
+            <br/>
+            email <input type="email" name="Email">
+            <br/>
+            password <input type="password" name="Password">
+            <br/>
+            <input type="submit" value="Submit">
         </form>
     </body>
 </html>

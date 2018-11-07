@@ -38,11 +38,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletRegister</servlet-name>
-        <url-pattern>/register</url-pattern> 
+        <url-pattern>/form-actions/register</url-pattern> 
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ActivateAccount</servlet-name>
-        <url-pattern>/ActivateAccount</url-pattern>
+        <url-pattern>/activateAccount</url-pattern>
     </servlet-mapping>
     
 </web-app>
