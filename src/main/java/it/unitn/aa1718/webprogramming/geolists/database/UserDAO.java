@@ -59,11 +59,42 @@ public class UserDAO implements CrudDao<User> {
         return Optional.of(u);
     }
     
-  
-     /**
+
+    /**
+     * Get a user from cookie value
+     * @param cookie
+     * @return user with that cookie
+     */
+    public Optional<User> getUser(String cookie) {
+        String query= "SELECT * FROM Users as U WHERE U.cookie=?";
+        User u=null;
+        
+        try {
+            Connection c = Database.openConnection();
+            
+            PreparedStatement ps = c.prepareStatement(query);
+            ps.setString(1, cookie);
+            
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                u=createUser(rs);
+            }
+        
+            rs.close();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }        
+        return Optional.of(u);
+    }
+    
+    /**
+     * added the method for get user from cookie
      * Get a user from username
      * @param username
-     * @return
+     * @return 
      */
     
     public Optional<User> get(String username) {
