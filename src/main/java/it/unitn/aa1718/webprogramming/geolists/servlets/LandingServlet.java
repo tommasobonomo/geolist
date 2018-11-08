@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,66 +47,104 @@ public class LandingServlet extends HttpServlet {
 
         //Richiedo i cookie in ingresso e controllo che faccia parte di un utente loggato
         //oppure di uno anonimo
-        User u = null; UserAnonimous ua = null;
+        
+        // Valori da ritornare alla JSP
+        List<ProductList> listOfPL;
+        Map<Long,List<Item>> itemsOfList;
+        String username;
+        
+        // User e UserAnonimous, a seconda di quale user abbiamo        
+        Optional<User> userOpt = Optional.empty();
+        Optional<UserAnonimous> userAnonOpt = Optional.empty();
+        boolean alreadyLogged = false;
+        
+        // Gestione cookie
         if("/".equals(request.getRequestURI())){
             CookieManager cm = new CookieManager(request.getCookies());
-            u = cm.checkExistenceUser();
-            if (u == null){     // se non è un utente registrato controllo che sia anonimo
+            userOpt = cm.checkExistenceUser();
+            userAnonOpt = cm.checkExistenceAnonimous();
+            if (!userOpt.isPresent()){ // se non è un utente registrato controllo che sia anonimo
                 request.getSession().setAttribute("logged", false);
-                ua = cm.checkExistenceAnonimous();
-                if(ua == null){     // se non è nemmeno anonimo ne creo uno anonimo
-                    Cookie c = cm.createAnonimous(response);
-                    response.addCookie(c);
+                userAnonOpt = cm.checkExistenceAnonimous();
+                if(!userAnonOpt.isPresent()){     // se non è nemmeno anonimo ne creo uno anonimo
+                    userAnonOpt = cm.createAnonimous(response);
+                    alreadyLogged = true; // se non è un utente, allora è il primo login
                     System.out.println("CREO UTENTE ANONIMO PER IL PRIMO LOGIN");
                 }
             }
         }
-      
-        response.setContentType("text/html;charset=UTF-8");
         
-        
-        // variabili varie
-        ProductListDAO plistDAO = new ProductListDAO();
-        ItemDAO itemDAO = new ItemDAO();
-        ComposeDAO composedDAO = new ComposeDAO();
-        AccessDAO accessDAO = new AccessDAO();
-//        OwnAnonimousDAO ownAnonimDAO = new OwnAnonimousDAO();
-        
-        
-        // Get the names of all the lists
-        List<ProductList> listOfPL = null;
-        if(u != null)
-            listOfPL = accessDAO.getList(u.getId());
-        else if (ua != null)
-//            listOfPL = ownAnonimDAO.getList(ua.getId());
-//        else
-            listOfPL = plistDAO.getAll();
-        request.setAttribute("listOfPL", listOfPL);
-        
-        
-        // For each list save in a map list of it's items
-        Map<Long,List<Item>> dict = new HashMap<>();
-        for (ProductList list : listOfPL) {            
-            long listID = list.getId();
-            List<Compose> relationList = composedDAO.getItemsID(listID);
-            List<Item> items = new ArrayList<>();
-            for (Compose rel : relationList) {
-                Optional<Item> res = itemDAO.get(rel.getIdItem());
-                if (res.isPresent()) {
-                    items.add(res.get());
+        // Se cookie indica un normale utente
+        if (userOpt.isPresent()) {
+            // DAO necessari
+            AccessDAO accessDAO = new AccessDAO();
+            ComposeDAO composeDAO = new ComposeDAO();
+            ItemDAO itemDAO = new ItemDAO();
+            
+            User user = userOpt.get();
+            listOfPL = accessDAO.getAllLists(user.getId());
+            
+            // Per ogni lista, prendi ogni suo Item
+            itemsOfList = new HashMap<>();
+            for (ProductList list : listOfPL) {
+                long listID = list.getId();
+                List<Compose> relationList = composeDAO.getItemsID(listID);
+                List<Item> items = new ArrayList<>();
+                for (Compose rel : relationList) {
+                    Optional<Item> itemOpt = itemDAO.get(rel.getIdItem());
+                    if (itemOpt.isPresent()) {
+                        items.add(itemOpt.get());
+                    }
                 }
+                itemsOfList.put(listID, items);
             }
-            itemsOfList = Optional.of(dict);
-        } else {
-            // No cookie --> no user, so we don't have any lists or items            
-            System.out.println("COOKIE NON TROVATO DI DEFAULT");
-            listOfPL = Optional.empty();
-            itemsOfList = Optional.empty();
-        }
+            
+            username = user.getName() + " " + user.getLastname();
+            
+        } else if (alreadyLogged) { // Utente anonimo
+            ProductListDAO plistDAO = new ProductListDAO();
+            ComposeDAO composeDAO = new ComposeDAO();
+            ItemDAO itemDAO = new ItemDAO();
+            
+            UserAnonimous userAnon = userAnonOpt.get();
+            
+            listOfPL = plistDAO.getListOfUserAnon(userAnon.getId());
+            
+            itemsOfList = new HashMap<>();
+            // Se è anonimo ha solamente una lista
+            if (!listOfPL.isEmpty()) {
+                ProductList onlylist = listOfPL.get(0);
 
-        request.setAttribute("user", optU);
-        request.setAttribute("lists", listOfPL);
-        request.setAttribute("itemsPerList", itemsOfList);
+                // Prendi tutti gli elementi 
+                long listID = onlylist.getId();
+                List<Compose> relationList = composeDAO.getItemsID(listID);
+                List<Item> items = new ArrayList<>();
+                for (Compose rel : relationList) {
+                    Optional<Item> itemOpt = itemDAO.get(rel.getIdItem());
+                    if (itemOpt.isPresent()) {
+                        items.add(itemOpt.get());
+                    }
+                }
+
+                // Aggiungi all'unica entrata di itemsOfList
+                itemsOfList.put(listID, items);
+            }
+            
+            username = "ANONYMOUS";
+            
+        } else {
+            // Se non è un utente già loggato, nessuna lista e nessun elemento
+            listOfPL = new ArrayList<>();
+            itemsOfList = new HashMap<>();
+            username = "ANONYMOUS";
+        }
+        
+      
+        // Aggiungo i parametri alla richiesta da inoltrare alla JSP
+        response.setContentType("text/html;charset=UTF-8");
+        request.setAttribute("listOfPL", listOfPL);
+        request.setAttribute("itemsOfList", itemsOfList);
+        request.setAttribute("username", username);
         request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
     }
 

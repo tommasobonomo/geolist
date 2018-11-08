@@ -17,7 +17,7 @@
     <body>
         
         <div class="header">Geolist</div>
-        
+        <h1>${username}</h1>
         <div class="list-category">
             <c:forEach var="list" items="${listOfPL}">
                 <div class="name">
@@ -33,6 +33,7 @@
                 </div>
             </c:forEach>
         </div>
+
         
         <c:if test="${logged}">
             <p>User <c:out value="${username}"/> is logged in</p>
