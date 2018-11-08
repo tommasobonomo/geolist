@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.digest.DigestUtils;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class ServletRegister extends HttpServlet {
@@ -37,18 +39,50 @@ public class ServletRegister extends HttpServlet {
         this.email = request.getParameter("Email");
         this.password = request.getParameter("Password");
 
-        //creo il token (PER ORA A RANDOM)
-        this.token = DigestUtils.md5Hex(""+this.rand.nextInt(999999999));
+        //controllo la password
+        boolean passCheck = passwordCtrl(this.password);
+        if(!passCheck){
+            request.getSession().setAttribute("errMsg", "Your password needs to contain at least a digit, a letter and a special character");    
+        }else{
+            //creo il token (PER ORA A RANDOM)
+            this.token = DigestUtils.md5Hex(""+this.rand.nextInt(999999999));
 
-        //creo user che andrò a ficcare nel database e lo inserisco
-        User u = new User(this.cookie, this.username, this.name, this.lastname, this.email, this.password, this.image, this.token, false, false);
-        UserDAO UD = new UserDAO();
-        UD.create(u);
+            //creo user che andrò a ficcare nel database e lo inserisco
+            User u = new User(this.cookie, this.username, this.name, this.lastname, 
+                              this.email, this.password, this.image, this.token, false, false);
+            UserDAO UD = new UserDAO();
+            UD.create(u);
 
-        //invio l'email attraverso l'email sender
-        EmailSender es = new EmailSender(email,token);
-        es.sendEmail();
+            //invio l'email attraverso l'email sender
+            EmailSender es = new EmailSender(email,token);
+            es.sendEmail();
+        }
         
+        // faccio tornare il tutto alla root per ora
+        response.sendRedirect("/");
+        
+    }
+    
+    
+    /**
+     * funzione che controlla che la password abbia le caratteristiche richieste
+     * @param password la password da controllare
+     * @return true nel caso la password abbia almeno una lettera, un numero e un carattere speciale
+     * false altrimenti
+     */
+    private boolean passwordCtrl(String password){
+        
+        // creo i pattern necessari per il controllo
+        Pattern letters = Pattern.compile("[a-zA-z]");
+        Pattern digit = Pattern.compile("[0-9]");
+        Pattern special = Pattern.compile("[^A-Za-z0-9]");
+       
+        // creo i matcher che controllano i pattern
+        Matcher hasLetters = letters.matcher(password);
+        Matcher hasNumber = digit.matcher(password);
+        Matcher hasSpecial = special.matcher(password);
+        
+        return hasLetters.find() && hasNumber.find() && hasSpecial.find();
     }
 
 }

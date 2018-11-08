@@ -24,6 +24,8 @@
             <br/>
             password <input type="password" name="Password">
             <br/>
+            <span style="color:red;">${errMsg}</span>
+            <br/>
             <input type="submit" value="Submit">
         </form>
     </body>
