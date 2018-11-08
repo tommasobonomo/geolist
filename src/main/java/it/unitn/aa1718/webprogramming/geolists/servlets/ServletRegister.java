@@ -41,8 +41,11 @@ public class ServletRegister extends HttpServlet {
 
         //controllo la password
         boolean passCheck = passwordCtrl(this.password);
+        boolean emailCheck = emailCtrl(this.email);
         if(!passCheck){
-            request.getSession().setAttribute("errMsg", "Your password needs to contain at least a digit, a letter and a special character");    
+            request.getSession().setAttribute("errMsgPass", "Your password needs to contain at least a digit, a letter and a special character");    
+        }else if (!emailCheck){
+            request.getSession().setAttribute("errMsgEmail", "Your email is incorrect");
         }else{
             //creo il token (PER ORA A RANDOM)
             this.token = DigestUtils.md5Hex(""+this.rand.nextInt(999999999));
@@ -83,6 +86,24 @@ public class ServletRegister extends HttpServlet {
         Matcher hasSpecial = special.matcher(password);
         
         return hasLetters.find() && hasNumber.find() && hasSpecial.find();
+    }
+    
+    /**
+     * function that check if the email is written correctly
+     * @param email email to check
+     * @return true if the email is written correctly false otherwise
+     */
+    private boolean emailCtrl(String email){
+        
+        if(!email.contains("@")){
+            return false;
+        }else{
+            email = email.substring(email.indexOf("@"));
+            if(!email.contains(".")){
+                return false;
+            }
+        }
+        return true;
     }
 
 }

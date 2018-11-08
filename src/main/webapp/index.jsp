@@ -22,9 +22,11 @@
             <br/>
             email <input type="email" name="Email">
             <br/>
+            <span style="color:red;">${errMsgEmail}</span>
+            <br/>
             password <input type="password" name="Password">
             <br/>
-            <span style="color:red;">${errMsg}</span>
+            <span style="color:red;">${errMsgPass}</span>
             <br/>
             <input type="submit" value="Submit">
         </form>
