@@ -33,18 +33,20 @@ public class EmailSender {
     
     public void sendEmail(){
         
-        
+        // creo l'email
         String host ="smtp.gmail.com" ;
         String UserAddress = (this.userEmail);
         String from = ("geolistunitn@gmail.com");
         String subject = "This is confirmation number for your GeoList account";
         String messageText = (" Hello, Thanks for Subscribing to Our Website"
-                + "Click the link to activate your account "
+                + "Click the link to activate your account <br>"
                 + "Verification Link :: http://localhost:8080/geolist/servlets/ActivateAccount?key1="+ this.userEmail+"&key2="+ this.token );
         Properties props = new Properties();
 
+        // ottengo permessi di autenticazione
         Authenticator auth = new SMTPAuthenticator();
         
+        // setto cose
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);    
@@ -55,14 +57,16 @@ public class EmailSender {
         
         try{
             InternetAddress[] address = {new InternetAddress(UserAddress)};
-            
-            Message messaggio = new MimeMessage(mailSession);
-            
-            messaggio.setFrom(new InternetAddress("geolistunitn@gmail.com"));
+
+            // creo il messaggio da inviare
+            Message messaggio = new MimeMessage(mailSession);           
+            messaggio.setFrom(new InternetAddress(from));
             messaggio.setRecipients(Message.RecipientType.TO, address);
             messaggio.setSubject(subject); 
             messaggio.setSentDate(new Date());
             messaggio.setText(messageText);
+            
+            // provo ad inviare
             Transport.send(messaggio);
         }catch(MessagingException ex)
         {
@@ -72,7 +76,9 @@ public class EmailSender {
     }
         
     
-       private class SMTPAuthenticator extends javax.mail.Authenticator {
+    // classe per autenticazione
+    private class SMTPAuthenticator extends javax.mail.Authenticator {
+        @Override
         public PasswordAuthentication getPasswordAuthentication() {
            String username = "geolistunitn";
            String password = "Geolist2018";

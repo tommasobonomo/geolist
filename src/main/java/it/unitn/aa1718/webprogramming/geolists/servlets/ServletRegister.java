@@ -14,8 +14,6 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 
 public class ServletRegister extends HttpServlet {
     
-    private static final String DB_URL = "jdbc:derby://localhost:1527/GEODB";  // link al database in localhost
-
     Random rand = new Random();
     String username, email, name, lastname, password,
             cookie= Integer.toString(rand.nextInt(5000000)+1), 
