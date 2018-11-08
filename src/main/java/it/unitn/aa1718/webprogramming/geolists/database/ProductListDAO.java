@@ -27,26 +27,6 @@ public class ProductListDAO implements CrudDao<ProductList> {
                 rs.getLong("idCat"), rs.getString("name"),rs.getString("description"), rs.getString("image"));        
     }
     
-    public List<ProductList> getListOfUserAnon(long userId) {
-        String query = "SELECT * FROM List WHERE USERANONOWNER = " + userId;
-        List<ProductList> list = new ArrayList<>();
-        
-        try {
-            Connection c = Database.openConnection();
-            Statement s = c.createStatement();
-            ResultSet rs = s.executeQuery(query);
-            
-            if (rs.next()) {
-                list.add(createProductList(rs));
-            }
-            
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        
-        return list;
-    }
-    
     @Override
     public Optional<ProductList> get(long id) {
         String query = "SELECT * FROM List AS L WHERE L.id=" + id; 
@@ -169,4 +149,58 @@ public class ProductListDAO implements CrudDao<ProductList> {
         }
     }
     
+    /**
+     * restituisce tutte le liste di un utente loggato
+     * @param userID
+     */
+    public List<ProductList> getListUser(long userID) {
+        String query = "SELECT * FROM List AS L WHERE L.userowner = " + userID;
+        List<ProductList> list = new ArrayList<>();
+        ProductListDAO a = new ProductListDAO();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while (rs.next()) {
+                list.add(a.get(rs.getLong("id")).get());
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return list;
+    }
+    
+    /**
+     * @author giorgio
+     * 
+     * restituisce la lista di un utente anonimo, non una lista di liste
+     * dato che un utente puo averne al massimo una
+     * @param userAnonID
+     * @return optional of a product list, Otpional.empty() se non ce ne sono
+     */
+    public Optional<ProductList> getListAnon(long userAnonID) {
+        String query = "SELECT * FROM List AS L WHERE L.useranonowner = " + userAnonID;
+        Optional<ProductList> res = Optional.empty();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            if (rs.next()) {
+                res=Optional.of(createProductList(rs));
+            }
+            
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return res;
+    }
+       
 }
