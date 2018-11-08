@@ -28,7 +28,7 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
     }
     
     /**
-     * transform a anonymous user in a user with his list
+     * transform a anonymous user in a user with his list eventualmente se le ha
      * @param ua utente anonimo da trasformare
      * @param u utente con dati da creare nel database
      * @return false means there is an error, true means there is no error but not that
@@ -48,13 +48,14 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         
             //collego le liste dell'utente anonimo a quello delle liste del nuovo utente
             ProductListDAO listDb = new ProductListDAO();
-            ProductList p = listDb.getListAnon(ua.getId()).get(0);  // prendo la prima e unica lista
+            Optional<ProductList> p = listDb.getListAnon(ua.getId());  // prendo la lista
                                                                 //dell'utente anonimo
-            p.setUserOwner(u_new.getId());
-            System.out.println(p);
-            listDb.update(p.getId(), p); // aggiorno la lista
-            listDb.updateUserAnonOwnerToNull(p.getId()); // setto a null l'anonimoowner nella tabella lista
-            
+            if(p.isPresent()){   // se possiede una lista l'utente anonimo
+                p.get().setUserOwner(u_new.getId());
+                System.out.println(p);
+                listDb.update(p.get().getId(), p.get()); // aggiorno la lista
+                listDb.updateUserAnonOwnerToNull(p.get().getId()); // setto a null l'anonimoowner nella tabella lista
+            }
             //rimuovo l'anonimo dalla tabella useranonymous
             UserAnonimousDAO anoDb = new UserAnonimousDAO();
             anoDb.delete(ua.getId());
