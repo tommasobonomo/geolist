@@ -23,13 +23,12 @@ import java.util.Optional;
 public class ProductListDAO implements CrudDao<ProductList> {
 
     private ProductList createProductList(ResultSet rs) throws SQLException {
-        return new ProductList(rs.getLong("id"),rs.getLong("userCreator"), rs.getLong("idCat"),
-            rs.getString("name"),rs.getString("description"), rs.getString("image"));        
+        return new ProductList(rs.getLong("id"),rs.getLong("userOwner"), rs.getLong("userAnonOwner"),
+                rs.getLong("idCat"), rs.getString("name"),rs.getString("description"), rs.getString("image"));        
     }
     
-    public List<ProductList> getListOfUser(User u) {
-        long userId = u.getId();
-        String query = "SELECT * FROM List WHERE USERCREATOR = " + userId;
+    public List<ProductList> getListOfUserAnon(long userId) {
+        String query = "SELECT * FROM List WHERE USERANONOWNER = " + userId;
         List<ProductList> list = new ArrayList<>();
         
         try {
@@ -37,7 +36,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
-            while (rs.next()) {
+            if (rs.next()) {
                 list.add(createProductList(rs));
             }
             
@@ -97,8 +96,8 @@ public class ProductListDAO implements CrudDao<ProductList> {
 
     @Override
     public void create(ProductList obj) {
-        String query= "INSERT INTO GEODB.LIST(USERCREATOR,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
-                        "VALUES (?,?,?,?,?)";
+        String query= "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
+                        "VALUES (?,?,?,?,?,?)";
         
         try {
             Connection c = Database.openConnection();
@@ -106,10 +105,11 @@ public class ProductListDAO implements CrudDao<ProductList> {
             
 
             ps.setLong(1, obj.getUserOwner());
-            ps.setLong(2, obj.getIdCat());
-            ps.setString(3, obj.getName());
-            ps.setString(4, obj.getDescription());
-            ps.setString(5, obj.getImage());
+            ps.setLong(2, obj.getUserAnonOwner());
+            ps.setLong(3, obj.getIdCat());
+            ps.setString(4, obj.getName());
+            ps.setString(5, obj.getDescription());
+            ps.setString(6, obj.getImage());
             
             ps.executeUpdate();
             ps.close();
@@ -123,7 +123,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
     @Override
     public void update(long id, ProductList obj) {
         String query="UPDATE List "
-                + "SET userCreator=?, idCat=?, name=?, description=?, image=?"
+                + "SET userOwner=?, userAnonOwner=?, idCat=?, name=?, description=?, image=?"
                 + "WHERE id=?";
         
         try {
@@ -132,11 +132,12 @@ public class ProductListDAO implements CrudDao<ProductList> {
             
 
             ps.setLong(1, obj.getUserOwner());
-            ps.setLong(2, obj.getIdCat());
-            ps.setString(3, obj.getName());
-            ps.setString(4, obj.getDescription());
-            ps.setString(5, obj.getImage());
-            ps.setLong(6,obj.getId());
+            ps.setLong(2, obj.getUserAnonOwner());
+            ps.setLong(3, obj.getIdCat());
+            ps.setString(4, obj.getName());
+            ps.setString(5, obj.getDescription());
+            ps.setString(6, obj.getImage());
+            ps.setLong(7,obj.getId());
             
             ps.executeUpdate();
             ps.close();
