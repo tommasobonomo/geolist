@@ -107,14 +107,16 @@ public class LandingServlet extends HttpServlet {
             ItemDAO itemDAO = new ItemDAO();
             
             UserAnonimous userAnon = userAnonOpt.get();
-            
-            listOfPL = plistDAO.getListOfUserAnon(userAnon.getId());
-            
-            itemsOfList = new HashMap<>();
-            // Se è anonimo ha solamente una lista
-            if (!listOfPL.isEmpty()) {
-                ProductList onlylist = listOfPL.get(0);
 
+            // Se è anonimo ha solamente una lista
+            Optional<ProductList> onlylistOpt = plistDAO.getListAnon(userAnon.getId());
+
+            itemsOfList = new HashMap<>();
+            listOfPL = new ArrayList<>();
+            
+            if (onlylistOpt.isPresent()) {
+                ProductList onlylist = onlylistOpt.get();
+                
                 // Prendi tutti gli elementi 
                 long listID = onlylist.getId();
                 List<Compose> relationList = composeDAO.getItemsID(listID);
@@ -125,8 +127,9 @@ public class LandingServlet extends HttpServlet {
                         items.add(itemOpt.get());
                     }
                 }
-
-                // Aggiungi all'unica entrata di itemsOfList
+                listOfPL.add(onlylist);
+                
+                 // Aggiungi all'unica entrata di itemsOfList
                 itemsOfList.put(listID, items);
             }
             
