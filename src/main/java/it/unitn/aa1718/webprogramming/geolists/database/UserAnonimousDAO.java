@@ -29,43 +29,39 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
     
     /**
      * transform a anonymous user in a user with his list eventualmente se le ha
+     * questo funziona sia con il register sia con il login
      * @param ua utente anonimo da trasformare
      * @param u utente con dati da creare nel database
-     * @return false means there is an error, true means there is no error but not that
-     * work
+     * 
      */
-    public boolean becomeUserRegister(UserAnonimous ua,User u){
+    public void becomeUserRegister(UserAnonimous ua,User u){
         
-        try{
-            // creo il nuovo utente nel database e gli setto il cookie dell'utente anonimo
-            UserDAO userDb = new UserDAO();
+        UserDAO userDb = new UserDAO();
+        User u_new;
+        if(userDb.get(u.getUsername()).isPresent()){//è gia registrato
+            u_new = userDb.get(u.getUsername()).get();
+            //TODO inviare il cookie del db all'utente browser 
+            
+        }else{//si deve registrare
             u.setCookie(ua.getCookie());
             userDb.create(u);
-        
+            
             //prendo il nuovo utente dal database (per avere l'id)
-            User u_new= null;
             u_new = userDb.getUser(u.getCookie()).get();
-        
-            //collego le liste dell'utente anonimo a quello delle liste del nuovo utente
-            ProductListDAO listDb = new ProductListDAO();
-            Optional<ProductList> p = listDb.getListAnon(ua.getId());  // prendo la lista
-                                                                //dell'utente anonimo
-            if(p.isPresent()){   // se possiede una lista l'utente anonimo
-                p.get().setUserOwner(u_new.getId());
-                System.out.println(p);
-                listDb.update(p.get().getId(), p.get()); // aggiorno la lista
-                listDb.updateUserAnonOwnerToNull(p.get().getId()); // setto a null l'anonimoowner nella tabella lista
-            }
-            //rimuovo l'anonimo dalla tabella useranonymous
-            UserAnonimousDAO anoDb = new UserAnonimousDAO();
-            anoDb.delete(ua.getId());
-            
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            
-            return false;
         }
+        
+        ProductListDAO listDb = new ProductListDAO();
+        Optional<ProductList> p = listDb.getListAnon(ua.getId());  // prendo la lista
+                                                                //dell'utente anonimo
+        if(p.isPresent()){   // se possiede una lista l'utente anonimo
+            p.get().setUserOwner(u_new.getId());
+            listDb.update(p.get().getId(), p.get()); // aggiorno la lista
+            listDb.updateUserAnonOwnerToNull(p.get().getId()); // setto a null l'anonimoowner nella tabella lista
+        }
+        
+        //rimuovo l'anonimo dalla tabella useranonymous
+        UserAnonimousDAO anoDb = new UserAnonimousDAO();
+        anoDb.delete(ua.getId());
     }
     
     @Override

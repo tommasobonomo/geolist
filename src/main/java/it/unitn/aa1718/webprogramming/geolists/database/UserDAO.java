@@ -67,7 +67,7 @@ public class UserDAO implements CrudDao<User> {
      */
     public Optional<User> getUser(String cookie) {
         String query= "SELECT * FROM Users as U WHERE U.cookie=?";
-        User u=null;
+        Optional<User> u=Optional.empty();
         
         try {
             Connection c = Database.openConnection();
@@ -77,7 +77,7 @@ public class UserDAO implements CrudDao<User> {
             
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                u=createUser(rs);
+                u=Optional.of(createUser(rs));
             }
         
             rs.close();
@@ -87,7 +87,7 @@ public class UserDAO implements CrudDao<User> {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
-        return Optional.of(u);
+        return u;
     }
     
     /**

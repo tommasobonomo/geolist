@@ -81,6 +81,7 @@ public class LandingServlet extends HttpServlet {
             }
         }
         
+
         // Se cookie indica un normale utente
         if (userOpt.isPresent()) {
             // DAO necessari
@@ -102,6 +103,7 @@ public class LandingServlet extends HttpServlet {
                     if (itemOpt.isPresent()) {
                         items.add(itemOpt.get());
                     }
+
                 }
                 itemsOfList.put(listID, items);
             }
