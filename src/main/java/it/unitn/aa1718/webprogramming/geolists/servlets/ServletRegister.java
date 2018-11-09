@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.digest.DigestUtils;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,13 +40,25 @@ public class ServletRegister extends HttpServlet {
         this.email = request.getParameter("Email");
         this.password = request.getParameter("Password");
 
+        
+        //controllo esistenza user
+        boolean unameNew = isUnameNew(this.username);
+        //controllo esistenza email
+        boolean emailNew = isEmailNew(this.email);
+        //controllo la email
+        boolean emailCheck = emailCtrl(this.email);
         //controllo la password
         boolean passCheck = passwordCtrl(this.password);
-        boolean emailCheck = emailCtrl(this.email);
-        if(!passCheck){
-            request.getSession().setAttribute("errMsgPass", "Your password needs to contain at least a digit, a letter and a special character");    
-        }else if (!emailCheck){
-            request.getSession().setAttribute("errMsgEmail", "Your email is incorrect");
+        
+        
+        if(!passCheck){  //controllo password
+            System.out.println("PASSWORD NON CORRETTA, DEVE CONTENERE UN NUMERO, UNA LETTERA E UN CARATTERE SPECIALE");    
+        }else if (!emailCheck){  //controllo la mail
+            System.out.println("EMAIL NON CORRETTA, DEVE CONTENERE UNA @,UN CARATTARE DAVANTI ALLA \"@\", UN \".\" DOPO LA @ E CON UN DOMINIO DOPO IL \".\"");
+        }else if (!unameNew){
+            System.out.println("USER GIA PRESENTE NEL DATABASE");
+        }else if (!emailNew){
+            System.out.println("EMAIL GIA PRESENTE NEL DATABASE");
         }else{
             //creo il token (PER ORA A RANDOM)
             this.token = DigestUtils.md5Hex(""+this.rand.nextInt(999999999));
@@ -60,9 +73,6 @@ public class ServletRegister extends HttpServlet {
             EmailSender es = new EmailSender(email,token);
             es.sendEmail();
         }
-        
-        // faccio tornare il tutto alla root per ora
-        response.sendRedirect("/");
         
     }
     
@@ -88,6 +98,7 @@ public class ServletRegister extends HttpServlet {
         return hasLetters.find() && hasNumber.find() && hasSpecial.find();
     }
     
+    
     /**
      * function that check if the email is written correctly
      * @param email email to check
@@ -95,15 +106,59 @@ public class ServletRegister extends HttpServlet {
      */
     private boolean emailCtrl(String email){
         
+        // controllo esistenza della "@"
         if(!email.contains("@")){
             return false;
         }else{
-            email = email.substring(email.indexOf("@"));
-            if(!email.contains(".")){
+            if(email.indexOf("@") == 0){
                 return false;
+            }else{
+                email = email.substring(email.indexOf("@"));
+                // controllo esistenza "."
+                if(!email.contains(".")){
+                    return false;
+                }else{
+                    // controllo esistenza di una stringa dopo il punto
+                    if(email.endsWith(".")){
+                        return false;
+                    }
+                }
             }
         }
         return true;
     }
 
+    
+    /**
+     * function that check if the username does already exist in the database
+     * @param username username to check
+     * @return false if the username is already in the DB true otherwise
+     */
+    private boolean isUnameNew(String username){
+        
+        UserDAO db = new UserDAO();
+        Optional<User> u = db.get(username);
+        if(u.isPresent())
+            return false;
+        
+        return true;
+    }
+    
+    
+    /**
+     * function that check if the email does already exist in the database
+     * @param email username to check
+     * @return false if the email is already in the DB true otherwise
+     */
+    private boolean isEmailNew(String email){
+        
+        email = email.toLowerCase();
+        
+        UserDAO db = new UserDAO();
+        Optional<User> u = db.getFromEmail(email);
+        if(u.isPresent())
+            return false;
+        
+        return true;
+    }
 }

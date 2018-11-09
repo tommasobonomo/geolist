@@ -20,13 +20,9 @@
             <br/>
             username <input type="text" name="UserName">
             <br/>
-            email <input type="email" name="Email">
-            <br/>
-            <span style="color:red;">${errMsgEmail}</span>
+            email <input type="text" name="Email">
             <br/>
             password <input type="password" name="Password">
-            <br/>
-            <span style="color:red;">${errMsgPass}</span>
             <br/>
             <input type="submit" value="Submit">
         </form>

@@ -66,7 +66,7 @@ public class UserDAO implements CrudDao<User> {
      */
     public Optional<User> get(String username) {
         String query= "SELECT * FROM Users as U WHERE U.username=?";
-        User u=null;
+        Optional<User> u=Optional.empty();
         
         try {
             Connection c = Database.openConnection();
@@ -76,7 +76,7 @@ public class UserDAO implements CrudDao<User> {
             
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                u=createUser(rs);
+                u=Optional.of(createUser(rs));
             }
             
             ps.close();
@@ -85,7 +85,36 @@ public class UserDAO implements CrudDao<User> {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return Optional.of(u);
+        return u;
+    }
+    
+    /**
+     * Get a user from email
+     * @param email
+     * @return
+     */
+    public Optional<User> getFromEmail(String email) {
+        String query= "SELECT * FROM Users as U WHERE U.email=?";
+        Optional<User> u=Optional.empty();
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+            ps.setString(1, email);
+            
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                u=Optional.of(createUser(rs));
+            }
+            
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return u;
     }
 
     /** 
