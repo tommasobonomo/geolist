@@ -75,19 +75,19 @@ public class ProductListDAO implements CrudDao<ProductList> {
 
     @Override
     public void create(ProductList obj) {
-        String query= "INSERT INTO GEODB.LIST(USERCREATOR,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
+        String query= "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
                         "VALUES (?,?,?,?,?)";
         
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             
-
             ps.setLong(1, obj.getUserOwner());
-            ps.setLong(2, obj.getIdCat());
-            ps.setString(3, obj.getName());
-            ps.setString(4, obj.getDescription());
-            ps.setString(5, obj.getImage());
+            ps.setLong(2, obj.getUserAnonOwner());
+            ps.setLong(3, obj.getIdCat());
+            ps.setString(4, obj.getName());
+            ps.setString(5, obj.getDescription());
+            ps.setString(6, obj.getImage());
             
             ps.executeUpdate();
             ps.close();
@@ -97,11 +97,37 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ex.printStackTrace();
         }
     }
-
+    
+    /**
+     * set the user owner anonymous of the list to null
+     * @param id of the list
+     */
+    public void updateUserAnonOwnerToNull(long id) {
+        String query="UPDATE List "
+                + "SET userAnonOwner=?"
+                + "WHERE id=?";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+            ps.setString(1, null);
+            ps.setLong(2,id);
+            
+            ps.executeUpdate();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
+        
+    }
+    
     @Override
     public void update(long id, ProductList obj) {
         String query="UPDATE List "
-                + "SET userCreator=?, idCat=?, name=?, description=?, image=?"
+                + "SET userOwner=?,userAnonOwner=?, idCat=?, name=?, description=?, image=?"
                 + "WHERE id=?";
         
         try {
@@ -110,11 +136,12 @@ public class ProductListDAO implements CrudDao<ProductList> {
             
 
             ps.setLong(1, obj.getUserOwner());
-            ps.setLong(2, obj.getIdCat());
-            ps.setString(3, obj.getName());
-            ps.setString(4, obj.getDescription());
-            ps.setString(5, obj.getImage());
-            ps.setLong(6,obj.getId());
+            ps.setLong(2, obj.getUserAnonOwner());
+            ps.setLong(3, obj.getIdCat());
+            ps.setString(4, obj.getName());
+            ps.setString(5, obj.getDescription());
+            ps.setString(6, obj.getImage());
+            ps.setLong(7,obj.getId());
             
             ps.executeUpdate();
             ps.close();
@@ -174,6 +201,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
     /**
      * restituisce la lista di un utente anonimo
      * @param userAnonID
+     * @return 
      */
     public List<ProductList> getListAnon(long userAnonID) {
         String query = "SELECT * FROM List AS L WHERE L.useranonowner = " + userAnonID;

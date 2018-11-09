@@ -24,7 +24,7 @@ public class ItemDAO implements CrudDao<Item>{
 
     private Item createItem(ResultSet rs) throws SQLException {
         return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("name"),
-                rs.getString("logo"), rs.getString("note"));
+                rs.getString("logo"), rs.getString("note"),rs.getBigDecimal("price"));
     }
     
     @Override
@@ -77,8 +77,8 @@ public class ItemDAO implements CrudDao<Item>{
 
     @Override
     public void create(Item obj) {
-        String query= "INSERT INTO GEODB.ITEM(IDCAT, CALORIE,\"NAME\",LOGO,NOTE)\n" +
-                        "VALUES (?,?,?,?)";
+        String query= "INSERT INTO GEODB.ITEM(IDCAT,\"NAME\",LOGO,NOTE,PRICE)\n" +
+                        "VALUES (?,?,?,?,?)";
         
         try {
             Connection c = Database.openConnection();
@@ -89,6 +89,7 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setString(2, obj.getName());
             ps.setString(3, obj.getLogo());
             ps.setString(4, obj.getNote());
+            ps.setBigDecimal(5, obj.getPrice());
             
             ps.executeUpdate();
             ps.close();
@@ -102,7 +103,7 @@ public class ItemDAO implements CrudDao<Item>{
     @Override
     public void update(long id, Item obj) {
         String query="UPDATE Item "
-                + "SET idcat=?, name=?, logo=?, note=?"
+                + "SET idcat=?, name=?, logo=?, note=?, price=?"
                 + "WHERE id=?";
         
         try {
@@ -114,7 +115,8 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setString(2, obj.getName());
             ps.setString(3, obj.getLogo());
             ps.setString(4, obj.getNote());
-            ps.setLong(5, id);
+            ps.setBigDecimal(5, obj.getPrice());
+            ps.setLong(6, id);
             
             ps.executeUpdate();
             ps.close();
