@@ -1,4 +1,5 @@
 
+
 CREATE TABLE users (
     id INTEGER GENERATED ALWAYS AS IDENTITY,
     cookie VARCHAR(30),

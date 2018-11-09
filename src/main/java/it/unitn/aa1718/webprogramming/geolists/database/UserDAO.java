@@ -59,11 +59,13 @@ public class UserDAO implements CrudDao<User> {
         return Optional.of(u);
     }
     
-    /**
+  
+     /**
      * Get a user from username
      * @param username
      * @return
      */
+    
     public Optional<User> get(String username) {
         String query= "SELECT * FROM Users as U WHERE U.username=?";
         User u=null;
@@ -87,7 +89,36 @@ public class UserDAO implements CrudDao<User> {
         }
         return Optional.of(u);
     }
+    
+    
+   
 
+    public Optional<User> getToken(String email, String token) {
+        String query= " SELECT * FROM GEODB.USERS WHERE email=? AND token=? and active=false ";
+        Optional<User> u=Optional.empty();
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+            ps.setString(1,email);
+            ps.setString(2,token);
+            
+            
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                u=Optional.of(createUser(rs));
+            }
+            
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return u;
+    }
     /** 
      * Return a list of all user in the database
      * @return List of User

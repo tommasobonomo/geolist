@@ -44,11 +44,20 @@ public class ServletRegister extends HttpServlet {
         User u = new User(this.cookie, this.username, this.name, this.lastname, this.email, this.password, this.image, this.token, false, false);
         UserDAO UD = new UserDAO();
         UD.create(u);
+        
 
         //invio l'email attraverso l'email sender
         EmailSender es = new EmailSender(email,token);
         es.sendEmail();
-        
-    }
+        //String i =invia(email,token);
+        request.getRequestDispatcher("/ROOT/email/verify.jsp").forward(request, response);
 
+    }
+    
+    /*
+    public String invia(String email,String token){
+        EmailSender es = new EmailSender(email,token);
+        es.sendEmail();
+        return "SUCCESS";
+    }*/
 }

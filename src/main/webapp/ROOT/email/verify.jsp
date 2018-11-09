@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>WELCOME HERE</h1>
+        <h1>THANK YOU</h1>
+        <h1>PLEASE, CHECK YOUR EMAIL TO VERIFY THE ACCOUNT</h1>
     </body>
 </html>
