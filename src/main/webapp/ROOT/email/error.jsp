@@ -1,7 +1,7 @@
 <%-- 
-    Document   : verify
-    Created on : 24-ott-2018, 21.12.37
-    Author     : Lorenzo
+    Document   : sbagliato
+    Created on : 09-Nov-2018, 16:12:08
+    Author     : mattia
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,10 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>ERRORE</title>
     </head>
     <body>
-        <h1>THANK YOU</h1>
-        <h1>PLEASE, CHECK YOUR EMAIL TO VERIFY THE ACCOUNT</h1>
+        <h1>QUALCOSA E' ANDATO STORTO</h1>
     </body>
 </html>

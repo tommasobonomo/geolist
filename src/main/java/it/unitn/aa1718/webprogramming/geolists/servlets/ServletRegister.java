@@ -62,7 +62,6 @@ public class ServletRegister extends HttpServlet {
         }else{
             //creo il token (PER ORA A RANDOM)
             this.token = DigestUtils.md5Hex(""+this.rand.nextInt(999999999));
-
             //creo user che andrò a ficcare nel database e lo inserisco
             User u = new User(this.cookie, this.username, this.name, this.lastname, 
                               this.email, this.password, this.image, this.token, false, false);
@@ -72,10 +71,17 @@ public class ServletRegister extends HttpServlet {
             //invio l'email attraverso l'email sender
             EmailSender es = new EmailSender(email,token);
             es.sendEmail();
+            
+            //mando l'utente nella pagina di corretto invio della mail
+            request.getRequestDispatcher("/ROOT/email/verify.jsp").forward(request, response);
         }
         
+        //mando l'utente nella pagina di errore
+        request.getRequestDispatcher("/ROOT/email/error.jsp").forward(request, response);
+        
     }
-    
+
+
     
     /**
      * funzione che controlla che la password abbia le caratteristiche richieste

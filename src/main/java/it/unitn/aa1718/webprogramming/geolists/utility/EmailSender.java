@@ -32,15 +32,15 @@ public class EmailSender {
 
     
     public void sendEmail(){
-        
+       
         // creo l'email
         String host ="smtp.gmail.com" ;
         String UserAddress = (this.userEmail);
         String from = ("geolistunitn@gmail.com");
-        String subject = "This is confirmation number for your GeoList account";
-        String messageText = (" Hello, Thanks for Subscribing to Our Website"
-                + "Click the link to activate your account <br>"
-                + "Verification Link :: http://localhost:8080c/geolist/servlets/ActivateAccount?key1="+ this.userEmail+"&key2="+ this.token );
+        String subject = "This is the confirmation number for your GeoList account";
+        String messageText = (" Hello, Thanks for subscribing to our Website\n"
+                + "Click the link to activate your account \n"
+                + "Verification Link :: http://localhost:8080/activateAccount?key1="+ this.userEmail+"&key2="+ this.token );
         Properties props = new Properties();
 
         // ottengo permessi di autenticazione
@@ -68,6 +68,7 @@ public class EmailSender {
             
             // provo ad inviare
             Transport.send(messaggio);
+            
         }catch(MessagingException ex)
         {
             System.out.println("SendingEmail....x "+ex);
