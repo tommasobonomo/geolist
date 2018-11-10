@@ -9,11 +9,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Timestamp;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +19,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Lorenzo
  */
+
+
+    
+
 public class ActivateAccount extends HttpServlet {
 
     /**
@@ -51,25 +51,41 @@ public class ActivateAccount extends HttpServlet {
         }
     }
 
+    
+    public boolean toolate(long dbTIME, long acTIME){
+        boolean res=false;
+        if(acTIME-dbTIME < 86400000)
+            res= true;
+        return res;
+    }
+    
     @Override
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
        // processRequest(request, response);
                 
-        String email = request.getParameter("key1");
-        String token = request.getParameter("key2");       
-
+        String email = request.getParameter("email");
+        String token = request.getParameter("token");     
+        String timedb = request.getParameter("time");     
         
-           
+        
+        
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        long a=timestamp.getTime();
+        //String timeac = timestamp.toString();
+        System.out.println("\n\n\nTIME PRIMA" +timedb);
+        System.out.println("\n\n\nTIME DOPO" +a);
+        
+        long b =Long.parseLong(timedb);
+        
         UserDAO userdb = new UserDAO();
-        if(userdb.getToken(email, token).isPresent()){//controllo se presente
+        if(userdb.getToken(email, token).isPresent() && toolate(b,a)){//controllo se presente
             User u= userdb.getToken(email, token).get();
             u.setIsActive(true); //setto attivo
             userdb.update(u.getId(), u);
             //apre pagina dove si fa il login
             request.getRequestDispatcher("/ROOT/email/login.jsp").forward(request, response);
-            System.out.print("BONO");
         }
         else{
             //apre pagina di registrazione se non presente il token nel database
@@ -91,5 +107,8 @@ public class ActivateAccount extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    
+    
 
 }

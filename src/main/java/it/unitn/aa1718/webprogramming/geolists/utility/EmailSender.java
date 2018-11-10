@@ -19,28 +19,30 @@ import javax.mail.PasswordAuthentication;
 public class EmailSender {
     private String userEmail;
     private String token;
+    private String time;
 
     /**
      * classe che gestisce costruisce e invia le email agli user che vogliono registrarsi
      * @param userEmail email dello user (a cui inviare la mail)
      * @param token token che lo user userà per identificare il proprio account
      */
-    public EmailSender(String userEmail, String token) {
+    public EmailSender(String userEmail, String token, String time) {
         this.userEmail = userEmail;
         this.token = token;
+        this.time = time;
     }
 
     
     public void sendEmail(){
-       
+            
         // creo l'email
         String host ="smtp.gmail.com" ;
         String UserAddress = (this.userEmail);
         String from = ("geolistunitn@gmail.com");
         String subject = "This is the confirmation number for your GeoList account";
         String messageText = (" Hello, Thanks for subscribing to our Website\n"
-                + "Click the link to activate your account \n"
-                + "Verification Link :: http://localhost:8080/activateAccount?key1="+ this.userEmail+"&key2="+ this.token );
+                + "Click the link to activate your account! \n watch out, it only lasts for 24 hours\n "
+                + "Verification Link :: http://localhost:8080/activateAccount?email="+ this.userEmail+"&token="+ this.token+"&time="+this.time);
         Properties props = new Properties();
 
         // ottengo permessi di autenticazione

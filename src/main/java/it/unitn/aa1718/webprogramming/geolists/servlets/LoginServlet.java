@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
                     // qui sono sicuro che lo user esiste già
                     System.out.println("USER TROVATO NEL DATABASE");
                     CookieManager cm = new CookieManager();
-
+                    
                     Cookie c = cm.setCookieOldUser(u);
                     response.addCookie(c);
                 }
