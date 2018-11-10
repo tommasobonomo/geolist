@@ -51,10 +51,10 @@ public class ActivateAccount extends HttpServlet {
         }
     }
 
-    
+    //confronto il tempo registrato nel token con il tempo registrato quando il link viene effettuato, se la loro differenza e' superiore a 30 minuti, allora ritorna falso
     public boolean toolate(long dbTIME, long acTIME){
         boolean res=false;
-        if(acTIME-dbTIME < 86400000)
+        if(acTIME-dbTIME < 1800000) 
             res= true;
         return res;
     }
@@ -64,23 +64,23 @@ public class ActivateAccount extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
        // processRequest(request, response);
-                
+        
+       
+       //acquisisco email, token e time dal link dell'email
         String email = request.getParameter("email");
         String token = request.getParameter("token");     
         String timedb = request.getParameter("time");     
         
         
-        
+        //mi salvo il tempo timestamp attuale, che confrontero' con quello del link
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        long a=timestamp.getTime();
-        //String timeac = timestamp.toString();
-        System.out.println("\n\n\nTIME PRIMA" +timedb);
-        System.out.println("\n\n\nTIME DOPO" +a);
         
+        //trasformo i 2 tempi in long
+        long a=timestamp.getTime();       
         long b =Long.parseLong(timedb);
         
         UserDAO userdb = new UserDAO();
-        if(userdb.getToken(email, token).isPresent() && toolate(b,a)){//controllo se presente
+        if(userdb.getToken(email, token).isPresent() && toolate(b,a)){//controllo se presente e se il token non e' scaduto
             User u= userdb.getToken(email, token).get();
             u.setIsActive(true); //setto attivo
             userdb.update(u.getId(), u);
