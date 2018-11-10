@@ -15,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LoginServlet extends HttpServlet {
     
-    private static final String DB_URL = "jdbc:derby://localhost:1527/GEODB";  // link al database in localhost
-
     // Funzione di gestione del metodo GET della pagina principale dell'applicazione
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

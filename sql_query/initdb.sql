@@ -17,7 +17,7 @@ CREATE TABLE users (
 
 CREATE TABLE email(
     idUser INTEGER NOT NULL,
-    info INTEGER, 
+    info INTEGER,
     text  VARCHAR(400),
     sender INTEGER NOT NULL,
     receiver INTEGER NOT NULL,
@@ -80,6 +80,7 @@ CREATE TABLE citem (
 CREATE TABLE item (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     idcat INTEGER NOT NULL,
+    price DECIMAL(10,2),
     FOREIGN KEY (idcat) 
         REFERENCES citem(id)
         ON DELETE CASCADE,

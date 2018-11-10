@@ -20,7 +20,7 @@
             <br/>
             username <input type="text" name="UserName">
             <br/>
-            email <input type="email" name="Email">
+            email <input type="text" name="Email">
             <br/>
             password <input type="password" name="Password">
             <br/>

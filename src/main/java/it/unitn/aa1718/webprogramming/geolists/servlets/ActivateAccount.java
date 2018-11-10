@@ -8,7 +8,6 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Timestamp;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,37 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Lorenzo
  */
-
-
-    
-
 public class ActivateAccount extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ActivateAccount</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ActivateAccount at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     //confronto il tempo registrato nel token con il tempo registrato quando il link viene effettuato, se la loro differenza e' superiore a 30 minuti, allora ritorna falso
     public boolean toolate(long dbTIME, long acTIME){
@@ -80,7 +50,7 @@ public class ActivateAccount extends HttpServlet {
         long b =Long.parseLong(timedb);
         
         UserDAO userdb = new UserDAO();
-        if(userdb.getToken(email, token).isPresent() && toolate(b,a)){//controllo se presente e se il token non e' scaduto
+        if(userdb.getToken(email, token).isPresent() && toolate(b,a)==true){//controllo se presente e se il token non e' scaduto
             User u= userdb.getToken(email, token).get();
             u.setIsActive(true); //setto attivo
             userdb.update(u.getId(), u);
@@ -90,25 +60,8 @@ public class ActivateAccount extends HttpServlet {
         else{
             //apre pagina di registrazione se non presente il token nel database
             System.out.print("ERRORE");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-            
+            request.getRequestDispatcher("/ROOT/email/register.jsp").forward(request, response);   
         }
-        
-        
+           
     }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-                processRequest(request, response);
-    }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
-    
-    
-
 }
