@@ -122,7 +122,7 @@ public class UserDAO implements CrudDao<User> {
     
    
 
-    public Optional<User> getToken(String email, String token) {
+    public Optional<User> getFromEmailAndToken(String email, String token) {
         String query= " SELECT * FROM GEODB.USERS WHERE email=? AND token=? and active=false ";
         Optional<User> u=Optional.empty();
         

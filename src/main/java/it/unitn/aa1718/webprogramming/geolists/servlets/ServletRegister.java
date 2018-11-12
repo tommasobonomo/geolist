@@ -138,7 +138,8 @@ public class ServletRegister extends HttpServlet {
     }
     
     /**
-     * function that check if the username does already exist in the database
+     * function that check if the username does already exist in the database and 
+     * if it's written correctly
      * @param username username to check
      * @return false if the username is already in the DB true otherwise
      */
@@ -146,7 +147,7 @@ public class ServletRegister extends HttpServlet {
         
         UserDAO db = new UserDAO();
         Optional<User> u = db.get(username);
-        if(u.isPresent())
+        if(!username.contains(" ") && u.isPresent())
             return false;
         
         return true;

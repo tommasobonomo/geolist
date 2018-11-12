@@ -15,8 +15,6 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.geolists.servlets.LoginServlet</servlet-class>
     </servlet>
-    
-    <!-- SERVLET DI PROVA REGISTRAZIONE--> 
     <servlet>
         <servlet-name>ServletRegister</servlet-name>
         <servlet-class>it.unitn.aa1718.webprogramming.geolists.servlets.ServletRegister</servlet-class>
@@ -26,7 +24,6 @@
         <servlet-class>it.unitn.aa1718.webprogramming.geolists.servlets.ActivateAccount</servlet-class>
     </servlet>
 
-    <!-- PATH DELLE SERVLET DI PROVA -->
 
     <servlet-mapping>
         <servlet-name>LandingServlet</servlet-name>
