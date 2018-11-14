@@ -1,19 +1,23 @@
+
+
 CREATE TABLE users (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id INTEGER GENERATED ALWAYS AS IDENTITY,
     cookie VARCHAR(30),
-    username VARCHAR(30) NOT NULL UNIQUE, 
-    name VARCHAR(30) NOT NULL ,
-    lastname VARCHAR(30),
-    email VARCHAR(30) NOT NULL UNIQUE, 
+    username VARCHAR(40) NOT NULL UNIQUE, 
+    name VARCHAR(40) NOT NULL ,
+    lastname VARCHAR(40),
+    email VARCHAR(100) NOT NULL UNIQUE, 
     image VARCHAR(20),
-    password VARCHAR(60) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    token VARCHAR(255),
+    active boolean,
     "ADMIN" BOOLEAN,
     CONSTRAINT user_pk PRIMARY KEY (id)
-);
+  );
 
 CREATE TABLE email(
     idUser INTEGER NOT NULL,
-    info INTEGER, 
+    info INTEGER,
     text  VARCHAR(400),
     sender INTEGER NOT NULL,
     receiver INTEGER NOT NULL,
@@ -30,7 +34,7 @@ CREATE TABLE email(
 );
 
 CREATE TABLE usersanonimous (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id INTEGER GENERATED ALWAYS AS IDENTITY,
     cookie VARCHAR(30) NOT NULL UNIQUE,
     CONSTRAINT useranonimous_pk PRIMARY KEY (id)
 );
@@ -47,7 +51,7 @@ CREATE TABLE clist (
 CREATE TABLE list (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     userowner INTEGER,
-    useranonowner INTEGER,
+    useranonowner INTEGER UNIQUE,
     idcat INTEGER,
     "NAME" VARCHAR(30),
     description VARCHAR(30),
@@ -76,6 +80,7 @@ CREATE TABLE citem (
 CREATE TABLE item (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     idcat INTEGER NOT NULL,
+    price DECIMAL(10,2),
     FOREIGN KEY (idcat) 
         REFERENCES citem(id)
         ON DELETE CASCADE,

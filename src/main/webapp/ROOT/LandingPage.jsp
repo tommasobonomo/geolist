@@ -21,7 +21,11 @@
         <div class="list-category">
             <c:forEach var="list" items="${listOfPL}">
                 <div class="name">
-                    <c:out value="${list.getName()}" />
+                    <a href="<c:url value="/List">
+                           <c:param name="listID" value="${list.getId()}"/>
+                        </c:url>">
+                        <c:out value="${list.getName()}" />
+                    </a>
                 </div>
                 <c:set var="listID" value="${list.getId()}" />
                 <div class="items">

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,8 +31,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tommaso
  */
+@WebServlet(
+        name = "Landing Servlet",
+        urlPatterns = "/"
+)
 public class LandingServlet extends HttpServlet {
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -68,8 +73,10 @@ public class LandingServlet extends HttpServlet {
                 userAnonOpt = cm.checkExistenceAnonimous();
                 if(!userAnonOpt.isPresent()){     // se non è nemmeno anonimo ne creo uno anonimo
                     userAnonOpt = cm.createAnonimous(response);
-                    alreadyLogged = true; // se non è un utente, allora è il primo login
+                    alreadyLogged = false; // se non è un utente, allora è il primo login
                     System.out.println("CREO UTENTE ANONIMO PER IL PRIMO LOGIN");
+                } else {
+                    alreadyLogged = true;
                 }
             }
         }
