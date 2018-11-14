@@ -1,7 +1,9 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import it.unitn.aa1718.webprogramming.geolists.utility.CookieManager;
 import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import java.io.IOException;
@@ -29,20 +31,13 @@ public class LoginServlet extends HttpServlet {
         boolean logged = false;
         String username = "";
         
-        // Provo a caricare il driver necessario per il collegamento al database
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");            
-        } catch (ClassNotFoundException ex) {
-            System.out.println("DRIVER NON TROVATO");
-        }
-        
-        
         try {    
             // Genero l'hash per controllare la password
             String hash = HashGenerator.Hash(request.getParameter("password"));
             
             // Uso i DAO per controllare che l'utente ci sia nel database
             UserDAO db = new UserDAO();
+
             Optional<User> userOpt = db.get(request.getParameter("username"));
             
             if(userOpt.isPresent()){
@@ -50,15 +45,27 @@ public class LoginServlet extends HttpServlet {
                 if (user.isActive()) {
                     String password = user.getPassword();
                     if(password.equals(hash)){
+                        
+                        //prendo il cookie della request
+                        Cookie[] allCookie = request.getCookies();
+                        Cookie thisCookie = allCookie[0];
+
                         logged = true;
                         username = user.getUsername();
 
                         // qui sono sicuro che lo user esiste già
                         System.out.println("USER TROVATO NEL DATABASE");
+                    
+                        UserAnonimousDAO uaDAO = new UserAnonimousDAO();
+                    
+                        Optional <UserAnonimous> ua = uaDAO.getFromCookie(thisCookie.getValue());
+                        uaDAO.becomeUserRegister(ua.get(), user);
+                    
                         CookieManager cm = new CookieManager();
-
+                    
                         Cookie c = cm.setCookieOldUser(user);
                         response.addCookie(c);
+                    
                     }
                 }
             }
@@ -73,8 +80,8 @@ public class LoginServlet extends HttpServlet {
         request.getSession().setAttribute("username", username);
         
         // Indirizza a servlet di Landing
-        // request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
-        // getServletContext().getNamedDispatcher("LandingServlet").forward(request, response);
+        //request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
+        //getServletContext().getNamedDispatcher("LandingServlet").forward(request, response);
         response.sendRedirect("/");
     }
     

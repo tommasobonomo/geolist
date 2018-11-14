@@ -96,7 +96,6 @@ public class UserDAO implements CrudDao<User> {
      * @param username
      * @return 
      */
-    
     public Optional<User> get(String username) {
         String query= "SELECT * FROM Users as U WHERE U.username=?";
         Optional<User> u=Optional.empty();

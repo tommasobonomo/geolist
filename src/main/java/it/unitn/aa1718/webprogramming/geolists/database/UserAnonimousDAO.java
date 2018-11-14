@@ -88,6 +88,35 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         return Optional.of(u);
     }
     
+    /**
+     * Obtain a UserAnonimous from his cookie
+     * @param cookie
+     * @return
+     */
+    public Optional<UserAnonimous> getFromCookie(String cookie) {
+        String query= "SELECT * FROM UsersAnonimous as U WHERE U.cookie=\'"+cookie+"\'";
+        Optional<UserAnonimous> u=Optional.empty();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs=s.executeQuery(query);
+        
+            while(rs.next()){
+                u=Optional.of(createUserAnonimous(rs));
+            }
+        
+            rs.close();
+            s.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }        
+        return u;
+    }
+    
+    
     @Override
     public List<UserAnonimous> getAll() {
         String query= "SELECT * FROM UsersAnonimous";
