@@ -6,6 +6,7 @@ import it.unitn.aa1718.webprogramming.geolists.utility.CookieManager;
 import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -42,24 +43,23 @@ public class LoginServlet extends HttpServlet {
             
             // Uso i DAO per controllare che l'utente ci sia nel database
             UserDAO db = new UserDAO();
-            User u = null;
+            Optional<User> userOpt = db.get(request.getParameter("username"));
             
-            try{
-                u = db.get(request.getParameter("username")).get();
-            }catch(Exception e){}
-            
-            if(u != null){
-                String password = u.getPassword();
-                if(password.equals(hash)){
-                    logged = true;
-                    username = u.getUsername();
+            if(userOpt.isPresent()){
+                User user = userOpt.get();
+                if (user.isActive()) {
+                    String password = user.getPassword();
+                    if(password.equals(hash)){
+                        logged = true;
+                        username = user.getUsername();
 
-                    // qui sono sicuro che lo user esiste già
-                    System.out.println("USER TROVATO NEL DATABASE");
-                    CookieManager cm = new CookieManager();
-                    
-                    Cookie c = cm.setCookieOldUser(u);
-                    response.addCookie(c);
+                        // qui sono sicuro che lo user esiste già
+                        System.out.println("USER TROVATO NEL DATABASE");
+                        CookieManager cm = new CookieManager();
+
+                        Cookie c = cm.setCookieOldUser(user);
+                        response.addCookie(c);
+                    }
                 }
             }
             
