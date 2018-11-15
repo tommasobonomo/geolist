@@ -20,7 +20,12 @@
         <p><c:out value="${note}"/></p>
         <p><c:out value="${logo}"/></p>
         
-        <a href="/List?listID=${listID}">Back to List</a>
+        <c:if test="${listID}">
+        <a href="<c:url value="/List">
+                           <c:param name="listID" value="${listID}"/>
+                           <c:param name="action" value="view"/>
+                        </c:url>">Back to List</a>
+        </c:if>
         <a href="/">Back to Landing</a>
     </body>
 </html>

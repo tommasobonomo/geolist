@@ -23,6 +23,7 @@
                 <div class="name">
                     <a href="<c:url value="/List">
                            <c:param name="listID" value="${list.getId()}"/>
+                           <c:param name="action" value="view"/>
                         </c:url>">
                         <c:out value="${list.getName()}" />
                     </a>
