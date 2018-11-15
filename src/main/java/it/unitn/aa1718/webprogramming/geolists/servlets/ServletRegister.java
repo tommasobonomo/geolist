@@ -14,7 +14,12 @@ import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.annotation.WebServlet;
 
+@WebServlet(
+        name = "ServletRegister",
+        urlPatterns = "/form-actions/register"
+)
 public class ServletRegister extends HttpServlet {
      
     Random rand = new Random();

@@ -23,11 +23,13 @@
                 <div class="name">
                    <a href="<c:url value="/ItemServlet">
                            <c:param name="itemID" value="${item.getId()}"/>
+                           <c:param name="listID" value="${listID}"/>
                         </c:url>">
                         <c:out value="${item.getName()}" />
                     </a> 
                 </div>
             </c:forEach>
         </div>
+        <a href="/">Back to Landing</a>
     </body>
 </html>

@@ -19,5 +19,8 @@
         <h1><c:out value="${name}"/></h1>
         <p><c:out value="${note}"/></p>
         <p><c:out value="${logo}"/></p>
+        
+        <a href="/List?listID=${listID}">Back to List</a>
+        <a href="/">Back to Landing</a>
     </body>
 </html>

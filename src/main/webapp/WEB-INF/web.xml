@@ -41,5 +41,6 @@
         <servlet-name>ActivateAccount</servlet-name>
         <url-pattern>/activateAccount</url-pattern>
     </servlet-mapping>
-    
+-->
+            
 </web-app>

@@ -77,6 +77,7 @@ public class ListServlet extends HttpServlet {
         
         // Return everything to List.jsp
         response.setContentType("text/html;charset=UTF-8");
+        request.setAttribute("listID", listID);
         request.setAttribute("items", items);
         request.setAttribute("name", name);
         request.setAttribute("desc", desc);

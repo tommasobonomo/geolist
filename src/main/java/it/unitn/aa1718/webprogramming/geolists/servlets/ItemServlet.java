@@ -8,7 +8,6 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,6 +60,7 @@ public class ItemServlet extends HttpServlet {
         request.setAttribute("name", name);
         request.setAttribute("note", note);
         request.setAttribute("logo", logo);
+        request.setAttribute("listID", request.getParameter("listID"));
         request.getRequestDispatcher("/ROOT/Item.jsp").forward(request, response);
     }
 

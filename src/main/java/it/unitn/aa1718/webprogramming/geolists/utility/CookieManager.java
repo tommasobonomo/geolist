@@ -102,12 +102,8 @@ public class CookieManager{
             for (UserAnonimous u : lu){
                 if(u.getCookie().equals(this.cookie.getValue())){
                     System.out.println("TROVATO ANONIMO NEL DATABASE");
-<<<<<<< src/main/java/it/unitn/aa1718/webprogramming/geolists/utility/CookieManager.java
                     return Optional.of(u);
-=======
-                    return u;
                 }
->>>>>>> src/main/java/it/unitn/aa1718/webprogramming/geolists/utility/CookieManager.java
             }
         }
         
