@@ -83,7 +83,6 @@ public class ProductListDAO implements CrudDao<ProductList> {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             
-
             ps.setLong(1, obj.getUserOwner());
             ps.setLong(2, obj.getUserAnonOwner());
             ps.setLong(3, obj.getIdCat());
@@ -99,7 +98,33 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ex.printStackTrace();
         }
     }
-
+    
+    /**
+     * set the user owner anonymous of the list to null
+     * @param id of the list
+     */
+    public void updateUserAnonOwnerToNull(long id) {
+        String query="UPDATE List "
+                + "SET userAnonOwner=?"
+                + "WHERE id=?";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+            ps.setString(1, null);
+            ps.setLong(2,id);
+            
+            ps.executeUpdate();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
+        
+    }
+    
     @Override
     public void update(long id, ProductList obj) {
         String query="UPDATE List "

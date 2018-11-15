@@ -56,8 +56,6 @@ public class ProductList {
         this.description = description;
         this.image = image;
     }
-
-    
     
     public long getId() {
         return id;
@@ -142,5 +140,4 @@ public class ProductList {
         return "List{" + "id=" + id + ", userCreator=" + userOwner + ", idCat=" + idCat + ", name=" + name + ", description=" + description + ", image=" + image + '}';
     }
   
-    
 }
