@@ -10,10 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.digest.DigestUtils;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.utility.ParametersController;
 import java.sql.Timestamp;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.annotation.WebServlet;
 
 @WebServlet(
@@ -45,14 +43,16 @@ public class ServletRegister extends HttpServlet {
         this.email = request.getParameter("Email");
         this.password = request.getParameter("Password");
         
+        
+        ParametersController pc = new ParametersController();
         //controllo esistenza user
-        boolean unameNew = isUnameNew(this.username);
+        boolean unameNew = pc.isUnameNew(this.username);
         //controllo esistenza email
-        boolean emailNew = isEmailNew(this.email);
+        boolean emailNew = pc.isEmailNew(this.email);
         //controllo la email
-        boolean emailCheck = emailCtrl(this.email);
+        boolean emailCheck = pc.emailCtrl(this.email);
         //controllo la password
-        boolean passCheck = passwordCtrl(this.password);
+        boolean passCheck = pc.passwordCtrl(this.password);
         
         
         if(!passCheck){  //controllo password
@@ -88,92 +88,5 @@ public class ServletRegister extends HttpServlet {
         //mando l'utente nella pagina di errore
         request.getRequestDispatcher("/ROOT/email/error.jsp").forward(request, response);
         
-    }
-    
-
-    /**
-     * funzione che controlla che la password abbia le caratteristiche richieste
-     * @param password la password da controllare
-     * @return true nel caso la password abbia almeno una lettera, un numero e un carattere speciale
-     * false altrimenti
-     */
-    private boolean passwordCtrl(String password){
-        
-        // creo i pattern necessari per il controllo
-        Pattern letters = Pattern.compile("[a-zA-z]");
-        Pattern digit = Pattern.compile("[0-9]");
-        Pattern special = Pattern.compile("[^A-Za-z0-9]");
-       
-        // creo i matcher che controllano i pattern
-        Matcher hasLetters = letters.matcher(password);
-        Matcher hasNumber = digit.matcher(password);
-        Matcher hasSpecial = special.matcher(password);
-        
-        return hasLetters.find() && hasNumber.find() && hasSpecial.find();
-    }
-    
-    
-    /**
-     * function that check if the email is written correctly
-     * @param email email to check
-     * @return true if the email is written correctly false otherwise
-     */
-    private boolean emailCtrl(String email){
-        
-        // controllo esistenza della "@"
-        if(!email.contains("@")){
-            return false;
-        }else{
-            if(email.indexOf("@") == 0){
-                return false;
-            }else{
-                email = email.substring(email.indexOf("@"));
-                // controllo esistenza "."
-                if(!email.contains(".")){
-                    return false;
-                }else{
-                    // controllo esistenza di una stringa dopo il punto
-                    if(email.endsWith(".")){
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
-    
-    /**
-     * function that check if the username does already exist in the database and 
-     * if it's written correctly
-     * @param username username to check
-     * @return false if the username is already in the DB true otherwise
-     */
-    private boolean isUnameNew(String username){
-        
-        UserDAO db = new UserDAO();
-        Optional<User> u = db.get(username);
-        if(!username.contains(" ") && u.isPresent())
-            return false;
-        
-        return true;
-    }
-      
-    
-    
-    /**
-     * function that check if the email does already exist in the database
-     * @param email username to check
-     * @return false if the email is already in the DB true otherwise
-     */
-    private boolean isEmailNew(String email){
-        
-        email = email.toLowerCase();
-        
-        UserDAO db = new UserDAO();
-        Optional<User> u = db.getFromEmail(email);
-        if(u.isPresent())
-            return false;
-        
-        return true;
     }
 }
