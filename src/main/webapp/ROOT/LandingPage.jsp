@@ -17,11 +17,15 @@
     <body>
         
         <div class="header">Geolist</div>
-        
+        <h1>${username}</h1>
         <div class="list-category">
             <c:forEach var="list" items="${listOfPL}">
                 <div class="name">
-                    <c:out value="${list.getName()}" />
+                    <a href="<c:url value="/List">
+                           <c:param name="listID" value="${list.getId()}"/>
+                        </c:url>">
+                        <c:out value="${list.getName()}" />
+                    </a>
                 </div>
                 <c:set var="listID" value="${list.getId()}" />
                 <div class="items">
@@ -33,6 +37,7 @@
                 </div>
             </c:forEach>
         </div>
+
         
         <c:if test="${logged}">
             <p>User <c:out value="${username}"/> is logged in</p>

@@ -7,12 +7,16 @@ import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+@WebServlet(
+        name="LoginServlet",
+        urlPatterns = "/form-actions/login"
+)
 public class LoginServlet extends HttpServlet {
     
     // Funzione di gestione del metodo GET della pagina principale dell'applicazione

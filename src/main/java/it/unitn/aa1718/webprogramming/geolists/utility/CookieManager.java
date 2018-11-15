@@ -5,6 +5,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -38,9 +39,9 @@ public class CookieManager{
     
     /**
      * controlla che il cookie con il nome specificato sia associato ad un utente in User
-     * @return User con quel Cookie se trovato altrimenti Null
+     * @return Optional di User con quel Cookie se trovato altrimenti Null
      */
-    public User checkExistenceUser(){
+    public Optional<User> checkExistenceUser(){
         UserDAO db = new UserDAO();
         List<User> lu = db.getAll();
         
@@ -49,11 +50,11 @@ public class CookieManager{
             //appena trovato controllo che ci sia almeno uno User con quel cookie
             for (User u : lu){
                 if(u.getCookie()!= null && u.getCookie().equals(this.cookie.getValue()))
-                    return u;
+                    return Optional.of(u);
             }
         }
         
-        return null;
+        return Optional.empty();
     }
     
     
@@ -91,7 +92,7 @@ public class CookieManager{
      * controlla che il cookie con il nome specificato sia associato ad un utente in AnonimousUser
      * @return User con quel Cookie se trovato altrimenti Null
      */
-    public UserAnonimous checkExistenceAnonimous(){
+    public Optional<UserAnonimous> checkExistenceAnonimous(){
         UserAnonimousDAO db = new UserAnonimousDAO();
         List<UserAnonimous> lu = db.getAll();
         
@@ -101,19 +102,23 @@ public class CookieManager{
             for (UserAnonimous u : lu){
                 if(u.getCookie().equals(this.cookie.getValue())){
                     System.out.println("TROVATO ANONIMO NEL DATABASE");
+<<<<<<< src/main/java/it/unitn/aa1718/webprogramming/geolists/utility/CookieManager.java
+                    return Optional.of(u);
+=======
                     return u;
                 }
+>>>>>>> src/main/java/it/unitn/aa1718/webprogramming/geolists/utility/CookieManager.java
             }
         }
         
-        return null;
+        return Optional.empty();
     }
 
     /**
      * nel caso sia la prima volta che un utente accede creo un nuovo cookie anonimo
      * @param response 
      */
-    public Cookie createAnonimous(HttpServletResponse response) {
+    public Optional<UserAnonimous> createAnonimous(HttpServletResponse response) {
         UserAnonimousDAO db = new UserAnonimousDAO();
         Cookie c = null;
         
@@ -130,6 +135,8 @@ public class CookieManager{
         c.setPath("/");
         c.setMaxAge(60*60*24*365);
         
-        return c;
+        response.addCookie(c);
+        
+        return Optional.of(ua);
     }
 }

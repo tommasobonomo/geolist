@@ -6,6 +6,7 @@
 package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,8 +23,8 @@ import java.util.Optional;
 public class ProductListDAO implements CrudDao<ProductList> {
 
     private ProductList createProductList(ResultSet rs) throws SQLException {
-        return new ProductList(rs.getLong("id"),rs.getLong("userowner"),rs.getLong("useranonowner"), rs.getLong("idCat"),
-            rs.getString("name"),rs.getString("description"), rs.getString("image"));        
+        return new ProductList(rs.getLong("id"),rs.getLong("userOwner"), rs.getLong("userAnonOwner"),
+                rs.getLong("idCat"), rs.getString("name"),rs.getString("description"), rs.getString("image"));        
     }
     
     @Override
@@ -76,7 +77,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
     @Override
     public void create(ProductList obj) {
         String query= "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
-                        "VALUES (?,?,?,?,?)";
+                        "VALUES (?,?,?,?,?,?)";
         
         try {
             Connection c = Database.openConnection();
@@ -127,7 +128,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
     @Override
     public void update(long id, ProductList obj) {
         String query="UPDATE List "
-                + "SET userOwner=?,userAnonOwner=?, idCat=?, name=?, description=?, image=?"
+                + "SET userOwner=?, userAnonOwner=?, idCat=?, name=?, description=?, image=?"
                 + "WHERE id=?";
         
         try {
@@ -199,30 +200,32 @@ public class ProductListDAO implements CrudDao<ProductList> {
     }
     
     /**
-     * restituisce la lista di un utente anonimo
+     * @author giorgio
+     * 
+     * restituisce la lista di un utente anonimo, non una lista di liste
+     * dato che un utente puo averne al massimo una
      * @param userAnonID
-     * @return 
+     * @return optional of a product list, Otpional.empty() se non ce ne sono
      */
-    public List<ProductList> getListAnon(long userAnonID) {
+    public Optional<ProductList> getListAnon(long userAnonID) {
         String query = "SELECT * FROM List AS L WHERE L.useranonowner = " + userAnonID;
-        List<ProductList> list = new ArrayList<>();
-        ProductListDAO a = new ProductListDAO();
+        Optional<ProductList> res = Optional.empty();
         
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
-            while (rs.next()) {
-                list.add(a.get(rs.getLong("id")).get());
+            if (rs.next()) {
+                res=Optional.of(createProductList(rs));
             }
+            
             
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return list;
+        return res;
     }
-    
-    
+       
 }

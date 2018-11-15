@@ -57,7 +57,7 @@ public class AccessDAO{
      * @param userID
      * @return list of shhoppinglist
      */
-    public List<ProductList> getAll(long userID) {
+    public List<ProductList> getAllLists(long userID) {
         String query = "SELECT * FROM Access AS A WHERE A.iduser = " + userID;
         List<ProductList> list = new ArrayList<>();
         ProductListDAO a = new ProductListDAO();
@@ -126,5 +126,4 @@ public class AccessDAO{
             ex.printStackTrace();
         } 
     }
-    
 }
