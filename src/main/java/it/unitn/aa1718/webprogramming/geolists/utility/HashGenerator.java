@@ -38,9 +38,12 @@ public class HashGenerator {
             //per ogni byte della password genero un chunk da aggiungere in coda all'hash
             String chunk = Integer.toString(b, 16);
             
-            if (chunk.length() == 1){
+            if (chunk.length() == 1)
                 hash.append("0");
-            }
+            
+            if(chunk.startsWith("-"))
+                chunk = chunk.substring(1);
+            
             hash.append(chunk);
         }
         

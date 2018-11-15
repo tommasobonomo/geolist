@@ -10,17 +10,50 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style><%@include file="./css/LandingPage.css" %></style>
         <title>Landing Page</title>
     </head>
 
     <body>
-        <form action="login" method="GET">
-            username <input type="text" name="username">
-            <br>
-            password <input type="password" name="password">
-            <br>
-            <input type="submit" value="Submit">
-        </form>
+        
+        <div class="header">Geolist</div>
+        <h1>${username}</h1>
+        <div class="list-category">
+            <c:forEach var="list" items="${listOfPL}">
+                <div class="name">
+                    <a href="<c:url value="/List">
+                           <c:param name="listID" value="${list.getId()}"/>
+                        </c:url>">
+                        <c:out value="${list.getName()}" />
+                    </a>
+                </div>
+                <c:set var="listID" value="${list.getId()}" />
+                <div class="items">
+                    <c:forEach var="item" items="${itemsOfList.get(Long.valueOf(listID))}">
+                        <div class="list">
+                            <c:out value="${item.getName()}" />
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:forEach>
+        </div>
+
+        
+        <c:if test="${logged}">
+            <p>User <c:out value="${username}"/> is logged in</p>
+        </c:if>
+        <c:if test="${not logged}">
+            <div class="login-form">
+                <form method="POST" action="/form-actions/login">
+                    username <input type="text" name="username">
+                    <br/>
+                    password <input type="password" name="password">
+                    <br/>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </c:if>
+        
     </body>
 
 </html>
