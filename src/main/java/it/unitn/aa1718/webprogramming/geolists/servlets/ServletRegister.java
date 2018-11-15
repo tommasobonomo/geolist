@@ -1,5 +1,6 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.utility.EmailSender;
 import java.util.Random;
 import java.io.IOException;
@@ -13,6 +14,10 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.ParametersController;
 import java.sql.Timestamp;
 import javax.servlet.annotation.WebServlet;
+import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
+import java.util.Optional;
+
+
 
 @WebServlet(
         name = "ServletRegister",
@@ -25,7 +30,14 @@ public class ServletRegister extends HttpServlet {
             cookie= Integer.toString(rand.nextInt(5000000)+1), 
             image = "IMAGEN", token, time, timeToken;
     boolean admin=false, active=false;
-
+    
+    @Override
+    protected void  doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/ROOT/email/register.jsp").forward(request, response);
+     
+    }
+     
+    
     /**
      * @param request
      * @param response
@@ -35,7 +47,13 @@ public class ServletRegister extends HttpServlet {
     @Override
     protected void  doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-
+        
+        //con questo mi prendo l'utente anonimo con il cookie della richiesta
+        String cookieAnonimo = (request.getCookies())[0].getValue(); 
+        Optional<UserAnonimous> utenteAnonimo = (new UserAnonimousDAO()).getFromCookie(cookieAnonimo);
+        
+        
+        
         //prendo valori variabili dalla richiesta
         this.username = request.getParameter("UserName");
         this.name = request.getParameter("FirstName");
