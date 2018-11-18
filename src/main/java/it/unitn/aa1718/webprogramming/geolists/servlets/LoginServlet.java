@@ -31,6 +31,17 @@ public class LoginServlet extends HttpServlet {
         boolean logged = false;
         String username = "";
         
+        Cookie[] cookies = request.getCookies();
+        String thisCookie= "noCookie";
+        
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Cookie")) {
+                    thisCookie=cookie.getValue();
+                }
+            }
+        }
+        
         try {    
             // Genero l'hash per controllare la password
             String hash = HashGenerator.Hash(request.getParameter("password"));
@@ -46,10 +57,8 @@ public class LoginServlet extends HttpServlet {
                     String password = user.getPassword();
                     if(password.equals(hash)){
                         
-                        //prendo il cookie della request
-                        Cookie[] allCookie = request.getCookies();
-                        Cookie thisCookie = allCookie[0];
-
+                        System.out.println("debug servlet register: \n \n ");
+                        System.out.println(thisCookie); 
                         logged = true;
                         username = user.getUsername();
 
@@ -58,14 +67,15 @@ public class LoginServlet extends HttpServlet {
                     
                         UserAnonimousDAO uaDAO = new UserAnonimousDAO();
                     
-                        Optional <UserAnonimous> ua = uaDAO.getFromCookie(thisCookie.getValue());
-                        uaDAO.becomeUserRegister(ua.get(), user);
+                        Optional <UserAnonimous> ua = uaDAO.getFromCookie(thisCookie);
+                        System.out.println(ua.isPresent());
+                        if(ua.isPresent())
+                            uaDAO.becomeUserRegister(ua.get(), user);
                     
                         CookieManager cm = new CookieManager();
                     
                         Cookie c = cm.setCookieOldUser(user);
                         response.addCookie(c);
-                    
                     }
                 }
             }
