@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import javax.servlet.annotation.WebServlet;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import java.util.Optional;
+import javax.servlet.http.Cookie;
 
 
 
@@ -49,8 +50,18 @@ public class ServletRegister extends HttpServlet {
             throws ServletException, IOException {
         
         //con questo mi prendo l'utente anonimo con il cookie della richiesta
-        String cookieAnonimo = (request.getCookies())[0].getValue(); 
-        Optional<UserAnonimous> utenteAnonimo = (new UserAnonimousDAO()).getFromCookie(cookieAnonimo);
+        Cookie[] cookies = request.getCookies();
+        String thisCookie= "noCookie";
+        
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Cookie")) {
+                    thisCookie=cookie.getValue();
+                }
+            }
+        }
+        
+        Optional<UserAnonimous> utenteAnonimo = (new UserAnonimousDAO()).getFromCookie(thisCookie);
         
         
         
@@ -87,8 +98,15 @@ public class ServletRegister extends HttpServlet {
             //creo user che andrò a ficcare nel database e lo inserisco
             User u = new User(this.cookie, this.username, this.name, this.lastname, 
                               this.email, this.password, this.image, this.token, false, false);
-            UserDAO UD = new UserDAO();
-            UD.create(u);
+           
+            
+            UserAnonimousDAO uaDAO = new UserAnonimousDAO();
+            
+            if(utenteAnonimo.isPresent()) // per evitare null pointer
+                uaDAO.becomeUserRegister(utenteAnonimo.get(), u);
+            else //in caso di errore nei cookie comunque viene aggiunto al db
+                (new UserDAO()).create(u);
+            
             
             //mi salvo il tempo attuale, che inviero' dopo nell'email
             Timestamp timestamp = new Timestamp(System.currentTimeMillis()); // salva in millisecondi da quando e' stato schiacciato il tasto per registrare

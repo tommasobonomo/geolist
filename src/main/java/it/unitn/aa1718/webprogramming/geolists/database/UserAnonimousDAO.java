@@ -5,6 +5,7 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database;
 
+import it.unitn.aa1718.webprogramming.geolists.database.models.Access;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
@@ -50,10 +51,19 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             u_new = userDb.getUser(u.getCookie()).get();
         }
         
+        
+        
         ProductListDAO listDb = new ProductListDAO();
-        Optional<ProductList> p = listDb.getListAnon(ua.getId());  // prendo la lista
-                                                                //dell'utente anonimo
+        Optional<ProductList> p = listDb.getListAnon(ua.getId());  // prendo la lista dell'utente anonimo
+                                                                
+        AccessDAO aDAO = new AccessDAO();
+        
         if(p.isPresent()){   // se possiede una lista l'utente anonimo
+            //aggiungo l'accesso
+            Access a = new Access(u_new.getId(), p.get().getId());
+            aDAO.create(a);
+            
+            //setto il possessore all'utente esistente
             p.get().setUserOwner(u_new.getId());
             listDb.update(p.get().getId(), p.get()); // aggiorno la lista
             listDb.updateUserAnonOwnerToNull(p.get().getId()); // setto a null l'anonimoowner nella tabella lista
