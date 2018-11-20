@@ -24,6 +24,8 @@
             <br/>
             password <input type="password" name="Password">
             <br/>
+            <input type="checkbox"  name="remember">
+            Remember<br>
             <input type="submit" value="Submit">
         </form>
     </body>
