@@ -47,14 +47,15 @@ public class ListServlet extends HttpServlet {
         String action = request.getParameter("action");
         
         switch(action) {
-            case "view":
-                viewList(request,response,listID);
-                break;
             case "addItem":
                 addItem(request,response,listID);
                 break;
             case "removeItem":
                 removeItem(request,response,listID);
+                break;
+            case "view":
+            default:
+                viewList(request,response,listID);
         }
         
     }
