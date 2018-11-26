@@ -27,7 +27,11 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Variabili dove salvare risultato query
+        boolean remember=true;
+        //per leggere il valore della checkbox e trasformarlo in boolean
+        remember = "on".equals(request.getParameter("remember"));
+        //System.out.println(remember+"\n\n");
+        
         boolean logged = false;
         String username = "";
         
@@ -57,25 +61,29 @@ public class LoginServlet extends HttpServlet {
                     String password = user.getPassword();
                     if(password.equals(hash)){
                         
-                        System.out.println("debug servlet register: \n \n ");
-                        System.out.println(thisCookie); 
                         logged = true;
                         username = user.getUsername();
 
-                        // qui sono sicuro che lo user esiste già
-                        System.out.println("USER TROVATO NEL DATABASE");
-                    
+                        
                         UserAnonimousDAO uaDAO = new UserAnonimousDAO();
                     
                         Optional <UserAnonimous> ua = uaDAO.getFromCookie(thisCookie);
-                        System.out.println(ua.isPresent());
+                        
                         if(ua.isPresent())
                             uaDAO.becomeUserRegister(ua.get(), user);
                     
                         CookieManager cm = new CookieManager();
-                    
-                        Cookie c = cm.setCookieOldUser(user);
-                        response.addCookie(c);
+                        
+                        if(remember==true){//se l'utente vuole essere ricordato
+                            Cookie c = cm.setCookieOldUser(user);
+                            c.setMaxAge(60*60*24*7);//ricordo l'utente per una settimana
+                            response.addCookie(c);
+                        }
+                        else{//se l'utente non vuole essere ricordato
+                            Cookie c = cm.setCookieOldUser(user);
+                            c.setMaxAge(60*30);//ricordo l'utente per mezz'ora
+                            response.addCookie(c);
+                        }
                     }
                 }
             }
