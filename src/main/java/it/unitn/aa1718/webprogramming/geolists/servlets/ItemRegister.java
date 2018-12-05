@@ -14,6 +14,7 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.util.Random;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Part;
 
 @WebServlet(
         name = "ItemRegister",
@@ -70,22 +71,20 @@ public class ItemRegister extends HttpServlet {
         int LastIndex = contentType.lastIndexOf("=");
         String bordo =contentType.substring(LastIndex +1,contentType.length());
         int pos;
-        pos =file.indexOf("filename=\"");
-        pos =file.indexOf("\n",pos) +1;
-        pos =file.indexOf("\n",pos) +1;
-        pos =file.indexOf("\n",pos) +1;
+        pos = file.indexOf("filename=\"");
+        pos = file.indexOf("\n",pos) +1;
+        pos = file.indexOf("\n",pos) +1;
+        pos = file.indexOf("\n",pos) +1;
         int bordoLocation = file.indexOf(bordo,pos)-4;
         int startpos =((file.substring(0,pos)).getBytes()).length;
         int endpos =((file.substring(0,bordoLocation)).getBytes()).length;
         File ff =new File("c:/docs/DB_photos/"+logo);
         this.foto=("c:/docs/DB_photos/"+logo);
         
-        
             Item u = new Item(this.id, this.idCat, this.name, this.foto, this.note); 
            
             ItemDAO ID = new ItemDAO();
             ID.create(u);
-            
             
             //mando l'utente nella pagina di corretto invio della mail
             request.getRequestDispatcher("/ROOT/email/verify.jsp").forward(request, response);

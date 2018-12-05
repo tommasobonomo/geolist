@@ -29,13 +29,12 @@ public class Item {
      * @param price
      * @param note
      */
-    public Item(long id, long idCat, String name, String logo, String note, BigDecimal price) {
+    public Item(long id, long idCat, String name, String logo, String note) {
         this.id = id;
         this.idCat = idCat;
         this.name = name;
         this.logo = logo;
         this.note = note;
-        this.price = price;
     }
     
     /**
@@ -47,12 +46,11 @@ public class Item {
      * @param note
      * @param price
      */
-    public Item(long idCat, String name, String logo, String note, BigDecimal price) {
+    public Item(long idCat, String name, String logo, String note) {
         this.idCat = idCat;
         this.name = name;
         this.logo = logo;
         this.note = note;
-        this.price = price;
     }
 
     public long getId() {
@@ -95,17 +93,12 @@ public class Item {
         this.note = note;
     }
     
-    public BigDecimal getPrice() {
-        return price;
-    }
     
     /**
      * use BigDecimal.valueOf(12.33) for set the value
      * @param price
      */
-    public void setPrice(BigDecimal price) {
-        this.price=price;
-    }
+
 
     @Override
     public int hashCode() {
@@ -131,7 +124,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" + "idItem=" + id + ", idCat=" + idCat + ", name=" + name + ", logo=" + logo + ", note=" + note + ", price=" + price + '}';
+        return "Item{" + "idItem=" + id + ", idCat=" + idCat + ", name=" + name + ", logo=" + logo + ", note=" + note + '}';
     }
     
 }
