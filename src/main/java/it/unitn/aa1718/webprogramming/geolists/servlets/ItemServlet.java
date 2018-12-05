@@ -49,13 +49,7 @@ public class ItemServlet extends HttpServlet {
         String note = "";
         String logo = "";
         
-        if (itemOpt.isPresent()) {
-            Item item = itemOpt.get();
-            name = item.getName();
-            note = item.getNote();
-            logo = item.getLogo();
-        }
-        
+         
         response.setContentType("text/html;charset=UTF-8");
         request.setAttribute("name", name);
         request.setAttribute("note", note);
