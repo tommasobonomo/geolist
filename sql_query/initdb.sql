@@ -66,7 +66,7 @@ CREATE TABLE item (
         REFERENCES citem(id)
         ON DELETE CASCADE,
     "NAME" VARCHAR(30),
-    logo VARCHAR(50),
+    logo blob,
     note VARCHAR(30),
     CONSTRAINT item_pk PRIMARY KEY (id)
 );

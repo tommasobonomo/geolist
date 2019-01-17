@@ -7,6 +7,7 @@ package it.unitn.aa1718.webprogramming.geolists.database;
  */
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -79,15 +80,26 @@ public class ItemDAO implements CrudDao<Item>{
     public void create(Item obj) {
         String query= "INSERT INTO GEODB.ITEM(IDCAT,\"NAME\",LOGO,NOTE)\n" +
                         "VALUES (?,?,?,?)";
-        
+        InputStream inputStream = null;
+        String message = null;
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             
-
+            if (inputStream != null) {
+                ps.setBlob(3, inputStream);
+            }
+            System.out.println("NOME" + obj.getName());
+            System.out.println("NOTE" + obj.getNote());
+                    
+            int row = ps.executeUpdate();
+            if (row > 0) {
+                System.out.println( "File uploaded and saved into database");
+            }
+         
             ps.setLong(1, obj.getIdCat());
             ps.setString(2, obj.getName());
-            ps.setString(3, obj.getLogo());
+           // ps.setString(3, obj.getLogo());
             ps.setString(4, obj.getNote());
             
             ps.executeUpdate();
@@ -97,6 +109,11 @@ public class ItemDAO implements CrudDao<Item>{
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+            // sets the message in request scope
+             System.out.println("Message" + message);
+
+        
+    
     }
 
     @Override
