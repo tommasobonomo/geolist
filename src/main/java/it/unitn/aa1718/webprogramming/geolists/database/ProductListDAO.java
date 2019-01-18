@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import static java.sql.Types.INTEGER;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,25 +78,72 @@ public class ProductListDAO implements CrudDao<ProductList> {
     public void create(ProductList obj) {
         String query= "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
                         "VALUES (?,?,?,?,?,?)";
-        
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             
-            ps.setLong(1, obj.getUserOwner());
-            ps.setLong(2, obj.getUserAnonOwner());
+            if (obj.getUserOwner() == 0) {
+                ps.setNull(1, INTEGER);
+            } else {
+                ps.setLong(1, obj.getUserOwner());
+            }
+            if (obj.getUserAnonOwner() == 0) {
+                ps.setNull(2, INTEGER);
+            } else {
+                ps.setLong(2, obj.getUserAnonOwner());
+            }
             ps.setLong(3, obj.getIdCat());
             ps.setString(4, obj.getName());
             ps.setString(5, obj.getDescription());
             ps.setString(6, obj.getImage());
             
             ps.executeUpdate();
+            
             ps.close();
             Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public Optional<Long> createAndReturnID(ProductList obj) {
+        String query= "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
+                        "VALUES (?,?,?,?,?,?)";
+        Optional<Long> listID = Optional.empty();
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            
+            if (obj.getUserOwner() == 0) {
+                ps.setNull(1, INTEGER);
+            } else {
+                ps.setLong(1, obj.getUserOwner());
+            }
+            if (obj.getUserAnonOwner() == 0) {
+                ps.setNull(2, INTEGER);
+            } else {
+                ps.setLong(2, obj.getUserAnonOwner());
+            }
+            ps.setLong(3, obj.getIdCat());
+            ps.setString(4, obj.getName());
+            ps.setString(5, obj.getDescription());
+            ps.setString(6, obj.getImage());
+            
+            ps.executeUpdate();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                listID = Optional.of(rs.getLong(1));
+            }
+            
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listID;
     }
     
     /**
