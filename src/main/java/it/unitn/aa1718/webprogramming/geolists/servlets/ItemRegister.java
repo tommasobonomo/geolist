@@ -40,7 +40,7 @@ public class ItemRegister extends HttpServlet {
     Random rand = new Random();
     String note, name, logo,foto;
     int  id = rand.nextInt(5000000) + 1;
-    int  idCat = rand.nextInt(5000000) + 1;
+    int  idCat = 2;//rand.nextInt(5000000) + 1;
     InputStream inputStream = null;
      
     

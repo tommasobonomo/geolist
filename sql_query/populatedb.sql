@@ -56,7 +56,7 @@ VALUES  (1,2),
         (8,1),
         (2,6),
         (4,2);
-
+/*
 INSERT INTO GEODB.ITEM(IDCAT,ID,"NAME",LOGO, NOTE)
 VALUES (1,DEFAULT,'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
        (2,DEFAULT,'chicken','c:\docs\DB_photos\chicken.png','sdflkje'),
@@ -94,7 +94,7 @@ VALUES (1,DEFAULT,'wurstel','c:\docs\DB_photos\wurstel.png' ,'pasta'),
        (5,DEFAULT,'burrito','c:\docs\DB_photos\burrito.png', 'feluakh'),
        (5,DEFAULT,'paella','c:\docs\DB_photos\paella.png', 'feluakh'); 
 
- 
+
  
 INSERT INTO GEODB.COMPOSE(LIST,ITEM)
 VALUES (1,1),
@@ -126,7 +126,7 @@ VALUES (1,1),
        (8,4),
        (8,5);
 
-
+ */
 INSERT INTO GEODB.ACCESS(IDUSER, IDLIST)
 VALUES(1,1),
       (1,2),
