@@ -37,7 +37,8 @@
                     </c:forEach>
                 </div>
                 <a href="<c:url value="/ListRegistration">
-                       <c:param name="action" value="remove"/>
+                       <c:param name="action" value="removeList"/>
+                       <c:param name="listID" value="${listID}"/>
                     </c:url>">
                     Remove
                 </a>

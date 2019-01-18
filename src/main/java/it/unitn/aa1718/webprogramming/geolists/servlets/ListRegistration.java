@@ -55,10 +55,18 @@ public class ListRegistration extends HttpServlet {
         switch(request.getParameter("action")) {
             case "addList":
                 addList(request,response,userOpt,userAnonOpt);
+                request.removeAttribute("action");
+                request.getRequestDispatcher("/").forward(request, response);
+                break;
+            case "removeList":
+                removeList(request,response,userOpt,userAnonOpt);
+                request.removeAttribute("action");
+                request.getRequestDispatcher("/").forward(request, response);
                 break;
             case "viewForm":
             default:
                 viewForm(request,response,userOpt,userAnonOpt);
+                request.getRequestDispatcher("ROOT/AddList.jsp").forward(request,response);
         }
     }
 
@@ -75,8 +83,6 @@ public class ListRegistration extends HttpServlet {
        
         List<CatList> possibleCategories = getListCategories();
         request.setAttribute("categories", possibleCategories);
-        
-        request.getRequestDispatcher("ROOT/AddList.jsp").forward(request,response);
     }
     
     private void addList(HttpServletRequest request, HttpServletResponse response,
@@ -104,14 +110,20 @@ public class ListRegistration extends HttpServlet {
         // If not anonymous user, add to Access
         AccessDAO accessDAO = new AccessDAO();
         accessDAO.create(new Access(userID, listID.get()));
-        
-        request.removeAttribute("action");
-        request.getRequestDispatcher("/").forward(request, response);
     }
     
     private List<CatList> getListCategories() {
         CatProductListDAO clDAO = new CatProductListDAO();
         return clDAO.getAll();
+    }
+
+    private void removeList(HttpServletRequest request, HttpServletResponse response, Optional<User> userOpt, Optional<UserAnonimous> userAnonOpt) {
+        long listID = Long.parseLong(request.getParameter("listID"));
+        
+        // Rimuovo direttamente da CLIST
+        // Cascade dovrebbe rimuovere dalle altre, tipo ACCESS
+        ProductListDAO plDAO = new ProductListDAO();
+        plDAO.delete(listID);
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
