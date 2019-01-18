@@ -132,3 +132,13 @@ VALUES(1,1),
       (1,2),
       (2,1);
 
+INSERT INTO GEODB.CHAT(ID,"NAME",PICTURE,DESCRIPTION)
+VALUES (DEFAULT, 'castori', 'path', 'group of computer science'),
+       (DEFAULT, 'family', 'path', 'family group');
+
+INSERT INTO GEODB.ISIN(IDUSER,IDCHAT)
+VALUES (1,1),(1,2),(2,1),(3,1),(4,2);
+
+INSERT INTO GEODB.MESSAGE(ID,IDUSER,IDCHAT,TEXT,SENDTIME)
+VALUES (DEFAULT,1,1,'state studiando web?',CURRENT_TIMESTAMP),
+       (DEFAULT,2,1,'no',CURRENT_TIMESTAMP);
