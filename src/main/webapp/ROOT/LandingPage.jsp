@@ -36,9 +36,19 @@
                         </div>
                     </c:forEach>
                 </div>
+                <a href="<c:url value="/ListRegistration">
+                       <c:param name="action" value="remove"/>
+                    </c:url>">
+                    Remove
+                </a>
             </c:forEach>
         </div>
 
+        <a href="<c:url value="/ListRegistration">
+               <c:param name="action" value="formView"/>
+           </c:url>">
+            Add list
+        </a>
         
         <c:if test="${logged}">
             <p>User <c:out value="${username}"/> is logged in</p>
