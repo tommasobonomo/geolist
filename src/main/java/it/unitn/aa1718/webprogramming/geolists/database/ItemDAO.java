@@ -91,17 +91,15 @@ public class ItemDAO implements CrudDao<Item>{
             }
             System.out.println("NOME" + obj.getName());
             System.out.println("NOTE" + obj.getNote());
-                    
-            int row = ps.executeUpdate();
-            if (row > 0) {
-                System.out.println( "File uploaded and saved into database");
-            }
          
             ps.setLong(1, obj.getIdCat());
             ps.setString(2, obj.getName());
             ps.setString(4, obj.getNote());
             
-            ps.executeUpdate();
+            int row = ps.executeUpdate();
+            if (row > 0) {
+                System.out.println( "File uploaded and saved into database");
+            }
             ps.close();
             Database.closeConnection(c);
             
