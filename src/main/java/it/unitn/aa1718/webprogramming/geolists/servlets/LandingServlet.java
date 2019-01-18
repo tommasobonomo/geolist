@@ -114,6 +114,7 @@ public class LandingServlet extends HttpServlet {
                     if (itemOpt.isPresent()) {
                         items.add(itemOpt.get());
                     }
+
                 }
                 itemsOfList.put(listID, items);
             }

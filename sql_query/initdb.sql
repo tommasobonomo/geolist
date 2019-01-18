@@ -137,3 +137,38 @@ CREATE TABLE productsoflists(
         REFERENCES citem(id)
         ON DELETE CASCADE
 );    
+
+CREATE TABLE chat(
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    "NAME" VARCHAR(30),
+    picture VARCHAR(50),
+    description VARCHAR(50),
+    CONSTRAINT chat_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE isIn(
+    idUser INTEGER,
+    idChat INTEGER,
+    FOREIGN KEY (idUser) 
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (idChat) 
+        REFERENCES chat(id)
+        ON DELETE CASCADE,
+    PRIMARY KEY (idUser, idChat) 
+);
+
+CREATE TABLE message(
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    idUser INTEGER,
+    idChat INTEGER,
+    text VARCHAR(200),
+    sendTime TIMESTAMP, 
+    FOREIGN KEY (idUser) 
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (idChat) 
+        REFERENCES chat(id)
+        ON DELETE CASCADE,
+    CONSTRAINT message_pk PRIMARY KEY (id)
+);

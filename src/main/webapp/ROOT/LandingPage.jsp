@@ -18,6 +18,9 @@
         
         <div class="header">Geolist</div>
         <h1>${username}</h1>
+        
+        <img src="<c:url value="/images/banana.png"/>" width="100"/>
+        
         <div class="list-category">
             <c:forEach var="list" items="${listOfPL}">
                 <div class="name">
@@ -61,6 +64,8 @@
                     <br/>
                     password <input type="password" name="password">
                     <br/>
+                    <input type="checkbox"  name="remember">
+                    Remember<br>
                     <input type="submit" value="Submit">
                 </form>
             </div>
