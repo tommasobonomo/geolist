@@ -26,6 +26,7 @@
                 <div class="name">
                     <a href="<c:url value="/List">
                            <c:param name="listID" value="${list.getId()}"/>
+                           <c:param name="action" value="view"/>
                         </c:url>">
                         <c:out value="${list.getName()}" />
                     </a>
@@ -38,9 +39,20 @@
                         </div>
                     </c:forEach>
                 </div>
+                <a href="<c:url value="/ListRegistration">
+                       <c:param name="action" value="removeList"/>
+                       <c:param name="listID" value="${listID}"/>
+                    </c:url>">
+                    Remove
+                </a>
             </c:forEach>
         </div>
 
+        <a href="<c:url value="/ListRegistration">
+               <c:param name="action" value="formView"/>
+           </c:url>">
+            Add list
+        </a>
         
         <c:if test="${logged}">
             <p>User <c:out value="${username}"/> is logged in</p>

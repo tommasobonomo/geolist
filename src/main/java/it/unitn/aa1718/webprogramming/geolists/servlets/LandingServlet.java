@@ -26,6 +26,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -57,6 +58,8 @@ public class LandingServlet extends HttpServlet {
         List<ProductList> listOfPL;
         Map<Long,List<Item>> itemsOfList;
         String username;
+        boolean isAnon = true;
+        long id = 0;
         
         // User e UserAnonimous, a seconda di quale user abbiamo        
         Optional<User> userOpt = Optional.empty();
@@ -78,12 +81,20 @@ public class LandingServlet extends HttpServlet {
                 } else {
                     alreadyLogged = true;
                 }
+                id = userAnonOpt.get().getId();
+            } else {
+                id = userOpt.get().getId();
             }
         }
         
-
+        // Setto attributi userOpt e userAnonOpt in sessione.
+        HttpSession session = request.getSession();
+        session.setAttribute("userOpt", userOpt);
+        session.setAttribute("userAnonOpt", userAnonOpt);
+        
         // Se cookie indica un normale utente
         if (userOpt.isPresent()) {
+            isAnon = false;
             // DAO necessari
             AccessDAO accessDAO = new AccessDAO();
             ComposeDAO composeDAO = new ComposeDAO();
@@ -141,25 +152,23 @@ public class LandingServlet extends HttpServlet {
                  // Aggiungi all'unica entrata di itemsOfList
                 itemsOfList.put(listID, items);
             }
-            
             username = "ANONYMOUS";
-            
         } else {
-            // Se non è un utente già loggato, nessuna lista e nessun elemento
             listOfPL = new ArrayList<>();
             itemsOfList = new HashMap<>();
             username = "ANONYMOUS";
         }
-        
       
         // Aggiungo i parametri alla richiesta da inoltrare alla JSP
         response.setContentType("text/html;charset=UTF-8");
         request.setAttribute("listOfPL", listOfPL);
         request.setAttribute("itemsOfList", itemsOfList);
         request.setAttribute("username", username);
+        request.setAttribute("isAnon", isAnon);
+        request.setAttribute("id", id);
         request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -202,5 +211,5 @@ public class LandingServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }
