@@ -71,7 +71,7 @@ public class ItemRegister extends HttpServlet {
         }
          
         //logo="c:\\docs\\DB_photos\\"+name+(".png");
-            Item u = new Item(this.id, this.idCat, this.name, this.foto, this.note); 
+            Item u = new Item(this.id, this.idCat, this.name, this.inputStream, this.note); 
            
             ItemDAO ID = new ItemDAO();
             ID.create(u);

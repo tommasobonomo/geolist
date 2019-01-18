@@ -24,8 +24,7 @@ import java.util.Optional;
 public class ItemDAO implements CrudDao<Item>{
 
     private Item createItem(ResultSet rs) throws SQLException {
-        return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("name"),
-                rs.getString("logo"), rs.getString("note"));
+        return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("name"), (InputStream) rs.getBlob("logo"), rs.getString("note"));
     }
     
     @Override
@@ -80,14 +79,15 @@ public class ItemDAO implements CrudDao<Item>{
     public void create(Item obj) {
         String query= "INSERT INTO GEODB.ITEM(IDCAT,\"NAME\",LOGO,NOTE)\n" +
                         "VALUES (?,?,?,?)";
-        InputStream inputStream = null;
+        //InputStream inputStream = null;
         String message = null;
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             
-            if (inputStream != null) {
-                ps.setBlob(3, inputStream);
+            if (obj.getLogo() != null) {
+                 ps.setBlob(3, obj.getLogo());
+
             }
             System.out.println("NOME" + obj.getName());
             System.out.println("NOTE" + obj.getNote());
@@ -99,7 +99,6 @@ public class ItemDAO implements CrudDao<Item>{
          
             ps.setLong(1, obj.getIdCat());
             ps.setString(2, obj.getName());
-           // ps.setString(3, obj.getLogo());
             ps.setString(4, obj.getNote());
             
             ps.executeUpdate();
@@ -129,7 +128,7 @@ public class ItemDAO implements CrudDao<Item>{
 
             ps.setLong(1, obj.getIdCat());
             ps.setString(2, obj.getName());
-            ps.setString(3, obj.getLogo());
+            ps.setBlob(3, obj.getLogo());
             ps.setString(4, obj.getNote());
             ps.setLong(6, id);
             

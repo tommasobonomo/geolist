@@ -5,7 +5,9 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database.models;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.Blob;
 
 /**
  * Model of the Item relation
@@ -15,7 +17,7 @@ public class Item {
     private long id;
     private long idCat;
     private String name;
-    private String logo;
+    private InputStream logo;
     private String note;
     private BigDecimal price;
 
@@ -29,7 +31,7 @@ public class Item {
      * @param price
      * @param note
      */
-    public Item(long id, long idCat, String name, String logo, String note) {
+    public Item(long id, long idCat, String name, InputStream logo, String note) {
         this.id = id;
         this.idCat = idCat;
         this.name = name;
@@ -46,7 +48,7 @@ public class Item {
      * @param note
      * @param price
      */
-    public Item(long idCat, String name, String logo, String note) {
+    public Item(long idCat, String name, InputStream logo, String note) {
         this.idCat = idCat;
         this.name = name;
         this.logo = logo;
@@ -77,11 +79,11 @@ public class Item {
         this.name = name;
     }
 
-    public String getLogo() {
+    public InputStream getLogo() {
         return logo;
     }
 
-    public void setLogo(String logo) {
+    public void setLogo(InputStream logo) {
         this.logo = logo;
     }
 
