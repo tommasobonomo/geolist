@@ -5,6 +5,8 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database.models;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author root
@@ -13,7 +15,7 @@ public class Message {
     private long id;
     private long idChat;
     private long idUser;
-    private String sendTime;
+    private Timestamp sendTime;
     private String text;
     
     /**
@@ -24,7 +26,7 @@ public class Message {
      * @param sendTime
      * @param text
      */
-    public Message(long id, long idUser , long idChat , String sendTime, String text){
+    public Message(long id, long idUser , long idChat , Timestamp sendTime, String text){
         this.id = id;
         this.idChat = idChat;
         this.idUser = idUser;
@@ -39,7 +41,7 @@ public class Message {
      * @param sendTime
      * @param text
      */
-    public Message(long idUser , long idChat , String sendTime, String text){
+    public Message(long idUser , long idChat , Timestamp sendTime, String text){
         this.idChat = idChat;
         this.idUser = idUser;
         this.sendTime = sendTime;
@@ -70,11 +72,11 @@ public class Message {
         this.idUser = idUser;
     }
     
-    public String getSendTime() {
+    public Timestamp getSendTime() {
         return sendTime;
     }
 
-    public void setSendTime(String sendTime) {
+    public void setSendTime(Timestamp sendTime) {
         this.sendTime = sendTime;
     }
     
@@ -106,6 +108,11 @@ public class Message {
         }
         final Message other = (Message) obj;
         return this.id == other.id;
+    }
+    
+    @Override
+    public String toString() {
+        return text;
     }
     
 }
