@@ -94,4 +94,9 @@ public class Chat {
         final Chat other = (Chat) obj;
         return this.id == other.id;
     }
+    
+    @Override
+    public String toString() {
+        return "Chat{" + "id=" + id + ", name=" + name + ", description=" + description + ", image=" + picture + '}';
+    }
 }
