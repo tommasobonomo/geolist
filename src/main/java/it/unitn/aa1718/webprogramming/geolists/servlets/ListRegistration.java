@@ -55,13 +55,11 @@ public class ListRegistration extends HttpServlet {
         switch(request.getParameter("action")) {
             case "addList":
                 addList(request,response,userOpt,userAnonOpt);
-                request.removeAttribute("action");
-                request.getRequestDispatcher("/").forward(request, response);
+                response.sendRedirect("/");
                 break;
             case "removeList":
                 removeList(request,response,userOpt,userAnonOpt);
-                request.removeAttribute("action");
-                request.getRequestDispatcher("/").forward(request, response);
+                response.sendRedirect("/");
                 break;
             case "viewForm":
             default:
