@@ -22,6 +22,12 @@ public class CatItem {
         this.description = description;
         this.image = image;
     }
+    
+    public CatItem( String name, String description, String image) {
+        this.name = name;
+        this.description = description;
+        this.image = image;
+    }
 
     public long getIdCatItem() {
         return idCatItem;
