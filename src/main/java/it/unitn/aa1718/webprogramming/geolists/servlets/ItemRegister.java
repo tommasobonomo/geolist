@@ -1,22 +1,17 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
-import java.io.DataInputStream;
-import java.io.File;
 import java.util.Random;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Part;
+
 
 
  
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -40,7 +35,7 @@ public class ItemRegister extends HttpServlet {
     Random rand = new Random();
     String note, name,cat;
     int  id = rand.nextInt(5000000) + 1;
-    int  idCat = 2;//rand.nextInt(5000000) + 1;
+    long  idCat;//rand.nextInt(5000000) + 1;
     InputStream inputStream = null;
      
     
@@ -59,7 +54,10 @@ public class ItemRegister extends HttpServlet {
         this.name = request.getParameter("Name");
         this.note = request.getParameter("Note");
         this.cat = request.getParameter("Cat");
+        this.idCat = Long.parseLong(request.getParameter("category"));
         
+        List<CatList> possibleCategories = getListCategories();
+        request.setAttribute("categories", possibleCategories);
         
         
         Part filePart = request.getPart("File");
@@ -84,5 +82,8 @@ public class ItemRegister extends HttpServlet {
             request.getRequestDispatcher("/ROOT/email/verify.jsp").forward(request, response);
         }
        
-    
+    private List<CatList> getListCategories() {
+        CatProductListDAO clDAO = new CatProductListDAO();
+        return clDAO.getAll();
+    }
     }

@@ -20,6 +20,13 @@
             Logo <input tag="multipart" type="file" name="File">
             <br/>
             Note <input type="text" name="Note">
+            <br/>
+            <select name="category">
+                <c:forEach items="${categories}" var="cat">
+                    <option value="${cat.getIdCategory()}">${cat.getName()}</option>
+                </c:forEach>
+            </select>
+            <br/>
             <input type="submit" value="Submit">
         </form>
     </body>
