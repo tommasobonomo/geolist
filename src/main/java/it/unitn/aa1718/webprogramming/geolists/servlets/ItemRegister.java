@@ -38,7 +38,7 @@ import javax.servlet.http.Part;
 public class ItemRegister extends HttpServlet {
      
     Random rand = new Random();
-    String note, name, logo,foto;
+    String note, name,cat;
     int  id = rand.nextInt(5000000) + 1;
     int  idCat = 2;//rand.nextInt(5000000) + 1;
     InputStream inputStream = null;
@@ -58,6 +58,9 @@ public class ItemRegister extends HttpServlet {
         //prendo valori variabili dalla richiesta
         this.name = request.getParameter("Name");
         this.note = request.getParameter("Note");
+        this.cat = request.getParameter("Cat");
+        
+        
         
         Part filePart = request.getPart("File");
         if (filePart != null) {
