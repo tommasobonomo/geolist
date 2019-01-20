@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+
+/*general*/
+.padding{
+    padding-bottom: 2rem;
+}
+.p-75{
+    width: 80%;
+    margin: 0 auto;
+}
+
+/*head e body*/
+head, body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    color: #222;
+}
+
+/*navbar*/
+.navbar-nav li {
+    padding-right:20;
+}
+.nav-link {
+    font-size: 1.1em !important;
+}
+.logo-text {
+    font-weight: bold;
+    font-size: 20;
+    padding-left: 8px;
+}
+
+/*modal*/
+.form-spacer {
+    width: 100%;
+    margin: 0 auto;
+}
+.modal-content {
+    border-radius: 10px;
+}
+#close-button {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+}
+.myModalHeader{
+    margin-left: 50%;
+}
+
+/*welcome*/
+.welcome {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 2rem;
+}
+.welcome hr {
+    border-top: 2px solid #b4b4b4;
+    width: 80%;
+    margin-top: .3rem;
+    margin-bottom: 1rem;
+}
+.logo-text-xxl{
+    font-weight: bold;
+    font-size: 40;
+    margin: 0 auto;
+}
+
+/*icone spiegazione*/
+.fa-list-ol{
+    color: #e5ad26;
+}
+.fa-user-friends{
+    color: #563d7c;
+}
+.fa-map-marked-alt{
+    color: #2163af;
+}
+.fa-list-ol, .fa-map-marked-alt, .fa-user-friends{
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+/*jumbotron*/
+.jumbotron{
+    margin: 0 auto;
+    background-image: url('../images/wallpaper/fac-simile\ video.jpg');
+    width: 100%;
+    height: 400px;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    margin-bottom: 2rem;
+    opacity: .8;
+    background-size:100% 100%;
+}
+.jumbotron:hover{
+    opacity: 1;
+    background-size: 101% 101%;
+}
+.jumbotron p{
+    position: relative;
+    color: white;
+    width: 75%;
+    margin: 0 auto;
+    text-shadow: 2px 2px black;
+}
+
+/*cards*/
+.card{
+    margin-bottom: 1rem;
+}
+.card-deck{
+    width: 95%;
+    margin: 0 auto;
+}
+
+/*social icons*/
+.social a{
+    font-size: 2rem;
+    padding: .5rem;
+}
+.fa-facebook {
+    color: #3b5998
+}
+.fa-twitter {
+    color: #00aced
+}
+.fa-google-plus-g {
+    color: #dd4b39
+}
+.fa-instagram {
+    color: #517fa4
+}
+.fa-youtube {
+    color: #bb0000
+}
+.fa-facebook:hover,
+.fa-twitter:hover,
+.fa-google-plus-g:hover,
+.fa-instagram:hover,
+.fa-youtube:hover {
+    color: #d5d5d5
+}
+
+/*footer*/
+footer {
+    background-color: #3f3f3f;
+    color: #d5d5d5;
+    padding-top: 2rem;
+}
+hr.light {
+    border-top: 1px solid #d5d5d5;
+    width: 75%;
+    margin-top: .8rem;
+    margin-bottom: 1rem;
+}
+
+/*id*/
+#titoloPrincipale{
+    padding-top: 6rem;
+}
+#addList{
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+}

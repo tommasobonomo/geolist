@@ -1,0 +1,255 @@
+<html>
+    <head>
+        <title>Geolist</title>
+        <link rel="icon" href="images/logos/logo-new-XXL.png">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+        
+    <body>
+
+        <!--navbar-->
+        <!--navbar-expand-md permette alla navbar di collassare a una grandezza "medium"
+        navbar-light/dark e bg-light/dark servono per css base di bootstrap
+        opzioni di bootstrap per posizionamento: sticky-top (quando l'oggetto tocca lo schermo in alto ci rimane ancorato)
+                                                 fixed-top (rimane sempre ancorato in alto)
+                                                 fixed-bottom (rimane sempre ancorato in basso)-->
+        <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+            <div class="container-fluid">
+                
+                <!--logo e titolo del sito-->
+                <a class="navbar-brand" href="index.html">
+                    <img src="images/logos/logo-new-XXL.png" height="30" width="30">
+                    <span class="logo-text">GEOLIST</span> 
+                </a>
+            
+                <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
+                la dimensione specificata nel target-->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
+                <div class="collapse navbar-collapse" id="collapse-target">
+                    
+                    <!--lista degli elementi cliccabili-->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Lists</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Messages</a>
+                        </li>
+                        <li class="nav-item"> <!--bottone user, deve anche aprire la finestra modale-->
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login / Register</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        
+        <!--finestra modale -->
+        <div class="modal fade show" id="loginModal">
+            <div class="modal-dialog">
+                <div class="modal-content">                
+                    <div class="modal-header">
+                        <div class="row">
+                            <div class="col-12">
+                                <img src="images/logos/logo-new-XXL.png" height="30" width="30">
+                                <span class="logo-text">GEOLIST</span> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body"><!--creao il form per il login dentro al body della finestra modale-->
+                        <form action="" class="form-spacer needs-validation" novalidate>
+                            
+                            <!--input "base"-->
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" id="email" class="form-control" required>
+                                <div class="invalid-feedback">email not found</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password" class="form-control" type="password" required>
+                                <div class="invalid-feedback">incorrect password</div> 
+                            </div>
+                            <div class="form-group">
+                                <!--checkbox remember me-->
+                                <div class="form-check">
+                                    <input type="checkbox" id="rememberMe" class="form-check-input" required>
+                                    <label for="rememberMe" class="form-check-label"> remember me</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-4 text-center">
+                                        <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">cancel</button>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <a href="#"><button type="button" class="btn btn-outline-warning btn-lg">register</button></a>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <a href="#"><button type="submit" class="btn btn-outline-primary btn-lg">login</button></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--welcome-->
+        <div class="container-fluid padding">
+            <div class="row welcome text-center" id="titoloPrincipale">
+                <div class="col-12">
+                    <img src="images/logos/logo-new-XXL.png" height="50" width="50">
+                    <p class="logo-text-xxl">GEOLIST</p>
+                </div>
+                <div class="col-12">
+                    <h1 class="display-4">Organize your shop experience.</h1>
+                </div>
+                <hr class="my-2">
+                <div class="col-12">
+                    <p class="lead">Organize better your shopping lists with your friends and family.
+                        <br> You will always know what and where buy stuff for your needs.
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4"> <!--riga separatrice-->        
+
+        <!--3 colonne spiegazione-->
+        <div class="container-fluid padding">
+            <div class="row welcome text-center">
+                <div class="col-12 padding">
+                    <h1 class="display-4">Advantages of having an account</h1>
+                </div>
+            </div>
+            <div class="row text-center padding">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <i class="fas fa-list-ol"></i>
+                    <h3>CREATE INFINITE LISTS</h3>
+                    <p class="p-75">use lists for all your different needings instead of only one</p>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <i class="fas fa-user-friends"></i>
+                    <h3>SHARE LISTS WITH YOUR FRIENDS</h3>
+                    <p class="p-75">manage lists shared with who of interest</p>
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>NEVER MISS A SHOP</h3>
+                    <p class="p-75">receive notifications when you are near a shop where you can buy stuff on your lists</p>
+                </div>
+            </div>
+            <hr class="my-4">
+        </div>
+
+        <!--titolo liste prestabilite-->
+        <div class="container-fluid padding">
+            <div class="row welcome text-center">
+                <div class="col-12">
+                    <h1 class="display-4">Use premade lists!</h1>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <!--card per le liste prestabilite-->
+        <div class="container-fluid padding">
+            <div class="row padding">
+                <div class="card-deck">
+                    <div class="card">
+                        <img class="card-img-top" src="images/cards/carne.jpg">
+                        <div class="card-body">
+                            <h4 class="card-title">Meat lover</h4>
+                            <p class="card-text">Perfect for someone who loves coocking meat</p>
+                            <a href="#" class="btn btn-outline-secondary">see list</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img class="card-img-top" src="images/cards/farmacia.jpg">
+                        <div class="card-body">
+                            <h4 class="card-title">All for your Health</h4>
+                            <p class="card-text">Never remain without medications</p>
+                            <a href="#" class="btn btn-outline-secondary">see list</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img class="card-img-top" src="images/cards/vegetariano.jpg">
+                        <div class="card-body">
+                            <h4 class="card-title">Veggie time</h4>
+                            <p class="card-text">Just remain healty for today</p>
+                            <a href="#" class="btn btn-outline-secondary">see list</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center" id="addList">
+                            <h4 class="card-title">Try out a list</h4>
+                            <p class="card-text">create a simple list without an account and test the experience</p>
+                            <a href="#" class="btn btn-outline-secondary">create one</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4"> <!--riga separatrice-->
+
+        <!--immagine fissa sfondo-->
+        <div class="container-fluid">
+            <div class="jumbotron padding text-center">
+                <p class="display-4">Watch our video!</p>
+                <p class="lead">You will discover all the advatages of having an account</p>
+            </div>
+        </div>
+
+        <!--footer-->
+        <footer>
+            <div class="container-fluid padding">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <h5>Connect</h5>
+                        <hr class="light">
+                        <div class="social padding">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Contacts</h5>
+                        <hr class="light">
+                        <p>111-1111-111</p>
+                        <p>111 my road</p>
+                        <p>my city, 1111</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Title</h5>
+                        <hr class="light">
+                        <p>Don't know what to write</p>
+                        <p>bla bla bla bla</p>
+                        <p>bla bla bla bla</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script src="scripts/index.js"></script>
+    </body>
+</html>
