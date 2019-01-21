@@ -15,14 +15,11 @@
     width: 80%;
     margin: 0 auto;
 }
-.my-font-s-40 { /*mente il font a 40rem*/
-    font-size: 40rem;
+.font-15 { /*mente il font a 40rem*/
+    font-size: 1.5rem;
 }
-.simple-link{ /*stile per un link comune*/
+.simple-link, .simple-link:hover{ /*stile per un link comune*/
     text-decoration: none;
-    color: #DC143C;
-}
-.simple-link:hover{
     color: #DC143C;
 }
 
@@ -62,6 +59,28 @@ head, body {
 }
 .menu-link-active:hover {
     text-decoration: none;
+}
+
+/*bottoni di collapse*/
+.button-collapse{
+    background-color: white;
+    border: hidden;
+}
+.button-collapse:focus{
+    outline: none;
+    color: #dc143c;
+}
+.button-collapse:focus h1 i{
+    transform: rotate(90deg);
+}
+.button-collapse:hover h1 i{
+    transform: rotate(90deg);
+}
+.button-collapse:hover{
+    color: #dc143c;
+}
+.button-collapse h1 i{
+    transition-duration: .3s;
 }
 
 /*navbar*/
@@ -221,6 +240,9 @@ hr.light {
     /*centra il contenuto su schermi piccoli*/
     #center-phone{
         text-align: center;
+        padding-top: 1rem;
+    }
+    #remove-padding-phone{
         padding-top: 1rem;
     }
 }
