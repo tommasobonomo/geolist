@@ -2,13 +2,20 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
 
 /*general*/
-.padding{
+.padding-bottom{
     padding-bottom: 2rem;
 }
-.p-75{
+.padding-top{
+    padding-top: 2rem;
+}
+.p-80{
     width: 80%;
     margin: 0 auto;
 }
+.my-font-s-40 {
+    font-size: 40px;
+}
+
 
 /*head e body*/
 head, body {
@@ -32,13 +39,6 @@ head, body {
 }
 
 /*modal*/
-.form-spacer {
-    width: 100%;
-    margin: 0 auto;
-}
-.modal-content {
-    border-radius: 10px;
-}
 #close-button {
     width: 30px;
     height: 30px;
@@ -46,6 +46,15 @@ head, body {
 }
 .myModalHeader{
     margin-left: 50%;
+}
+
+/*form*/
+.form-spacer {
+    width: 100%;
+    margin: 0 auto;
+}
+.modal-content {
+    border-radius: 10px;
 }
 
 /*welcome*/
@@ -56,7 +65,7 @@ head, body {
 }
 .welcome hr {
     border-top: 2px solid #b4b4b4;
-    width: 80%;
+    width: 85%;
     margin-top: .3rem;
     margin-bottom: 1rem;
 }
@@ -85,9 +94,9 @@ head, body {
 /*jumbotron*/
 .jumbotron{
     margin: 0 auto;
-    background-image: url('../images/wallpaper/fac-simile\ video.jpg');
+    background-image: url('../images/wallpaper/fac-simile-video.jpg');
     width: 100%;
-    height: 400px;
+    height: 500px;
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -106,6 +115,12 @@ head, body {
     margin: 0 auto;
     text-shadow: 2px 2px black;
 }
+.fa-play{
+    color: white;
+    margin-top: 2rem;
+    font-size: 5rem;
+    text-shadow: 3px 3px black;
+}
 
 /*cards*/
 .card{
@@ -118,8 +133,8 @@ head, body {
 
 /*social icons*/
 .social a{
-    font-size: 2rem;
-    padding: .5rem;
+    font-size: 3rem;
+    padding: .3rem;
 }
 .fa-facebook {
     color: #3b5998
@@ -134,8 +149,12 @@ head, body {
     color: #517fa4
 }
 .fa-youtube {
-    color: #bb0000
+    color: #bb0000;
 }
+.fa-github{
+    color: black;
+}
+.fa-github:hover,
 .fa-facebook:hover,
 .fa-twitter:hover,
 .fa-google-plus-g:hover,
@@ -159,7 +178,7 @@ hr.light {
 
 /*id*/
 #titoloPrincipale{
-    padding-top: 6rem;
+    padding-top: 5rem;
 }
 #addList{
     margin: 0 auto;
