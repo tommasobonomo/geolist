@@ -1,5 +1,5 @@
 <%-- 
-    Document   : chat
+    Document   : list
     Created on : 19-Jan-2019, 18:49:52
     Author     : Giorgio
     Helper     . Tommaso
@@ -16,24 +16,30 @@
     </head>
     
     <body>
-        <div class="list-chat">
-                <c:forEach var="chat" items="${allChats}">
+        <div class="chat-list">
+                <c:forEach var="list" items="${allLists}">
                     <div>
-                        <a href="<c:url value="/messageServlet">
-                            <c:param name="chatID" value="${chat.getId()}"/>
+                        <a href="<c:url value="/chat">
+                            <c:param name="listID" value="${list.getId()}"/>
                             </c:url>">
-                            <c:out value="${chat.getName()}"/>
+                            <c:out value="${list.getName()}"/>
                         </a>
                     </div>
                 </c:forEach>
         </div> 
-        <%-- 
-        <div class="add-chat">
-                <a href="<c:url value="/createChat"></c:url>">
-                    create new chat
-                </a>
+        
+        
+        <div class="show-single-messages-of-list">
+                <c:if test="${not empty listID}">
+                    <c:forEach var="message" items="${messages}">
+                        <div>
+                            <c:out value="${message.getText()}"/>
+                            <c:out value="${message.getSendTime()}"/>
+                        </div>
+                    </c:forEach>
+                </c:if>
         </div> 
-        --%>
+        
         <a href="/">Back to Landing</a>
     </body>
     

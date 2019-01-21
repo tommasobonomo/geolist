@@ -6,12 +6,16 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.MessageDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.Message;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.ServletException;
@@ -39,6 +43,7 @@ public class ChatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String listID = request.getParameter("listID");
         
         UserUtil util = new UserUtil();
         
@@ -57,15 +62,27 @@ public class ChatServlet extends HttpServlet {
                 out.println("</body>");
                 out.println("</html>");
             }
-        }else{
+            
+        }
+        else{
         
             AccessDAO a = new AccessDAO();
-            //le liste sarebbero le chat
-            List<ProductList> allChats = a.getAllLists(userID);
+            //le liste sarebbero le list
+            List<ProductList> allLists = a.getAllLists(userID);
+            System.out.println(allLists);
         
             response.setContentType("text/html;charset=UTF-8");
-            request.setAttribute("allChats", allChats);
-        
+            request.setAttribute("allLists", allLists);
+            request.setAttribute("listID", request.getParameter("listID"));
+            
+            if(request.getParameter("listID")!=null){
+                MessageDAO msgDao = new MessageDAO();
+                List<Message> messages = msgDao.getMessageFromList( Long.valueOf(listID) );
+                //Collections.reverse(messages);
+                request.setAttribute("messages", messages);
+            }
+            
+            
             try {
                 request.getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
             } catch (Exception ex) {

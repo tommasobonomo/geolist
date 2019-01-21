@@ -73,6 +73,30 @@ public class MessageDAO implements CrudDao<Message>{
         
         return list;
     }
+    
+    public List<Message> getMessageFromList(long idList) {
+        String query = "SELECT * FROM Message WHERE idList="+idList;
+        List listOfMessage = new ArrayList<>();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while (rs.next()) {
+                listOfMessage.add(createMessage(rs));
+            }
+            
+            rs.close();
+            s.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return listOfMessage;
+    }
 
     @Override
     public void create(Message obj) {
@@ -97,6 +121,8 @@ public class MessageDAO implements CrudDao<Message>{
             ex.printStackTrace();
         }
     }
+    
+    
 
     @Override
     public void update(long id, Message obj) {

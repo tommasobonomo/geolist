@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author root
  */
-@WebServlet(name = "messageServlet", urlPatterns = {"/messageServlet"})
+@WebServlet(name = "messageServlet", urlPatterns = {"/chat/messages"})
 public class MessagesOfListServlet extends HttpServlet {
 
     /**
