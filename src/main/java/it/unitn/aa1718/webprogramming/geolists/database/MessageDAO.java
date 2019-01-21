@@ -5,7 +5,6 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database;
 
-import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Message;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +23,7 @@ import java.util.Optional;
 public class MessageDAO implements CrudDao<Message>{
     
     private Message createMessage(ResultSet rs) throws SQLException {
-        return new Message(rs.getLong("id"), rs.getLong("idchat"),
+        return new Message(rs.getLong("id"), rs.getLong("idList"),
                 rs.getLong("idUser"), rs.getTimestamp("sendTime"),rs.getString("text"));
     }
     
@@ -77,7 +76,7 @@ public class MessageDAO implements CrudDao<Message>{
 
     @Override
     public void create(Message obj) {
-        String query= "INSERT INTO GEODB.MESSAGE(IDUSER,IDCHAT,TEXT,SENDTIME)\n" +
+        String query= "INSERT INTO GEODB.MESSAGE(IDUSER,IDList,TEXT,SENDTIME)\n" +
                         "VALUES (?,?,?,?)";
         
         try {
@@ -86,7 +85,7 @@ public class MessageDAO implements CrudDao<Message>{
             
 
             ps.setLong(1, obj.getIdUser());
-            ps.setLong(2, obj.getIdChat());
+            ps.setLong(2, obj.getIdList());
             ps.setString(3, obj.getText());
             ps.setTimestamp(4, obj.getSendTime());
             
@@ -102,7 +101,7 @@ public class MessageDAO implements CrudDao<Message>{
     @Override
     public void update(long id, Message obj) {
         String query="UPDATE Message "
-                + "SET idUser=?, idChat=?, text=?, sendTime=?"
+                + "SET idUser=?, idList=?, text=?, sendTime=?"
                 + "WHERE id=?";
         
         try {
@@ -110,7 +109,7 @@ public class MessageDAO implements CrudDao<Message>{
             PreparedStatement ps = c.prepareStatement(query);
             
             ps.setLong(1, obj.getIdUser());
-            ps.setLong(2, obj.getIdChat());
+            ps.setLong(2, obj.getIdList());
             ps.setString(3, obj.getText());
             ps.setTimestamp(4, obj.getSendTime());
             

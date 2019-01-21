@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  */
 public class Message {
     private long id;
-    private long idChat;
+    private long idList;
     private long idUser;
     private Timestamp sendTime;
     private String text;
@@ -22,13 +22,13 @@ public class Message {
      * con id nel costrutto
      * @param id
      * @param idUser
-     * @param idChat
+     * @param idList
      * @param sendTime
      * @param text
      */
-    public Message(long id, long idUser , long idChat , Timestamp sendTime, String text){
+    public Message(long id, long idUser , long idList , Timestamp sendTime, String text){
         this.id = id;
-        this.idChat = idChat;
+        this.idList = idList;
         this.idUser = idUser;
         this.sendTime = sendTime;
         this.text = text;
@@ -37,12 +37,12 @@ public class Message {
     /**
      * senza id nel costrutto
      * @param idUser
-     * @param idChat
+     * @param idList
      * @param sendTime
      * @param text
      */
-    public Message(long idUser , long idChat , Timestamp sendTime, String text){
-        this.idChat = idChat;
+    public Message(long idUser , long idList , Timestamp sendTime, String text){
+        this.idList = idList;
         this.idUser = idUser;
         this.sendTime = sendTime;
         this.text = text;
@@ -56,12 +56,12 @@ public class Message {
         this.id = id;
     }
     
-    public long getIdChat() {
-        return idChat;
+    public long getIdList() {
+        return idList;
     }
 
-    public void setIdChat(long idChat) {
-        this.idChat = idChat;
+    public void setIdList(long idList) {
+        this.idList = idList;
     }
     
     public long getIdUser() {
