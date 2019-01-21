@@ -18,7 +18,7 @@ import java.util.Optional;
 
 /**
  *
- * @author root
+ * @author Giorgio
  */
 public class ChatDAO implements CrudDao<Chat>{
     
@@ -95,6 +95,39 @@ public class ChatDAO implements CrudDao<Chat>{
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public Optional<Long> createAndReturnId(Chat obj) {
+        String query= "INSERT INTO GEODB.CHAT(\"NAME\",PICTURE,DESCRIPTION)\n" +
+                        "VALUES (?,?,?)";
+        
+        Optional<Long> result = Optional.empty();
+        try {
+            
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+            
+
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getPicture());
+            ps.setString(3, obj.getDescription());
+            
+            ps.executeUpdate();
+            
+            ResultSet rs=ps.getGeneratedKeys();
+            
+            if(rs.next()){
+		result=Optional.of(rs.getLong(1));
+            }
+            
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return result;
     }
 
     @Override
