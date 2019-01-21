@@ -22,23 +22,18 @@
                         <a href="<c:url value="/messageServlet">
                             <c:param name="chatID" value="${chat.getId()}"/>
                             </c:url>">
-                            
                             <c:out value="${chat.getName()}"/>
                         </a>
                     </div>
                 </c:forEach>
         </div> 
-        <%-- 
+        
         <div class="add-chat">
-                add
-                    <a href="<c:url value="/messageServlet">
-                           <c:param name="chatID" value="${chat.getId()}"/>
-                        </c:url>">
-                        <c:out value="${chat.getName()}"/>
-                    </a>
-                
+                <a href="<c:url value="/createChat"></c:url>">
+                    create new chat
+                </a>
         </div> 
-        --%>
+        
         <a href="/">Back to Landing</a>
     </body>
     

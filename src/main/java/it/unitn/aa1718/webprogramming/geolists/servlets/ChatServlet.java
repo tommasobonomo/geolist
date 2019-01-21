@@ -10,6 +10,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.IsInDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Chat;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -25,73 +26,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author root
  */
-@WebServlet(name = "ChatServlet", urlPatterns = {"/ChatServlet"})
+@WebServlet(name = "ChatServlet", urlPatterns = {"/chat"})
 public class ChatServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        
-        long userID = Long.parseLong(request.getParameter("listID"));
-        String action = request.getParameter("action");
-        
-        
-        
-        IsInDAO i = new IsInDAO();
-        i.getChats(userID);
-        
-        
-        ChatDAO c = new ChatDAO();
-        List<Chat> allChats = c.getAll();
-        
-        
-        response.setContentType("text/html;charset=UTF-8");
-        request.setAttribute("allChats", allChats);
-        
-        System.out.println(allChats);
-        
-        try {
-            request.getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        
-    }
-    
-    private long getUserID(HttpServletRequest request){
-        
-        
-        Cookie[] cookies = request.getCookies();
-        String thisCookie = "noCookie";
-        
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Cookie")) {
-                    thisCookie=cookie.getValue();
-                }
-            }
-        }
-        
-        UserDAO u = new UserDAO();
-        Optional<User> res = u.getUser(thisCookie);
-        
-        if(res.isPresent())
-            return res.get().getId();
-        else
-            return 0;
-            
-    }
-    
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -104,7 +41,9 @@ public class ChatServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        long userID = getUserID(request);
+        UserUtil util = new UserUtil();
+        
+        long userID = util.getUserID(request);
         
         if(userID==0){
             try (PrintWriter out = response.getWriter()) {
@@ -127,8 +66,6 @@ public class ChatServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("allChats", allChats);
         
-        
-        
             try {
                 request.getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
             } catch (Exception ex) {
@@ -137,28 +74,6 @@ public class ChatServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

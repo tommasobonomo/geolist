@@ -14,10 +14,8 @@
     </head>
     <body>
         <h1>Create Chat</h1>
-        <form method="POST" action="<c:url value="/chatServlet">
-                  <c:param name="action" />
-              </c:url>">
-            
+        <form method="POST" action="/createChat">
+             
             <label>Name: </label>
             <input name="name" id="name" type="text"/><br/>
             
@@ -25,10 +23,10 @@
             <input name="description" id="description" type="text"/><br/>
             
             <label>Image: </label>
-            <input name="image" id="image" type="text"/><br/>
+            <input name="image" id="image" type="image"/><br/>
             
             <select name="member" multiple>
-                    <c:forEach items="${allFriends}" var="f">
+                    <c:forEach items="${friends}" var="f">
                         <option value="${f.getId()}"> ${f.getName()} </option>
                     </c:forEach>
             </select>
