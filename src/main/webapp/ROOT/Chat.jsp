@@ -27,13 +27,13 @@
                     </div>
                 </c:forEach>
         </div> 
-        
+        <%-- 
         <div class="add-chat">
                 <a href="<c:url value="/createChat"></c:url>">
                     create new chat
                 </a>
         </div> 
-        
+        --%>
         <a href="/">Back to Landing</a>
     </body>
     

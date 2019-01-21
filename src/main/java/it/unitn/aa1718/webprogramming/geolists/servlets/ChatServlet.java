@@ -5,10 +5,9 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
-import it.unitn.aa1718.webprogramming.geolists.database.ChatDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.IsInDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.models.Chat;
+import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
@@ -60,8 +59,9 @@ public class ChatServlet extends HttpServlet {
             }
         }else{
         
-            IsInDAO i = new IsInDAO();
-            List<Chat> allChats = i.getChats(userID);
+            AccessDAO a = new AccessDAO();
+            //le liste sarebbero le chat
+            List<ProductList> allChats = a.getAllLists(userID);
         
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("allChats", allChats);

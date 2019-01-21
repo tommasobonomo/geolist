@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author root
  */
 @WebServlet(name = "messageServlet", urlPatterns = {"/messageServlet"})
-public class messageServlet extends HttpServlet {
+public class MessagesOfListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
