@@ -15,24 +15,6 @@ CREATE TABLE users (
     CONSTRAINT user_pk PRIMARY KEY (id)
   );
 
-CREATE TABLE email(
-    idUser INTEGER NOT NULL,
-    info INTEGER,
-    text  VARCHAR(400),
-    sender INTEGER NOT NULL,
-    receiver INTEGER NOT NULL,
-    CONSTRAINT email_pk PRIMARY KEY (idUser),
-    FOREIGN KEY (sender) 
-        REFERENCES users(id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (receiver) 
-        REFERENCES users(id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (idUser) 
-        REFERENCES users(id)
-        ON DELETE CASCADE
-);
-
 CREATE TABLE usersanonimous (
     id INTEGER GENERATED ALWAYS AS IDENTITY,
     cookie VARCHAR(30) NOT NULL UNIQUE,
@@ -138,37 +120,17 @@ CREATE TABLE productsoflists(
         ON DELETE CASCADE
 );    
 
-CREATE TABLE chat(
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
-    "NAME" VARCHAR(30),
-    picture VARCHAR(50),
-    description VARCHAR(50),
-    CONSTRAINT chat_pk PRIMARY KEY (id)
-);
-
-CREATE TABLE isIn(
-    idUser INTEGER,
-    idChat INTEGER,
-    FOREIGN KEY (idUser) 
-        REFERENCES users(id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (idChat) 
-        REFERENCES chat(id)
-        ON DELETE CASCADE,
-    PRIMARY KEY (idUser, idChat) 
-);
-
 CREATE TABLE message(
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     idUser INTEGER,
-    idChat INTEGER,
+    idList INTEGER,
     text VARCHAR(200),
     sendTime TIMESTAMP, 
     FOREIGN KEY (idUser) 
         REFERENCES users(id)
         ON DELETE CASCADE,
-    FOREIGN KEY (idChat) 
-        REFERENCES chat(id)
+    FOREIGN KEY (idList) 
+        REFERENCES list(id)
         ON DELETE CASCADE,
     CONSTRAINT message_pk PRIMARY KEY (id)
 );
