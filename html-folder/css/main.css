@@ -2,18 +2,28 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
 
 /*general*/
-.padding-bottom{
+.padding-bottom{ /*effettua del padding nella posizione specificata, i numeri sono multipli*/
     padding-bottom: 2rem;
 }
 .padding-top{
     padding-top: 2rem;
 }
-.p-80{
+.padding-top2{
+    padding-top: 4rem;
+}
+.width-80{ /*mette un elemento al centro con width 80*/
     width: 80%;
     margin: 0 auto;
 }
-.my-font-s-40 {
-    font-size: 40px;
+.my-font-s-40 { /*mente il font a 40rem*/
+    font-size: 40rem;
+}
+.simple-link{ /*stile per un link comune*/
+    text-decoration: none;
+    color: #DC143C;
+}
+.simple-link:hover{
+    color: #DC143C;
 }
 
 
@@ -25,9 +35,40 @@ head, body {
     color: #222;
 }
 
+/*menu laterale*/
+.menu-title {
+    color: #dc143c;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 2.5rem;
+}
+.menu-link {
+    color: #737373;
+    font-weight: 1;
+    font-size: 1.2rem;
+}
+.menu-link:hover {
+    color: #dc143c;
+    text-decoration: none;
+    transform: translate(10px);
+    transition: 0.3s;
+}
+.menu-link-active {
+    color: #dc143c;
+    text-decoration: none;
+    transform: translate(10px);
+    font-size: 1.2rem;
+    font-weight: 1;
+}
+.menu-link-active:hover {
+    text-decoration: none;
+}
+
 /*navbar*/
 .navbar-nav li {
-    padding-right:20;
+    margin-right: 20;
+    position: relative;
+    text-decoration: none;
 }
 .nav-link {
     font-size: 1.1em !important;
@@ -36,6 +77,9 @@ head, body {
     font-weight: bold;
     font-size: 20;
     padding-left: 8px;
+}
+.active {
+    text-decoration: underline;
 }
 
 /*modal*/
@@ -101,11 +145,9 @@ head, body {
     background-size: cover;
     background-attachment: fixed;
     margin-bottom: 2rem;
-    opacity: .8;
     background-size:100% 100%;
 }
 .jumbotron:hover{
-    opacity: 1;
     background-size: 101% 101%;
 }
 .jumbotron p{
@@ -142,24 +184,12 @@ head, body {
 .fa-twitter {
     color: #00aced
 }
-.fa-google-plus-g {
-    color: #dd4b39
-}
 .fa-instagram {
-    color: #517fa4
+    color: #DDA0DD;
 }
-.fa-youtube {
-    color: #bb0000;
-}
-.fa-github{
-    color: black;
-}
-.fa-github:hover,
 .fa-facebook:hover,
 .fa-twitter:hover,
-.fa-google-plus-g:hover,
-.fa-instagram:hover,
-.fa-youtube:hover {
+.fa-instagram:hover {
     color: #d5d5d5
 }
 
@@ -184,4 +214,13 @@ hr.light {
     margin: 0 auto;
     display: inline-block;
     text-align: center;
+}
+
+
+@media all and (max-width: 767px){
+    /*centra il contenuto su schermi piccoli*/
+    #center-phone{
+        text-align: center;
+        padding-top: 1rem;
+    }
 }
