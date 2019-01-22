@@ -51,6 +51,32 @@ public class AccessDAO{
         
         return list;
     }
+    
+    /**
+     * get user who have access to that list
+     * @param listID
+     * @return list of user
+     */
+    public boolean canHaveAccess(long userID, long listID) {
+        String query = "SELECT * FROM Access AS A WHERE a.idlist = " + listID 
+                + "and a.iduser = " + userID;
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            if(rs.next())
+                return true;
+            else
+                return false;
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return false;
+    }
 
     /**
      * get list who have been access from that user

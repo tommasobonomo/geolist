@@ -93,7 +93,7 @@ public class LandingServlet extends HttpServlet {
         session.setAttribute("userAnonOpt", userAnonOpt);
         
         // Se cookie indica un normale utente
-        if (userOpt.isPresent()) {
+        if (userOpt.isPresent()){
             isAnon = false;
             // DAO necessari
             AccessDAO accessDAO = new AccessDAO();

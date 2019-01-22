@@ -16,6 +16,7 @@
     </head>
     
     <body>
+        <%--
         <div class="chat-list">
                 <c:forEach var="list" items="${allLists}">
                     <div>
@@ -27,12 +28,13 @@
                     </div>
                 </c:forEach>
         </div> 
-        
+        --%>
         
         <div class="show-single-messages-of-list">
                 <c:if test="${not empty listID}">
                     <c:forEach var="message" items="${messages}">
                         <div>
+                            <c:out value="${mapMessageUser.get(message).getName()} :"/>
                             <c:out value="${message.getText()}"/>
                             <c:out value="${message.getSendTime()}"/>
                         </div>
@@ -40,7 +42,10 @@
                 </c:if>
         </div> 
         
-        <a href="/">Back to Landing</a>
+        
+        <div>
+            <a href="/List?listID=${listID}&action=view">Back to list</a>
+        </div>
     </body>
     
 </html>

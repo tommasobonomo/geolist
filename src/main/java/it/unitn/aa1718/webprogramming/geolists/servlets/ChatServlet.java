@@ -14,9 +14,12 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,15 +46,17 @@ public class ChatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String listID = request.getParameter("listID");
-        
+        //dichiarazioni utili
         UserUtil util = new UserUtil();
+        AccessDAO a = new AccessDAO();
+        
+        String listID = request.getParameter("listID");
         
         long userID = util.getUserID(request);
         
-        if(userID==0){
+        
+        if(userID==0){ //don't log user
             try (PrintWriter out = response.getWriter()) {
-                /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
@@ -64,24 +69,49 @@ public class ChatServlet extends HttpServlet {
             }
             
         }
+        else if(listID==null){ //miss parameter of the list
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Error</title>");            
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>miss parameter, bad request</h1>");
+                out.println("</body>");
+                out.println("</html>");
+            }
+        }
+        else if(!a.canHaveAccess(userID,Long.valueOf(listID))){ 
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Error</title>");            
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>you can't have access</h1>");
+                out.println("</body>");
+                out.println("</html>");
+            }
+        }
         else{
         
-            AccessDAO a = new AccessDAO();
-            //le liste sarebbero le list
-            List<ProductList> allLists = a.getAllLists(userID);
-            System.out.println(allLists);
-        
             response.setContentType("text/html;charset=UTF-8");
-            request.setAttribute("allLists", allLists);
-            request.setAttribute("listID", request.getParameter("listID"));
+            request.setAttribute("listID", listID);
             
-            if(request.getParameter("listID")!=null){
-                MessageDAO msgDao = new MessageDAO();
-                List<Message> messages = msgDao.getMessageFromList( Long.valueOf(listID) );
-                //Collections.reverse(messages);
-                request.setAttribute("messages", messages);
+            MessageDAO msgDao = new MessageDAO();
+            List<Message> messages = msgDao.getMessageFromList( Long.valueOf(listID) );
+            //Collections.reverse(messages);
+            UserDAO u = new UserDAO();
+                
+            Map<Message,User> mapMessageUser = new HashMap<Message,User>();
+            for(Message m: messages){
+                mapMessageUser.put(m,u.get(m.getIdUser()).get());
             }
-            
+                
+            request.setAttribute("messages", messages);
+            request.setAttribute("mapMessageUser", mapMessageUser);
             
             try {
                 request.getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
@@ -90,7 +120,12 @@ public class ChatServlet extends HttpServlet {
             }
         }
     }
+    
+    
 
 
 
 }
+
+
+

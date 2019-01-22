@@ -15,6 +15,9 @@
         <title><c:out value="${name}"/></title>
     </head>
     <body>
+        
+        
+        
         <div class="header">Geolist</div>
         <h1><c:out value="${name}"/></h1>
         <p><c:out value="${note}"/></p>
@@ -27,5 +30,7 @@
                         </c:url>">Back to List</a>
         </c:if>
         <a href="/">Back to Landing</a>
+        
+        
     </body>
 </html>
