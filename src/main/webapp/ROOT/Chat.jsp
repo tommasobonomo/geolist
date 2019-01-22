@@ -2,7 +2,7 @@
     Document   : list
     Created on : 19-Jan-2019, 18:49:52
     Author     : Giorgio
-    Helper     . Tommaso
+    Helper     : Tommaso
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -12,6 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <style><%@include file="./css/LandingPage.css" %></style>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
         <title>Message</title>
     </head>
     
@@ -29,6 +30,9 @@
                 </c:forEach>
         </div> 
         --%>
+        <div>
+            <a href="/List?listID=${listID}&action=view">Back to list</a>
+        </div>
         
         <div class="show-single-messages-of-list">
                 <c:if test="${not empty listID}">
@@ -41,11 +45,20 @@
                     </c:forEach>
                 </c:if>
         </div> 
-        
+        <script>
+            $( "#show-single-messages-of-list" ).load( "/resources/load.html #projects li" );
+        </script>
         
         <div>
-            <a href="/List?listID=${listID}&action=view">Back to list</a>
+            <form method="POST" onsubmit="setTimeout(function () { window.location.reload(); }, 10)"
+                  action="<c:url value="/ListRegistration">
+                  <c:param name="" value="addList"/>
+                </c:url>">
+                <input name="text" id="text" type="text" placeholder="write message ..."/>
+                <input value="send" type="submit"/>
+            </form>
         </div>
+        
     </body>
     
 </html>

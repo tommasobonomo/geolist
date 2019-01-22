@@ -119,6 +119,7 @@ public class ChatServlet extends HttpServlet {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+            
         }
     }
     
@@ -127,6 +128,5 @@ public class ChatServlet extends HttpServlet {
 
 
 }
-
 
 
