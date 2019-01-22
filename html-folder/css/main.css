@@ -194,7 +194,7 @@ head, body {
 
 /*social icons*/
 .social a{
-    font-size: 3rem;
+    font-size: 2.5rem;
     padding: .3rem;
 }
 .fa-facebook {
@@ -204,7 +204,7 @@ head, body {
     color: #00aced
 }
 .fa-instagram {
-    color: #DDA0DD;
+    color: rgb(248, 48, 48);
 }
 .fa-facebook:hover,
 .fa-twitter:hover,
@@ -213,10 +213,11 @@ head, body {
 }
 
 /*footer*/
-footer {
+footer{
     background-color: #3f3f3f;
     color: #d5d5d5;
     padding-top: 2rem;
+    font-size: .8rem;
 }
 hr.light {
     border-top: 1px solid #d5d5d5;
@@ -243,6 +244,6 @@ hr.light {
         padding-top: 1rem;
     }
     #remove-padding-phone{
-        padding-top: 1rem;
+        padding-top: 1.5rem;
     }
 }
