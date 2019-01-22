@@ -11,6 +11,12 @@
 .padding-top2{
     padding-top: 4rem;
 }
+.padding-left{
+    padding-left: 2rem;
+}
+.padding-left2{
+    padding-left: 4rem;
+}
 .width-80{ /*mette un elemento al centro con width 80*/
     width: 80%;
     margin: 0 auto;
@@ -99,6 +105,16 @@ head, body {
 }
 .active {
     text-decoration: underline;
+}
+.search-form input{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+}
+.search-form select{
+    display: inline-block;
+    max-width: 130px;
+    margin-right: 5px;
 }
 
 /*modal*/
@@ -245,5 +261,11 @@ hr.light {
     }
     #remove-padding-phone{
         padding-top: 1.5rem;
+    }
+}
+
+@media all and (max-width: 992px){
+    #navbarSearchForm{
+        padding-left: 0;
     }
 }

@@ -17,19 +17,33 @@
         opzioni di bootstrap per posizionamento: sticky-top (quando l'oggetto tocca lo schermo in alto ci rimane ancorato)
                                                  fixed-top (rimane sempre ancorato in alto)
                                                  fixed-bottom (rimane sempre ancorato in basso)-->
-        <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             <div class="container-fluid">
                 
                 <!--logo e titolo del sito-->
                 <a class="navbar-brand" href="../index.html">
                     <img src="../images/logos/logo-orizzontale.png" height="40px" width="120px">
                 </a>
-            
+                
                 <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
                 la dimensione specificata nel target-->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+                <div class="collapse navbar-collapse" id="collapse-target">
+                    <!--pulsante ricerca prodotto-->
+                    <form class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <select class="form-control mr-sm-2" id="selezione">
+                            <option>all</option>
+                            <option>farmacia</option>
+                            <option>carne</option>
+                            <option>pesce</option>
+                        </select>
+                        <a href="search.html"><button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button></a>
+                    </form>
+                </div>
 
                 <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
                 <div class="collapse navbar-collapse" id="collapse-target">
