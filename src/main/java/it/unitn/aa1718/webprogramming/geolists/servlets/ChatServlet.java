@@ -96,7 +96,7 @@ public class ChatServlet extends HttpServlet {
             }
         }
         else{
-        
+            response.setIntHeader("Refresh", 5);
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("listID", listID);
             
