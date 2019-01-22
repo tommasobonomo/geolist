@@ -28,7 +28,15 @@
     text-decoration: none;
     color: #DC143C;
 }
-
+.center-absolute {/*centra il div rispetto al div più vicino per gerarchia*/
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    left: 0;
+}
+select {
+    max-width: 110px;
+}
 
 /*head e body*/
 head, body {
@@ -206,6 +214,12 @@ head, body {
 .card-deck{
     width: 95%;
     margin: 0 auto;
+}
+.card-body a{
+    display: inline-block;
+}
+.card-body select{
+    display: inline-block;
 }
 
 /*social icons*/

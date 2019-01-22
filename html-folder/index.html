@@ -33,15 +33,16 @@
 
                 <div class="collapse navbar-collapse" id="collapse-target">
                     <!--pulsante ricerca prodotto-->
-                    <form class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
+                    <form action="" class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <select class="form-control mr-sm-2" id="selezione">
+                        <select class="form-control mr-sm-2" id="selezione" placeholder="categoria">
+                            <option disabled selected hidden>category</option>
                             <option>all</option>
                             <option>farmacia</option>
                             <option>carne</option>
                             <option>pesce</option>
                         </select>
-                        <a href="search.html"><button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button></a>
+                        <a href="pages/search.html"><button class="btn btn-outline-danger my-2 my-sm-0" type="button">Search</button></a>
                     </form>
                 </div>
 
@@ -72,16 +73,14 @@
         <div class="modal fade show" id="loginModal">
             <div class="modal-dialog">
                 <div class="modal-content">                
-                    <div class="modal-header">
-                        <div class="row">
-                            <div class="col-12">
-                                <img src="images/logos/logo.png" height="30" width="30">
-                                <span class="logo-text">GEOLIST</span> 
-                            </div>
-                        </div>
-                    </div>
                     <div class="modal-body"><!--creao il form per il login dentro al body della finestra modale-->
-                        <form action="" class="form-spacer needs-validation" novalidate>
+                        
+                        <div class="center-absolute">
+                            <img src="images/logos/logo.png" height="30" width="30">
+                            <span class="logo-text">GEOLIST</span> 
+                        </div>
+
+                        <form action="" class="form-spacer needs-validation padding-top2" novalidate>
                             
                             <!--input "base"-->
                             <div class="form-group">
