@@ -79,7 +79,6 @@ public class ItemDAO implements CrudDao<Item>{
     public void create(Item obj) {
         String query= "INSERT INTO GEODB.ITEM(IDCAT,\"NAME\",LOGO,NOTE)\n" +
                         "VALUES (?,?,?,?)";
-        //InputStream inputStream = null;
         String message = null;
         try {
             Connection c = Database.openConnection();
@@ -87,30 +86,19 @@ public class ItemDAO implements CrudDao<Item>{
             
             if (obj.getLogo() != null) {
                  ps.setBlob(3, obj.getLogo());
-
             }
-            System.out.println("NOME" + obj.getName());
-            System.out.println("NOTE" + obj.getNote());
-         
+            
             ps.setLong(1, obj.getIdCat());
             ps.setString(2, obj.getName());
             ps.setString(4, obj.getNote());
             
             int row = ps.executeUpdate();
-            if (row > 0) {
-                System.out.println( "File uploaded and saved into database");
-            }
             ps.close();
             Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-            // sets the message in request scope
-             System.out.println("Message" + message);
-
-        
-    
     }
 
     @Override

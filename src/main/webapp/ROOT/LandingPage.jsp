@@ -70,6 +70,13 @@
                 </form>
             </div>
         </c:if>
+            
+        <a href="
+            <c:url value="/ItemRegistration">
+                <c:param name="action" value="viewForm"/>
+            </c:url>">
+            Add Item
+        </a>
         
     </body>
 
