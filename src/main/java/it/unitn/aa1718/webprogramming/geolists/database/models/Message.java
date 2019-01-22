@@ -102,17 +102,18 @@ public class Message {
         }
         if (obj == null) {
             return false;
-        }
+        }   
         if (getClass() != obj.getClass()) {
             return false;
         }
         final Message other = (Message) obj;
         return this.id == other.id;
     }
-    
+
     @Override
     public String toString() {
-        return text;
+        return "Message{" + "id=" + id + ", idList=" + idList + ", idUser=" + idUser + ", sendTime=" + sendTime + ", text=" + text + '}';
     }
+    
     
 }

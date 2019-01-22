@@ -105,9 +105,10 @@ public class ChatServlet extends HttpServlet {
             //Collections.reverse(messages);
             UserDAO u = new UserDAO();
                 
-            Map<Message,User> mapMessageUser = new HashMap<Message,User>();
+            Map<Integer,User> mapMessageUser = new HashMap<>();
             for(Message m: messages){
-                mapMessageUser.put(m,u.get(m.getIdUser()).get());
+                mapMessageUser.put(m.hashCode(),u.get(m.getIdUser()).get());
+                System.out.println(m);
             }
                 
             request.setAttribute("messages", messages);

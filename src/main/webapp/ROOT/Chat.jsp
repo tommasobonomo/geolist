@@ -34,7 +34,7 @@
                 <c:if test="${not empty listID}">
                     <c:forEach var="message" items="${messages}">
                         <div>
-                            <c:out value="${mapMessageUser.get(message).getName()} :"/>
+                            <c:out value="${mapMessageUser.get(message.hashCode()).getName()} :"/>
                             <c:out value="${message.getText()}"/>
                             <c:out value="${message.getSendTime()}"/>
                         </div>

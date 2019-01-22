@@ -23,8 +23,8 @@ import java.util.Optional;
 public class MessageDAO implements CrudDao<Message>{
     
     private Message createMessage(ResultSet rs) throws SQLException {
-        return new Message(rs.getLong("id"), rs.getLong("idList"),
-                rs.getLong("idUser"), rs.getTimestamp("sendTime"),rs.getString("text"));
+        return new Message(rs.getLong("id"), rs.getLong("idUser") , rs.getLong("idList"),
+                 rs.getTimestamp("sendTime"),rs.getString("text"));
     }
     
     @Override
