@@ -35,6 +35,7 @@
                    <a href="<c:url value="/ItemServlet">
                            <c:param name="itemID" value="${item.getId()}"/>
                            <c:param name="listID" value="${listID}"/>
+                           <c:param name="action" value="viewItem"/>
                         </c:url>">
                         <c:out value="${item.getName()}" />
                     </a>
@@ -55,6 +56,7 @@
                 <div>
                     <a href="<c:url value="/ItemServlet">
                            <c:param name="itemID" value="${item.getId()}"/>
+                           <c:param name="action" value="viewItem"/>
                         </c:url>">
                         <c:out value="${item.getName()}"/>
                     </a>

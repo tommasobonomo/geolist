@@ -21,7 +21,21 @@
         <div class="header">Geolist</div>
         <h1><c:out value="${name}"/></h1>
         <p><c:out value="${note}"/></p>
-        <p><c:out value="${logo}"/></p>
+        
+        <!-- 
+            <object> is the same as <img> but it doesn't display a broken icon
+            if there is no image.
+            Can add a default image in object if needed, with a simple <img> tag
+        -->
+        <p>
+            <object data="
+                <c:url value="/ItemServlet">
+                    <c:param name="action" value="retrieveImage"/>
+                    <c:param name="itemID" value="${itemID}"/>
+                </c:url>
+            " type="image/jpg"> 
+            </object>
+        </p>
         
         <c:if test="${listID}">
         <a href="<c:url value="/List">
