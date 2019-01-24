@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -113,7 +112,7 @@ public class ComposeDAO {
         return success;
     }
     
-    public boolean removeItemFromList(long itemID, long listID){
+    public boolean removeItemFromList(long itemID, long listID) {
         String query = "DELETE FROM Compose WHERE LIST=? AND ITEM=?";
         boolean success = true;
         

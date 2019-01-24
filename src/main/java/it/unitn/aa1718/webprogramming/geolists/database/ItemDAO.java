@@ -7,9 +7,7 @@ package it.unitn.aa1718.webprogramming.geolists.database;
  */
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,12 +25,16 @@ import java.util.Optional;
 public class ItemDAO implements CrudDao<Item>{
 
     private Item createItem(ResultSet rs) throws SQLException {
-        return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("name"), (InputStream) rs.getBlob("logo"), rs.getString("note"));
+        Blob blob = rs.getBlob("logo");
+        InputStream is = null;
+        if (blob != null) {
+            is = blob.getBinaryStream();
+        }
+        return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("name"), is, rs.getString("note"));
     }
     
     @Override
     public Optional<Item> get(long id) {
-        
         String query = "SELECT * FROM Item AS I WHERE I.id = " + id;
         
         try {
@@ -80,6 +82,31 @@ public class ItemDAO implements CrudDao<Item>{
         return list;
     }
 
+    public Optional<byte[]> getBlobImageFromItem(long id) {
+       
+        String query = "SELECT * FROM Item AS I WHERE I.id = ?";
+        Optional<byte[]> byteArrayOpt = Optional.empty();
+        try {
+            
+            Connection c = Database.openConnection();
+            PreparedStatement ps =c.prepareStatement(query);
+            ps.setLong(1,id);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                Blob blob = rs.getBlob("logo");
+                byteArrayOpt = Optional.of(blob.getBytes(1, (int) blob.length()));
+            } else {
+                System.out.println("no image to be found");
+            }
+        
+        } catch (Exception e) {
+             System.out.println(e);
+        }
+        
+        return byteArrayOpt;
+    }
+    
     @Override
     public void create(Item obj) {
         String query= "INSERT INTO GEODB.ITEM(IDCAT,\"NAME\",LOGO,NOTE)\n" +

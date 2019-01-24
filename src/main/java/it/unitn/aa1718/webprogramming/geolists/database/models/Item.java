@@ -7,7 +7,6 @@ package it.unitn.aa1718.webprogramming.geolists.database.models;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.sql.Blob;
 
 /**
  * Model of the Item relation
