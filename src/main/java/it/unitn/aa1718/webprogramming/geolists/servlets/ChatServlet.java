@@ -35,10 +35,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ChatServlet", urlPatterns = {"/chat"})
 public class ChatServlet extends HttpServlet {
-    
+
     /**
-     * Handles the HTTP <code>POST</code> method.
-     * write message on db
+     * Handles the HTTP <code>POST</code> method. write message on db
      *
      * @param request servlet request
      * @param response servlet response
@@ -50,21 +49,63 @@ public class ChatServlet extends HttpServlet {
         //user
         UserUtil util = new UserUtil();
         long userID = util.getUserID(request);
-        
+
         //chat/list id
-        long listID = Long.valueOf(request.getParameter("listID"));
+        String listID = request.getParameter("listID");
+
         
-        //message text
-        String text = request.getParameter("text");
         
-        //add in db the message
-        Timestamp sendTime = new Timestamp((new Date()).getTime());
-        Message m = new Message(userID, listID, sendTime, text);
-        (new MessageDAO()).create(m);
         
-        viewMessageOf(request,response);
+        //visualize message
+        if (listID == null) {
+            try {
+
+                getServletContext().getRequestDispatcher("/").forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            //message text
+            String text = request.getParameter("text");
+        
+            //add in db the message
+            Timestamp sendTime = new Timestamp((new Date()).getTime());
+            Message m = new Message(userID, Long.valueOf(listID), sendTime, text);
+            (new MessageDAO()).create(m);
+            
+            VisualizeMessage v = viewMessageOf(userID, Long.valueOf(listID));
+            
+            //controll if have access
+            if (v.isError()) {
+                response.setContentType("text/html;charset=UTF-8");
+                try (PrintWriter out = response.getWriter()) {
+                    /* TODO output your page here. You may use following sample code. */
+                    out.println("<!DOCTYPE html>");
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<title>NO ACCESS</title>");
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("<h1>YOU DON'T HAVE ACCESS</h1>");
+                    out.println("</body>");
+                    out.println("</html>");
+                }
+            }
+
+            //set attribute
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("listID", Long.valueOf(listID));
+            request.setAttribute("messages", v.getMessages());
+            request.setAttribute("mapMessageUser", v.getMapMessageUser());
+
+            try {
+                getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
-    
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -76,92 +117,122 @@ public class ChatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        viewMessageOf(request,response);
-    }
-    
-    private void viewMessageOf(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        //dichiarazioni utili
+
         UserUtil util = new UserUtil();
-        AccessDAO a = new AccessDAO();
-        
-        String listID = request.getParameter("listID");
-        
+
         long userID = util.getUserID(request);
-        
-        
-        if(userID==0){ //don't log user
-            try (PrintWriter out = response.getWriter()) {
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Error</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>something go wrong, miss cookie</h1>");
-                out.println("</body>");
-                out.println("</html>");
+        String listID = request.getParameter("listID");
+
+        if (listID == null) {
+            try {
+
+                getServletContext().getRequestDispatcher("/").forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+        } else {
+            VisualizeMessage v = viewMessageOf(userID, Long.valueOf(listID));
             
-        }
-        else if(listID==null){ //miss parameter of the list
-            try (PrintWriter out = response.getWriter()) {
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Error</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>miss parameter, bad request</h1>");
-                out.println("</body>");
-                out.println("</html>");
+            //controll if have access
+            if (v.isError()) {
+                response.setContentType("text/html;charset=UTF-8");
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("<!DOCTYPE html>");
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<title>YOU DON'T HAVE ACCESS</title>");
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("<h1>DON'T</h1>");
+                    out.println("</body>");
+                    out.println("</html>");
+                }
             }
-        }
-        else if(!a.canHaveAccess(userID,Long.valueOf(listID))){ 
-            try (PrintWriter out = response.getWriter()) {
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Error</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>you can't have access</h1>");
-                out.println("</body>");
-                out.println("</html>");
-            }
-        }
-        else{
-            //for refresh every few second
-            //response.setIntHeader("Refresh", 5);
-            
-            
-            
-            MessageDAO msgDao = new MessageDAO();
-            List<Message> messages = msgDao.getMessageFromList( Long.valueOf(listID) );
-            //Collections.reverse(messages);
-            UserDAO u = new UserDAO();
-                
-            Map<Integer,User> mapMessageUser = new HashMap<>();
-            for(Message m: messages){
-                mapMessageUser.put(m.hashCode(),u.get(m.getIdUser()).get());
-                System.out.println(m);
-            }
-            
+
             //set attribute
             response.setContentType("text/html;charset=UTF-8");
-            request.setAttribute("listID", listID);
-            request.setAttribute("messages", messages);
-            request.setAttribute("mapMessageUser", mapMessageUser);
-            
+            request.setAttribute("listID", Long.valueOf(listID));
+            request.setAttribute("messages", v.getMessages());
+            request.setAttribute("mapMessageUser", v.getMapMessageUser());
+
             try {
                 getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            
         }
+    }
+
+    private VisualizeMessage viewMessageOf(long userID, long listID) throws IOException {
+        //dichiarazioni utili
+
+        AccessDAO a = new AccessDAO();
+        VisualizeMessage res = new VisualizeMessage();
+
+        if (userID == 0) { //don't log user
+            res.setError(ErrorView.NOUSER);
+        } else if (!a.canHaveAccess(userID, listID)) {
+            res.setError(ErrorView.NOTACCESS);
+        } else {
+            //for refresh every few second
+            //response.setIntHeader("Refresh", 5);
+
+            MessageDAO msgDao = new MessageDAO();
+            List<Message> messages = msgDao.getMessageFromList(listID);
+            //Collections.reverse(messages);
+
+            res.setMessages(messages);
+            res.createMapMessagesUser(messages);
+
+        }
+
+        return res;
     }
 }
 
+enum ErrorView {
+    NOTACCESS, NOUSER, MISSPARAMETER, NOERROR
+}
 
+class VisualizeMessage {
 
+    private ErrorView error = ErrorView.NOERROR;
+    private List<Message> messages;
+    private Map<Integer, User> mapMessageUser = new HashMap<>();
 
+    ;
+    
+    public void setError(ErrorView error) {
+        this.error = error;
+    }
+
+    public ErrorView getError(ErrorView error) {
+        return this.error;
+    }
+
+    public boolean isError() {
+        return !(error == ErrorView.NOERROR);
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void createMapMessagesUser(List<Message> messages) {
+
+        UserDAO userDAO = new UserDAO();
+
+        for (Message m : messages) {
+            mapMessageUser.put(m.hashCode(), userDAO.get(m.getIdUser()).get());
+            System.out.println(m);
+        }
+    }
+
+    public Map<Integer, User> getMapMessageUser() {
+        return mapMessageUser;
+    }
+}
