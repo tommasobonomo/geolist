@@ -78,7 +78,7 @@
             Add Item<br>
         </a>
         <br>
-        <b> View | <a href="/ROOT/item/view.jsp">VIEWSS </a></b> <br/><br/>
+        <b><a href="/ROOT/item/view.jsp">View Item</a></b> <br/><br/>
         
     </body>
 

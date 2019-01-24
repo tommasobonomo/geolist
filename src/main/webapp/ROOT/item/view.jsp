@@ -14,7 +14,7 @@
     </head>
     <body>
         <h1>Immagine caricata con Successo</h1>
-        <b> View | <a href="showItem.jsp">Upload </a></b> <br/><br/>
+        <b> <a href="registeritem.jsp">Upload </a></b> <br/><br/>
         
         <form method="POST" action="showItem.jsp">
     
