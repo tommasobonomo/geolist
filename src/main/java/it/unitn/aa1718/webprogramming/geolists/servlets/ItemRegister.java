@@ -1,13 +1,22 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.Database;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import java.util.Random;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -31,7 +40,8 @@ import javax.servlet.http.Part;
 public class ItemRegister extends HttpServlet {
      
     Random rand = new Random();
-    String note, name,cat;
+    String note, name;
+    String ids;
     int  id;
     long  idCat;
     InputStream inputStream = null;
@@ -48,18 +58,19 @@ public class ItemRegister extends HttpServlet {
                 response.sendRedirect("/");
                 break;
             case "viewForm":
-            default:
+            default:                
                 viewForm(request);
                 request.getRequestDispatcher("/ROOT/item/registeritem.jsp").forward(request, response);
         }
     }
+
+    
     
     private void addItem(HttpServletRequest request) {
         
         //prendo valori variabili dalla richiesta
         this.name = request.getParameter("Name");
         this.note = request.getParameter("Note");
-        this.cat = request.getParameter("Cat");
         this.idCat = Long.parseLong(request.getParameter("category"));
         
         try {

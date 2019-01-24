@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Pagina di Registrazione di Items'</h1>
+        <h1>Pagina di Registrazione di Items</h1>
         <form method="POST" action="<c:url value="/ItemRegistration">
                   <c:param name="action" value="addItem"/>
               </c:url>" enctype="multipart/form-data">
@@ -30,5 +30,6 @@
             <br/>
             <input type="submit" value="Submit">
         </form>
+        
     </body>
 </html>

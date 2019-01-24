@@ -1,3 +1,4 @@
+
 INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, TOKEN, ACTIVE, "ADMIN")
 VALUES (DEFAULT,null,'rappasta', 'Lorenzo', 'Framba', 'lorenzoframba@gmail.com','IMAGEN','4613650b16296964685818117f557e57366f92b', null, TRUE, TRUE),
        (DEFAULT,null,'gesuSesso','Mattia', 'Molon','molon@gmail.com','IMAGEN','29707645067686736492cf6e16526b6e4245',null, TRUE,FALSE),

@@ -75,8 +75,10 @@
             <c:url value="/ItemRegistration">
                 <c:param name="action" value="viewForm"/>
             </c:url>">
-            Add Item
+            Add Item<br>
         </a>
+        <br>
+        <b> View | <a href="/ROOT/item/view.jsp">VIEWSS </a></b> <br/><br/>
         
     </body>
 

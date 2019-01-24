@@ -7,7 +7,10 @@ package it.unitn.aa1718.webprogramming.geolists.database;
  */
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,6 +53,8 @@ public class ItemDAO implements CrudDao<Item>{
         return Optional.empty();
     }
 
+    
+    
     @Override
     public List<Item> getAll() {
         String query = "SELECT * FROM Item";
