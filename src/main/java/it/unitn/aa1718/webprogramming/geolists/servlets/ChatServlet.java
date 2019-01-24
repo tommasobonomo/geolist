@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,36 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ChatServlet", urlPatterns = {"/chat"})
 public class ChatServlet extends HttpServlet {
-
+    
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     * write message on db
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //user
+        UserUtil util = new UserUtil();
+        long userID = util.getUserID(request);
+        
+        //chat/list id
+        long listID = Long.valueOf(request.getParameter("listID"));
+        
+        //message text
+        String text = request.getParameter("text");
+        
+        //add in db the message
+        Timestamp sendTime = new Timestamp((new Date()).getTime());
+        Message m = new Message(userID, listID, sendTime, text);
+        (new MessageDAO()).create(m);
+        
+        viewMessageOf(request,response);
+    }
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -46,6 +76,10 @@ public class ChatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        viewMessageOf(request,response);
+    }
+    
+    private void viewMessageOf(HttpServletRequest request, HttpServletResponse response) throws IOException{
         //dichiarazioni utili
         UserUtil util = new UserUtil();
         AccessDAO a = new AccessDAO();
@@ -96,9 +130,10 @@ public class ChatServlet extends HttpServlet {
             }
         }
         else{
-            response.setIntHeader("Refresh", 5);
-            response.setContentType("text/html;charset=UTF-8");
-            request.setAttribute("listID", listID);
+            //for refresh every few second
+            //response.setIntHeader("Refresh", 5);
+            
+            
             
             MessageDAO msgDao = new MessageDAO();
             List<Message> messages = msgDao.getMessageFromList( Long.valueOf(listID) );
@@ -110,23 +145,23 @@ public class ChatServlet extends HttpServlet {
                 mapMessageUser.put(m.hashCode(),u.get(m.getIdUser()).get());
                 System.out.println(m);
             }
-                
+            
+            //set attribute
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("listID", listID);
             request.setAttribute("messages", messages);
             request.setAttribute("mapMessageUser", mapMessageUser);
             
             try {
-                request.getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
+                getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
             
         }
     }
-    
-    
-
-
-
 }
+
+
 
 

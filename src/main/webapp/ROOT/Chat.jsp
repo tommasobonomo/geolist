@@ -45,14 +45,10 @@
                     </c:forEach>
                 </c:if>
         </div> 
-        <script>
-            $( "#show-single-messages-of-list" ).load( "/resources/load.html #projects li" );
-        </script>
         
         <div>
-            <form method="POST" onsubmit="setTimeout(function () { window.location.reload(); }, 10)"
-                  action="<c:url value="/ListRegistration">
-                  <c:param name="" value="addList"/>
+            <form method="POST" action="<c:url value="/chat">
+                  <c:param name="listID" value="${listID}"/>
                 </c:url>">
                 <input name="text" id="text" type="text" placeholder="write message ..."/>
                 <input value="send" type="submit"/>
