@@ -21,8 +21,14 @@
     width: 80%;
     margin: 0 auto;
 }
-.font-15 { /*mente il font a 40rem*/
+.font-20 { /*mente il font a 2rem*/
+    font-size: 2rem;
+}
+.font-15 { /*mente il font a 1.5rem*/
     font-size: 1.5rem;
+}
+.font-10 { /*mente il font a 1rem*/
+    font-size: 1rem;
 }
 .simple-link, .simple-link:hover{ /*stile per un link comune*/
     text-decoration: none;
@@ -162,7 +168,7 @@ head, body {
     margin: 0 auto;
 }
 
-/*icone spiegazione*/
+/*icone nella spiegazione della home*/
 .fa-list-ol{
     color: #e5ad26;
 }
@@ -221,6 +227,15 @@ head, body {
 .card-body select{
     display: inline-block;
 }
+.testimonial-group .row {
+    overflow-x: auto;
+}
+#cardInSlider{
+    display: inline-block;
+    float: none;
+    margin: 0 auto;
+}
+
 
 /*social icons*/
 .social a{
@@ -265,8 +280,11 @@ hr.light {
     display: inline-block;
     text-align: center;
 }
+#orderBy {
+    min-width: 200px;
+}
 
-
+/*media per schermo md*/
 @media all and (max-width: 767px){
     /*centra il contenuto su schermi piccoli*/
     #center-phone{
@@ -278,6 +296,7 @@ hr.light {
     }
 }
 
+/*media per schermo lg*/
 @media all and (max-width: 992px){
     #navbarSearchForm{
         padding-left: 0;
