@@ -20,17 +20,26 @@
         <form method="POST" action="<c:url value="/ListRegistration">
                   <c:param name="action" value="addList"/>
               </c:url>">
-            <label>Name: </label>
+            
+            <label>Name: </label>   
             <input name="name" id="name" type="text"/><br/>
             <label>Description: </label>
             <input name="description" id="description" type="text"/><br/>
             <label>Image: </label>
             <input name="image" id="image" type="text"/><br/>
+            
+            <select name="friends" multiple>     
+                    <c:forEach items="${friends}" var="f">
+                        <option value="${f.getId()}"> ${f.getName()} </option>
+                    </c:forEach>
+            </select>
+            
             <select name="category">
                 <c:forEach items="${categories}" var="cat">
                     <option value="${cat.getIdCategory()}">${cat.getName()}</option>
                 </c:forEach>
             </select>
+            
             <input value="Sumbit" type="submit"/>
         </form>
     </body>

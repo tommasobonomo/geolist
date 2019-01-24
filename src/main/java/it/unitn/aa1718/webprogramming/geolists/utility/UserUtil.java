@@ -23,6 +23,7 @@ public class UserUtil {
      * get user from cookie of session
      * @param request
      * @return 0 if no exist or id if exist
+     * @deprecated 
      */
     public long getUserID(HttpServletRequest request){
         
@@ -46,6 +47,58 @@ public class UserUtil {
         else
             return 0;
             
+    }
+    
+    /**
+     * get userID from cookie of session
+     * @param request
+     * @return
+     */
+    public Optional<Long> getUserOptionalID(HttpServletRequest request){
+        
+        
+        Cookie[] cookies = request.getCookies();
+        String thisCookie = "noCookie";
+        
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Cookie")) {
+                    thisCookie=cookie.getValue();
+                }
+            }
+        }
+        
+        UserDAO u = new UserDAO();
+        Optional<User> res = u.getUser(thisCookie);
+        
+        if(res.isPresent())
+            return Optional.of(res.get().getId());
+        else
+            return Optional.empty();
+            
+    }
+    
+    /**
+     * get user from cookie
+     * @param request
+     * @return
+     */
+    public Optional<User> getUserOptional(HttpServletRequest request){
+        
+        
+        Cookie[] cookies = request.getCookies();
+        String thisCookie = "noCookie";
+        
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Cookie")) {
+                    thisCookie=cookie.getValue();
+                }
+            }
+        }
+        
+        UserDAO u = new UserDAO();
+        return u.getUser(thisCookie);
     }
     
 }

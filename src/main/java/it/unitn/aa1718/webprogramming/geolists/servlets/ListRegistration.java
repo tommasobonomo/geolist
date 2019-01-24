@@ -7,12 +7,14 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.IsFriendDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Access;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -45,10 +47,12 @@ public class ListRegistration extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        UserUtil util = new UserUtil();
+        
         // Prendo l'utente dalla sessione
         HttpSession session = request.getSession();
         Optional<User> userOpt = 
-                (Optional<User>) session.getAttribute("userOpt");
+                (Optional<User>) util.getUserOptional(request);
         Optional<UserAnonimous> userAnonOpt = 
                 (Optional<UserAnonimous>) session.getAttribute("userAnonOpt");
         
@@ -71,25 +75,41 @@ public class ListRegistration extends HttpServlet {
     private void viewForm(HttpServletRequest request, HttpServletResponse response,
             Optional<User> userOpt, Optional<UserAnonimous> userAnonOpt) 
             throws ServletException, IOException {    
-               
-        if (userOpt.isPresent()) {
+        
+        UserUtil util = new UserUtil();
+        Optional <Long> userID = util.getUserOptionalID(request);
+        
+        if (userID.isPresent()) {
+            
             request.setAttribute("isAnon", false);
-            request.setAttribute("id", userOpt.get().getId());
+            request.setAttribute("id", userID.get());
+            
+            //mostra gli amici tra cui sciegliere
+            IsFriendDAO friendDAO = new IsFriendDAO();
+            List <User> friends= friendDAO.getFriends(userID.get());
+            request.setAttribute("friends", friends);
+            
         } else if (userAnonOpt.isPresent()) {
             request.setAttribute("isAnon",true);
         }
        
         List<CatList> possibleCategories = getListCategories();
         request.setAttribute("categories", possibleCategories);
+        
+        
     }
     
     private void addList(HttpServletRequest request, HttpServletResponse response,
             Optional<User> userOpt, Optional<UserAnonimous> userAnonOpt)
             throws ServletException, IOException {
+        
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String image = request.getParameter("image");
         long catID = Long.parseLong(request.getParameter("category"));
+        //id of friends that have possibility to modify list
+        String[] friends = request.getParameterValues("friends");
+        
         long userID = 0;
         long userAnonID = 0;
         if (userOpt.isPresent()) {
@@ -108,6 +128,12 @@ public class ListRegistration extends HttpServlet {
         // If not anonymous user, add to Access
         AccessDAO accessDAO = new AccessDAO();
         accessDAO.create(new Access(userID, listID.get()));
+        
+        //inserisco gli amici nella lista
+        for (String i : friends){
+            accessDAO.create(new Access(Long.valueOf(i), listID.get()));
+        }
+            
     }
     
     private List<CatList> getListCategories() {
