@@ -130,8 +130,10 @@ public class ListRegistration extends HttpServlet {
         accessDAO.create(new Access(userID, listID.get()));
         
         //inserisco gli amici nella lista
-        for (String i : friends){
-            accessDAO.create(new Access(Long.valueOf(i), listID.get()));
+        if(friends!=null){
+            for (String i : friends){
+                accessDAO.create(new Access(Long.valueOf(i), listID.get()));
+            }
         }
             
     }

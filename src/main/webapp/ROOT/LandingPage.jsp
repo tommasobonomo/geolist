@@ -56,6 +56,7 @@
         
         <c:if test="${logged}">
             <p>User <c:out value="${username}"/> is logged in</p>
+            <div><a href="/signOut"> Sign Out </a> </div>  
         </c:if>
         <c:if test="${not logged}">
             <div class="login-form">
@@ -70,6 +71,8 @@
                 </form>
             </div>
         </c:if>
+        
+         
         
     </body>
 
