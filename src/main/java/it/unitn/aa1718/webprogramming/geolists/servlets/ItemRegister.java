@@ -60,7 +60,7 @@ public class ItemRegister extends HttpServlet {
             case "viewForm":
             default:                
                 viewForm(request);
-                request.getRequestDispatcher("/ROOT/item/registeritem.jsp").forward(request, response);
+                request.getRequestDispatcher("/ROOT/AddItem.jsp").forward(request, response);
         }
     }
 
@@ -87,7 +87,7 @@ public class ItemRegister extends HttpServlet {
         } catch (IOException | ServletException ex) {
             Logger.getLogger(ItemRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
+        
         //logo="c:\\docs\\DB_photos\\"+name+(".png");
         Item u = new Item(this.idCat, this.name, this.inputStream, this.note); 
            
