@@ -40,9 +40,7 @@
     width: 100%;
     left: 0;
 }
-select {
-    max-width: 110px;
-}
+
 
 /*head e body*/
 head, body {
@@ -129,16 +127,6 @@ head, body {
     display: inline-block;
     max-width: 130px;
     margin-right: 5px;
-}
-
-/*modal*/
-#close-button {
-    width: 30px;
-    height: 30px;
-    margin: 5px;
-}
-.myModalHeader{
-    margin-left: 50%;
 }
 
 /*form*/
@@ -257,6 +245,14 @@ head, body {
     color: #d5d5d5
 }
 
+/*bottone fissato per il view list*/
+.button-fixed{
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 /*footer*/
 footer{
     background-color: #3f3f3f;
@@ -282,6 +278,10 @@ hr.light {
 }
 #orderBy {
     min-width: 200px;
+    margin: 0 auto;
+}
+#selectList{
+    max-width: 110px;
 }
 
 /*media per schermo md*/
@@ -300,5 +300,11 @@ hr.light {
 @media all and (max-width: 992px){
     #navbarSearchForm{
         padding-left: 0;
+    }
+    #orderBy{
+        margin-top: .5rem;
+    }
+    #titles-list{
+        margin:0 auto;
     }
 }

@@ -35,7 +35,7 @@
                     <!--pulsante ricerca prodotto-->
                     <form class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <select class="form-control mr-sm-2" id="selezione">
+                        <select class="form-control mr-sm-2">
                             <option disabled selected hidden>category</option>                            
                             <option>all</option>
                             <option>farmacia</option>
@@ -66,7 +66,7 @@
             </div>
         </nav>
 
-        
+        <!--body con liste-->
         <div class="container padding-top2">
 
             <!--lista 1-->
@@ -75,18 +75,19 @@
                 <!--titolo-->
                 <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8">
                     <div class="display-4 font-20 my-2">
-                        Nome della lista
+                        Nome della lista<br>
+                        <small class="font-10 mr-sm-2">categoria</small>
                     </div>
                 </div>
 
                 <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4 text-right">
-                    <small class="font-10 mr-sm-2">categoria</small>
-                    <button class="btn btn-outline-info btn-sm mr-sm-2 my-2">edit</button>
-                    <button class="btn btn-outline-danger btn-sm mr-sm-2 my-2">delete</button>
+                    <a href="chat.html"><button class="btn btn-outline-warning btn-md my-2"><i class="far fa-comments"></i></button></a> 
+                    <a href=""><button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i></button></a>
+                    <a href=""><button class="btn btn-outline-danger btn-md my-2"><i class="far fa-trash-alt"></i></button></a>
                 </div>
 
                 <!--items-->
-                <div class="container testimonial-group padding-top">
+                <div class="container testimonial-group">
                     <div class="row flex-nowrap card-deck">
 
                         <!--elenco di carte-->
@@ -175,27 +176,27 @@
                 </div>
                 
             </div>
-            
             <hr>
 
             <!--lista 2-->
-            <div class="row padding-top padding-bottom" >
+            <div class="row padding-top padding-bottom">
 
                 <!--titolo-->
                 <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8">
                     <div class="display-4 font-20 my-2">
-                        Nome della lista
+                        Nome della lista<br>
+                        <small class="font-10 mr-sm-2">categoria</small>
                     </div>
                 </div>
 
                 <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4 text-right">
-                    <small class="font-10 mr-sm-2">categoria</small>
-                    <button class="btn btn-outline-info btn-sm mr-sm-2 my-2">edit</button>
-                    <button class="btn btn-outline-danger btn-sm mr-sm-2 my-2">delete</button>
+                    <a href="chat.html"><button class="btn btn-outline-warning btn-md my-2"><i class="far fa-comments"></i></button></a> 
+                    <a href=""><button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i></button></a>
+                    <a href=""><button class="btn btn-outline-danger btn-md my-2"><i class="far fa-trash-alt"></i></button></a>
                 </div>
 
                 <!--items-->
-                <div class="container testimonial-group padding-top">
+                <div class="container testimonial-group">
                     <div class="row flex-nowrap card-deck">
 
                         <!--elenco di carte-->
@@ -284,8 +285,7 @@
                 </div>
                 
             </div>
-
-            <hr class=>
+            <hr>
 
             <!--lista 3-->
             <div class="row padding-top padding-bottom">
@@ -293,18 +293,19 @@
                 <!--titolo-->
                 <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8">
                     <div class="display-4 font-20 my-2">
-                        Nome della lista
+                        Nome della lista<br>
+                        <small class="font-10 mr-sm-2">categoria</small>
                     </div>
                 </div>
 
                 <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4 text-right">
-                    <small class="font-10 mr-sm-2">categoria</small>
-                    <button class="btn btn-outline-info btn-sm mr-sm-2 my-2">edit</button>
-                    <button class="btn btn-outline-danger btn-sm mr-sm-2 my-2">delete</button>
+                    <a href="chat.html"><button class="btn btn-outline-warning btn-md my-2"><i class="far fa-comments"></i></button></a> 
+                    <a href=""><button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i></button></a>
+                    <a href=""><button class="btn btn-outline-danger btn-md my-2"><i class="far fa-trash-alt"></i></button></a>
                 </div>
 
                 <!--items-->
-                <div class="container testimonial-group padding-top">
+                <div class="container testimonial-group">
                     <div class="row flex-nowrap card-deck">
 
                         <!--elenco di carte-->
@@ -393,39 +394,60 @@
                 </div>
                 
             </div>
-        </div>
-        
 
-        <!--footer-->
-        <footer>
-            <div class="container-fluid">
-                <div class="row text-center">
-                    <div class="col-md-4">
-                        <h5>Connect</h5>
-                        <hr class="light">
-                        <div class="social padding-bottom">
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+
+
+        <!--bottone fissato in basso a destra con finestra modale-->
+        <button class="button-fixed btn btn-danger" data-toggle="modal" data-target="#createModal">
+            Create a new one <i class="fas fa-plus"></i>
+        </button>
+
+        <!--finestra modale -->
+        <div class="modal fade show" id="createModal">
+            <div class="modal-dialog">
+                <div class="modal-content">                
+                    <div class="modal-body">
+                        
+                        <div class="center-absolute">
+                            <span class="display-4 font-15">Create a new list</span> 
                         </div>
+
+                        <form action="" class="form-spacer needs-validation padding-top" novalidate>
+                            
+                            <!--input "base"-->
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name" class="form-control" required autofocus>
+                                <div class="invalid-feedback">name required</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="categoria">Category</label>
+                                <select class="form-control mr-sm-2" id="categoria" required>
+                                    <option>farmacia</option>
+                                    <option>carne</option>
+                                    <option>pesce</option>
+                                </select>
+                                <div class="invalid-feedback">category required</div> 
+                            </div>
+                            <!--bottoni-->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6 text-center">
+                                        <button type="button" class="btn btn-outline-secondary btn-md" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <a href="#"><button type="submit" class="btn btn-outline-danger btn-md">Create</button></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
                     </div>
-                    <div class="col-md-4">
-                        <h5>Contacts</h5>
-                        <hr class="light">
-                        <p>111-1111-111</p>
-                        <p>111 my road</p>
-                        <p>my city, 1111</p>
-                    </div>
-                    <div class="col-md-4">
-                        <h5>Title</h5>
-                        <hr class="light">
-                        <p>Don't know what to write</p>
-                        <p>bla bla bla bla</p>
-                        <p>bla bla bla bla</p>
-                    </div>
+
                 </div>
             </div>
-        </footer>
+        </div>
 
         
         
