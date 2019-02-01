@@ -5,13 +5,16 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author tommaso
  */
 @WebServlet(
-        name="ListServlet",
+        name = "ListServlet",
         urlPatterns = "/List"
 )
 public class ListServlet extends HttpServlet {
@@ -40,51 +43,71 @@ public class ListServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
+        UserUtil u = new UserUtil();
+        Optional<Long> userID = u.getUserOptionalID(request);
         
         long listID = Long.parseLong(request.getParameter("listID"));
         String action = request.getParameter("action");
         
-        switch(action) {
-            case "addItem":
-                addItem(request,response,listID);
-                break;
-            case "removeItem":
-                removeItem(request,response,listID);
-                break;
-            case "view":
-            default:
-                viewList(request,response,listID);
-        }
         
+        if ( userID.isPresent() && !( new AccessDAO() ).canHaveAccess(userID.get(), listID)) {
+            response.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>NO ACCESS</title>");
+                out.println("</head>"); 
+                out.println("<body>");
+                out.println("<h1>YOU DON'T HAVE ACCESS</h1>");
+                out.println("</body>");
+                out.println("</html>");
+            }
+        } else {
+
+            switch (action) {
+                case "addItem":
+                    addItem(request, response, listID);
+                    break;
+                case "removeItem":
+                    removeItem(request, response, listID);
+                    break;
+                case "view":
+                default:
+                    viewList(request, response, listID);
+            }
+        }
     }
 
     private void addItem(HttpServletRequest request, HttpServletResponse response, long listID) {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
-        
+
         if (composeDAO.addItemToList(itemID, listID)) {
             request.setAttribute("success", true);
         } else {
             request.setAttribute("success", false);
         }
-        
+
         viewList(request, response, listID);
     }
-    
+
     private void removeItem(HttpServletRequest request, HttpServletResponse response, long listID) {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
-        
+
         if (composeDAO.removeItemFromList(itemID, listID)) {
             request.setAttribute("success", true);
         } else {
             request.setAttribute("success", false);
         }
-        
+
         viewList(request, response, listID);
     }
-    
+
     private void viewList(HttpServletRequest request, HttpServletResponse response, long listID) {
         // Get needed DAOs
         ComposeDAO composeDAO = new ComposeDAO();
@@ -114,7 +137,7 @@ public class ListServlet extends HttpServlet {
             name = pl.getName();
             desc = pl.getDescription();
         }
-        
+
         // Get all items for adding purposes
         List<Item> allItems = itemDAO.getAll();
 
@@ -125,14 +148,14 @@ public class ListServlet extends HttpServlet {
         request.setAttribute("allItems", allItems);
         request.setAttribute("name", name);
         request.setAttribute("desc", desc);
-        
+
         try {
             request.getRequestDispatcher("/ROOT/List.jsp").forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
