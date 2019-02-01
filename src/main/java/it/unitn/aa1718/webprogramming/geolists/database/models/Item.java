@@ -5,6 +5,7 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database.models;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 
 /**
@@ -15,7 +16,7 @@ public class Item {
     private long id;
     private long idCat;
     private String name;
-    private String logo;
+    private InputStream logo;
     private String note;
     private BigDecimal price;
 
@@ -29,13 +30,12 @@ public class Item {
      * @param price
      * @param note
      */
-    public Item(long id, long idCat, String name, String logo, String note, BigDecimal price) {
+    public Item(long id, long idCat, String name, InputStream logo, String note) {
         this.id = id;
         this.idCat = idCat;
         this.name = name;
         this.logo = logo;
         this.note = note;
-        this.price = price;
     }
     
     /**
@@ -47,12 +47,11 @@ public class Item {
      * @param note
      * @param price
      */
-    public Item(long idCat, String name, String logo, String note, BigDecimal price) {
+    public Item(long idCat, String name, InputStream logo, String note) {
         this.idCat = idCat;
         this.name = name;
         this.logo = logo;
         this.note = note;
-        this.price = price;
     }
 
     public long getId() {
@@ -79,11 +78,11 @@ public class Item {
         this.name = name;
     }
 
-    public String getLogo() {
+    public InputStream getLogo() {
         return logo;
     }
 
-    public void setLogo(String logo) {
+    public void setLogo(InputStream logo) {
         this.logo = logo;
     }
 
@@ -95,17 +94,12 @@ public class Item {
         this.note = note;
     }
     
-    public BigDecimal getPrice() {
-        return price;
-    }
     
     /**
      * use BigDecimal.valueOf(12.33) for set the value
      * @param price
      */
-    public void setPrice(BigDecimal price) {
-        this.price=price;
-    }
+
 
     @Override
     public int hashCode() {
@@ -131,7 +125,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" + "idItem=" + id + ", idCat=" + idCat + ", name=" + name + ", logo=" + logo + ", note=" + note + ", price=" + price + '}';
+        return "Item{" + "idItem=" + id + ", idCat=" + idCat + ", name=" + name + ", logo=" + logo + ", note=" + note + '}';
     }
     
 }

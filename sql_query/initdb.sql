@@ -62,12 +62,11 @@ CREATE TABLE citem (
 CREATE TABLE item (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     idcat INTEGER NOT NULL,
-    price DECIMAL(10,2),
     FOREIGN KEY (idcat) 
         REFERENCES citem(id)
         ON DELETE CASCADE,
     "NAME" VARCHAR(30),
-    logo VARCHAR(50),
+    logo BLOB,
     note VARCHAR(30),
     CONSTRAINT item_pk PRIMARY KEY (id)
 );

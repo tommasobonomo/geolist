@@ -8,6 +8,7 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,31 +38,17 @@ public class ItemServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        long itemID = Long.parseLong(request.getParameter("itemID"));
-        
-        // Get needed DAOs
-        ItemDAO itemDAO = new ItemDAO();
-        
-        // Try retrieving Item object
-        Optional<Item> itemOpt = itemDAO.get(itemID);
-        
-        String name = "";
-        String note = "";
-        String logo = "";
-        
-        if (itemOpt.isPresent()) {
-            Item item = itemOpt.get();
-            name = item.getName();
-            note = item.getNote();
-            logo = item.getLogo();
+        String action = request.getParameter("action");
+        switch (action) {
+            case "retrieveImage":
+                retrieveImage(request,response);
+                break;
+            case "viewItem":
+            default:
+                viewItem(request,response);
+                request.getRequestDispatcher("/ROOT/Item.jsp").forward(request, response);
         }
         
-        response.setContentType("text/html;charset=UTF-8");
-        request.setAttribute("name", name);
-        request.setAttribute("note", note);
-        request.setAttribute("logo", logo);
-        request.setAttribute("listID", request.getParameter("listID"));
-        request.getRequestDispatcher("/ROOT/Item.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -102,5 +89,48 @@ public class ItemServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void viewItem(HttpServletRequest request, HttpServletResponse response) {
+        long itemID = Long.parseLong(request.getParameter("itemID"));
+        
+        // Get needed DAOs
+        ItemDAO itemDAO = new ItemDAO();
+        
+        // Try retrieving Item object
+        Optional<Item> itemOpt = itemDAO.get(itemID);
+        
+        String id = "";
+        String name = "";
+        String note = "";
+        
+        if (itemOpt.isPresent()) {
+            Item item = itemOpt.get();
+            id = String.valueOf(item.getId());
+            name = item.getName();
+            note = item.getNote();
+        }
+        
+        response.setContentType("text/html;charset=UTF-8");
+        request.setAttribute("itemID", id);
+        request.setAttribute("name", name);
+        request.setAttribute("note", note);
+        request.setAttribute("listID", request.getParameter("listID"));
+    }
+
+    private void retrieveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
+        long id = Long.parseLong(request.getParameter("itemID"));
+        
+        ItemDAO itemDAO = new ItemDAO();
+        Optional<byte[]> byteArrayOpt = itemDAO.getBlobImageFromItem(id);
+        
+        if (byteArrayOpt.isPresent()) {
+            response.setContentType("image/gif");
+            OutputStream os = response.getOutputStream();
+            os.write(byteArrayOpt.get());
+            os.flush();
+            os.close();
+        }
+    }
 
 }

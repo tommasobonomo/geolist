@@ -16,12 +16,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 @WebServlet(
         name="LoginServlet",
         urlPatterns = "/form-actions/login"
 )
+
+
+
+
+
 public class LoginServlet extends HttpServlet {
-    
     // Funzione di gestione del metodo GET della pagina principale dell'applicazione
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
