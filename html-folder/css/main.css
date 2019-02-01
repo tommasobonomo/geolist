@@ -21,6 +21,12 @@
     width: 80%;
     margin: 0 auto;
 }
+.font-30 { /*mente il font a 3rem*/
+    font-size: 3.0rem;
+}
+.font-25 { /*mente il font a 2.5rem*/
+    font-size: 2.5rem;
+}
 .font-20 { /*mente il font a 2rem*/
     font-size: 2rem;
 }
@@ -218,10 +224,17 @@ head, body {
 .testimonial-group .row {
     overflow-x: auto;
 }
+.card-footer{
+    padding-left: 2px;
+    padding-right: 2px;
+}
 #cardInSlider{
     display: inline-block;
     float: none;
     margin: 0 auto;
+}
+#card-trash button{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 
@@ -282,6 +295,10 @@ hr.light {
 }
 #selectList{
     max-width: 110px;
+}
+#card-trash{
+    position: absolute;
+    right: 10px;
 }
 
 /*media per schermo md*/

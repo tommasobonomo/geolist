@@ -1,0 +1,266 @@
+<html>
+    <head>
+        <title>Geolist - search</title>
+        <link rel="icon" href="../images/logos/logo.png">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link rel="stylesheet" href="../css/main.css">
+    </head>
+
+    <body>
+
+        <!--navbar-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <div class="container-fluid">
+                
+                <!--logo e titolo del sito-->
+                <a class="navbar-brand" href="../index.html">
+                    <img src="../images/logos/logo-orizzontale.png" height="40px" width="120px">
+                </a>
+                
+                <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
+                la dimensione specificata nel target-->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div action="" class="collapse navbar-collapse" id="collapse-target">
+                    <!--pulsante ricerca prodotto-->
+                    <form class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <select class="form-control mr-sm-2">
+                            <option disabled selected hidden>category</option>                            
+                            <option>all</option>
+                            <option>farmacia</option>
+                            <option>carne</option>
+                            <option>pesce</option>
+                        </select>
+                        <a href="search.html"><button class="btn btn-outline-danger my-2 my-sm-0" type="button">Search</button></a>
+                    </form>
+                </div>
+
+                <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
+                <div class="collapse navbar-collapse" id="collapse-target">
+                    
+                    <!--lista degli elementi cliccabili-->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link " href="#">Lists</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="profile.html">Profile</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+        <div class="container padding-top2">
+            <div class="row padding-top">
+
+                <!--titolo-->
+                <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8">
+                    <div class="display-4 font-25 my-2">
+                        Nome della lista<br>
+                        <small class="font-15 mr-sm-2">categoria</small>
+                    </div>
+                </div>
+                <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4 text-right">
+                    <a href="chat.html"><button class="btn btn-warning btn-md my-2">share with others <i class="fas fa-share-alt"></i></button></a> 
+                </div>
+            </div>
+            <hr class="padding-bottom">
+
+
+
+            <!--container per gli elementi che hai-->
+            <div class="display-4 font-15 my-2 padding-bottom text-center">
+                Elements already in your list:
+            </div>
+            <div class="container testimonial-group">
+                <div class="row flex-nowrap card-deck">
+
+                    <!--elenco di carte-->
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card" id="cardInSlider">
+                            <a href="#" id="card-trash">
+                                <button class="btn btn-danger btn-md my-2"><i class="far fa-trash-alt"></i></button>
+                            </a>
+                            <img class="card-img-top" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="#"><button class="btn btn-outline-info btn-sm my-3"><i class="fas fa-minus"></i></button></a>
+                                Quantity: 5
+                                <a href="#"><button class="btn btn-outline-success btn-sm my-3"><i class="fas fa-plus"></i></button></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card" id="cardInSlider">
+                            <a href="#" id="card-trash">
+                                <button class="btn btn-danger btn-md my-2"><i class="far fa-trash-alt"></i></button>
+                            </a>
+                            <img class="card-img-top" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="#"><button class="btn btn-outline-info btn-sm my-3"><i class="fas fa-minus"></i></button></a>
+                                Quantity: 5
+                                <a href="#"><button class="btn btn-outline-success btn-sm my-3"><i class="fas fa-plus"></i></button></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <hr>
+
+
+            <!--container per gli elementi che puoi aggiungere nella lista-->
+            <div class="display-4 font-15 my-2 padding-bottom padding-top text-center">
+                Elements you can put in your list:
+            </div>
+            <div class="container testimonial-group padding-bottom">
+                <div class="row flex-nowrap card-deck">
+
+                    <!--elenco di carte-->
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card" id="cardInSlider">
+                            <a href="#" id="card-trash">
+                                <button class="btn btn-success btn-md my-2"><i class="fas fa-plus"></i></button>
+                            </a>
+                            <img class="card-img-top" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card" id="cardInSlider">
+                            <a href="#" id="card-trash">
+                                <button class="btn btn-success btn-md my-2"><i class="fas fa-plus"></i></button>
+                            </a>
+                            <img class="card-img-top" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card" id="cardInSlider">
+                            <a href="#" id="card-trash">
+                                <button class="btn btn-success btn-md my-2"><i class="fas fa-plus"></i></button>
+                            </a>
+                            <img class="card-img-top" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card" id="cardInSlider">
+                            <a href="#" id="card-trash">
+                                <button class="btn btn-success btn-md my-2"><i class="fas fa-plus"></i></button>
+                            </a>
+                            <img class="card-img-top" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card" id="cardInSlider">
+                            <a href="#" id="card-trash">
+                                <button class="btn btn-success btn-md my-2"><i class="fas fa-plus"></i></button>
+                            </a>
+                            <img class="card-img-top" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card" id="cardInSlider">
+                            <a href="#" id="card-trash">
+                                <button class="btn btn-success btn-md my-2"><i class="fas fa-plus"></i></button>
+                            </a>
+                            <img class="card-img-top" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card" id="cardInSlider">
+                            <a href="#" id="card-trash">
+                                <button class="btn btn-success btn-md my-2"><i class="fas fa-plus"></i></button>
+                            </a>
+                            <img class="card-img-top" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card" id="cardInSlider">
+                            <a href="#" id="card-trash">
+                                <button class="btn btn-success btn-md my-2"><i class="fas fa-plus"></i></button>
+                            </a>
+                            <img class="card-img-top" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <div class="row padding-bottom">
+                <div class="col-12 text-center">
+                    <div class="btn btn-lg btn-outline-danger">Create</div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script src="../scripts/main.js"></script>
+    </body>
+</html>
