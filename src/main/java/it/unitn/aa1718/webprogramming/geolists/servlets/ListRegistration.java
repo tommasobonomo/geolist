@@ -54,7 +54,7 @@ public class ListRegistration extends HttpServlet {
         Optional<User> userOpt = 
                 (Optional<User>) util.getUserOptional(request);
         Optional<UserAnonimous> userAnonOpt = 
-                (Optional<UserAnonimous>) session.getAttribute("userAnonOpt");
+                (Optional<UserAnonimous>) util.getUserAnonymousOptional(request);
         
         switch(request.getParameter("action")) {
             case "addList":
@@ -125,10 +125,11 @@ public class ListRegistration extends HttpServlet {
         ProductListDAO plDAO = new ProductListDAO();
         Optional<Long> listID = plDAO.createAndReturnID(newList);
         
-        // If not anonymous user, add to Access
         AccessDAO accessDAO = new AccessDAO();
-        accessDAO.create(new Access(userID, listID.get()));
-        
+        // If not anonymous user, add to Access
+        if(userOpt.isPresent()){
+            accessDAO.create(new Access(userID, listID.get()));
+        }
         //inserisco gli amici nella lista
         if(friends!=null){
             for (String i : friends){

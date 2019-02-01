@@ -5,8 +5,10 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.utility;
 
+import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -101,4 +103,56 @@ public class UserUtil {
         return u.getUser(thisCookie);
     }
     
+    /**
+     * get userID from cookie of session
+     * @param request
+     * @return
+     */
+    public Optional<Long> getUserAnonymousOptionalID(HttpServletRequest request){
+        
+        
+        Cookie[] cookies = request.getCookies();
+        String thisCookie = "noCookie";
+        
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Cookie")) {
+                    thisCookie=cookie.getValue();
+                }
+            }
+        }
+        
+        UserAnonimousDAO u = new UserAnonimousDAO();
+        u.getFromCookie(thisCookie);
+        Optional<UserAnonimous> res = u.getFromCookie(thisCookie);
+        
+        if(res.isPresent())
+            return Optional.of(res.get().getId());
+        else
+            return Optional.empty();
+            
+    }
+    
+    /**
+     * get user from cookie
+     * @param request
+     * @return
+     */
+    public Optional<UserAnonimous> getUserAnonymousOptional(HttpServletRequest request){
+        
+        
+        Cookie[] cookies = request.getCookies();
+        String thisCookie = "noCookie";
+        
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Cookie")) {
+                    thisCookie=cookie.getValue();
+                }
+            }
+        }
+        
+        UserAnonimousDAO u = new UserAnonimousDAO();
+        return u.getFromCookie(thisCookie);
+    }
 }
