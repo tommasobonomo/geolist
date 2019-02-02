@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <title>Geolist - register</title>
+        <link rel="icon" href="../images/logos/logo.png">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link rel="stylesheet" href="../css/main.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <!--titolo-->
+            <div class="row text-center padding-bottom padding-top">
+                <div class="col-12">
+                    <img src="../images/logos/logo-orizzontale.png" alt="logo orizzontale" height="60px" width="180px">
+                    <p class="lead">Registration form</p>
+                    <hr class="my-4">
+                    <small>items with " * " are required</small>
+                </div>
+            </div>
+
+            <!--form-->
+            <form action="" class="form-spacer needs-validation" novalidate>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="name">Name *</label>
+                            <input type="text" name="name" id="name" class="form-control" required autofocus>
+                            <div class="invalid-feedback">name required</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="surname">Surname *</label>
+                            <input type="text" name="surname" id="surname" class="form-control" required>
+                            <div class="invalid-feedback">surname required</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">Username *</label>
+                    <input type="text" name="username" id="username" class="form-control" required>
+                    <div class="invalid-feedback">username required</div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" name="email" id="email" class="form-control" required>
+                            <div class="invalid-feedback">email required, also remember the @</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="password">Password *</label>
+                            <input type="password" name="password" id="password" class="form-control" type="password" required>
+                            <div class="invalid-feedback">password required</div> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label for="avatar">choose an image for your avatar</label>
+                    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+                </div>
+
+                <div class="form-group">
+                    <!--checkbox remember me-->
+                    <div class="form-check ">
+                        <input type="checkbox" id="rememberMe" class="form-check-input">
+                        <label for="rememberMe" class="form-check-label">  Remember me</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <!--checkbox remember me-->
+                    <div class="form-check">
+                        <input type="checkbox" id="terms" class="form-check-input" required>
+                        <label for="terms" class="form-check-label">  I've read all the terms and conditions *</label>
+                    </div>
+                </div>
+
+                <hr class=" my-4">
+
+                <!--bottoni-->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <a href="../index.html"><button type="button" class="btn btn-outline-secondary btn-lg">Cancel</button></a>
+                        </div>
+                        <div class="col-6 text-center">
+                            <a href="#"><button type="submit" class="btn btn-outline-danger btn-lg">Register</button></a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script src="../scripts/main.js"></script>
+    </body>
+</html>
