@@ -168,7 +168,7 @@ public class LandingServlet extends HttpServlet {
       
         // Aggiungo i parametri alla richiesta da inoltrare alla JSP
         response.setContentType("text/html;charset=UTF-8");
-        request.setAttribute("listOfCat", listOfCat);
+        session.setAttribute("listOfCat", listOfCat);
         request.setAttribute("listOfPL", listOfPL);
         request.setAttribute("itemsOfList", itemsOfList);
         request.setAttribute("username", username);

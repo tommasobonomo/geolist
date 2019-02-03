@@ -16,7 +16,32 @@
     </head>
     <body>
         
+        
+        <!--sezione di ricerca-->   
+        <div>
+            <br>
+            <form action="/form-action/search">
+                <input type="text" placeholder="Search.." name="wordSearched">
+                <select name="categorySearched">
+                    <option value="0" selected>all</option>
+                    <c:forEach var="category" items="${listOfCat}">
+                        <option value="${category.getIdCatItem()}">${category.getName()}</option>
+                    </c:forEach>
+                </select>
+                <button type="submit"> search </button>
+            </form>
+        </div>
+        
+        
+        <!--quello che ho già cercato-->
         <h1>You searched for ${wordSearched}</h1>
+        
+        <form action="/form-action/search">
+            <button type="submit" name="orderBy" value="alfabetico"> order by name</button>
+            <button type="submit" name="orderBy" value="categoria"> order by category </button>
+        </form>
+        
+        <br>
         <h2>i risultati sono:</h2>
         
         <c:forEach var="item" items="${items}">

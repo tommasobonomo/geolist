@@ -88,7 +88,7 @@
             <br>
             <form action="/form-action/search">
                 <input type="text" placeholder="Search.." name="wordSearched">
-                <select name="categorySearched" placeholder="categoria">
+                <select name="categorySearched">
                     <option value="0" selected>all</option>
                     <c:forEach var="category" items="${listOfCat}">
                         <option value="${category.getIdCatItem()}">${category.getName()}</option>

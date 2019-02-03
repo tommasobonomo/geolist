@@ -8,12 +8,15 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author mattia
@@ -25,9 +28,22 @@ public class SearchItem extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             
-        //recupero parametri di ricerca
-        String wordSearched = (String) request.getParameter("wordSearched");
-        Integer categorySearched = Integer.parseInt(request.getParameter("categorySearched"));
+        //parametri di ricerca
+        HttpSession session = request.getSession();
+        String wordSearched = null;
+        Integer categorySearched = null;
+        String orderBy = null;
+        orderBy = (String) request.getParameter("orderBy");
+        
+
+        //recupero da dove di dovere
+        if(orderBy == null){
+            wordSearched = (String) request.getParameter("wordSearched");
+            categorySearched = Integer.parseInt(request.getParameter("categorySearched"));
+        } else{
+            wordSearched = (String) session.getAttribute("wordSearched");
+            categorySearched = (Integer) session.getAttribute("categorySearched");
+        }
 
         
         //effettuo la ricerca
@@ -40,10 +56,30 @@ public class SearchItem extends HttpServlet {
             items = itemDAO.getFromPatternAndCategory(wordSearched, categorySearched);
         }
         
-         
+           
+        //ordino se c'è bisogno di ordinare qualcosa
+        if("alfabetico".equals(orderBy)){
+           Collections.sort(items, new Comparator<Item>() {
+                @Override
+                public int compare(Item i1, Item i2) {
+                    return i1.getName().compareTo(i2.getName());
+                }
+            });
+        }
+        if("categoria".equals(orderBy)){
+           Collections.sort(items, new Comparator<Item>() {
+                @Override
+                public int compare(Item i1, Item i2) {
+                    return Long.valueOf(i1.getIdCat()).compareTo(Long.valueOf(i2.getIdCat()));
+                }
+            });
+        }
         
-        request.setAttribute("items", items);
-        request.setAttribute("wordSearched", wordSearched);
+         
+        //inserisco gli elementi nella sessione
+        session.setAttribute("items", items);
+        session.setAttribute("wordSearched", wordSearched);
+        session.setAttribute("categorySearched", categorySearched);
         request.getRequestDispatcher("/ROOT/SearchPage.jsp").forward(request, response);
     }
     
