@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,7 +23,7 @@ import java.util.List;
 public class ComposeDAO {
 
     private Compose createCompose(ResultSet rs) throws SQLException {
-        return new Compose(rs.getLong("LIST"), rs.getLong("ITEM"));
+        return new Compose(rs.getLong("LIST"), rs.getLong("ITEM"), rs.getInt("QUANTITY"));
     }
     
     public List<Compose> getItemsID(long listID) {
@@ -89,8 +90,8 @@ public class ComposeDAO {
         return list;
     }
     
-    public boolean addItemToList(long itemID, long listID) {
-        String query = "INSERT INTO Compose(LIST,ITEM) VALUES(?,?)";
+    public boolean addItemToList(long itemID, long listID, int quantity) {
+        String query = "INSERT INTO Compose(LIST,ITEM,QUANTITY) VALUES(?,?,?)";
         boolean success = true;
         
         try {
@@ -99,6 +100,7 @@ public class ComposeDAO {
             
             ps.setLong(1, listID);
             ps.setLong(2, itemID);
+            ps.setInt(3, quantity);
             
             ps.executeUpdate();
             ps.close();
@@ -110,6 +112,26 @@ public class ComposeDAO {
         }
         
         return success;
+    }
+    
+    public Optional<Integer> getQauntityFromItemAndList(long itemID, long listID) {
+        String query = "SELECT * FROM Compose WHERE LIST="+ listID +" AND ITEM="+ itemID ;
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            System.out.print(query);
+            ResultSet rs = s.executeQuery(query);
+            
+            while (rs.next()) {
+                return Optional.of(createCompose(rs).getQuantity());
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return Optional.empty();
     }
     
     public boolean removeItemFromList(long itemID, long listID) {

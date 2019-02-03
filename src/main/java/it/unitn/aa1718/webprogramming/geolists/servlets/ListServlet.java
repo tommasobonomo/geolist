@@ -16,7 +16,9 @@ import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -69,6 +71,12 @@ public class ListServlet extends HttpServlet {
         } else {
 
             switch (action) {
+                case "plusQty":
+                    plusQty(request, response, listID);
+                    break;
+                case "minusQty":
+                    minusQty(request, response, listID);
+                    break;
                 case "addItem":
                     addItem(request, response, listID);
                     break;
@@ -86,7 +94,7 @@ public class ListServlet extends HttpServlet {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
 
-        if (composeDAO.addItemToList(itemID, listID)) {
+        if (composeDAO.addItemToList(itemID, listID, 1)) {
             request.setAttribute("success", true);
         } else {
             request.setAttribute("success", false);
@@ -126,6 +134,10 @@ public class ListServlet extends HttpServlet {
                 listItems.add(itemOpt.get());
             }
         }
+        
+        
+        Map<Long,Integer> mapQuantityItem = new HashMap<>();
+        mapQuantityItem = createMapQuantityItem(listItems,listID);
 
         // Get list details if present
         Optional<ProductList> plOpt = plDAO.get(listID);
@@ -148,7 +160,10 @@ public class ListServlet extends HttpServlet {
         request.setAttribute("allItems", allItems);
         request.setAttribute("name", name);
         request.setAttribute("desc", desc);
-
+        
+        //for retrieve quantity
+        request.setAttribute("mapQuantityItem", mapQuantityItem);
+        
         try {
             request.getRequestDispatcher("/ROOT/List.jsp").forward(request, response);
         } catch (Exception ex) {
@@ -195,4 +210,28 @@ public class ListServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void plusQty(HttpServletRequest request, HttpServletResponse response, long listID) {
+        long itemID = Long.parseLong(request.getParameter("itemID"));
+        //aggiungo quantita
+        viewList(request, response, listID);
+    }
+
+    private void minusQty(HttpServletRequest request, HttpServletResponse response, long listID) {
+        long itemID = Long.parseLong(request.getParameter("itemID"));
+        //diminuisco quantita
+        viewList(request, response, listID);
+    }
+    
+    public Map<Long,Integer> createMapQuantityItem (List<Item> items,long listID) {
+
+        ComposeDAO composeDAO = new ComposeDAO();
+        Map<Long,Integer> mapQuantityItem = new HashMap<>();
+        
+        
+        for (Item i : items) {
+            mapQuantityItem.put(i.getId(), composeDAO.getQauntityFromItemAndList(i.getId(),listID).get());
+        }
+        
+        return mapQuantityItem;
+    }
 }

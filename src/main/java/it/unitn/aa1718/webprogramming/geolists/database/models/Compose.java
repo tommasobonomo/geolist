@@ -13,10 +13,12 @@ public class Compose {
     
     private long idList;
     private long idItem;
+    private int quantity;
 
-    public Compose(long idList, long idItem) {
+    public Compose(long idList, long idItem, int quantity) {
         this.idList = idList;
         this.idItem = idItem;
+        this.quantity = quantity;
     }
 
     public long getIdList() {
@@ -25,6 +27,14 @@ public class Compose {
 
     public void setIdList(long idList) {
         this.idList = idList;
+    }
+    
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public long getIdItem() {
@@ -66,7 +76,7 @@ public class Compose {
 
     @Override
     public String toString() {
-        return "Compose{" + "idList=" + idList + ", idItem=" + idItem + '}';
+        return "Compose{" + "idList=" + idList + ", idItem=" + idItem + ", quantity= " + quantity + '}';
     }
     
     

@@ -29,7 +29,7 @@
             </a>
         </div> 
         
-        <div class="list-category">
+        <div class="list-items-in-list">
             <c:forEach var="item" items="${listItems}">
                 <div class="name">
                    <a href="<c:url value="/ItemServlet">
@@ -39,6 +39,25 @@
                         </c:url>">
                         <c:out value="${item.getName()}" />
                     </a>
+                    
+                    <form method="POST" action="<c:url value="/List">
+                              <c:param name="listID" value="${listID}"/>
+                              <c:param name="itemID" value="${item.getId()}"/>
+                              <c:param name="action" value="minusQty"/>
+                              </c:url>"
+                    >
+                        <input type="submit" value="-"/>
+                    </form>
+                    ${mapQuantityItem.get(item.getId())}
+                    <form method="POST" action="<c:url value="/List">
+                              <c:param name="listID" value="${listID}"/>
+                              <c:param name="itemID" value="${item.getId()}"/>
+                              <c:param name="action" value="plusQty"/>
+                              </c:url>"
+                    >
+                        <input type="submit" value="+"/>
+                    </form>
+                    
                     <form method="POST" action="<c:url value="/List">
                               <c:param name="listID" value="${listID}"/>
                               <c:param name="itemID" value="${item.getId()}"/>
@@ -51,7 +70,7 @@
             </c:forEach>
         </div>
         
-        <div class="list-category">
+        <div class="list-items-disponibili">
             <c:forEach var="item" items="${allItems}">
                 <div>
                     <a href="<c:url value="/ItemServlet">
@@ -64,8 +83,7 @@
                               <c:param name="listID" value="${listID}"/>
                               <c:param name="itemID" value="${item.getId()}"/>
                               <c:param name="action" value="addItem"/>
-                              </c:url>"
-                    >
+                              </c:url>">
                         <input type="submit" value="Add"/>
                     </form>
 
