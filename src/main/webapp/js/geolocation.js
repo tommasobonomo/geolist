@@ -1,16 +1,29 @@
+let latestLat = 0;
+let latestLng = 0;
+
 const geoSuccess = position => {
     $("#geoerror").hide();
-    $.ajax({
-        url: "/Geolocation",
-        data: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-        },
-        success: result => {
-            console.log("Thank god it worked!");
-            console.log(result);
-        }
-    })
+    
+    // aggiungo precisione per evitare chiamate in più
+    const eps_precision = 0.0005;
+    
+    if (
+            Math.abs(position.coords.latitude - latestLat) > eps_precision ||
+            Math.abs(position.coords.longitude - latestLng) > eps_precision
+        ) {
+        latestLat = position.coords.latitude;
+        latestLng = position.coords.longitude;
+        $.ajax({
+            url: "/Geolocation",
+            data: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            },
+            success: result => {
+                console.log(result);
+            }
+        })
+    }
 }
 
 const geoError = () => {
