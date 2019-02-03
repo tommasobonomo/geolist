@@ -66,6 +66,15 @@
         
         <c:if test="${logged}">
             <p>User <c:out value="${username}"/> is logged in</p>
+            <form method="POST" action="/form-actions/login">
+                    change username <input type="text" name="username">
+                    <br/>
+                    change password <input type="password" name="password">
+                    <br/>
+                    <input type="checkbox"  name="remember">
+                    Remember<br>
+                    <input type="submit" value="Submit">
+                </form>
             <div><a href="/signOut"> Sign Out </a> </div>  
         </c:if>
         <c:if test="${not logged}">
