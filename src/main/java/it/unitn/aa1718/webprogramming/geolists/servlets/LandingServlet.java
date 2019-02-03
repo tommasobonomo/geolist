@@ -6,9 +6,11 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.CatItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
@@ -158,9 +160,15 @@ public class LandingServlet extends HttpServlet {
             itemsOfList = new HashMap<>();
             username = "ANONYMOUS";
         }
+        
+        
+        //prendo le categorie da mettere nel form della ricerca
+        CatItemDAO categoriesDao = new CatItemDAO();
+        List<CatItem> listOfCat = categoriesDao.getAll();
       
         // Aggiungo i parametri alla richiesta da inoltrare alla JSP
         response.setContentType("text/html;charset=UTF-8");
+        session.setAttribute("listOfCat", listOfCat);
         request.setAttribute("listOfPL", listOfPL);
         request.setAttribute("itemsOfList", itemsOfList);
         request.setAttribute("username", username);
