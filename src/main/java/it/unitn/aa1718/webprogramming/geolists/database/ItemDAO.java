@@ -54,6 +54,57 @@ public class ItemDAO implements CrudDao<Item>{
         
         return Optional.empty();
     }
+    
+    public List<Item> getFromPattern(String pattern) {
+        String query = "SELECT * FROM Item AS I WHERE I.name LIKE '%"+pattern+"%'";
+        List list = new ArrayList<>();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while (rs.next()) {
+                list.add(createItem(rs));
+            }
+            
+            rs.close();
+            s.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return list;
+    }
+    
+    public List<Item> getFromPatternAndCategory(String pattern, Integer category) {
+        String query = "SELECT * "
+                + "FROM Item AS I "
+                + "WHERE I.idcat = ? AND I.name LIKE '%"+pattern+"%'";
+        List list = new ArrayList<>();
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps =c.prepareStatement(query);
+            ps.setInt(1,category);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                list.add(createItem(rs));
+            }
+            
+            rs.close();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return list;
+    }
 
     
     

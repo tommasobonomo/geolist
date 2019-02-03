@@ -75,6 +75,7 @@ CREATE TABLE item (
 CREATE TABLE compose(
     list INTEGER,
     item INTEGER ,
+    quantity INTEGER,
     FOREIGN KEY (item) 
         REFERENCES item(id)
         ON DELETE CASCADE,
