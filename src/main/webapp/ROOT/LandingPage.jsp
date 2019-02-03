@@ -81,6 +81,22 @@
                 </form>
             </div>
         </c:if>
+            
+            
+        <!--sezione di ricerca-->   
+        <div>
+            <br>
+            <form action="/form-action/search">
+                <input type="text" placeholder="Search.." name="wordSearched">
+                <select name="categorySearched" placeholder="categoria">
+                    <option value="0" selected>all</option>
+                    <c:forEach var="category" items="${listOfCat}">
+                        <option value="${category.getIdCatItem()}">${category.getName()}</option>
+                    </c:forEach>
+                </select>
+                <button type="submit"> search </button>
+            </form>
+        </div>
         
          
         
