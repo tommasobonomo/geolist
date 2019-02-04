@@ -10,10 +10,8 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,15 +29,8 @@ public class ImageUploader {
         return f;
     }
     
-    /**
-     * A class that takes an Item and if there is an image I in the images folder
-     * such that I == item.getName(), it uploads it to the DB
-     * @param item
-     * @return boolean to tell if the operation succeeds
-     */
-    private static boolean uploadImage(Item item) {
-        ItemDAO itemDAO = new ItemDAO();
-        File selectedFile = chooseImage(item.getName());
+    private static InputStream getInputStreamFromFile(String name) {
+        File selectedFile = chooseImage(name);
         boolean res = true;
         InputStream image = null;
         
@@ -49,8 +40,23 @@ public class ImageUploader {
             res = false;
             Logger.getLogger(ImageUploader.class.getName()).log(Level.SEVERE, null, ex);   
         }
+        return image;
+    }
+    
+    /**
+     * A class that takes an Item and if there is an image I in the images folder
+     * such that I == item.getName(), it uploads it to the DB
+     * @param item
+     * @return boolean to tell if the operation succeeds
+     */
+    private static boolean uploadImage(Item item) {
         
-        if (res && image != null) {
+        ItemDAO itemDAO = new ItemDAO();
+        boolean res = false;
+        InputStream image = getInputStreamFromFile("/items/" + item.getName());
+        
+        if (image != null) {
+            res = true;
             item.setLogo(image);
             System.out.println("Uploading image " + item.getName() + ".png...");
             itemDAO.update(item.getId(), item);
