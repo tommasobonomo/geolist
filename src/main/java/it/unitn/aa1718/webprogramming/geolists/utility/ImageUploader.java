@@ -31,13 +31,11 @@ public class ImageUploader {
     
     private static InputStream getInputStreamFromFile(String name) {
         File selectedFile = chooseImage(name);
-        boolean res = true;
         InputStream image = null;
         
         try {
             image = new FileInputStream(selectedFile);
         } catch (FileNotFoundException ex) {
-            res = false;
             Logger.getLogger(ImageUploader.class.getName()).log(Level.SEVERE, null, ex);   
         }
         return image;

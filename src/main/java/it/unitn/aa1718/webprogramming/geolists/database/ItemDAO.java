@@ -210,9 +210,7 @@ public class ItemDAO implements CrudDao<Item>{
             ps.executeUpdate();
             ps.close();
             
-            c.commit();
-            c.close();
-            //Database.closeConnection(c);
+            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
