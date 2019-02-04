@@ -5,10 +5,11 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.utility;
 
-import it.unitn.aa1718.webprogramming.geolists.database.CrudDao;
+import it.unitn.aa1718.webprogramming.geolists.database.CatItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
@@ -84,19 +85,38 @@ public class ImageUploader {
     
     /**
      * A class that takes a User and if there is an image I in the images folder
-     * such that I == list.getName(), it uploads it to the DB
+     * such that I == user.getId(), it uploads it to the DB
      * @param User user
      * @return boolean to tell if the operation succeeds
      */
     private static boolean uploadUserImage(User user) {
         UserDAO userDAO = new UserDAO();
         boolean res = false;
-        InputStream image = getInputStreamFromFile("/lists/" + user.getName());
+        InputStream image = getInputStreamFromFile("/users/" + user.getId());
         if (image != null) {
             res = true;
             user.setImage(image);
-            System.out.println("Uploading image " + user.getName() + ".png...");
+            System.out.println("Uploading image " + user.getId() + ".png...");
             userDAO.update(user.getId(), user);
+        }
+        return res;
+    }
+    
+    /**
+     * A class that takes a CatItem and if there is an image I in the images folder
+     * such that I == CatItem.getName(), it uploads it to the DB
+     * @param CatItem catItem
+     * @return boolean to tell if the operation succeeds
+     */
+    private static boolean uploadCatItemImage(CatItem catItem) {
+        CatItemDAO userDAO = new CatItemDAO();
+        boolean res = false;
+        InputStream image = getInputStreamFromFile("/cat_item/" + catItem.getName());
+        if (image != null) {
+            res = true;
+            catItem.setImage(image);
+            System.out.println("Uploading image " + catItem.getName() + ".png...");
+            userDAO.update(catItem.getIdCatItem(), catItem);
         }
         return res;
     }
@@ -139,6 +159,18 @@ public class ImageUploader {
                 System.out.println("Item image " + user.getName() + ".png uploaded to the DB");
             } else {
                 System.out.println("Item image " + user.getName() + ".png could not be found");
+            }
+        }
+        
+        // CatItem
+        System.out.println("\n\n====== CATITEM ======");
+        CatItemDAO catItemDAO = new CatItemDAO();
+        List<CatItem> allCats = catItemDAO.getAll();
+        for (CatItem catItem : allCats) {
+            if (uploadCatItemImage(catItem)) {
+                System.out.println("Item image " + catItem.getName() + ".png uploaded to the DB");
+            } else {
+                System.out.println("Item image " + catItem.getName() + ".png could not be found");
             }
         }
     }

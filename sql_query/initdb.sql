@@ -54,7 +54,7 @@ CREATE TABLE citem (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     "NAME" VARCHAR(30),
     description VARCHAR(30),
-    image VARCHAR(10),
+    image BLOB,
     CONSTRAINT citem_pk PRIMARY KEY (id)
 );
 

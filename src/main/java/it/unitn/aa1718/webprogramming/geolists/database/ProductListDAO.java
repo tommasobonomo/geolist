@@ -37,23 +37,25 @@ public class ProductListDAO implements CrudDao<ProductList> {
     @Override
     public Optional<ProductList> get(long id) {
         String query = "SELECT * FROM List AS L WHERE L.id=" + id; 
-                
+        Optional<ProductList> res = Optional.empty();
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
             if (rs.next()) {
-                return Optional.of(createProductList(rs));
+                res = Optional.of(createProductList(rs));
             } else {
-                return Optional.empty();
+                res = Optional.empty();
             }
-            
+           
+            rs.close();
+            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return Optional.empty();
+        return res;
     }
 
     @Override
@@ -95,7 +97,9 @@ public class ProductListDAO implements CrudDao<ProductList> {
             } else {
                 System.out.println("no image to be found");
             }
-        
+            
+            rs.close();
+            Database.closeConnection(c);
         } catch (Exception e) {
              System.out.println(e);
         }
@@ -276,6 +280,9 @@ public class ProductListDAO implements CrudDao<ProductList> {
                 list.add(a.get(rs.getLong("id")).get());
             }
             
+            rs.close();
+            Database.closeConnection(c);
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -304,6 +311,8 @@ public class ProductListDAO implements CrudDao<ProductList> {
                 res=Optional.of(createProductList(rs));
             }
             
+            rs.close();
+            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();

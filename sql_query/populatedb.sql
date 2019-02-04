@@ -24,11 +24,11 @@ VALUES  (DEFAULT, 'PRETTY HEALTHY', 'EATING A LOT FOR LITTLE MONEY',NULL),
 
 
 INSERT INTO GEODB.CITEM(ID,"NAME",DESCRIPTION, IMAGE)
-VALUES  (DEFAULT, 'meat', 'GOOD', 'CIBO'),
-        (DEFAULT, 'fridge', 'GOOD', 'CIBO'),
-        (DEFAULT, 'vegetable', 'GOOD', 'CIBO'),
-        (DEFAULT, 'fruit', 'GOOD', 'CIBO'),
-        (DEFAULT, 'bread', 'GOOD', 'CIBO');
+VALUES  (DEFAULT, 'meat', 'GOOD', NULL),
+        (DEFAULT, 'fridge', 'GOOD', NULL),
+        (DEFAULT, 'vegetable', 'GOOD', NULL),
+        (DEFAULT, 'fruit', 'GOOD', NULL),
+        (DEFAULT, 'bread', 'GOOD', NULL);
 
 INSERT INTO GEODB.USERSANONIMOUS(ID, COOKIE)
 VALUES (DEFAULT, 'cookiediprova');
