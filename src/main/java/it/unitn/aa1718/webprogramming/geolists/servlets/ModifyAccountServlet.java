@@ -6,21 +6,27 @@ import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import it.unitn.aa1718.webprogramming.geolists.utility.ParametersController;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author mattia
  */
 @WebServlet(urlPatterns = "/ModifyServlet", name="ModifyAccountServlet")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class ModifyAccountServlet extends HttpServlet {
 
     
@@ -45,10 +51,12 @@ public class ModifyAccountServlet extends HttpServlet {
             //variabili
             String modify = null, newUsername = null, newEmail = null, newName = null,
                    newSurname = null, newPassword = null, oldPassword = null;
+            InputStream inputStream = null;
             ParametersController pc = new ParametersController(); 
             modify = (String) request.getParameter("modify");
             
             
+            // <editor-fold defaultstate="collapsed" desc="tutte le modifice possibili">
             //modifico ciò che viene richiesto
             //cambio username
             if("username".equals(modify)){ 
@@ -131,6 +139,28 @@ public class ModifyAccountServlet extends HttpServlet {
                 request.setAttribute("passwordError", false);
             }
             
+            //cambio avatar
+            if("avatar".equals(modify)){
+                try{
+                    Part filePart = request.getPart("newAvatar");
+                    if (filePart != null) {             
+                        // obtains input stream of the upload file
+                        inputStream = filePart.getInputStream();
+                        user.setImage(inputStream);
+                        UserDAO userDB = new UserDAO();
+                        userDB.update(user.getId(), user);
+                        request.setAttribute("avatarError", false); //questi errori mi servono per comunicare che sia andato tutto bene oppure no
+                    }
+                    else{
+                        request.setAttribute("avatarError", true);
+                    }
+                }catch(IOException | ServletException ex){
+                    Logger.getLogger(ItemRegister.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }else{
+                request.setAttribute("avatarError", false);
+            }// </editor-fold>
             
             
             request.setAttribute("user", user);

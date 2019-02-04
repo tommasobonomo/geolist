@@ -59,6 +59,13 @@
         </form>
         <br/>
         
+        modifica immagine profilo : 
+        <form action="/ModifyServlet">
+            <input type="file" name="newAvatar" accept="image/jpg, image/png, image/jpeg"/>
+            <button type="submit" name="modify" value="avatar">invia</button>
+            <c:if test="${avatarError}"><small style="color:red">errore nel caricamento</small></c:if>
+        </form>
+        
         <a href="/">Back to Landing</a>
     </body>
 </html>
