@@ -7,7 +7,9 @@ package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,8 +28,14 @@ import java.util.logging.Logger;
 public class UserDAO implements CrudDao<User> {
     
     private User createUser(ResultSet rs) throws SQLException {
-        return new User(rs.getLong("id"),rs.getString("cookie"),rs.getString("username"), rs.getString("name"), rs.getString("lastname")
-                , rs.getString("email"), rs.getString("password"),rs.getString("image"), rs.getString("token"), rs.getBoolean("active"), rs.getBoolean("admin"));
+        Blob blob = rs.getBlob("image");
+        InputStream image = null;
+        if (blob != null) {
+            image = blob.getBinaryStream();
+        }
+        
+        return new User(rs.getLong("id"), rs.getString("cookie"), rs.getString("username"), rs.getString("name"), rs.getString("lastname")
+                , rs.getString("email"), rs.getString("password"), image, rs.getString("token"), rs.getBoolean("active"), rs.getBoolean("admin"));
     }
 
     /**
@@ -217,6 +225,31 @@ public class UserDAO implements CrudDao<User> {
         return null;
     }
     
+    public Optional<byte[]> getBlobImageFromItem(long id) {
+        
+        String query = "SELECT * FROM User AS I WHERE I.id = ?";
+        Optional<byte[]> byteArrayOpt = Optional.empty();
+        try {
+            
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            ps.setLong(1,id);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                Blob blob = rs.getBlob("image");
+                byteArrayOpt = Optional.of(blob.getBytes(1, (int) blob.length()));
+            } else {
+                System.out.println("no image to be found");
+            }
+        
+        } catch (Exception e) {
+             System.out.println(e);
+        }
+        
+        return byteArrayOpt;
+    }
+    
     /**
      * insert in the db the User obj
      * @param obj that are User
@@ -236,7 +269,7 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(3, obj.getName());
             ps.setString(4, obj.getLastname());
             ps.setString(5, obj.getEmail());
-            ps.setString(6, obj.getImage());
+            ps.setBlob(6, obj.getImage());
             ps.setString(7, hash(obj.getPassword()));
             ps.setString(8, obj.getToken());
             ps.setBoolean(9, obj.isActive());
@@ -268,7 +301,7 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(3, obj.getName());
             ps.setString(4, obj.getLastname());
             ps.setString(5, obj.getEmail());
-            ps.setString(6, obj.getImage());
+            ps.setBlob(6, obj.getImage());
             ps.setString(7, obj.getToken());
             ps.setBoolean(8, obj.isActive());
             ps.setBoolean(9, obj.isAdmin());

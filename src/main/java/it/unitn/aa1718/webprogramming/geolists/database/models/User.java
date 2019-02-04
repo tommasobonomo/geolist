@@ -5,6 +5,8 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database.models;
 
+import java.io.InputStream;
+
 /**
  * Class to model the User relation
  * @author giorgiosgl
@@ -16,7 +18,7 @@ public class User {
     private String name;
     private String lastname;
     private String email;
-    private String image;
+    private InputStream image;
     private String password;
     private String token;
     private boolean isActive;
@@ -36,7 +38,7 @@ public class User {
      * @param active
      * @param admin
      */
-    public User(long id,String cookie,String username,String name,String lastname,String email,String password,String image,String token,boolean active,boolean admin){
+    public User(long id,String cookie,String username,String name,String lastname,String email,String password,InputStream image,String token,boolean active,boolean admin){
         this.id=id;
         this.cookie=cookie;
         this.username=username;
@@ -63,7 +65,7 @@ public class User {
      * @param active
      * @param admin
      */
-    public User(String cookie,String username,String name,String lastname,String email,String password,String image,String token,boolean active,boolean admin){
+    public User(String cookie,String username,String name,String lastname,String email,String password,InputStream image,String token,boolean active,boolean admin){
         this.cookie=cookie;
         this.username=username;
         this.name=name;
@@ -104,7 +106,7 @@ public class User {
         this.email=email;
     }
     
-    public void setImage(String image){
+    public void setImage(InputStream image){
         this.image=image;
     }
     
@@ -152,7 +154,7 @@ public class User {
         return this.token;
     }
     
-    public String getImage(){
+    public InputStream getImage(){
         return this.image;
     }
     

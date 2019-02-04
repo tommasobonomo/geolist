@@ -140,7 +140,7 @@ public class ItemDAO implements CrudDao<Item>{
         try {
             
             Connection c = Database.openConnection();
-            PreparedStatement ps =c.prepareStatement(query);
+            PreparedStatement ps = c.prepareStatement(query);
             ps.setLong(1,id);
             ResultSet rs = ps.executeQuery();
             

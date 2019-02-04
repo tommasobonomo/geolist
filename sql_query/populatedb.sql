@@ -1,15 +1,15 @@
 
 INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, TOKEN, ACTIVE, "ADMIN")
-VALUES (DEFAULT,null,'rappasta', 'Lorenzo', 'Framba', 'lorenzoframba@gmail.com','IMAGEN','4613650b16296964685818117f557e57366f92b', null, TRUE, TRUE),
-       (DEFAULT,null,'gesuSesso','Mattia', 'Molon','molon@gmail.com','IMAGEN','29707645067686736492cf6e16526b6e4245',null, TRUE,FALSE),
-       (DEFAULT,null,'minestrone','Tommaso','Bonomo','tommasoni394@gmail.com','IMAGEN','4f4d773a0540130176787a4f1574100759521e',null, TRUE,FALSE),
-       (DEFAULT,null,'XDSNIPERXD','Leonardo','Remondini', 'remoromolo@gmail.com','IMAGEN', '3949350913f2c7e1b31e366c602f4e5a313a75',null, TRUE,FALSE),
-       (DEFAULT,null,'piediPiatti','Giorgio','Segalla','giorgionelo@gmail.com','IMAGEN', '3949350913f2c7e1b31e366c602f4e5a313a75',null, TRUE,FALSE),
-       (DEFAULT,null,'Maialino69','Marta','Tonnona', 'martinasesso@gmail.com','IMAGEN', '6b887a3f20353200263603f6773cf09336a',null, TRUE,FALSE),
-       (DEFAULT,null,'Fratak','Elia','Salame','piselloni@gmail.com','IMAGEN', '272b3357425e263811344c636c401b25407a',null, TRUE,FALSE),
-       (DEFAULT,null,'OrcoBue','Luca', 'Rossi', 'marione@gmail.com','IMAGEN', '42a497b6c62447415483e173a21175a64666e65',null, TRUE,FALSE),
-       (DEFAULT,null,'Iphonneeee','Nicola','Nicoli', 'naso@gmail.com','IMAGEN', '5b41455d063c7b7e1c7e697a25261c5f7c532780',null, TRUE,FALSE),
-       (DEFAULT,null,'Bottiglia','Marco','Bestioni', 'tomcat@gmail.com','IMAGEN', '0e23557c11275d16585244671730147418524644',null, TRUE,FALSE);
+VALUES (DEFAULT,NULL,'rappasta', 'Lorenzo', 'Framba', 'lorenzoframba@gmail.com',NULL,'4613650b16296964685818117f557e57366f92b', NULL, TRUE, TRUE),
+       (DEFAULT,NULL,'gesuSesso','Mattia', 'Molon','molon@gmail.com',NULL,'29707645067686736492cf6e16526b6e4245',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'minestrone','Tommaso','Bonomo','tommasoni394@gmail.com',NULL,'4f4d773a0540130176787a4f1574100759521e',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'XDSNIPERXD','Leonardo','Remondini', 'remoromolo@gmail.com',NULL, '3949350913f2c7e1b31e366c602f4e5a313a75',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'piediPiatti','Giorgio','Segalla','giorgionelo@gmail.com',NULL, '3949350913f2c7e1b31e366c602f4e5a313a75',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'Maialino69','Marta','Tonnona', 'martinasesso@gmail.com',NULL, '6b887a3f20353200263603f6773cf09336a',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'Fratak','Elia','Salame','piselloni@gmail.com',NULL, '272b3357425e263811344c636c401b25407a',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'OrcoBue','Luca', 'Rossi', 'marione@gmail.com',NULL, '42a497b6c62447415483e173a21175a64666e65',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'Iphonneeee','Nicola','Nicoli', 'naso@gmail.com',NULL, '5b41455d063c7b7e1c7e697a25261c5f7c532780',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'Bottiglia','Marco','Bestioni', 'tomcat@gmail.com',NULL, '0e23557c11275d16585244671730147418524644',NULL, TRUE,FALSE);
 
 INSERT INTO GEODB.CLIST(ID,"NAME", DESCRIPTION, IMAGE )
 VALUES  (DEFAULT, 'PRETTY HEALTHY', 'EATING A LOT FOR LITTLE MONEY','image'),
@@ -34,16 +34,16 @@ INSERT INTO GEODB.USERSANONIMOUS(ID, COOKIE)
 VALUES (DEFAULT, 'cookiediprova');
 
 INSERT INTO GEODB.LIST(ID,USEROWNER, USERANONOWNER, IDCAT, "NAME",DESCRIPTION, IMAGE)
-VALUES  (DEFAULT, 1, null, 1,  'BIRTHDAY', 'SO MUCH FOOD','image'),
-        (DEFAULT, 1, null, 1,  'LISTA DI PROVA DI RAPPASTA', 'DESCRIZIONE DI POSTA RAPPASTA','image'),
-        (DEFAULT, 2, null, 2, 'GRANDMA', 'GOING TO DIE','image'),
-        (DEFAULT, 3, null, 3, 'CHEESE', 'CHEESY','image'),
-        (DEFAULT, 4, null, 4, 'PICNIK', 'SANDWICHES AND STUFF','image'),
-        (DEFAULT, 5, null, 4, 'COLLEGE', 'CHEAP AND FAT','image'),
-        (DEFAULT, 6, null, 2, 'WEEKEND', 'OMG LMFAO','image'),
-        (DEFAULT, 7, null, 1, 'FATTY', 'REALLY NOT GOOD','image'),
-        (DEFAULT, 8, null, 3, 'FRIEND', 'BROOOOOOOOOOO','image'),
-        (DEFAULT, null, 1, 3, 'LISTA DI PROVA ANONIMA', 'DESCRIZIONE','image');
+VALUES  (DEFAULT, 1, NULL, 1,  'BIRTHDAY', 'SO MUCH FOOD','image'),
+        (DEFAULT, 1, NULL, 1,  'LISTA DI PROVA DI RAPPASTA', 'DESCRIZIONE DI POSTA RAPPASTA','image'),
+        (DEFAULT, 2, NULL, 2, 'GRANDMA', 'GOING TO DIE','image'),
+        (DEFAULT, 3, NULL, 3, 'CHEESE', 'CHEESY','image'),
+        (DEFAULT, 4, NULL, 4, 'PICNIK', 'SANDWICHES AND STUFF','image'),
+        (DEFAULT, 5, NULL, 4, 'COLLEGE', 'CHEAP AND FAT','image'),
+        (DEFAULT, 6, NULL, 2, 'WEEKEND', 'OMG LMFAO','image'),
+        (DEFAULT, 7, NULL, 1, 'FATTY', 'REALLY NOT GOOD','image'),
+        (DEFAULT, 8, NULL, 3, 'FRIEND', 'BROOOOOOOOOOO','image'),
+        (DEFAULT, NULL, 1, 3, 'LISTA DI PROVA ANONIMA', 'DESCRIZIONE','image');
     
 
 INSERT INTO GEODB.ISFRIEND(USR1,USR2)

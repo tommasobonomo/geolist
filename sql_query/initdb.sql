@@ -7,7 +7,7 @@ CREATE TABLE users (
     name VARCHAR(40) NOT NULL ,
     lastname VARCHAR(40),
     email VARCHAR(100) NOT NULL UNIQUE, 
-    image VARCHAR(20),
+    image BLOB,
     password VARCHAR(100) NOT NULL,
     token VARCHAR(255),
     active boolean,
