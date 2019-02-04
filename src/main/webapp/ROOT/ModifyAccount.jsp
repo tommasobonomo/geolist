@@ -60,7 +60,7 @@
         <br/>
         
         modifica immagine profilo : 
-        <form action="/ModifyServlet">
+        <form action="/ModifyServlet" method="POST" enctype="multipart/form-data" >
             <input type="file" name="newAvatar" accept="image/jpg, image/png, image/jpeg"/>
             <button type="submit" name="modify" value="avatar">invia</button>
             <c:if test="${avatarError}"><small style="color:red">errore nel caricamento</small></c:if>
