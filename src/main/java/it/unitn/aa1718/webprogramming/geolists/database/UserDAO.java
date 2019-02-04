@@ -305,7 +305,7 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(7, obj.getToken());
             ps.setBoolean(8, obj.isActive());
             ps.setBoolean(9, obj.isAdmin());
-            ps.setString(10, hash(obj.getPassword()));
+            ps.setString(10, obj.getPassword());
             ps.setLong(11, id);
             
             ps.executeUpdate();
@@ -315,9 +315,9 @@ public class UserDAO implements CrudDao<User> {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
-        
-    }
 
+    }
+    
     /**
      * delete the user with that value
      * @param obj

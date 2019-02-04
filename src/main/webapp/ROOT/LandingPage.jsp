@@ -99,6 +99,12 @@
             </form>
         </div>
         
+        <!--sezione di modifica del profilo-->
+        <c:if test="${logged}">
+            <a href="/ModifyServlet">
+                Modifica Profilo<br>
+            </a>
+        </c:if>
          
         
     </body>
