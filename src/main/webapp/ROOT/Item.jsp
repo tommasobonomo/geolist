@@ -37,7 +37,7 @@
             </object>
         </p>
         
-        <c:if test="${listID}">
+        <c:if test="${listID != null}">
         <a href="<c:url value="/List">
                            <c:param name="listID" value="${listID}"/>
                            <c:param name="action" value="view"/>
