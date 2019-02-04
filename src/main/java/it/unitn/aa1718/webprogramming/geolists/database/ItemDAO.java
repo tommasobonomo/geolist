@@ -37,22 +37,28 @@ public class ItemDAO implements CrudDao<Item>{
     public Optional<Item> get(long id) {
         String query = "SELECT * FROM Item AS I WHERE I.id = " + id;
         
+        Optional<Item> res = Optional.empty();
+        
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
             if (rs.next()) {
-                return Optional.of(createItem(rs));
+                res = Optional.of(createItem(rs));
             } else {
-                return Optional.empty();
+                res = Optional.empty();
             }
+            
+            rs.close();
+            s.close();
             
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return Optional.empty();
+        
+        return res;
     }
     
     public List<Item> getFromPattern(String pattern) {
@@ -199,11 +205,14 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setString(2, obj.getName());
             ps.setBlob(3, obj.getLogo());
             ps.setString(4, obj.getNote());
-            ps.setLong(6, id);
+            ps.setLong(5, id);
             
             ps.executeUpdate();
             ps.close();
-            Database.closeConnection(c);
+            
+            c.commit();
+            c.close();
+            //Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
