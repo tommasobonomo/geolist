@@ -1,0 +1,238 @@
+<html>
+    <head>
+        <title>Geolist - search</title>
+        <link rel="icon" href="../images/logos/logo.png">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link rel="stylesheet" href="../css/main.css">
+    </head>
+
+    <body>
+
+        <!--navbar-->
+        <!--navbar-expand-md permette alla navbar di collassare a una grandezza "medium"
+        navbar-light/dark e bg-light/dark servono per css base di bootstrap
+        opzioni di bootstrap per posizionamento: sticky-top (quando l'oggetto tocca lo schermo in alto ci rimane ancorato)
+                                                 fixed-top (rimane sempre ancorato in alto)
+                                                 fixed-bottom (rimane sempre ancorato in basso)-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <div class="container-fluid">
+                
+                <!--logo e titolo del sito-->
+                <a class="navbar-brand" href="../index.html">
+                    <img src="../images/logos/logo-orizzontale.png" height="40px" width="120px">
+                </a>
+                
+                <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
+                la dimensione specificata nel target-->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div action="" class="collapse navbar-collapse" id="collapse-target">
+                    <!--pulsante ricerca prodotto-->
+                    <form class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <select class="form-control mr-sm-2" id="selezione">
+                            <option disabled selected hidden>category</option>                            
+                            <option>all</option>
+                            <option>farmacia</option>
+                            <option>carne</option>
+                            <option>pesce</option>
+                        </select>
+                        <a href="search.html"><button class="btn btn-outline-danger my-2 my-sm-0" type="button">Search</button></a>
+                    </form>
+                </div>
+
+                <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
+                <div class="collapse navbar-collapse" id="collapse-target">
+                    
+                    <!--lista degli elementi cliccabili-->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="view-lists.html">Lists</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="profile.html">Profile</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+
+        <!--vero body della pagina-->
+        <div class="container padding-top padding-bottom">
+            <div class="row">
+
+                <!--menu laterale-->
+                <div class="col-md-3 padding-top menu">
+                    <p class="display-4 padding-top menu-title">Categories</p>
+                    <hr>
+                    <a href="#" class="menu-link-active"><p class="menu-link-active">All</p></a>
+                    <a href="#" class="menu-link"><p class="menu-link">Farmacia</p></a>
+                    <a href="#" class="menu-link"><p class="menu-link">Carne</p></a>
+                    <a href="#" class="menu-link"><p class="menu-link">Pesce</p></a>
+                    <hr>
+                </div>
+                <div class="col-md-1"></div>
+
+                <!--body a destra-->
+                <div class="col-md-8 padding-top2 padding-bottom" id="remove-padding-phone">
+                    <div class="row text-center">
+                        <div class="col-md-12 col-lg-7">
+                            <div class="display-4 font-15">you searched for "durango"</div>
+                        </div>
+                        <div class="col-md-12 col-lg-5" >
+                            <select class="form-control" name="orderBy" id="orderBy">
+                                <option>Order by name</option>
+                                <option>Order by category</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="container-fluid">
+                        <div class="row">
+
+                            <!--carta-->
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                <div class="card">
+                                    <img class="card-img-top" src="../images/cards/durango.png">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Durango</h4>
+                                        <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                                    </div>
+                                    <div class="card-footer form-inline">
+                                        <a href="#" class="btn btn-outline-danger ml-2 mr-sm-2">see</a>
+                                    
+                                        <select class="form-control mr-sm-2" name="" id="selectList">
+                                            <option disabled selected hidden>add to</option>                            
+                                            <option>list 1</option>
+                                            <option>list 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                <div class="card">
+                                    <img class="card-img-top" src="../images/cards/durango.png">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Durango</h4>
+                                        <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                                    </div>
+                                    <div class="card-footer form-inline">
+                                        <a href="#" class="btn btn-outline-danger ml-2 mr-sm-2">see</a>
+                                    
+                                        <select class="form-control mr-sm-2" name="" id="selectList">
+                                            <option disabled selected hidden>add to</option>                            
+                                            <option>list 1</option>
+                                            <option>list 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                <div class="card">
+                                    <img class="card-img-top" src="../images/cards/durango.png">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Durango</h4>
+                                        <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                                    </div>
+                                    <div class="card-footer form-inline">
+                                        <a href="#" class="btn btn-outline-danger ml-2 mr-sm-2 ">see</a>
+                                    
+                                        <select class="form-control mr-sm-2" name="" id="selectList">
+                                            <option disabled selected hidden>add to</option>                            
+                                            <option>list 1</option>
+                                            <option>list 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--carta-->
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                <div class="card">
+                                    <img class="card-img-top" src="../images/cards/durango.png">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Durango</h4>
+                                        <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                                    </div>
+                                    <div class="card-footer form-inline">
+                                        <a href="#" class="btn btn-outline-danger ml-2 mr-sm-2">see</a>
+                                    
+                                        <select class="form-control mr-sm-2" name="" id="selectList">
+                                            <option disabled selected hidden>add to</option>                            
+                                            <option>list 1</option>
+                                            <option>list 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--carta-->
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                <div class="card">
+                                    <img class="card-img-top" src="../images/cards/durango.png">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Durango</h4>
+                                        <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                                    </div>
+                                    <div class="card-footer form-inline">
+                                        <a href="#" class="btn btn-outline-danger ml-2 mr-sm-2">see</a>
+                                    
+                                        <select class="form-control mr-sm-2" name="" id="selectList">
+                                            <option disabled selected hidden>add to</option>                            
+                                            <option>list 1</option>
+                                            <option>list 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--carta-->
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                <div class="card">
+                                    <img class="card-img-top" src="../images/cards/durango.png">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Durango</h4>
+                                        <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
+                                    </div>
+                                    <div class="card-footer form-inline">
+                                        <a href="#" class="btn btn-outline-danger ml-2 mr-sm-2 ">see</a>
+                                    
+                                        <select class="form-control mr-sm-2" name="" id="selectList">
+                                            <option disabled selected hidden>add to</option>                            
+                                            <option>list 1</option>
+                                            <option>list 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script src="../scripts/main.js"></script>
+    </body>
+</html>
+

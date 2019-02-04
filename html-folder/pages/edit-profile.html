@@ -1,0 +1,226 @@
+<html>
+    <head>
+        <title>Geolist - profile</title>
+        <link rel="icon" href="../images/logos/logo.png">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link rel="stylesheet" href="../css/main.css">
+    </head>
+
+    <body>
+
+        <!--navbar-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <div class="container-fluid">
+                
+                <!--logo e titolo del sito-->
+                <a class="navbar-brand" href="../index.html">
+                    <img src="../images/logos/logo-orizzontale.png" height="40px" width="120px">
+                </a>
+                
+                <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
+                la dimensione specificata nel target-->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="collapse-target">
+                    <!--pulsante ricerca prodotto-->
+                    <form action="" class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <select class="form-control mr-sm-2" id="selezione">
+                            <option disabled selected hidden>category</option>                            
+                            <option>all</option>
+                            <option>farmacia</option>
+                            <option>carne</option>
+                            <option>pesce</option>
+                        </select>
+                        <a href="search.html"><button class="btn btn-outline-danger my-2 my-sm-0" type="button">Search</button></a>
+                    </form>
+                </div>
+
+                <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
+                <div class="collapse navbar-collapse" id="collapse-target">
+                    
+                    <!--lista degli elementi cliccabili-->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="view-lists.html">Lists</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="profile.html">Profile</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+        <!--vero body della pagina-->
+        <div class="container padding-top padding-bottom">
+            <div class="row">
+
+                <!--menu laterale-->
+                <div class="col-md-3 padding-top menu">
+                    <p class="display-4 padding-top menu-title">Profile</p>
+                    <hr>
+                    <a href="profile.html" class="menu-link"><p class="menu-link">General Info</p></a>
+                    <a href="edit-profile.html" class="menu-link-active"><p class="menu-link-active" >Edit profile</p></a> 
+                    <a href="admin-profile.html" class="menu-link"><p class="menu-link">Administration area</p></a>
+                    <a href="../index.html" class="menu-link"><p class="menu-link">Log out</p></a> 
+                    <hr>
+                </div>
+                <div class="col-md-1"></div>
+
+                <!--body a destra-->
+                <div class="col-md-8 padding-top2 padding-bottom" id="remove-padding-phone">
+
+                    <!--change password-->
+                    <button class="button-collapse" data-toggle="collapse" data-target="#avatarWindow"> 
+                        <h1 class="display-4 font-15 ">Edit avatar <i class="fas fa-arrow-circle-right"></i></h1> 
+                    </button>
+                    <div>use this option to change your password with a new one</div>
+                    <div class="collapse" id="avatarWindow">
+                        <div class="container">
+                            <div class="row padding-top">
+                                <form action="" class="form-spacer needs-validation" id="changeAvatar" novalidate>
+                                    <div class="form-group">
+                                        <label for="avatar">choose an image for your new avatar </label>
+                                        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-outline-danger btn-large">Submit changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="padding-bottom">
+
+                    <!--change name and surname-->
+                    <button class="button-collapse" data-toggle="collapse" data-target="#nameWindow"> 
+                            <h1 class="display-4 font-15 ">Edit name and surname <i class="fas fa-arrow-circle-right"></i></h1> 
+                    </button>
+                    <div>use this option to change your name and surname with new ones</div>
+                    <div class="collapse" id="nameWindow">
+                        <div class="container">
+                            <div class="row padding-top">
+                                <form action="" class="form-spacer needs-validation" id="changeName" novalidate>
+
+                                    <!--prima riga-->
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="oldName">Write your old name</label>
+                                                <input type="text" name="oldName" id="oldName" class="form-control" required>
+                                                <div class="invalid-feedback">old name required</div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="newName">Write your new name</label>
+                                                <input type="text" name="newName" id="newName" class="form-control" required>
+                                                <div class="invalid-feedback">new name required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                       
+                                    <!--seconda riga-->
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="oldSurname">Write your old surname</label>
+                                                <input type="text" name="oldSurname" id="oldSurname" class="form-control" required>
+                                                <div class="invalid-feedback">old surname required</div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="newSurname">Write your new surname</label>
+                                                <input type="text" name="newSurname" id="newSurname" class="form-control" required>
+                                                <div class="invalid-feedback">new surname required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-outline-danger btn-large">Submit changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="padding-bottom">
+
+                    <!--change email-->
+                    <button class="button-collapse" data-toggle="collapse" data-target="#emailWindow"> 
+                        <h1 class="display-4 font-15 ">Edit email <i class="fas fa-arrow-circle-right"></i></h1> 
+                    </button>
+                    <div>use this option to change your email with a new one</div>
+                    <div class="collapse" id="emailWindow">
+                        <div class="container">
+                            <div class="row padding-top">
+                                <form action="" class="form-spacer needs-validation" id="changeEmail" novalidate>
+                                    <div class="form-group">
+                                        <label for="oldEmail">Write your old email</label>
+                                        <input type="email" name="oldEmail" id="oldEmail" class="form-control" required>
+                                        <div class="invalid-feedback">email required, also remember the @</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="newEmail">Write your new email</label>
+                                        <input type="email" name="newEmail" id="newEmail" class="form-control" required>
+                                        <div class="invalid-feedback">email required, also remember the @</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-outline-danger btn-large">Submit changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="padding-bottom">
+
+                    <!--change password-->
+                    <button class="button-collapse" data-toggle="collapse" data-target="#passwordWindow"> 
+                        <h1 class="display-4 font-15 ">Edit password <i class="fas fa-arrow-circle-right"></i></h1> 
+                    </button>
+                    <div>use this option to change your password with a new one</div>
+                    <div class="collapse" id="passwordWindow">
+                        <div class="container">
+                            <div class="row padding-top">
+                                <form action="" class="form-spacer needs-validation" id="changePassword" novalidate>
+                                    <div class="form-group">
+                                        <label for="oldPassword">Write your old password</label>
+                                        <input type="password" name="oldPassword" id="oldPassword" class="form-control" required>
+                                        <div class="invalid-feedback">password required, also remember the @</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="newPassword">Write your new password</label>
+                                        <input type="password" name="newPassword" id="newPassword" class="form-control" required>
+                                        <div class="invalid-feedback">password required, also remember the @</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-outline-danger btn-large">Submit changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="padding-bottom">
+
+                    
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script src="../scripts/main.js"></script>
+    </body>
+</html>

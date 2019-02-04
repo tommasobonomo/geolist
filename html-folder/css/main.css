@@ -1,0 +1,368 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+
+/*general*/
+.padding-bottom{ /*effettua del padding nella posizione specificata, i numeri sono multipli*/
+    padding-bottom: 2rem;
+}
+.padding-top{
+    padding-top: 2rem;
+}
+.padding-top2{
+    padding-top: 4rem;
+}
+.padding-left{
+    padding-left: 2rem;
+}
+.padding-left2{
+    padding-left: 4rem;
+}
+.width-80{ /*mette un elemento al centro con width 80*/
+    width: 80%;
+    margin: 0 auto;
+}
+.font-30 { /*mente il font a 3rem*/
+    font-size: 3.0rem;
+}
+.font-25 { /*mente il font a 2.5rem*/
+    font-size: 2.5rem;
+}
+.font-20 { /*mente il font a 2rem*/
+    font-size: 2rem;
+}
+.font-15 { /*mente il font a 1.5rem*/
+    font-size: 1.5rem;
+}
+.font-10 { /*mente il font a 1rem*/
+    font-size: 1rem;
+}
+.simple-link, .simple-link:hover{ /*stile per un link comune*/
+    text-decoration: none;
+    color: #DC143C;
+}
+.center-absolute {/*centra il div rispetto al div più vicino per gerarchia*/
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    left: 0;
+}
+
+/*tooltips*/
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: -200%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: -35%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #555 transparent;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*head e body*/
+head, body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    color: #222;
+}
+
+/*menu laterale*/
+.menu-title {
+    color: #dc143c;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 2.5rem;
+}
+.menu-link {
+    color: #737373;
+    font-weight: 1;
+    font-size: 1.2rem;
+}
+.menu-link:hover {
+    color: #dc143c;
+    text-decoration: none;
+    transform: translate(10px);
+    transition: 0.3s;
+}
+.menu-link-active {
+    color: #dc143c;
+    text-decoration: none;
+    transform: translate(10px);
+    font-size: 1.2rem;
+    font-weight: 1;
+}
+.menu-link-active:hover {
+    text-decoration: none;
+}
+
+/*bottoni di collapse*/
+.button-collapse{
+    background-color: white;
+    border: hidden;
+}
+.button-collapse:focus{
+    outline: none;
+    color: #dc143c;
+}
+.button-collapse:focus h1 i{
+    transform: rotate(90deg);
+}
+.button-collapse:hover h1 i{
+    transform: rotate(90deg);
+}
+.button-collapse:hover{
+    color: #dc143c;
+}
+.button-collapse h1 i{
+    transition-duration: .3s;
+}
+
+/*navbar*/
+.navbar-nav li {
+    margin-right: 20;
+    position: relative;
+    text-decoration: none;
+}
+.nav-link {
+    font-size: 1.1em !important;
+}
+.logo-text {
+    font-weight: bold;
+    font-size: 20;
+    padding-left: 8px;
+}
+.active {
+    text-decoration: underline;
+}
+.search-form input{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+}
+.search-form select{
+    display: inline-block;
+    max-width: 130px;
+    margin-right: 5px;
+}
+
+/*form*/
+.form-spacer {
+    width: 100%;
+    margin: 0 auto;
+}
+.modal-content {
+    border-radius: 10px;
+}
+
+/*welcome*/
+.welcome {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 2rem;
+}
+.welcome hr {
+    border-top: 2px solid #b4b4b4;
+    width: 85%;
+    margin-top: .3rem;
+    margin-bottom: 1rem;
+}
+.logo-text-xxl{
+    font-weight: bold;
+    font-size: 40;
+    margin: 0 auto;
+}
+
+/*icone nella spiegazione della home*/
+.fa-list-ol{
+    color: #e5ad26;
+}
+.fa-user-friends{
+    color: #563d7c;
+}
+.fa-map-marked-alt{
+    color: #2163af;
+}
+.fa-list-ol, .fa-map-marked-alt, .fa-user-friends{
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+/*jumbotron*/
+.jumbotron{
+    margin: 0 auto;
+    background-image: url('../images/wallpaper/fac-simile-video.jpg');
+    width: 100%;
+    height: 500px;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    margin-bottom: 2rem;
+    background-size:100% 100%;
+}
+.jumbotron:hover{
+    background-size: 101% 101%;
+}
+.jumbotron p{
+    position: relative;
+    color: white;
+    width: 75%;
+    margin: 0 auto;
+    text-shadow: 2px 2px black;
+}
+.fa-play{
+    color: white;
+    margin-top: 2rem;
+    font-size: 5rem;
+    text-shadow: 3px 3px black;
+}
+
+/*cards*/
+.card{
+    margin-bottom: 1rem;
+}
+.card-deck{
+    width: 95%;
+    margin: 0 auto;
+}
+.card-body a{
+    display: inline-block;
+}
+.card-body select{
+    display: inline-block;
+}
+.testimonial-group .row {
+    overflow-x: auto;
+}
+.card-footer{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+#cardInSlider{
+    display: inline-block;
+    float: none;
+    margin: 0 auto;
+}
+#card-trash button{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+/*social icons*/
+.social a{
+    font-size: 2.5rem;
+    padding: .3rem;
+}
+.fa-facebook {
+    color: #3b5998
+}
+.fa-twitter {
+    color: #00aced
+}
+.fa-instagram {
+    color: rgb(248, 48, 48);
+}
+.fa-facebook:hover,
+.fa-twitter:hover,
+.fa-instagram:hover {
+    color: #d5d5d5
+}
+
+/*bottone fissato per il view list*/
+.button-fixed{
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/*footer*/
+footer{
+    background-color: #3f3f3f;
+    color: #d5d5d5;
+    padding-top: 2rem;
+    font-size: .8rem;
+}
+hr.light {
+    border-top: 1px solid #d5d5d5;
+    width: 75%;
+    margin-top: .8rem;
+    margin-bottom: 1rem;
+}
+
+/*id*/
+#titoloPrincipale{
+    padding-top: 5rem;
+}
+#addList{
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+}
+#orderBy {
+    min-width: 200px;
+    margin: 0 auto;
+}
+#selectList{
+    max-width: 110px;
+}
+#card-trash{
+    position: absolute;
+    right: 10px;
+}
+#description-box{
+    width: 100%;
+    height: 2.5rem;
+}
+
+/*media per schermo md*/
+@media all and (max-width: 767px){
+    /*centra il contenuto su schermi piccoli*/
+    #center-phone{
+        text-align: center;
+        padding-top: 1rem;
+    }
+    #remove-padding-phone{
+        padding-top: 1.5rem;
+    }
+}
+
+/*media per schermo lg*/
+@media all and (max-width: 992px){
+    #navbarSearchForm{
+        padding-left: 0;
+    }
+    #orderBy{
+        margin-top: .5rem;
+    }
+    #titles-list{
+        margin:0 auto;
+    }
+}

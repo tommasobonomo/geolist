@@ -15,24 +15,6 @@ CREATE TABLE users (
     CONSTRAINT user_pk PRIMARY KEY (id)
   );
 
-CREATE TABLE email(
-    idUser INTEGER NOT NULL,
-    info INTEGER,
-    text  VARCHAR(400),
-    sender INTEGER NOT NULL,
-    receiver INTEGER NOT NULL,
-    CONSTRAINT email_pk PRIMARY KEY (idUser),
-    FOREIGN KEY (sender) 
-        REFERENCES users(id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (receiver) 
-        REFERENCES users(id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (idUser) 
-        REFERENCES users(id)
-        ON DELETE CASCADE
-);
-
 CREATE TABLE usersanonimous (
     id INTEGER GENERATED ALWAYS AS IDENTITY,
     cookie VARCHAR(30) NOT NULL UNIQUE,
@@ -80,12 +62,11 @@ CREATE TABLE citem (
 CREATE TABLE item (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     idcat INTEGER NOT NULL,
-    price DECIMAL(10,2),
     FOREIGN KEY (idcat) 
         REFERENCES citem(id)
         ON DELETE CASCADE,
     "NAME" VARCHAR(30),
-    logo VARCHAR(50),
+    logo BLOB,
     note VARCHAR(30),
     CONSTRAINT item_pk PRIMARY KEY (id)
 );
@@ -94,6 +75,7 @@ CREATE TABLE item (
 CREATE TABLE compose(
     list INTEGER,
     item INTEGER ,
+    quantity INTEGER,
     FOREIGN KEY (item) 
         REFERENCES item(id)
         ON DELETE CASCADE,
@@ -137,3 +119,18 @@ CREATE TABLE productsoflists(
         REFERENCES citem(id)
         ON DELETE CASCADE
 );    
+
+CREATE TABLE message(
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+    idUser INTEGER,
+    idList INTEGER,
+    text VARCHAR(200),
+    sendTime TIMESTAMP, 
+    FOREIGN KEY (idUser) 
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (idList) 
+        REFERENCES list(id)
+        ON DELETE CASCADE,
+    CONSTRAINT message_pk PRIMARY KEY (id)
+);

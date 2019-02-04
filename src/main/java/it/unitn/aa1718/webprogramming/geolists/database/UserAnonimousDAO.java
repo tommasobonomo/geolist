@@ -5,6 +5,9 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database;
 
+import it.unitn.aa1718.webprogramming.geolists.database.models.Access;
+import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,6 +26,52 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
     
     private UserAnonimous createUserAnonimous(ResultSet rs) throws SQLException {
         return new UserAnonimous(rs.getLong(1),rs.getString("cookie"));
+    }
+    
+    /**
+     * transform a anonymous user in a user with his list eventualmente se le ha
+     * questo funziona sia con il register sia con il login
+     * @param ua utente anonimo da trasformare
+     * @param u utente con dati da creare nel database
+     * 
+     */
+    public void becomeUserRegister(UserAnonimous ua,User u){
+        
+        UserDAO userDb = new UserDAO();
+        User u_new;
+        if(userDb.get(u.getUsername()).isPresent()){//è gia registrato
+            u_new = userDb.get(u.getUsername()).get();
+            //TODO inviare il cookie del db all'utente browser 
+            
+        }else{//si deve registrare
+            u.setCookie(ua.getCookie());
+            userDb.create(u);
+            
+            //prendo il nuovo utente dal database (per avere l'id)
+            u_new = userDb.getUser(u.getCookie()).get();
+        }
+        
+        
+        
+        ProductListDAO listDb = new ProductListDAO();
+        Optional<ProductList> p = listDb.getListAnon(ua.getId());  // prendo la lista dell'utente anonimo
+                                                                
+        AccessDAO aDAO = new AccessDAO();
+        
+        if(p.isPresent()){   // se possiede una lista l'utente anonimo
+            //aggiungo l'accesso
+            Access a = new Access(u_new.getId(), p.get().getId());
+            aDAO.create(a);
+            
+            //setto il possessore all'utente esistente
+            p.get().setUserOwner(u_new.getId());
+            listDb.update(p.get().getId(), p.get()); // aggiorno la lista
+            listDb.updateUserAnonOwnerToNull(p.get().getId()); // setto a null l'anonimoowner nella tabella lista
+        }
+        
+        //rimuovo l'anonimo dalla tabella useranonymous
+        UserAnonimousDAO anoDb = new UserAnonimousDAO();
+        anoDb.delete(ua.getId());
     }
     
     @Override
@@ -48,6 +97,35 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         }        
         return Optional.of(u);
     }
+    
+    /**
+     * Obtain a UserAnonimous from his cookie
+     * @param cookie
+     * @return
+     */
+    public Optional<UserAnonimous> getFromCookie(String cookie) {
+        String query= "SELECT * FROM UsersAnonimous as U WHERE U.cookie=\'"+cookie+"\'";
+        Optional<UserAnonimous> u=Optional.empty();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs=s.executeQuery(query);
+        
+            while(rs.next()){
+                u=Optional.of(createUserAnonimous(rs));
+            }
+        
+            rs.close();
+            s.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }        
+        return u;
+    }
+    
     
     @Override
     public List<UserAnonimous> getAll() {

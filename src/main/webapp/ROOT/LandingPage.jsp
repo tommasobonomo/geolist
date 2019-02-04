@@ -18,11 +18,15 @@
         
         <div class="header">Geolist</div>
         <h1>${username}</h1>
+        
+        <img src="<c:url value="/images/banana.png"/>" width="100"/>
+        
         <div class="list-category">
             <c:forEach var="list" items="${listOfPL}">
                 <div class="name">
                     <a href="<c:url value="/List">
                            <c:param name="listID" value="${list.getId()}"/>
+                           <c:param name="action" value="view"/>
                         </c:url>">
                         <c:out value="${list.getName()}" />
                     </a>
@@ -35,12 +39,34 @@
                         </div>
                     </c:forEach>
                 </div>
+                <a href="<c:url value="/ListRegistration">
+                       <c:param name="action" value="removeList"/>
+                       <c:param name="listID" value="${listID}"/>
+                    </c:url>">
+                    Remove
+                </a>
             </c:forEach>
         </div>
 
+        <p> 
+            <a href="
+                <c:url value="/ListRegistration">
+                   <c:param name="action" value="formView"/>
+                </c:url>">
+                Add list
+            </a>
+            |
+            <a href="
+                <c:url value="/ItemRegistration">
+                    <c:param name="action" value="viewForm"/>
+                </c:url>">
+                Add Item<br>
+            </a>
+        </p>
         
         <c:if test="${logged}">
             <p>User <c:out value="${username}"/> is logged in</p>
+            <div><a href="/signOut"> Sign Out </a> </div>  
         </c:if>
         <c:if test="${not logged}">
             <div class="login-form">
@@ -49,10 +75,30 @@
                     <br/>
                     password <input type="password" name="password">
                     <br/>
+                    <input type="checkbox"  name="remember">
+                    Remember<br>
                     <input type="submit" value="Submit">
                 </form>
             </div>
         </c:if>
+            
+            
+        <!--sezione di ricerca-->   
+        <div>
+            <br>
+            <form action="/form-action/search">
+                <input type="text" placeholder="Search.." name="wordSearched">
+                <select name="categorySearched">
+                    <option value="0" selected>all</option>
+                    <c:forEach var="category" items="${listOfCat}">
+                        <option value="${category.getIdCatItem()}">${category.getName()}</option>
+                    </c:forEach>
+                </select>
+                <button type="submit"> search </button>
+            </form>
+        </div>
+        
+         
         
     </body>
 

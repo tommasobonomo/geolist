@@ -46,6 +46,7 @@ public class User {
         this.image=image;
         this.email=email;
         this.token=token;
+        this.isActive=active;
         this.isAdmin=admin;
     }
     
@@ -71,6 +72,7 @@ public class User {
         this.image=image;
         this.email=email;
         this.token=token;
+        this.isActive=active;
         this.isAdmin=admin;
     }
     

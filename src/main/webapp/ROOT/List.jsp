@@ -15,21 +15,84 @@
         <title><c:out value="${name}"/></title>
     </head>
     <body>
+        
+        
         <div class="header">Geolist</div>
         <h1>${name}</h1>
         <p>${description}</p>
-        <div class="list-category">
-            <c:forEach var="item" items="${items}">
+        
+        <div class="chatoflist">
+            <a href="<c:url value="/chat">
+                <c:param name="listID" value="${listID}"/>
+                </c:url>">
+                <c:out value="chat"/>
+            </a>
+        </div> 
+        
+        <div class="list-items-in-list">
+            <c:forEach var="item" items="${listItems}">
                 <div class="name">
                    <a href="<c:url value="/ItemServlet">
                            <c:param name="itemID" value="${item.getId()}"/>
                            <c:param name="listID" value="${listID}"/>
+                           <c:param name="action" value="viewItem"/>
                         </c:url>">
                         <c:out value="${item.getName()}" />
-                    </a> 
+                    </a>
+                    
+                    <form method="POST" action="<c:url value="/List">
+                              <c:param name="listID" value="${listID}"/>
+                              <c:param name="itemID" value="${item.getId()}"/>
+                              <c:param name="action" value="minusQty"/>
+                              </c:url>"
+                    >
+                        <input type="submit" value="-"/>
+                    </form>
+                    ${mapQuantityItem.get(item.getId())}
+                    <form method="POST" action="<c:url value="/List">
+                              <c:param name="listID" value="${listID}"/>
+                              <c:param name="itemID" value="${item.getId()}"/>
+                              <c:param name="action" value="plusQty"/>
+                              </c:url>"
+                    >
+                        <input type="submit" value="+"/>
+                    </form>
+                    
+                    <form method="POST" action="<c:url value="/List">
+                              <c:param name="listID" value="${listID}"/>
+                              <c:param name="itemID" value="${item.getId()}"/>
+                              <c:param name="action" value="removeItem"/>
+                              </c:url>"
+                    >
+                        <input type="submit" value="Remove"/>
+                    </form>
                 </div>
             </c:forEach>
         </div>
+        
+        <div class="list-items-disponibili">
+            <c:forEach var="item" items="${allItems}">
+                <div>
+                    <a href="<c:url value="/ItemServlet">
+                           <c:param name="itemID" value="${item.getId()}"/>
+                           <c:param name="action" value="viewItem"/>
+                        </c:url>">
+                        <c:out value="${item.getName()}"/>
+                    </a>
+                    <form method="POST" action="<c:url value="/List">
+                              <c:param name="listID" value="${listID}"/>
+                              <c:param name="itemID" value="${item.getId()}"/>
+                              <c:param name="action" value="addItem"/>
+                              </c:url>">
+                        <input type="submit" value="Add"/>
+                    </form>
+
+                </div>
+            </c:forEach>
+        </div> 
+        
+        
+        
         <a href="/">Back to Landing</a>
     </body>
 </html>
