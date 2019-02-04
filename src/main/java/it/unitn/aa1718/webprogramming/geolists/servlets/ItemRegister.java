@@ -1,22 +1,13 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.Database;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import java.util.Random;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -77,9 +68,9 @@ public class ItemRegister extends HttpServlet {
             Part filePart = request.getPart("File");
             if (filePart != null) {
                 // prints out some information for debugging
-                System.out.println(filePart.getName());
-                System.out.println(filePart.getSize());
-                System.out.println(filePart.getContentType());
+                // System.out.println(filePart.getName());
+                // System.out.println(filePart.getSize());
+                // System.out.println(filePart.getContentType());
              
                 // obtains input stream of the upload file
                 this.inputStream = filePart.getInputStream();

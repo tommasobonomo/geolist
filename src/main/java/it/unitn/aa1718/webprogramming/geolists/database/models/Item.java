@@ -27,7 +27,6 @@ public class Item {
      * @param idCat
      * @param name
      * @param logo
-     * @param price
      * @param note
      */
     public Item(long id, long idCat, String name, InputStream logo, String note) {
@@ -45,7 +44,6 @@ public class Item {
      * @param name
      * @param logo
      * @param note
-     * @param price
      */
     public Item(long idCat, String name, InputStream logo, String note) {
         this.idCat = idCat;
@@ -93,13 +91,6 @@ public class Item {
     public void setNote(String note) {
         this.note = note;
     }
-    
-    
-    /**
-     * use BigDecimal.valueOf(12.33) for set the value
-     * @param price
-     */
-
 
     @Override
     public int hashCode() {
