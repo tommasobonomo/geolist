@@ -6,10 +6,12 @@
 package it.unitn.aa1718.webprogramming.geolists.utility;
 
 import it.unitn.aa1718.webprogramming.geolists.database.CatItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
@@ -18,8 +20,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A class to help upload images to the Database
@@ -109,14 +109,33 @@ public class ImageUploader {
      * @return boolean to tell if the operation succeeds
      */
     private static boolean uploadCatItemImage(CatItem catItem) {
-        CatItemDAO userDAO = new CatItemDAO();
+        CatItemDAO catItemDAO = new CatItemDAO();
         boolean res = false;
         InputStream image = getInputStreamFromFile("/cat_item/" + catItem.getName());
         if (image != null) {
             res = true;
             catItem.setImage(image);
             System.out.println("Uploading image " + catItem.getName() + ".png...");
-            userDAO.update(catItem.getIdCatItem(), catItem);
+            catItemDAO.update(catItem.getIdCatItem(), catItem);
+        }
+        return res;
+    }
+    
+    /**
+     * A class that takes a CatList and if there is an image I in the images folder
+     * such that I == CatList.getName(), it uploads it to the DB
+     * @param CatList catList
+     * @return boolean to tell if the operation succeeds
+     */
+    private static boolean uploadCatListImage(CatList catList) {
+        CatProductListDAO catListDAO = new CatProductListDAO();
+        boolean res = false;
+        InputStream image = getInputStreamFromFile("/cat_list/" + catList.getName());
+        if (image != null) {
+            res = true;
+            catList.setImage(image);
+            System.out.println("Uploading image " + catList.getName() + ".png...");
+            catListDAO.update(catList.getIdCategory(), catList);
         }
         return res;
     }
@@ -165,12 +184,24 @@ public class ImageUploader {
         // CatItem
         System.out.println("\n\n====== CATITEM ======");
         CatItemDAO catItemDAO = new CatItemDAO();
-        List<CatItem> allCats = catItemDAO.getAll();
-        for (CatItem catItem : allCats) {
+        List<CatItem> allCatItems = catItemDAO.getAll();
+        for (CatItem catItem : allCatItems) {
             if (uploadCatItemImage(catItem)) {
                 System.out.println("Item image " + catItem.getName() + ".png uploaded to the DB");
             } else {
                 System.out.println("Item image " + catItem.getName() + ".png could not be found");
+            }
+        }
+        
+        // CatList
+        System.out.println("\n\n====== CATLIST ======");
+        CatProductListDAO catListDAO = new CatProductListDAO();
+        List<CatList> allCatLists = catListDAO.getAll();
+        for (CatList catList : allCatLists) {
+            if (uploadCatListImage(catList)) {
+                System.out.println("Item image " + catList.getName() + ".png uploaded to the DB");
+            } else {
+                System.out.println("Item image " + catList.getName() + ".png could not be found");
             }
         }
     }

@@ -6,6 +6,8 @@
 package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,27 +24,35 @@ import java.util.Optional;
 public class CatProductListDAO implements CrudDao<CatList> {
     
     private CatList createCatList(ResultSet rs) throws SQLException {
+        Blob blob = rs.getBlob("image");
+        InputStream image = null;
+        if (blob != null) {
+            image = blob.getBinaryStream();
+        }
         return new CatList(rs.getLong("id"), rs.getString("name"), 
-                rs.getString("description"), rs.getString("image"));
+                rs.getString("description"), image);
     }
     
     @Override
     public Optional<CatList> get(long id) {
         String query = "SELECT * FROM CList AS CL WHERE CL.id = " + id;
+        Optional<CatList> res = Optional.empty();
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             if (rs.next()) {
-                return Optional.of(createCatList(rs));
+                res = Optional.of(createCatList(rs));
             } else {
-                return Optional.empty();
+                res = Optional.empty();
             }
             
+            rs.close();
+            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return Optional.empty();
+        return res;
     }
 
     @Override
@@ -58,12 +68,43 @@ public class CatProductListDAO implements CrudDao<CatList> {
                 list.add(createCatList(rs));
             }
             
+            rs.close();
+            Database.closeConnection(c);
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return list;
     }
 
+    public Optional<byte[]> getBlobImageFromCatList(long id) {
+       
+        String query = "SELECT * FROM CList AS CL WHERE I.id = ?";
+        Optional<byte[]> byteArrayOpt = Optional.empty();
+        try {
+            
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            ps.setLong(1,id);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                Blob blob = rs.getBlob("image");
+                byteArrayOpt = Optional.of(blob.getBytes(1, (int) blob.length()));
+            } else {
+                System.out.println("no image to be found");
+            }
+            
+            rs.close();
+            Database.closeConnection(c);
+        
+        } catch (Exception e) {
+             System.out.println(e);
+        }
+        
+        return byteArrayOpt;
+    }
+    
     @Override
     public void create(CatList obj) {
         String query = "INSERT INTO GEODB.CLIST(NAME,DESCRIPTION,IMAGE) "
@@ -75,7 +116,7 @@ public class CatProductListDAO implements CrudDao<CatList> {
             
             ps.setString(1, obj.getName());
             ps.setString(2, obj.getDescription());
-            ps.setString(3, obj.getImage());
+            ps.setBlob(3, obj.getImage());
             
             ps.executeUpdate();
             ps.close();
@@ -97,7 +138,7 @@ public class CatProductListDAO implements CrudDao<CatList> {
             
             ps.setString(1, obj.getName());
             ps.setString(2, obj.getDescription());
-            ps.setString(3, obj.getImage());
+            ps.setBlob(3, obj.getImage());
             ps.setLong(4,obj.getIdCategory());
             
             ps.executeUpdate();

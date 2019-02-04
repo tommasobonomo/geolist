@@ -5,6 +5,8 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database.models;
 
+import java.io.InputStream;
+
 /**
  * Model of the CList relation
  * @author tommaso
@@ -13,9 +15,9 @@ public class CatList {
     private long idCategory;
     private String name;
     private String description;
-    private String image;
+    private InputStream image;
 
-    public CatList(long idCategory, String name, String description, String image) {
+    public CatList(long idCategory, String name, String description, InputStream image) {
         this.idCategory = idCategory;
         this.name = name;
         this.description = description;
@@ -46,11 +48,11 @@ public class CatList {
         this.description = description;
     }
 
-    public String getImage() {
+    public InputStream getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(InputStream image) {
         this.image = image;
     }
 

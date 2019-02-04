@@ -25,7 +25,7 @@ CREATE TABLE clist (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     "NAME" VARCHAR(30),
     description VARCHAR(30),
-    image VARCHAR(10),
+    image BLOB,
     CONSTRAINT clist_pk PRIMARY KEY (id)
 );
 
