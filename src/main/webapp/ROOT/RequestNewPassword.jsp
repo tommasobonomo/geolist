@@ -3,7 +3,7 @@
     Created on : 04-Feb-2019, 12:05:28
     Author     : Giorgio
 --%>
-
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +13,7 @@
     </head>
     <body>
         Write your username, we send you an email with new password
-        
+        ${error}
         <c:if test="${error}">
             <div class="chatoflist">
                 <font color="red">username non esistente<font>
