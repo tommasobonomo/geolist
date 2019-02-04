@@ -37,7 +37,7 @@ CREATE TABLE list (
     idcat INTEGER,
     "NAME" VARCHAR(30),
     description VARCHAR(30),
-    image VARCHAR(50),
+    image BLOB,
     FOREIGN KEY (userowner) 
         REFERENCES users(id)
         ON DELETE CASCADE,
