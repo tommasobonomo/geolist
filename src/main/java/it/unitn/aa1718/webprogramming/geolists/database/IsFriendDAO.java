@@ -50,6 +50,9 @@ public class IsFriendDAO{
                 list.add(a.get(rs.getLong("usr1")).get());
             }
             
+            rs.close();
+            Database.closeConnection(c);
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

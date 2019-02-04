@@ -40,6 +40,8 @@ public class ComposeDAO {
                 list.add(createCompose(rs));
             }
             
+            rs.close();
+            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -60,6 +62,8 @@ public class ComposeDAO {
                 list.add(createCompose(rs));
             }
             
+            rs.close();
+            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -115,7 +119,7 @@ public class ComposeDAO {
         return success;
     }
     
-    public Optional<Integer> getQauntityFromItemAndList(long itemID, long listID) {
+    public Optional<Integer> getQuantityFromItemAndList(long itemID, long listID) {
         String query = "SELECT * FROM Compose WHERE LIST="+ listID +" AND ITEM="+ itemID ;
         
         try {
@@ -126,7 +130,8 @@ public class ComposeDAO {
             while (rs.next()) {
                 return Optional.of(createCompose(rs).getQuantity());
             }
-            
+            rs.close();
+            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -146,6 +151,8 @@ public class ComposeDAO {
                 return Optional.of(createCompose(rs));
             }
             
+            rs.close();
+            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

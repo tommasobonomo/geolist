@@ -243,6 +243,9 @@ public class UserDAO implements CrudDao<User> {
                 System.out.println("no image to be found");
             }
         
+            rs.close();
+            Database.closeConnection(c);
+            
         } catch (Exception e) {
              System.out.println(e);
         }

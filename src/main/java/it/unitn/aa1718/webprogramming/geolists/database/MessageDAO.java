@@ -30,23 +30,25 @@ public class MessageDAO implements CrudDao<Message>{
     @Override
     public Optional<Message> get(long id) {
         String query = "SELECT * FROM Message AS M WHERE M.id = " + id;
-        
+        Optional<Message> res = Optional.empty();
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
             if (rs.next()) {
-                return Optional.of(createMessage(rs));
+                res = Optional.of(createMessage(rs));
             } else {
-                return Optional.empty();
+                res = Optional.empty();
             }
             
+            rs.close();
+            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return Optional.empty();
+        return res;
     }
 
     @Override
