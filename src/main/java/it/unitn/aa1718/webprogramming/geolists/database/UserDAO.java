@@ -255,7 +255,7 @@ public class UserDAO implements CrudDao<User> {
     @Override
     public void update(long id, User obj) {
         String query="UPDATE Users "
-                + "SET cookie=?, username=?, name=?, lastname=?, email=?, image=?, token=?, active=?, admin=?"
+                + "SET cookie=?, username=?, name=?, lastname=?, email=?, image=?, token=?, active=?, admin=?, password=?"
                 + "WHERE id=?";
         
         try {
@@ -272,7 +272,8 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(7, obj.getToken());
             ps.setBoolean(8, obj.isActive());
             ps.setBoolean(9, obj.isAdmin());
-            ps.setLong(10, id);
+            ps.setString(10, hash(obj.getPassword()));
+            ps.setLong(11, id);
             
             ps.executeUpdate();
             ps.close();

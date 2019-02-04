@@ -77,6 +77,49 @@ public class EmailSender {
         }
 
     }
+    
+    public void sendEmailWithNewPassword(String password){
+            
+        // creo l'email
+        String host ="smtp.gmail.com" ;
+        String UserAddress = (this.userEmail);
+        String from = ("geolistunitn@gmail.com");
+        String subject = "New Password";
+        String messageText = " Hello, this is your new password: "+password;
+        Properties props = new Properties();
+
+        // ottengo permessi di autenticazione
+        Authenticator auth = new SMTPAuthenticator();
+        
+        // setto cose
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);    
+        props.put("mail.smtp.port", "587");
+
+        Session mailSession = Session.getDefaultInstance(props, auth);
+        java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+        
+        try{
+            InternetAddress[] address = {new InternetAddress(UserAddress)};
+
+            // creo il messaggio da inviare
+            Message messaggio = new MimeMessage(mailSession);           
+            messaggio.setFrom(new InternetAddress(from));
+            messaggio.setRecipients(Message.RecipientType.TO, address);
+            messaggio.setSubject(subject); 
+            messaggio.setSentDate(new Date());
+            messaggio.setText(messageText);
+            
+            // provo ad inviare
+            Transport.send(messaggio);
+            
+        }catch(MessagingException ex)
+        {
+            System.out.println("SendingEmail....x "+ex);
+        }
+
+    }
         
     
     // classe per autenticazione

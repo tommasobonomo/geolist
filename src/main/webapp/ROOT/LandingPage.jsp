@@ -80,6 +80,7 @@
                     <input type="submit" value="Submit">
                 </form>
             </div>
+            <div><a href="/form-action/new-password"> Don't remember password? </a> </div>  
         </c:if>
             
             
