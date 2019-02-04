@@ -210,19 +210,44 @@ public class ListServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void plusQty(HttpServletRequest request, HttpServletResponse response, long listID) {
+    private void plusQty(HttpServletRequest request, HttpServletResponse response, long listID) throws IOException {
         long itemID = Long.parseLong(request.getParameter("itemID"));
-        //aggiungo quantita
-        viewList(request, response, listID);
+        ComposeDAO composeDAO = new ComposeDAO();
+        
+        Optional<Compose> composeOptional = composeDAO.getComposeObjectFromItemIdListId(itemID, listID);
+        
+        if(!composeOptional.isPresent()){
+            viewError(request,response,"BAD REQUEST");
+        } else {
+            Compose composeObj = composeOptional.get();
+            composeObj.setQuantity(composeObj.getQuantity()+1);
+            composeDAO.updateQuantity(composeObj);
+                    
+            viewList(request, response, listID);
+        }
+        
     }
 
-    private void minusQty(HttpServletRequest request, HttpServletResponse response, long listID) {
+    private void minusQty(HttpServletRequest request, HttpServletResponse response, long listID) throws IOException {
         long itemID = Long.parseLong(request.getParameter("itemID"));
-        //diminuisco quantita
-        viewList(request, response, listID);
+        ComposeDAO composeDAO = new ComposeDAO();
+        
+        Optional<Compose> composeOptional = composeDAO.getComposeObjectFromItemIdListId(itemID, listID);
+        
+        if(!composeOptional.isPresent()){
+            viewError(request,response,"BAD REQUEST");
+        } else {
+            Compose composeObj = composeOptional.get();
+            if(composeObj.getQuantity()>1){
+                composeObj.setQuantity(composeObj.getQuantity()-1);
+                composeDAO.updateQuantity(composeObj);
+            }
+                    
+            viewList(request, response, listID);
+        }
     }
     
-    public Map<Long,Integer> createMapQuantityItem (List<Item> items,long listID) {
+    private Map<Long,Integer> createMapQuantityItem (List<Item> items,long listID) {
 
         ComposeDAO composeDAO = new ComposeDAO();
         Map<Long,Integer> mapQuantityItem = new HashMap<>();
@@ -233,5 +258,21 @@ public class ListServlet extends HttpServlet {
         }
         
         return mapQuantityItem;
+    }
+    
+    private void viewError(HttpServletRequest request, HttpServletResponse response,String error) throws IOException{
+        response.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>ERROR</title>");
+                out.println("</head>"); 
+                out.println("<body>");
+                out.println("<h1>"+error+"</h1>");
+                out.println("</body>");
+                out.println("</html>");
+            }
     }
 }

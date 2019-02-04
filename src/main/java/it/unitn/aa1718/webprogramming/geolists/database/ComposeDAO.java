@@ -1,6 +1,7 @@
 package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
+import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -120,7 +121,6 @@ public class ComposeDAO {
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
-            System.out.print(query);
             ResultSet rs = s.executeQuery(query);
             
             while (rs.next()) {
@@ -132,6 +132,47 @@ public class ComposeDAO {
         }
         
         return Optional.empty();
+    }
+    
+    public Optional<Compose> getComposeObjectFromItemIdListId(long itemID, long listID) {
+        String query = "SELECT * FROM Compose WHERE LIST="+ listID +" AND ITEM="+ itemID ;
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while (rs.next()) {
+                return Optional.of(createCompose(rs));
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return Optional.empty();
+    }
+    
+    
+    public void updateQuantity(Compose obj) {
+        String query="UPDATE Compose "
+                + "SET quantity=?"
+                + "WHERE LIST="+ obj.getIdList() +" AND ITEM="+ obj.getIdItem() ;
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            
+
+            ps.setInt(1, obj.getQuantity());
+            
+            ps.executeUpdate();
+            ps.close();
+            Database.closeConnection(c);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
     }
     
     public boolean removeItemFromList(long itemID, long listID) {
