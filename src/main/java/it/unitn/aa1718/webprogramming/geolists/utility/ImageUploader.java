@@ -8,8 +8,10 @@ package it.unitn.aa1718.webprogramming.geolists.utility;
 import it.unitn.aa1718.webprogramming.geolists.database.CrudDao;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -81,6 +83,25 @@ public class ImageUploader {
     }
     
     /**
+     * A class that takes a User and if there is an image I in the images folder
+     * such that I == list.getName(), it uploads it to the DB
+     * @param User user
+     * @return boolean to tell if the operation succeeds
+     */
+    private static boolean uploadUserImage(User user) {
+        UserDAO userDAO = new UserDAO();
+        boolean res = false;
+        InputStream image = getInputStreamFromFile("/lists/" + user.getName());
+        if (image != null) {
+            res = true;
+            user.setImage(image);
+            System.out.println("Uploading image " + user.getName() + ".png...");
+            userDAO.update(user.getId(), user);
+        }
+        return res;
+    }
+    
+    /**
      * Upload all images in /images to DB
      * @param args 
      */
@@ -106,6 +127,18 @@ public class ImageUploader {
                 System.out.println("Item image " + list.getName() + ".png uploaded to the DB");
             } else {
                 System.out.println("Item image " + list.getName() + ".png could not be found");
+            }
+        }
+        
+        // Users
+        System.out.println("\n\n====== USERS ======");
+        UserDAO userDAO = new UserDAO();
+        List<User> allUsers = userDAO.getAll();
+        for (User user : allUsers) {
+            if (uploadUserImage(user)) {
+                System.out.println("Item image " + user.getName() + ".png uploaded to the DB");
+            } else {
+                System.out.println("Item image " + user.getName() + ".png could not be found");
             }
         }
     }
