@@ -131,16 +131,16 @@ head, body {
     outline: none;
     color: #dc143c;
 }
-.button-collapse:focus h1 i{
+.button-collapse:focus i{
     transform: rotate(90deg);
 }
-.button-collapse:hover h1 i{
+.button-collapse:hover i{
     transform: rotate(90deg);
 }
 .button-collapse:hover{
     color: #dc143c;
 }
-.button-collapse h1 i{
+.button-collapse i{
     transition-duration: .3s;
 }
 

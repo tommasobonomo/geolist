@@ -164,6 +164,7 @@ public class ModifyAccountServlet extends HttpServlet {
             
             
             request.setAttribute("user", user);
+            request.setAttribute("isAdmin", user.isAdmin());
             request.getRequestDispatcher("/ROOT/profile/ModifyAccount.jsp").forward(request, response);
         }
              

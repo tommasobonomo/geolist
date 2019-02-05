@@ -101,8 +101,8 @@
         
         <!--sezione di modifica del profilo-->
         <c:if test="${logged}">
-            <a href="/ModifyServlet">
-                Modifica Profilo<br>
+            <a href="/ViewAccount">
+                Profilo<br>
             </a>
         </c:if>
          

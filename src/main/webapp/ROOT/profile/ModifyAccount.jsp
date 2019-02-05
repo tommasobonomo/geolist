@@ -18,8 +18,8 @@
             <div class="container-fluid">
                 
                 <!--logo e titolo del sito-->
-                <a class="navbar-brand" href="../index.html">
-                    <img src="../images/logos/logo-orizzontale.png" height="40" width="120" alt="logo">
+                <a class="navbar-brand" href="/">
+                    <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"/>" height="40" width="120" alt="logo">
                 </a>
                 
                 <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
@@ -70,9 +70,9 @@
                 <div class="col-md-3 padding-top menu">
                     <p class="display-4 padding-top menu-title">Profile</p>
                     <hr>
-                    <a href="profile.html" class="menu-link"><p class="menu-link">General Info</p></a>
-                    <a href="edit-profile.html" class="menu-link-active"><p class="menu-link-active" >Edit profile</p></a> 
-                    <a href="admin-profile.html" class="menu-link"><p class="menu-link">Administration area</p></a>
+                    <a href="/ViewAccount" class="menu-link"><p class="menu-link">General Info</p></a>
+                    <a href="#" class="menu-link-active"><p class="menu-link-active" >Edit profile</p></a> 
+                    <c:if test="${isAdmin}"><a href="admin-profile.html" class="menu-link"><p class="menu-link">Administration area</p></a></c:if>
                     <a href="/signOut" class="menu-link"><p class="menu-link">Log out</p></a> 
                     <hr>
                 </div>
@@ -87,7 +87,7 @@
                         Edit avatar <i class="fas fa-arrow-circle-right"></i> 
                     </button>
                     <div>use this option to change your avatar with a new one</div> 
-                    <c:if test="${avatarError}"><small style="color:red">some errors accoured</small></c:if>
+                    <c:if test="${avatarError}"><small style="color:red">some errors accured</small></c:if>
                     <div class="collapse" id="avatarWindow">
                         <div class="container">
                             <div class="row padding-top">
@@ -111,7 +111,7 @@
                         Edit name <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <div>use this option to change your name with a new one</div>
-                    <c:if test="${nameError}"><small style="color:red">some errors accoured</small></c:if>
+                    <c:if test="${nameError}"><small style="color:red">some errors accured</small></c:if>
                     <div class="collapse" id="nameWindow">
                         <div class="container">
                             <div class="row padding-top">
@@ -137,7 +137,7 @@
                         Edit surname <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <div>use this option to change your surname with a new one</div>
-                    <c:if test="${surnameError}"><small style="color:red">some errors accoured</small></c:if>
+                    <c:if test="${surnameError}"><small style="color:red">some errors accured</small></c:if>
                     <div class="collapse" id="surnameWindow">
                         <div class="container">
                             <div class="row padding-top">
@@ -163,7 +163,7 @@
                         Edit username <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <div>use this option to change your username with a new one</div>
-                    <c:if test="${usernameError}"><small style="color:red">some errors accoured</small></c:if>
+                    <c:if test="${usernameError}"><small style="color:red">some errors accured</small></c:if>
                     <div class="collapse" id="usernameWindow">
                         <div class="container">
                             <div class="row padding-top">
@@ -189,7 +189,7 @@
                         Edit email <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <div>use this option to change your email with a new one</div>
-                    <c:if test="${emailError}"><small style="color:red">some errors accoured</small></c:if>
+                    <c:if test="${emailError}"><small style="color:red">some errors accured</small></c:if>
                     <div class="collapse" id="emailWindow">
                         <div class="container">
                             <div class="row padding-top">
@@ -215,7 +215,7 @@
                         Edit password <i class="fas fa-arrow-circle-right"></i> 
                     </button>
                     <div>use this option to change your password with a new one</div>
-                    <c:if test="${passwordError}"><small style="color:red">some errors accoured</small></c:if>
+                    <c:if test="${passwordError}"><small style="color:red">some errors accured</small></c:if>
                     <div class="collapse" id="passwordWindow">
                         <div class="container">
                             <div class="row padding-top">
