@@ -48,7 +48,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             } else {
                 res = Optional.empty();
             }
-
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -69,7 +69,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             while (rs.next()) {
                 list.add(createProductList(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -91,7 +91,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             } else {
                 System.out.println("no image to be found");
             }
-
+            c.commit();
         } catch (Exception e) {
              System.out.println(e);
         }
@@ -123,7 +123,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setBlob(6, obj.getImage());
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -158,7 +158,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             if (rs.next()) {
                 listID = Optional.of(rs.getLong(1));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -182,7 +182,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setLong(2,id);
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -217,7 +217,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setLong(7,obj.getId());
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -236,7 +236,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -259,7 +259,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             while (rs.next()) {
                 list.add(a.get(rs.getLong("id")).get());
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -287,7 +287,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             if (rs.next()) {
                 res=Optional.of(createProductList(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

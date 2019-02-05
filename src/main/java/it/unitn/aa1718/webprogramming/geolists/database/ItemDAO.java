@@ -50,6 +50,7 @@ public class ItemDAO implements CrudDao<Item>{
                 res = Optional.empty();
             }
             
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -71,7 +72,7 @@ public class ItemDAO implements CrudDao<Item>{
                 list.add(createItem(rs));
             }
             
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -94,7 +95,7 @@ public class ItemDAO implements CrudDao<Item>{
             while (rs.next()) {
                 list.add(createItem(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -117,7 +118,7 @@ public class ItemDAO implements CrudDao<Item>{
             while (rs.next()) {
                 list.add(createItem(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -142,7 +143,7 @@ public class ItemDAO implements CrudDao<Item>{
             } else {
                 System.out.println("no image to be found");
             }
-        
+            c.commit();
         } catch (Exception e) {
              System.out.println(e);
         }
@@ -168,7 +169,7 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setString(4, obj.getNote());
             
             int row = ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -193,7 +194,7 @@ public class ItemDAO implements CrudDao<Item>{
             
             ps.executeUpdate();
             
-            Database.closeConnection(c);
+            c.commit();
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -212,6 +213,7 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setLong(1, id);
             
             ps.executeUpdate();
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

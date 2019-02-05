@@ -48,7 +48,7 @@ public class CatItemDAO implements CrudDao<CatItem>{
             } else {
                 res = Optional.empty();
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -69,7 +69,7 @@ public class CatItemDAO implements CrudDao<CatItem>{
             while (rs.next()) {
                 list.add(createCategoryItem(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -92,7 +92,7 @@ public class CatItemDAO implements CrudDao<CatItem>{
             } else {
                 System.out.println("no image to be found");
             }
-            
+            c.commit();
         
         } catch (Exception e) {
              System.out.println(e);
@@ -118,7 +118,7 @@ public class CatItemDAO implements CrudDao<CatItem>{
             ps.setString(2, obj.getDescription());
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -141,7 +141,7 @@ public class CatItemDAO implements CrudDao<CatItem>{
             ps.setLong(4, id);
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -158,7 +158,7 @@ public class CatItemDAO implements CrudDao<CatItem>{
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

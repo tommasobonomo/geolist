@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet {
                         Optional <UserAnonimous> ua = uaDAO.getFromCookie(thisCookie);
                         
                         if(ua.isPresent())
-                            uaDAO.becomeUserRegister(ua.get(), user);
+                            uaDAO.fromAnonToRegister(ua.get(), user);
                     
                         CookieManager cm = new CookieManager();
                         

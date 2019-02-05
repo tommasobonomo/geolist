@@ -39,6 +39,7 @@ public class ComposeDAO {
             while (rs.next()) {
                 list.add(createCompose(rs));
             }
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -58,6 +59,7 @@ public class ComposeDAO {
             while (rs.next()) {
                 list.add(createCompose(rs));
             }
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -76,7 +78,8 @@ public class ComposeDAO {
             
             while (rs.next()) { 
                 list.add(createCompose(rs));
-            }            
+            }
+            c.commit();            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -97,7 +100,7 @@ public class ComposeDAO {
             ps.setInt(3, quantity);
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
             success = false;
@@ -108,39 +111,41 @@ public class ComposeDAO {
     
     public Optional<Integer> getQuantityFromItemAndList(long itemID, long listID) {
         String query = "SELECT * FROM Compose WHERE LIST="+ listID +" AND ITEM="+ itemID ;
+        Optional<Integer> res = Optional.empty();
         
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
-            while (rs.next()) {
-                return Optional.of(createCompose(rs).getQuantity());
+            if (rs.next()) {
+                res = Optional.of(createCompose(rs).getQuantity());
             }
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return Optional.empty();
+        return res;
     }
     
     public Optional<Compose> getComposeObjectFromItemIdListId(long itemID, long listID) {
         String query = "SELECT * FROM Compose WHERE LIST="+ listID +" AND ITEM="+ itemID ;
-        
+        Optional<Compose> res = Optional.empty();
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
-            while (rs.next()) {
-                return Optional.of(createCompose(rs));
+            if (rs.next()) {
+                res = Optional.of(createCompose(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return Optional.empty();
+        return res;
     }
     
     
@@ -157,7 +162,7 @@ public class ComposeDAO {
             ps.setInt(1, obj.getQuantity());
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -175,7 +180,7 @@ public class ComposeDAO {
             ps.setLong(2, itemID);
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
             success = false;

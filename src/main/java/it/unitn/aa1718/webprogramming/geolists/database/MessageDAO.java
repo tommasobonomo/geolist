@@ -41,7 +41,7 @@ public class MessageDAO implements CrudDao<Message>{
             } else {
                 res = Optional.empty();
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class MessageDAO implements CrudDao<Message>{
             while (rs.next()) {
                 list.add(createMessage(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -82,7 +82,7 @@ public class MessageDAO implements CrudDao<Message>{
             while (rs.next()) {
                 listOfMessage.add(createMessage(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -106,7 +106,7 @@ public class MessageDAO implements CrudDao<Message>{
             ps.setTimestamp(4, obj.getSendTime());
             
             ps.executeUpdate();
-
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -132,6 +132,7 @@ public class MessageDAO implements CrudDao<Message>{
             ps.setLong(5, id);
             
             ps.executeUpdate();
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }  
@@ -148,6 +149,7 @@ public class MessageDAO implements CrudDao<Message>{
             ps.setLong(1, id);
             
             ps.executeUpdate();
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

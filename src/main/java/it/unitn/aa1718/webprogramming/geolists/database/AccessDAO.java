@@ -44,7 +44,7 @@ public class AccessDAO{
             while (rs.next()) {
                 list.add(a.get(rs.getLong("idUser")).get());
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -71,7 +71,7 @@ public class AccessDAO{
                 res = true;
             else
                 res = false;
-
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -97,7 +97,7 @@ public class AccessDAO{
             while (rs.next()) {
                 list.add(a.get(rs.getLong("idlist")).get());
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -122,7 +122,7 @@ public class AccessDAO{
             ps.setLong(2, obj.getIdUser());
             
             ps.executeUpdate();
-
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -144,7 +144,7 @@ public class AccessDAO{
             ps.setLong(2, obj.getIdUser());
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } 

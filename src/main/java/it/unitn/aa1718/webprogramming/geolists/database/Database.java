@@ -17,6 +17,8 @@ public class Database {
     public static final String NAME="GEODB";
     public static final String PASSWORD="GEODB";
     public static final String DB_URL = "jdbc:derby://localhost:1527/GEODB";  
+    public static Connection connection = null;
+    
     
     public static Connection openConnection() throws SQLException{
         try {
@@ -27,6 +29,13 @@ public class Database {
         
         return DriverManager.getConnection(DB_URL, NAME, PASSWORD);
         
+    }
+    
+    public static Connection getConnection() throws SQLException {
+        if (connection == null) {
+            connection = openConnection();
+        }
+        return connection;
     }
     
     public static void closeConnection(Connection c) throws SQLException{    

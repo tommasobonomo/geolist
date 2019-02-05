@@ -50,6 +50,7 @@ public class IsFriendDAO{
                 list.add(a.get(rs.getLong("usr1")).get());
             }
             
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -74,7 +75,7 @@ public class IsFriendDAO{
             ps.setLong(2, obj.getUserID2());
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -96,7 +97,7 @@ public class IsFriendDAO{
             ps.setLong(2, obj.getUserID2());
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } 

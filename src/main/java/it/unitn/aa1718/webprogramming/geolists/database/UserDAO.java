@@ -53,10 +53,11 @@ public class UserDAO implements CrudDao<User> {
             Statement s = c.createStatement();
             ResultSet rs=s.executeQuery(query);
         
-            while(rs.next()){
+            if(rs.next()){
                 u=createUser(rs);
             }
             
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
@@ -80,10 +81,11 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(1, cookie);
             
             ResultSet rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 u=Optional.of(createUser(rs));
             }
-                  
+            
+            c.commit();     
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
@@ -107,10 +109,10 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(1, username);
             
             ResultSet rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 u=Optional.of(createUser(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -133,10 +135,10 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(1, email);
             
             ResultSet rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 u=Optional.of(createUser(rs));
             }
-
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -159,10 +161,10 @@ public class UserDAO implements CrudDao<User> {
             
             
             ResultSet rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 u=Optional.of(createUser(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -188,7 +190,7 @@ public class UserDAO implements CrudDao<User> {
             while(rs.next()){
                 resList.add(createUser(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
@@ -221,7 +223,7 @@ public class UserDAO implements CrudDao<User> {
             } else {
                 System.out.println("no image to be found");
             }
-            
+            c.commit();
         } catch (Exception e) {
              System.out.println(e);
         }
@@ -255,7 +257,7 @@ public class UserDAO implements CrudDao<User> {
             ps.setBoolean(10, obj.isAdmin());
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -286,7 +288,7 @@ public class UserDAO implements CrudDao<User> {
             ps.setLong(11, id);
             
             ps.executeUpdate();
-
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -309,7 +311,7 @@ public class UserDAO implements CrudDao<User> {
             ps.setLong(1, id);
             
             ps.executeUpdate();
-
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }  

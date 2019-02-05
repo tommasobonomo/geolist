@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import static java.sql.Types.INTEGER;
 
 /**
  *
@@ -74,6 +75,70 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         anoDb.delete(ua.getId());
     }
     
+    public void fromAnonToRegister(UserAnonimous userAnon, User user) {
+        UserDAO userDAO = new UserDAO();
+        User userWithID;
+        if (userDAO.get(user.getUsername()).isPresent()) {
+            // Gia' registrato, prendo l'ID
+            userWithID = userDAO.get(user.getUsername()).get();
+        } else {
+            // Utente da registrare
+            user.setCookie(userAnon.getCookie());
+            userDAO.create(user);
+            
+            // Prendo l'id appena creato
+            userWithID = userDAO.getUser(user.getCookie()).get();
+        }
+        
+        ///////////////////////////////
+        // Modifiche da fare in LIST //
+        ///////////////////////////////
+        String queryID = "SELECT ID FROM LIST WHERE USERANONOWNER = ?";
+        long listID = 0;
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(queryID);
+            
+            ps.setLong(1, userAnon.getId());
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                listID = rs.getLong("ID");
+            }
+            c.commit();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        String queryList = "UPDATE LIST "
+                + "SET USEROWNER = ?, USERANONOWNER = ?"
+                + "WHERE ID = ?";
+
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(queryList);
+            
+            ps.setLong(1, userWithID.getId());
+            ps.setNull(2, INTEGER);
+            ps.setLong(3, listID);
+            ps.executeUpdate();
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } 
+        
+        ////////////////////////////////
+        // Modifiche da fare a ACCESS //
+        ////////////////////////////////
+        if (listID != 0) {
+            AccessDAO accessDAO = new AccessDAO();
+            Access access = new Access(userWithID.getId(),listID);
+            accessDAO.create(access);
+        }
+        
+    }
+    
     @Override
     public Optional<UserAnonimous> get(long id) {
         String query= "SELECT * FROM UsersAnonimous as U WHERE U.id="+id;
@@ -84,10 +149,10 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             Statement s = c.createStatement();
             ResultSet rs=s.executeQuery(query);
         
-            while(rs.next()){
+            if(rs.next()){
                 u=createUserAnonimous(rs);
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
@@ -108,10 +173,10 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             Statement s = c.createStatement();
             ResultSet rs=s.executeQuery(query);
         
-            while(rs.next()){
+            if(rs.next()){
                 u=Optional.of(createUserAnonimous(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
@@ -132,7 +197,7 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             while(rs.next()){
                 resList.add(createUserAnonimous(rs));
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
@@ -152,7 +217,7 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             ps.setString(1, obj.getCookie());
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -173,7 +238,7 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             ps.setLong(2, id);
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } 
@@ -191,7 +256,7 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
