@@ -5,11 +5,13 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.database.models;
 
+import java.io.Serializable;
+
 /**
  * Model of relation CItem
  * @author tommaso
  */
-public class CatItem {
+public class CatItem implements Serializable {
     
     private long idCatItem;
     private String name;
