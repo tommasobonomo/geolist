@@ -46,9 +46,7 @@ public class CatProductListDAO implements CrudDao<CatList> {
             } else {
                 res = Optional.empty();
             }
-            
-            rs.close();
-            Database.closeConnection(c);
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -67,9 +65,6 @@ public class CatProductListDAO implements CrudDao<CatList> {
             while(rs.next()) {
                 list.add(createCatList(rs));
             }
-            
-            rs.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -94,10 +89,6 @@ public class CatProductListDAO implements CrudDao<CatList> {
             } else {
                 System.out.println("no image to be found");
             }
-            
-            rs.close();
-            Database.closeConnection(c);
-        
         } catch (Exception e) {
              System.out.println(e);
         }
@@ -119,8 +110,6 @@ public class CatProductListDAO implements CrudDao<CatList> {
             ps.setBlob(3, obj.getImage());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -142,8 +131,6 @@ public class CatProductListDAO implements CrudDao<CatList> {
             ps.setLong(4,obj.getIdCategory());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -162,8 +149,6 @@ public class CatProductListDAO implements CrudDao<CatList> {
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();

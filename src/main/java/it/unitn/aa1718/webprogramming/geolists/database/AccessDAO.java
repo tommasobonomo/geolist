@@ -45,8 +45,6 @@ public class AccessDAO{
                 list.add(a.get(rs.getLong("idUser")).get());
             }
             
-            rs.close();
-            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -73,9 +71,7 @@ public class AccessDAO{
                 res = true;
             else
                 res = false;
-            
-            rs.close();
-            Database.closeConnection(c);
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -102,9 +98,6 @@ public class AccessDAO{
                 list.add(a.get(rs.getLong("idlist")).get());
             }
             
-            rs.close();
-            Database.closeConnection(c);
-            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -129,9 +122,7 @@ public class AccessDAO{
             ps.setLong(2, obj.getIdUser());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -153,8 +144,6 @@ public class AccessDAO{
             ps.setLong(2, obj.getIdUser());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();

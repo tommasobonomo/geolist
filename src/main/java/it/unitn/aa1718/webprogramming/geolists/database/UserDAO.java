@@ -56,10 +56,6 @@ public class UserDAO implements CrudDao<User> {
             while(rs.next()){
                 u=createUser(rs);
             }
-        
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -87,11 +83,7 @@ public class UserDAO implements CrudDao<User> {
             while(rs.next()){
                 u=Optional.of(createUser(rs));
             }
-        
-            rs.close();
-            ps.close();
-            Database.closeConnection(c);
-            
+                  
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
@@ -119,9 +111,6 @@ public class UserDAO implements CrudDao<User> {
                 u=Optional.of(createUser(rs));
             }
             
-            ps.close();
-            Database.closeConnection(c);
-            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -147,10 +136,7 @@ public class UserDAO implements CrudDao<User> {
             while(rs.next()){
                 u=Optional.of(createUser(rs));
             }
-            
-            ps.close();
-            Database.closeConnection(c);
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -177,9 +163,6 @@ public class UserDAO implements CrudDao<User> {
                 u=Optional.of(createUser(rs));
             }
             
-            ps.close();
-            Database.closeConnection(c);
-            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -205,10 +188,6 @@ public class UserDAO implements CrudDao<User> {
             while(rs.next()){
                 resList.add(createUser(rs));
             }
-        
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -242,9 +221,6 @@ public class UserDAO implements CrudDao<User> {
             } else {
                 System.out.println("no image to be found");
             }
-        
-            rs.close();
-            Database.closeConnection(c);
             
         } catch (Exception e) {
              System.out.println(e);
@@ -279,8 +255,6 @@ public class UserDAO implements CrudDao<User> {
             ps.setBoolean(10, obj.isAdmin());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -312,9 +286,7 @@ public class UserDAO implements CrudDao<User> {
             ps.setLong(11, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -337,9 +309,7 @@ public class UserDAO implements CrudDao<User> {
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }  

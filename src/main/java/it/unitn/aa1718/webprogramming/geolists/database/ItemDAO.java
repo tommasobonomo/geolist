@@ -50,9 +50,6 @@ public class ItemDAO implements CrudDao<Item>{
                 res = Optional.empty();
             }
             
-            rs.close();
-            s.close();
-            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -74,9 +71,6 @@ public class ItemDAO implements CrudDao<Item>{
                 list.add(createItem(rs));
             }
             
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -101,10 +95,6 @@ public class ItemDAO implements CrudDao<Item>{
                 list.add(createItem(rs));
             }
             
-            rs.close();
-            ps.close();
-            Database.closeConnection(c);
-            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -127,10 +117,6 @@ public class ItemDAO implements CrudDao<Item>{
             while (rs.next()) {
                 list.add(createItem(rs));
             }
-            
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -156,9 +142,6 @@ public class ItemDAO implements CrudDao<Item>{
             } else {
                 System.out.println("no image to be found");
             }
-            
-            rs.close();
-            Database.closeConnection(c);
         
         } catch (Exception e) {
              System.out.println(e);
@@ -185,8 +168,6 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setString(4, obj.getNote());
             
             int row = ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -211,7 +192,6 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setLong(5, id);
             
             ps.executeUpdate();
-            ps.close();
             
             Database.closeConnection(c);
             
@@ -232,9 +212,6 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

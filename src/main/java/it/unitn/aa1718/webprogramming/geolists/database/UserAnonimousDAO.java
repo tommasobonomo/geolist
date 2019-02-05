@@ -87,10 +87,6 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             while(rs.next()){
                 u=createUserAnonimous(rs);
             }
-        
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -115,10 +111,6 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             while(rs.next()){
                 u=Optional.of(createUserAnonimous(rs));
             }
-        
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -140,10 +132,6 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             while(rs.next()){
                 resList.add(createUserAnonimous(rs));
             }
-        
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -164,8 +152,6 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             ps.setString(1, obj.getCookie());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -187,8 +173,6 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             ps.setLong(2, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -207,8 +191,6 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();

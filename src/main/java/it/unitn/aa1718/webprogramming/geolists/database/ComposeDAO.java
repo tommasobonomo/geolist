@@ -39,9 +39,6 @@ public class ComposeDAO {
             while (rs.next()) {
                 list.add(createCompose(rs));
             }
-            
-            rs.close();
-            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -61,9 +58,6 @@ public class ComposeDAO {
             while (rs.next()) {
                 list.add(createCompose(rs));
             }
-            
-            rs.close();
-            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -82,12 +76,7 @@ public class ComposeDAO {
             
             while (rs.next()) { 
                 list.add(createCompose(rs));
-            }
-            
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
-            
+            }            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -108,8 +97,6 @@ public class ComposeDAO {
             ps.setInt(3, quantity);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -130,8 +117,6 @@ public class ComposeDAO {
             while (rs.next()) {
                 return Optional.of(createCompose(rs).getQuantity());
             }
-            rs.close();
-            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -151,8 +136,6 @@ public class ComposeDAO {
                 return Optional.of(createCompose(rs));
             }
             
-            rs.close();
-            Database.closeConnection(c);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -174,8 +157,6 @@ public class ComposeDAO {
             ps.setInt(1, obj.getQuantity());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -194,8 +175,6 @@ public class ComposeDAO {
             ps.setLong(2, itemID);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
             
         } catch (SQLException ex) {
             ex.printStackTrace();
