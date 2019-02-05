@@ -1,4 +1,5 @@
 
+
 var ws = new WebSocket("ws://localhost:8084/chat/1/2");
 
 ws.onopen = function (evt) {
@@ -6,7 +7,8 @@ ws.onopen = function (evt) {
 };
 
 ws.onmessage = function (evt) {
-    console.log(evt.data);
+    console.log(JSON.parse(evt.data));
+    
 };
 
 ws.onclose = function (evt) {

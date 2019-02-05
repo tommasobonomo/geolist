@@ -149,6 +149,8 @@ public class ChatServlet extends HttpServlet {
             request.setAttribute("listID", Long.valueOf(listID));
             request.setAttribute("messages", v.getMessages());
             request.setAttribute("mapMessageUser", v.getMapMessageUser());
+            request.setAttribute("userID", userID);
+            request.setAttribute("url", "ws://localhost:8084/chat/");
 
             try {
                 getServletContext().getRequestDispatcher("/ROOT/Chat2.jsp").forward(request, response);

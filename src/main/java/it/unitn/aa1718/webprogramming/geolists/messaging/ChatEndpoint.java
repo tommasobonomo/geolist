@@ -3,10 +3,12 @@ package it.unitn.aa1718.webprogramming.geolists.messaging;
 
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.MessageDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Message;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,15 +40,30 @@ public class ChatEndpoint {
         chatFrom.put(hashcode(userid,session.getId()), listid);
         
         //setto qual'è la sua chat
-        System.out.println(userid+" "+listid+ " " +session.getId());
-        session.getBasicRemote().sendText("connesso");
+        System.out.println("connected");
+        
+        UserDAO userDAO = new UserDAO();
+        MessageDAO msgDao = new MessageDAO();
+        List<Message> messages = msgDao.getMessageFromList(listid);
+        List<MessageJson> messagesJson = new ArrayList<>();
+        
+        for(Message m : messages){
+            String username = userDAO.get(m.getIdUser()).get().getUsername();
+            String txt = m.getText();
+            String sendTime = m.getSendTime().toString();
+            
+            session.getBasicRemote().sendText(new MessageJson(username,txt,sendTime).toJson());
+        }
+        
+        
     }
     
     @OnMessage
     public void onMessage(Session session, String txt) 
       throws IOException {
         long userId = usersFrom.get(session.getId());
-        System.out.println(userId);
+        UserDAO userDAO = new UserDAO();
+        String username = userDAO.get(userId).get().getUsername();
         long listId = chatFrom.get(hashcode(userId,session.getId()));
         
         Timestamp sendTime = new Timestamp((new Date()).getTime());
@@ -59,10 +76,13 @@ public class ChatEndpoint {
         AccessDAO accessDAO = new AccessDAO();
         List <User> usersInList = accessDAO.getUser(listId);
         
+        MessageJson m = new MessageJson(username,txt);
+        m.setCurrentTime();
+        
         for(User u : usersInList ){
             if(sessionsFrom.containsKey(u.getId()) && //controllo utente effettivamente attivo
                     chatFrom.get(hashcode(u.getId(),sessionsFrom.get(u.getId()).getId()))==listId) //nella sessione della chat giusta
-                sessionsFrom.get(u.getId()).getBasicRemote().sendText("newMessage");
+                sessionsFrom.get(u.getId()).getBasicRemote().sendText(m.toJson());
         }
     }
       
@@ -74,7 +94,6 @@ public class ChatEndpoint {
         chatFrom.remove(hashcode(userId,session.getId()));
         usersFrom.remove(session.getId());
         sessionsFrom.remove(userId);
-        
     }
    
     @OnError
@@ -86,4 +105,32 @@ public class ChatEndpoint {
     private int hashcode(long a, String b){
         return (new Pair(a,b)).hashCode();
     }
+    
 }
+
+class MessageJson{
+    String authorName;
+    String sendTime="no set";
+    String text;
+    
+    public MessageJson(String authorName,String text,String sendTime){
+        this.authorName=authorName;
+        this.text=text;
+        this.sendTime=sendTime;
+    }
+    
+    public MessageJson(String authorName,String text){
+        this.authorName=authorName;
+        this.text=text;
+    }
+    
+    public void setCurrentTime(){
+        this.sendTime=new Timestamp((new Date()).getTime()).toString();
+    }
+    
+    public String toJson(){
+        return "{\"authorName\": \""+ authorName+"\", \"text\": \""+ text +"\", \"sendTime\": \""+ sendTime+"\"}";
+    }
+    
+}
+
