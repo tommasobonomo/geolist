@@ -9,22 +9,17 @@ import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.MessageDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Message;
-import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -156,7 +151,7 @@ public class ChatServlet extends HttpServlet {
             request.setAttribute("mapMessageUser", v.getMapMessageUser());
 
             try {
-                getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
+                getServletContext().getRequestDispatcher("/ROOT/Chat2.jsp").forward(request, response);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -199,8 +194,6 @@ class VisualizeMessage {
     private ErrorView error = ErrorView.NOERROR;
     private List<Message> messages;
     private Map<Integer, User> mapMessageUser = new HashMap<>();
-
-    ;
     
     public void setError(ErrorView error) {
         this.error = error;
@@ -226,10 +219,9 @@ class VisualizeMessage {
 
         UserDAO userDAO = new UserDAO();
 
-        for (Message m : messages) {
+        for (Message m : messages)
             mapMessageUser.put(m.hashCode(), userDAO.get(m.getIdUser()).get());
-            System.out.println(m);
-        }
+            
     }
 
     public Map<Integer, User> getMapMessageUser() {
