@@ -6,6 +6,8 @@
 package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,30 +25,35 @@ import java.util.Optional;
 public class ProductListDAO implements CrudDao<ProductList> {
 
     private ProductList createProductList(ResultSet rs) throws SQLException {
+        Blob blob = rs.getBlob("image");
+        InputStream image = null;
+        if (blob != null) {
+            image = blob.getBinaryStream();
+        }
         return new ProductList(rs.getLong("id"),rs.getLong("userOwner"), rs.getLong("userAnonOwner"),
-                rs.getLong("idCat"), rs.getString("name"),rs.getString("description"), rs.getString("image"));        
+                rs.getLong("idCat"), rs.getString("name"),rs.getString("description"), image);
     }
     
     @Override
     public Optional<ProductList> get(long id) {
         String query = "SELECT * FROM List AS L WHERE L.id=" + id; 
-                
+        Optional<ProductList> res = Optional.empty();
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
             if (rs.next()) {
-                return Optional.of(createProductList(rs));
+                res = Optional.of(createProductList(rs));
             } else {
-                return Optional.empty();
+                res = Optional.empty();
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return Optional.empty();
+        return res;
     }
 
     @Override
@@ -62,11 +69,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             while (rs.next()) {
                 list.add(createProductList(rs));
             }
-            
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -74,6 +77,28 @@ public class ProductListDAO implements CrudDao<ProductList> {
         return list;
     }
 
+    public Optional<byte[]> getBlobImageFromList(long id) {
+        String query = "SELECT * FROM LIST AS L WHERE L.id = ?";
+        Optional<byte[]> byteArrayOpt = Optional.empty();
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps =c.prepareStatement(query);
+            ps.setLong(1,id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Blob blob = rs.getBlob("logo");
+                byteArrayOpt = Optional.of(blob.getBytes(1, (int) blob.length()));
+            } else {
+                System.out.println("no image to be found");
+            }
+            c.commit();
+        } catch (Exception e) {
+             System.out.println(e);
+        }
+        
+        return byteArrayOpt;
+    }
+        
     @Override
     public void create(ProductList obj) {
         String query= "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
@@ -95,13 +120,10 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setLong(3, obj.getIdCat());
             ps.setString(4, obj.getName());
             ps.setString(5, obj.getDescription());
-            ps.setString(6, obj.getImage());
+            ps.setBlob(6, obj.getImage());
             
             ps.executeUpdate();
-            
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -128,7 +150,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setLong(3, obj.getIdCat());
             ps.setString(4, obj.getName());
             ps.setString(5, obj.getDescription());
-            ps.setString(6, obj.getImage());
+            ps.setBlob(6, obj.getImage());
             
             ps.executeUpdate();
             
@@ -136,10 +158,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             if (rs.next()) {
                 listID = Optional.of(rs.getLong(1));
             }
-            
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -163,9 +182,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setLong(2,id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -183,18 +200,24 @@ public class ProductListDAO implements CrudDao<ProductList> {
             PreparedStatement ps = c.prepareStatement(query);
             
 
-            ps.setLong(1, obj.getUserOwner());
-            ps.setLong(2, obj.getUserAnonOwner());
+            if (obj.getUserOwner() == 0) {
+                ps.setNull(1, INTEGER);
+            } else {
+                ps.setLong(1, obj.getUserOwner());
+            }
+            if (obj.getUserAnonOwner() == 0) {
+                ps.setNull(2, INTEGER);
+            } else {
+                ps.setLong(2, obj.getUserAnonOwner());
+            }
             ps.setLong(3, obj.getIdCat());
             ps.setString(4, obj.getName());
             ps.setString(5, obj.getDescription());
-            ps.setString(6, obj.getImage());
+            ps.setBlob(6, obj.getImage());
             ps.setLong(7,obj.getId());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -213,9 +236,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -238,7 +259,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             while (rs.next()) {
                 list.add(a.get(rs.getLong("id")).get());
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -266,8 +287,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             if (rs.next()) {
                 res=Optional.of(createProductList(rs));
             }
-            
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

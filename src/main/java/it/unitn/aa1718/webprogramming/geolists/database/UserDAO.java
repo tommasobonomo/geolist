@@ -7,7 +7,9 @@ package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,8 +28,14 @@ import java.util.logging.Logger;
 public class UserDAO implements CrudDao<User> {
     
     private User createUser(ResultSet rs) throws SQLException {
-        return new User(rs.getLong("id"),rs.getString("cookie"),rs.getString("username"), rs.getString("name"), rs.getString("lastname")
-                , rs.getString("email"), rs.getString("password"),rs.getString("image"), rs.getString("token"), rs.getBoolean("active"), rs.getBoolean("admin"));
+        Blob blob = rs.getBlob("image");
+        InputStream image = null;
+        if (blob != null) {
+            image = blob.getBinaryStream();
+        }
+        
+        return new User(rs.getLong("id"), rs.getString("cookie"), rs.getString("username"), rs.getString("name"), rs.getString("lastname")
+                , rs.getString("email"), rs.getString("password"), image, rs.getString("token"), rs.getBoolean("active"), rs.getBoolean("admin"));
     }
 
     /**
@@ -45,14 +53,11 @@ public class UserDAO implements CrudDao<User> {
             Statement s = c.createStatement();
             ResultSet rs=s.executeQuery(query);
         
-            while(rs.next()){
+            if(rs.next()){
                 u=createUser(rs);
             }
-        
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
             
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
@@ -76,14 +81,11 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(1, cookie);
             
             ResultSet rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 u=Optional.of(createUser(rs));
             }
-        
-            rs.close();
-            ps.close();
-            Database.closeConnection(c);
             
+            c.commit();     
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
@@ -107,13 +109,10 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(1, username);
             
             ResultSet rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 u=Optional.of(createUser(rs));
             }
-            
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -136,13 +135,10 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(1, email);
             
             ResultSet rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 u=Optional.of(createUser(rs));
             }
-            
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -165,13 +161,10 @@ public class UserDAO implements CrudDao<User> {
             
             
             ResultSet rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 u=Optional.of(createUser(rs));
             }
-            
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -197,11 +190,7 @@ public class UserDAO implements CrudDao<User> {
             while(rs.next()){
                 resList.add(createUser(rs));
             }
-        
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }        
@@ -215,6 +204,31 @@ public class UserDAO implements CrudDao<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public Optional<byte[]> getBlobImageFromItem(long id) {
+        
+        String query = "SELECT * FROM User AS I WHERE I.id = ?";
+        Optional<byte[]> byteArrayOpt = Optional.empty();
+        try {
+            
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            ps.setLong(1,id);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                Blob blob = rs.getBlob("image");
+                byteArrayOpt = Optional.of(blob.getBytes(1, (int) blob.length()));
+            } else {
+                System.out.println("no image to be found");
+            }
+            c.commit();
+        } catch (Exception e) {
+             System.out.println(e);
+        }
+        
+        return byteArrayOpt;
     }
     
     /**
@@ -236,16 +250,14 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(3, obj.getName());
             ps.setString(4, obj.getLastname());
             ps.setString(5, obj.getEmail());
-            ps.setString(6, obj.getImage());
+            ps.setBlob(6, obj.getImage());
             ps.setString(7, hash(obj.getPassword()));
             ps.setString(8, obj.getToken());
             ps.setBoolean(9, obj.isActive());
             ps.setBoolean(10, obj.isAdmin());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -255,7 +267,7 @@ public class UserDAO implements CrudDao<User> {
     @Override
     public void update(long id, User obj) {
         String query="UPDATE Users "
-                + "SET cookie=?, username=?, name=?, lastname=?, email=?, image=?, token=?, active=?, admin=?"
+                + "SET cookie=?, username=?, name=?, lastname=?, email=?, image=?, token=?, active=?, admin=?, password=?"
                 + "WHERE id=?";
         
         try {
@@ -268,22 +280,21 @@ public class UserDAO implements CrudDao<User> {
             ps.setString(3, obj.getName());
             ps.setString(4, obj.getLastname());
             ps.setString(5, obj.getEmail());
-            ps.setString(6, obj.getImage());
+            ps.setBlob(6, obj.getImage());
             ps.setString(7, obj.getToken());
             ps.setBoolean(8, obj.isActive());
             ps.setBoolean(9, obj.isAdmin());
-            ps.setLong(10, id);
+            ps.setString(10, obj.getPassword());
+            ps.setLong(11, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
-        
-    }
 
+    }
+    
     /**
      * delete the user with that value
      * @param obj
@@ -300,9 +311,7 @@ public class UserDAO implements CrudDao<User> {
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }  

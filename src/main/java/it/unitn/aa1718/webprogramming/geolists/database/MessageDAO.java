@@ -30,23 +30,23 @@ public class MessageDAO implements CrudDao<Message>{
     @Override
     public Optional<Message> get(long id) {
         String query = "SELECT * FROM Message AS M WHERE M.id = " + id;
-        
+        Optional<Message> res = Optional.empty();
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
             if (rs.next()) {
-                return Optional.of(createMessage(rs));
+                res = Optional.of(createMessage(rs));
             } else {
-                return Optional.empty();
+                res = Optional.empty();
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return Optional.empty();
+        return res;
     }
 
     @Override
@@ -62,11 +62,7 @@ public class MessageDAO implements CrudDao<Message>{
             while (rs.next()) {
                 list.add(createMessage(rs));
             }
-            
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -86,11 +82,7 @@ public class MessageDAO implements CrudDao<Message>{
             while (rs.next()) {
                 listOfMessage.add(createMessage(rs));
             }
-            
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -114,9 +106,7 @@ public class MessageDAO implements CrudDao<Message>{
             ps.setTimestamp(4, obj.getSendTime());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -142,9 +132,7 @@ public class MessageDAO implements CrudDao<Message>{
             ps.setLong(5, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }  
@@ -161,9 +149,7 @@ public class MessageDAO implements CrudDao<Message>{
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

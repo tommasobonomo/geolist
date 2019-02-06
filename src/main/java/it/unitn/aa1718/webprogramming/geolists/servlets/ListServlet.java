@@ -9,6 +9,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -152,6 +154,12 @@ public class ListServlet extends HttpServlet {
 
         // Get all items for adding purposes
         List<Item> allItems = itemDAO.getAll();
+        
+        //get user id from cookie
+        UserUtil u = new UserUtil();
+        Optional<Cookie> cookie = u.getCookie(request);
+        
+        request.setAttribute("userCookie", cookie.get().getValue());
 
         // Return everything to List.jsp
         response.setContentType("text/html;charset=UTF-8");
@@ -160,6 +168,7 @@ public class ListServlet extends HttpServlet {
         request.setAttribute("allItems", allItems);
         request.setAttribute("name", name);
         request.setAttribute("desc", desc);
+        request.setAttribute("url", "ws://localhost:8084/quantity/");
         
         //for retrieve quantity
         request.setAttribute("mapQuantityItem", mapQuantityItem);
@@ -254,7 +263,7 @@ public class ListServlet extends HttpServlet {
         
         
         for (Item i : items) {
-            mapQuantityItem.put(i.getId(), composeDAO.getQauntityFromItemAndList(i.getId(),listID).get());
+            mapQuantityItem.put(i.getId(), composeDAO.getQuantityFromItemAndList(i.getId(),listID).get());
         }
         
         return mapQuantityItem;

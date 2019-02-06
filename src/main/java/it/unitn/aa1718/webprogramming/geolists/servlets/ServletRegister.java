@@ -15,8 +15,13 @@ import it.unitn.aa1718.webprogramming.geolists.utility.ParametersController;
 import java.sql.Timestamp;
 import javax.servlet.annotation.WebServlet;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
+import java.io.InputStream;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.Part;
 
 
 
@@ -24,12 +29,18 @@ import javax.servlet.http.Cookie;
         name = "ServletRegister",
         urlPatterns = "/form-actions/register"
 )
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 public class ServletRegister extends HttpServlet {
      
     Random rand = new Random();
     String username, email, name, lastname, password,
             cookie= Integer.toString(rand.nextInt(5000000)+1), 
-            image = "IMAGEN", token, time, timeToken;
+            token, time, timeToken;
+    InputStream image = null;
     boolean admin=false, active=false;
     
     @Override
@@ -37,7 +48,6 @@ public class ServletRegister extends HttpServlet {
         request.getRequestDispatcher("/ROOT/email/register.jsp").forward(request, response);
      
     }
-     
     
     /**
      * @param request
@@ -72,6 +82,16 @@ public class ServletRegister extends HttpServlet {
         this.email = request.getParameter("Email");
         this.password = request.getParameter("Password");
         
+        // carico immagine uploadata
+        try {
+            Part filePart = request.getPart("File");
+            if (filePart != null) {
+                // ottengo InputStream da File caricato
+                this.image = filePart.getInputStream();
+            }
+        } catch (IOException | ServletException ex) {
+            Logger.getLogger(ItemRegister.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         ParametersController pc = new ParametersController();
         //controllo esistenza user

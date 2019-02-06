@@ -19,8 +19,6 @@
         <div class="header">Geolist</div>
         <h1>${username}</h1>
         
-        <img src="<c:url value="/images/banana.png"/>" width="100"/>
-        
         <div class="list-category">
             <c:forEach var="list" items="${listOfPL}">
                 <div class="name">
@@ -80,6 +78,7 @@
                     <input type="submit" value="Submit">
                 </form>
             </div>
+            <div><a href="/form-action/new-password"> Don't remember password? </a> </div>  
         </c:if>
             
             
@@ -98,6 +97,12 @@
             </form>
         </div>
         
+        <!--sezione di modifica del profilo-->
+        <c:if test="${logged}">
+            <a href="/ViewAccount">
+                Profilo<br>
+            </a>
+        </c:if>
          
         
     </body>

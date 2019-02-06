@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Pagina di Registrazione</h1>
-        <form method="POST" action="/form-actions/register">
+        <form method="POST" action="/form-actions/register" enctype="multipart/form-data">
             first name <input type="text" name="FirstName">
             <br/>
             last name <input type="text" name="LastName">
@@ -23,6 +23,8 @@
             email <input type="text" name="Email">
             <br/>
             password <input type="password" name="Password">
+            <br/>
+            image <input type="file" name="File"/>
             <br/>
             <input type="submit" value="Submit">
         </form>

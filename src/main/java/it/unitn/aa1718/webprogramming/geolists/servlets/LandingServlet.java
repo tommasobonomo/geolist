@@ -85,6 +85,7 @@ public class LandingServlet extends HttpServlet {
                 }
                 id = userAnonOpt.get().getId();
             } else {
+                request.getSession().setAttribute("logged", true);
                 id = userOpt.get().getId();
             }
         }
@@ -121,7 +122,7 @@ public class LandingServlet extends HttpServlet {
                 itemsOfList.put(listID, items);
             }
             
-            username = user.getName() + " " + user.getLastname();
+            username = user.getName() + " " + user.getLastname() + " " + user.getUsername();
             
         } else if (alreadyLogged) { // Utente anonimo
             ProductListDAO plistDAO = new ProductListDAO();

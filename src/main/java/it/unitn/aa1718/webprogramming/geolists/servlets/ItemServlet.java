@@ -5,8 +5,12 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.CatItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Optional;
@@ -102,18 +106,38 @@ public class ItemServlet extends HttpServlet {
         String id = "";
         String name = "";
         String note = "";
+        String category = "";
         
         if (itemOpt.isPresent()) {
             Item item = itemOpt.get();
             id = String.valueOf(item.getId());
             name = item.getName();
             note = item.getNote();
+            long categoryID = item.getIdCat();
+            CatItemDAO categoryDAO = new CatItemDAO();
+            Optional<CatItem> categoryOpt = categoryDAO.get(categoryID);
+            if(categoryOpt.isPresent()){
+                category = categoryOpt.get().getName(); 
+            }
         }
+        
+        //mi ricavo lo user dal coockie per sapere se l'utente è admin
+        UserUtil uUtil = new UserUtil();
+        Optional<User> userOptional = uUtil.getUserOptional(request);
+        User user = null;
+        Boolean isAdmin= false;
+        if(userOptional.isPresent()){
+            user = userOptional.get();
+            isAdmin = user.isAdmin();
+        }
+        
         
         response.setContentType("text/html;charset=UTF-8");
         request.setAttribute("itemID", id);
         request.setAttribute("name", name);
         request.setAttribute("note", note);
+        request.setAttribute("isAdmin", isAdmin);
+        request.setAttribute("category", category);
         request.setAttribute("listID", request.getParameter("listID"));
     }
 
