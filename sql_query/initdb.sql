@@ -36,7 +36,7 @@ CREATE TABLE list (
     useranonowner INTEGER UNIQUE,
     idcat INTEGER,
     "NAME" VARCHAR(30),
-    description VARCHAR(30),
+    description VARCHAR(255),
     image BLOB,
     FOREIGN KEY (userowner) 
         REFERENCES users(id)
@@ -53,7 +53,7 @@ CREATE TABLE list (
 CREATE TABLE citem (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     "NAME" VARCHAR(30),
-    description VARCHAR(30),
+    description VARCHAR(255),
     image BLOB,
     CONSTRAINT citem_pk PRIMARY KEY (id)
 );
@@ -67,7 +67,7 @@ CREATE TABLE item (
         ON DELETE CASCADE,
     "NAME" VARCHAR(30),
     logo BLOB,
-    note VARCHAR(300),
+    note VARCHAR(255),
     CONSTRAINT item_pk PRIMARY KEY (id)
 );
 
