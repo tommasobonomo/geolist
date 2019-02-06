@@ -175,9 +175,9 @@ public class ImageUploader {
         List<User> allUsers = userDAO.getAll();
         for (User user : allUsers) {
             if (uploadUserImage(user)) {
-                System.out.println("Item image " + user.getName() + ".png uploaded to the DB");
+                System.out.println("Item image " + user.getId() + ".png uploaded to the DB");
             } else {
-                System.out.println("Item image " + user.getName() + ".png could not be found");
+                System.out.println("Item image " + user.getId() + ".png could not be found");
             }
         }
         
