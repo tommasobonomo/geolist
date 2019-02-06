@@ -324,7 +324,6 @@ VALUES (1,DEFAULT,'wurstel',DEFAULT,'This fun and easy dinner or lunch recipe wi
        (21,DEFAULT,'Brake Light',DEFAULT, 'Self adhesive translucent red tape, Ideal for emergency repairs');
 
 
-
  
 INSERT INTO GEODB.COMPOSE(LIST,ITEM,QUANTITY,TAKE)
 VALUES (1,1,2,false),
