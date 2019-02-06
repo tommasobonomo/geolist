@@ -1,4 +1,4 @@
-package it.unitn.aa1718.webprogramming.geolists.messaging;
+package it.unitn.aa1718.webprogramming.geolists.endpoint;
 
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.MessageDAO;

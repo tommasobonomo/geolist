@@ -13,6 +13,60 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style><%@include file="./css/LandingPage.css" %></style>
         <title><c:out value="${name}"/></title>
+        <script type="text/javascript">
+            var listid = '${listID}';
+            var userCookie = '${userCookie}';
+            var url = '${url}';
+            var ws = new WebSocket(url + listid + "/" + userCookie);
+
+            ws.onopen = function (evt) {
+                console.log("open");
+            };
+
+            ws.onmessage = function (evt) {
+                console.log(JSON.parse(evt.data));
+            };
+
+            ws.onclose = function (evt) {
+                console.log("close");
+            };
+
+            ws.onerror = function (evt) {
+                console.log("big error");
+            };
+
+            function writeMessage(txt,itemid) {
+                ws.send(txt);
+                console.log(txt[0]);
+                if (txt[0] === '-')
+                    decrementValue('counter'+itemid)
+                else if (txt[0] === '+'){
+                    incrementValue('counter'+itemid);
+                }
+            }
+
+            window.addEventListener('beforeunload', function (e) {
+                ws.close();
+            });
+
+            function incrementValue(id)
+            {
+                var value = parseInt(document.getElementById(id).value, 10);
+                value = isNaN(value) ? 0 : value;
+                value++;
+                document.getElementById(id).value = value;
+            }
+            
+            function decrementValue(id)
+            {
+                var value = parseInt(document.getElementById(id).value, 10);
+                value = isNaN(value) ? 0 : value;
+                if(value>1)
+                    value--;
+                document.getElementById(id).value = value;
+            }
+        </script>
+
     </head>
     <body>
 
@@ -30,7 +84,7 @@
                 </a>
             </div> 
         </c:if>
-        
+
         <div class="list-items-in-list">
             <c:forEach var="item" items="${listItems}">
                 <div class="name">
@@ -42,23 +96,12 @@
                         <c:out value="${item.getName()}" />
                     </a>
 
-                    <form method="POST" action="<c:url value="/List">
-                              <c:param name="listID" value="${listID}"/>
-                              <c:param name="itemID" value="${item.getId()}"/>
-                              <c:param name="action" value="minusQty"/>
-                          </c:url>"
-                          >
-                        <input type="submit" value="-"/>
-                    </form>
-                    ${mapQuantityItem.get(item.getId())}
-                    <form method="POST" action="<c:url value="/List">
-                              <c:param name="listID" value="${listID}"/>
-                              <c:param name="itemID" value="${item.getId()}"/>
-                              <c:param name="action" value="plusQty"/>
-                          </c:url>"
-                          >
-                        <input type="submit" value="+"/>
-                    </form>
+                    <input type="submit" value="-" onClick="writeMessage('-' + ' ' + '${item.getId()}','${item.getId()}')"/>
+                    
+                    <input type="text" id="counter${item.getId()}" value="${mapQuantityItem.get(item.getId())}"/>
+                    
+                    <input type="submit" value="+" onClick="writeMessage('+' + ' ' + '${item.getId()}','${item.getId()}')"/>
+
 
                     <form method="POST" action="<c:url value="/List">
                               <c:param name="listID" value="${listID}"/>

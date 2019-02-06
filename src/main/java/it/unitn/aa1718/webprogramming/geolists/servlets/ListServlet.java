@@ -9,6 +9,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
@@ -72,25 +73,25 @@ public class ListServlet extends HttpServlet {
 
             switch (action) {
                 case "plusQty":
-                    plusQty(request, response, listID);
+                    plusQty(request, response, listID, userID.get());
                     break;
                 case "minusQty":
-                    minusQty(request, response, listID);
+                    minusQty(request, response, listID, userID.get());
                     break;
                 case "addItem":
-                    addItem(request, response, listID);
+                    addItem(request, response, listID, userID.get());
                     break;
                 case "removeItem":
-                    removeItem(request, response, listID);
+                    removeItem(request, response, listID, userID.get());
                     break;
                 case "view":
                 default:
-                    viewList(request, response, listID);
+                    viewList(request, response, listID, userID.get());
             }
         }
     }
 
-    private void addItem(HttpServletRequest request, HttpServletResponse response, long listID) {
+    private void addItem(HttpServletRequest request, HttpServletResponse response, long listID, long userID) {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
 
@@ -100,10 +101,10 @@ public class ListServlet extends HttpServlet {
             request.setAttribute("success", false);
         }
 
-        viewList(request, response, listID);
+        viewList(request, response, listID, userID);
     }
 
-    private void removeItem(HttpServletRequest request, HttpServletResponse response, long listID) {
+    private void removeItem(HttpServletRequest request, HttpServletResponse response, long listID, long userID) {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
 
@@ -113,10 +114,10 @@ public class ListServlet extends HttpServlet {
             request.setAttribute("success", false);
         }
 
-        viewList(request, response, listID);
+        viewList(request, response, listID, userID);
     }
 
-    private void viewList(HttpServletRequest request, HttpServletResponse response, long listID) {
+    private void viewList(HttpServletRequest request, HttpServletResponse response, long listID, long userID) {
         // Get needed DAOs
         ComposeDAO composeDAO = new ComposeDAO();
         ItemDAO itemDAO = new ItemDAO();
@@ -160,6 +161,8 @@ public class ListServlet extends HttpServlet {
         request.setAttribute("allItems", allItems);
         request.setAttribute("name", name);
         request.setAttribute("desc", desc);
+        request.setAttribute("userCookie", new UserDAO().get(userID).get().getCookie());
+        request.setAttribute("url", "ws://localhost:8084/quantity/");
         
         //for retrieve quantity
         request.setAttribute("mapQuantityItem", mapQuantityItem);
@@ -210,7 +213,7 @@ public class ListServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void plusQty(HttpServletRequest request, HttpServletResponse response, long listID) throws IOException {
+    private void plusQty(HttpServletRequest request, HttpServletResponse response, long listID, long userID) throws IOException {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
         
@@ -223,12 +226,12 @@ public class ListServlet extends HttpServlet {
             composeObj.setQuantity(composeObj.getQuantity()+1);
             composeDAO.updateQuantity(composeObj);
                     
-            viewList(request, response, listID);
+            viewList(request, response, listID, userID);
         }
         
     }
 
-    private void minusQty(HttpServletRequest request, HttpServletResponse response, long listID) throws IOException {
+    private void minusQty(HttpServletRequest request, HttpServletResponse response, long listID, long userID) throws IOException {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
         
@@ -243,7 +246,7 @@ public class ListServlet extends HttpServlet {
                 composeDAO.updateQuantity(composeObj);
             }
                     
-            viewList(request, response, listID);
+            viewList(request, response, listID, userID);
         }
     }
     
