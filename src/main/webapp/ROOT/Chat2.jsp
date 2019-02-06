@@ -12,9 +12,9 @@
         <title>JSP Page</title>
         <script type="text/javascript">
             var listid = '${listID}';
-            var userid = '${userID}';
+            var userCookie = '${userCookie}';
             var url = '${url}';
-            var ws = new WebSocket(url + listid + "/" + userid);
+            var ws = new WebSocket(url + listid + "/" + userCookie);
 
             ws.onopen = function (evt) {
 
@@ -54,11 +54,11 @@
         <input name="text" id="textMessage" type="text" placeholder="write message ..."/>
         <button onclick="writeMessage(document.getElementById('textMessage').value)">Click me</button>
         <textarea id="chatbox"></textarea>
-        
+
         <script>
-        function addText(event) {
-            document.getElementById("chatbox").value += event;
-        }
+            function addText(event) {
+                document.getElementById("chatbox").value += event;
+            }
         </script>
     </body>
 </html>

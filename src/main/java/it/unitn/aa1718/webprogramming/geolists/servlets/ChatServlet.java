@@ -32,76 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 public class ChatServlet extends HttpServlet {
 
     /**
-     * Handles the HTTP <code>POST</code> method. write message on db
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //user
-        UserUtil util = new UserUtil();
-        long userID = util.getUserID(request);
-
-        //chat/list id
-        String listID = request.getParameter("listID");
-
-        
-        
-        
-        //visualize message
-        if (listID == null) {
-            try {
-
-                getServletContext().getRequestDispatcher("/").forward(request, response);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        } else {
-            //message text
-            String text = request.getParameter("text");
-        
-            //add in db the message
-            Timestamp sendTime = new Timestamp((new Date()).getTime());
-            Message m = new Message(userID, Long.valueOf(listID), sendTime, text);
-            (new MessageDAO()).create(m);
-            
-            VisualizeMessage v = viewMessageOf(userID, Long.valueOf(listID));
-            
-            //controll if have access
-            if (v.isError()) {
-                response.setContentType("text/html;charset=UTF-8");
-                try (PrintWriter out = response.getWriter()) {
-                    /* TODO output your page here. You may use following sample code. */
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>NO ACCESS</title>");
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>YOU DON'T HAVE ACCESS</h1>");
-                    out.println("</body>");
-                    out.println("</html>");
-                }
-            }
-
-            //set attribute
-            response.setContentType("text/html;charset=UTF-8");
-            request.setAttribute("listID", Long.valueOf(listID));
-            request.setAttribute("messages", v.getMessages());
-            request.setAttribute("mapMessageUser", v.getMapMessageUser());
-
-            try {
-                getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-
-    /**
      * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
@@ -147,9 +77,7 @@ public class ChatServlet extends HttpServlet {
             //set attribute
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("listID", Long.valueOf(listID));
-            request.setAttribute("messages", v.getMessages());
-            request.setAttribute("mapMessageUser", v.getMapMessageUser());
-            request.setAttribute("userID", userID);
+            request.setAttribute("userCookie", new UserDAO().get(userID).get().getCookie());
             request.setAttribute("url", "ws://localhost:8084/chat/");
 
             try {
