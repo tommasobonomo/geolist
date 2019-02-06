@@ -70,7 +70,34 @@ public class ParametersController {
                 }
             }
         }
-        return true;
+        return true && isEmailNew(email) && email.length()>0;
+    }
+    
+    /**
+     * function that check if the name is written correctly
+     * @param name name to check
+     * @return true if the name is written correctly false otherwise
+     */
+    public boolean nameCtrl(String name){
+        return name.length()>0;
+    }
+    
+    /**
+     * function that check if the surname is written correctly
+     * @param surname surname to check
+     * @return true if the surname is written correctly false otherwise
+     */
+    public boolean surnameCtrl(String surname){
+        return surname.length()>0;
+    }
+    
+    /**
+     * function that check if the username is written correctly
+     * @param username username to check
+     * @return true if the username is written correctly false otherwise
+     */
+    public boolean usernameCtrl(String username){
+        return username.length()>0 && isUnameNew(username) && !username.contains(" ");
     }
     
     /**

@@ -61,7 +61,7 @@ public class ModifyAccountServlet extends HttpServlet {
             //cambio username
             if("username".equals(modify)){ 
                 newUsername = (String) request.getParameter("newUsername");
-                if(newUsername.length()>0 && !newUsername.contains(" ") && pc.isUnameNew(newUsername)){
+                if(pc.usernameCtrl(newUsername)){
                     user.setUsername(newUsername);
                     UserDAO userDB = new UserDAO();
                     userDB.update(user.getId(), user);
@@ -77,7 +77,7 @@ public class ModifyAccountServlet extends HttpServlet {
             //cambio email
             if("email".equals(modify)){
                 newEmail = (String) request.getParameter("newEmail");
-                if(newEmail.length()>0 && pc.isEmailNew(newEmail) && pc.emailCtrl(newEmail)){
+                if(pc.emailCtrl(newEmail)){
                     user.setEmail(newEmail);
                     UserDAO userDB = new UserDAO();
                     userDB.update(user.getId(), user);
@@ -93,7 +93,7 @@ public class ModifyAccountServlet extends HttpServlet {
             //cambio nome
             if("name".equals(modify)){
                 newName = (String) request.getParameter("newName");
-                if(newName.length()>0){
+                if(pc.nameCtrl(newName)){
                     user.setName(newName);
                     UserDAO userDB = new UserDAO();
                     userDB.update(user.getId(), user);
@@ -109,7 +109,7 @@ public class ModifyAccountServlet extends HttpServlet {
             //cambio cognome
             if("surname".equals(modify)){
                 newSurname = (String) request.getParameter("newSurname");
-                if(newSurname.length()>0){
+                if(pc.surnameCtrl(newSurname)){
                     user.setLastname(newSurname);
                     UserDAO userDB = new UserDAO();
                     userDB.update(user.getId(), user);

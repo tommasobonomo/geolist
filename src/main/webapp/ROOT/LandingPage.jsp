@@ -87,6 +87,10 @@
                 </form>
             </div>
             <div><a href="/form-action/new-password"> Don't remember password? </a> </div>  
+            
+            <a href="<c:url value="/form-actions/register"><c:param name="action" value="view"></c:param></c:url>">
+                Register<br>
+            </a>
         </c:if>
 
 
