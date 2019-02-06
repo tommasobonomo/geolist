@@ -107,6 +107,7 @@ public class ServletRegister extends HttpServlet {
         request.setAttribute("usernameError", false);
         request.setAttribute("nameError", false);
         request.setAttribute("surnameError", false);
+        request.setAttribute("termsError", false);
         
         //controlli
         if(!pc.passwordCtrl(this.password)){  //controllo password
@@ -128,6 +129,10 @@ public class ServletRegister extends HttpServlet {
         if (!pc.usernameCtrl(this.username)){
             error = true;
             request.setAttribute("usernameError", true);
+        }
+        if (!"on".equals(request.getParameter("terms"))){
+            error = true;
+            request.setAttribute("termsError", true);
         }
         
         
