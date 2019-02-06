@@ -65,9 +65,9 @@ CREATE TABLE item (
     FOREIGN KEY (idcat) 
         REFERENCES citem(id)
         ON DELETE CASCADE,
-    "NAME" VARCHAR(30),
+    "NAME" VARCHAR(50),
     logo BLOB,
-    note VARCHAR(255),
+    note VARCHAR(1000),
     CONSTRAINT item_pk PRIMARY KEY (id)
 );
 
