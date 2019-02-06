@@ -161,8 +161,8 @@ public class LandingServlet extends HttpServlet {
             itemsOfList = new HashMap<>();
             username = "ANONYMOUS";
         }
-        
-        
+            
+            
         //prendo le categorie da mettere nel form della ricerca
         CatItemDAO categoriesDao = new CatItemDAO();
         List<CatItem> listOfCat = categoriesDao.getAll();

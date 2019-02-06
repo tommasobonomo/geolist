@@ -15,17 +15,17 @@
     </head>
 
     <body>
-        
+
         <div class="header">Geolist</div>
         <h1>${username}</h1>
-        
+
         <div class="list-category">
             <c:forEach var="list" items="${listOfPL}">
                 <div class="name">
                     <a href="<c:url value="/List">
                            <c:param name="listID" value="${list.getId()}"/>
                            <c:param name="action" value="view"/>
-                        </c:url>">
+                       </c:url>">
                         <c:out value="${list.getName()}" />
                     </a>
                 </div>
@@ -40,28 +40,28 @@
                 <a href="<c:url value="/ListRegistration">
                        <c:param name="action" value="removeList"/>
                        <c:param name="listID" value="${listID}"/>
-                    </c:url>">
+                   </c:url>">
                     Remove
                 </a>
             </c:forEach>
         </div>
 
         <p> 
-            <a href="
-                <c:url value="/ListRegistration">
-                   <c:param name="action" value="formView"/>
-                </c:url>">
-                Add list
-            </a>
-            |
-            <a href="
-                <c:url value="/ItemRegistration">
-                    <c:param name="action" value="viewForm"/>
-                </c:url>">
-                Add Item<br>
-            </a>
+                <a href="
+                   <c:url value="/ListRegistration">
+                       <c:param name="action" value="formView"/>
+                   </c:url>">
+                    Add list
+                </a>
+                |
+                <a href="
+                   <c:url value="/ItemRegistration">
+                       <c:param name="action" value="viewForm"/>
+                   </c:url>">
+                    Add Item<br>
+                </a>
         </p>
-        
+
         <c:if test="${logged}">
             <p>User <c:out value="${username}"/> is logged in</p>
             <div><a href="/signOut"> Sign Out </a> </div>  
@@ -80,8 +80,8 @@
             </div>
             <div><a href="/form-action/new-password"> Don't remember password? </a> </div>  
         </c:if>
-            
-            
+
+
         <!--sezione di ricerca-->   
         <div>
             <br>
@@ -96,15 +96,15 @@
                 <button type="submit"> search </button>
             </form>
         </div>
-        
+
         <!--sezione di modifica del profilo-->
         <c:if test="${logged}">
             <a href="/ViewAccount">
                 Profilo<br>
             </a>
         </c:if>
-         
-        
+
+
     </body>
 
 </html>

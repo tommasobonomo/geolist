@@ -18,6 +18,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -162,10 +163,23 @@ public class ListRegistration extends HttpServlet {
                 for (String i : friends) {
                     accessDAO.create(new Access(Long.valueOf(i), listID.get()));
                 }
-            } else {//utente anonimo possiede gia una lista
-                System.out.println("ha gia la lista");
-            }
+            } 
 
+        }
+        else {//utente anonimo possiede gia una lista
+              response.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>NO ACCESS</title>");
+                out.println("</head>"); 
+                out.println("<body>");
+                out.println("<h1>you can't create another list</h1>");
+                out.println("</body>");
+                out.println("</html>");
+            }
         }
     }
     
