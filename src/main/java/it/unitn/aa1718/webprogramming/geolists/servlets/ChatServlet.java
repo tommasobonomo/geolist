@@ -9,22 +9,17 @@ import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.MessageDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Message;
-import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,76 +30,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ChatServlet", urlPatterns = {"/chat"})
 public class ChatServlet extends HttpServlet {
-
-    /**
-     * Handles the HTTP <code>POST</code> method. write message on db
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //user
-        UserUtil util = new UserUtil();
-        long userID = util.getUserID(request);
-
-        //chat/list id
-        String listID = request.getParameter("listID");
-
-        
-        
-        
-        //visualize message
-        if (listID == null) {
-            try {
-
-                getServletContext().getRequestDispatcher("/").forward(request, response);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        } else {
-            //message text
-            String text = request.getParameter("text");
-        
-            //add in db the message
-            Timestamp sendTime = new Timestamp((new Date()).getTime());
-            Message m = new Message(userID, Long.valueOf(listID), sendTime, text);
-            (new MessageDAO()).create(m);
-            
-            VisualizeMessage v = viewMessageOf(userID, Long.valueOf(listID));
-            
-            //controll if have access
-            if (v.isError()) {
-                response.setContentType("text/html;charset=UTF-8");
-                try (PrintWriter out = response.getWriter()) {
-                    /* TODO output your page here. You may use following sample code. */
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>NO ACCESS</title>");
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>YOU DON'T HAVE ACCESS</h1>");
-                    out.println("</body>");
-                    out.println("</html>");
-                }
-            }
-
-            //set attribute
-            response.setContentType("text/html;charset=UTF-8");
-            request.setAttribute("listID", Long.valueOf(listID));
-            request.setAttribute("messages", v.getMessages());
-            request.setAttribute("mapMessageUser", v.getMapMessageUser());
-
-            try {
-                getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -152,8 +77,8 @@ public class ChatServlet extends HttpServlet {
             //set attribute
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("listID", Long.valueOf(listID));
-            request.setAttribute("messages", v.getMessages());
-            request.setAttribute("mapMessageUser", v.getMapMessageUser());
+            request.setAttribute("userCookie", new UserDAO().get(userID).get().getCookie());
+            request.setAttribute("url", "ws://localhost:8084/chat/");
 
             try {
                 getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
@@ -199,8 +124,6 @@ class VisualizeMessage {
     private ErrorView error = ErrorView.NOERROR;
     private List<Message> messages;
     private Map<Integer, User> mapMessageUser = new HashMap<>();
-
-    ;
     
     public void setError(ErrorView error) {
         this.error = error;
@@ -226,10 +149,9 @@ class VisualizeMessage {
 
         UserDAO userDAO = new UserDAO();
 
-        for (Message m : messages) {
+        for (Message m : messages)
             mapMessageUser.put(m.hashCode(), userDAO.get(m.getIdUser()).get());
-            System.out.println(m);
-        }
+            
     }
 
     public Map<Integer, User> getMapMessageUser() {

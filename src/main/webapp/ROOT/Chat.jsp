@@ -1,60 +1,64 @@
 <%-- 
-    Document   : list
-    Created on : 19-Jan-2019, 18:49:52
+    Document   : chat2
+    Created on : 04-Feb-2019, 21:56:45
     Author     : Giorgio
-    Helper     : Tommaso
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <style><%@include file="./css/LandingPage.css" %></style>
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <title>Message</title>
+        <title>JSP Page</title>
+        <script type="text/javascript">
+            var listid = '${listID}';
+            var userCookie = '${userCookie}';
+            var url = '${url}';
+            var ws = new WebSocket(url + listid + "/" + userCookie);
+
+            ws.onopen = function (evt) {
+
+            };
+
+            ws.onmessage = function (evt) {
+                var json = JSON.parse(evt.data);
+                addText(json.authorName + " " + json.text + " " + json.sendTime + "\n");
+            };
+
+            ws.onclose = function (evt) {
+                console.log("close");
+            };
+
+            ws.onerror = function (evt) {
+                console.log("big error");
+            };
+
+            function writeMessage(txt) {
+                ws.send(txt);
+            }
+
+            window.addEventListener('beforeunload', function (e) {
+                ws.close()
+            });
+        </script>
+        <style>
+            textarea {
+                overflow-y: scroll;
+                height: 300px;
+                width: 500px
+            }
+        </style>
     </head>
-    
     <body>
-        <%--
-        <div class="chat-list">
-                <c:forEach var="list" items="${allLists}">
-                    <div>
-                        <a href="<c:url value="/chat">
-                            <c:param name="listID" value="${list.getId()}"/>
-                            </c:url>">
-                            <c:out value="${list.getName()}"/>
-                        </a>
-                    </div>
-                </c:forEach>
-        </div> 
-        --%>
-        <div>
-            <a href="/List?listID=${listID}&action=view">Back to list</a>
-        </div>
-        
-        <div class="show-single-messages-of-list">
-                <c:if test="${not empty listID}">
-                    <c:forEach var="message" items="${messages}">
-                        <div>
-                            <c:out value="${mapMessageUser.get(message.hashCode()).getName()} :"/>
-                            <c:out value="${message.getText()}"/>
-                            <c:out value="${message.getSendTime()}"/>
-                        </div>
-                    </c:forEach>
-                </c:if>
-        </div> 
-        
-        <div>
-            <form method="POST" action="<c:url value="/chat">
-                  <c:param name="listID" value="${listID}"/>
-                </c:url>">
-                <input name="text" id="text" type="text" placeholder="write message ..."/>
-                <input value="send" type="submit"/>
-            </form>
-        </div>
-        
+
+        <input name="text" id="textMessage" type="text" placeholder="write message ..."/>
+        <button onclick="writeMessage(document.getElementById('textMessage').value)">Click me</button>
+        <textarea id="chatbox"></textarea>
+
+        <script>
+            function addText(event) {
+                document.getElementById("chatbox").value += event;
+            }
+        </script>
     </body>
-    
 </html>
