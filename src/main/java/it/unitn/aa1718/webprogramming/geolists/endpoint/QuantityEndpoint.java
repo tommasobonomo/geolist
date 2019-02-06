@@ -82,7 +82,7 @@ public class QuantityEndpoint {
             session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
         } else {
             ComposeDAO composeDAO = new ComposeDAO();
-            int quantity = composeDAO.getQauntityFromItemAndList(itemId, listId).get();
+            int quantity = composeDAO.getQuantityFromItemAndList(itemId, listId).get();
             
             System.out.println("operator :"+operation);
             if(operation.equals("+"))
