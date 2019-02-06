@@ -19,14 +19,14 @@
         </p>
         <form method="POST" action="<c:url value="/ListRegistration">
                   <c:param name="action" value="addList"/>
-              </c:url>">
+              </c:url>" enctype="multipart/form-data">
             
             <label>Name: </label>   
             <input name="name" id="name" type="text"/><br/>
             <label>Description: </label>
             <input name="description" id="description" type="text"/><br/>
             <label>Image: </label>
-            <input name="image" id="image" type="text"/><br/>
+            <input name="image" id="image" type="file"/><br/>
             
             <select name="friends" multiple>     
                     <c:forEach items="${friends}" var="f">

@@ -37,22 +37,26 @@ public class ItemDAO implements CrudDao<Item>{
     public Optional<Item> get(long id) {
         String query = "SELECT * FROM Item AS I WHERE I.id = " + id;
         
+        Optional<Item> res = Optional.empty();
+        
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             
             if (rs.next()) {
-                return Optional.of(createItem(rs));
+                res = Optional.of(createItem(rs));
             } else {
-                return Optional.empty();
+                res = Optional.empty();
             }
             
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return Optional.empty();
+        
+        return res;
     }
     
     public List<Item> getFromPattern(String pattern) {
@@ -68,10 +72,7 @@ public class ItemDAO implements CrudDao<Item>{
                 list.add(createItem(rs));
             }
             
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -94,11 +95,7 @@ public class ItemDAO implements CrudDao<Item>{
             while (rs.next()) {
                 list.add(createItem(rs));
             }
-            
-            rs.close();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -121,11 +118,7 @@ public class ItemDAO implements CrudDao<Item>{
             while (rs.next()) {
                 list.add(createItem(rs));
             }
-            
-            rs.close();
-            s.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -150,7 +143,7 @@ public class ItemDAO implements CrudDao<Item>{
             } else {
                 System.out.println("no image to be found");
             }
-        
+            c.commit();
         } catch (Exception e) {
              System.out.println(e);
         }
@@ -176,9 +169,7 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setString(4, obj.getNote());
             
             int row = ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -199,11 +190,11 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setString(2, obj.getName());
             ps.setBlob(3, obj.getLogo());
             ps.setString(4, obj.getNote());
-            ps.setLong(6, id);
+            ps.setLong(5, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
+            
+            c.commit();
             
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -222,9 +213,7 @@ public class ItemDAO implements CrudDao<Item>{
             ps.setLong(1, id);
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

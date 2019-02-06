@@ -263,7 +263,7 @@ public class ListServlet extends HttpServlet {
         
         
         for (Item i : items) {
-            mapQuantityItem.put(i.getId(), composeDAO.getQauntityFromItemAndList(i.getId(),listID).get());
+            mapQuantityItem.put(i.getId(), composeDAO.getQuantityFromItemAndList(i.getId(),listID).get());
         }
         
         return mapQuantityItem;

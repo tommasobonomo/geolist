@@ -16,14 +16,19 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -32,6 +37,11 @@ import javax.servlet.http.HttpSession;
 @WebServlet(
         name = "ListRegistration", 
         urlPatterns = {"/ListRegistration"}
+)
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 public class ListRegistration extends HttpServlet {
 
@@ -105,7 +115,7 @@ public class ListRegistration extends HttpServlet {
         
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        String image = request.getParameter("image");
+        InputStream image = null;
         long catID = Long.parseLong(request.getParameter("category"));
         //id of friends that have possibility to modify list
         String[] friends = request.getParameterValues("friends");
@@ -116,6 +126,17 @@ public class ListRegistration extends HttpServlet {
             userID = userOpt.get().getId();
         } else if (userAnonOpt.isPresent()) {
             userAnonID = userAnonOpt.get().getId();
+        }
+        
+        // Image retrieval
+        try {
+            Part filePart = request.getPart("image");
+            if (filePart != null) {
+                // obtains input stream of the upload file
+                image = filePart.getInputStream();
+            }
+        } catch (IOException | ServletException ex) {
+            Logger.getLogger(ItemRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         // Create ProductList to insert into DB

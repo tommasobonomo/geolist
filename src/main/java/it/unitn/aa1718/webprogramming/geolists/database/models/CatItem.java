@@ -6,6 +6,7 @@
 package it.unitn.aa1718.webprogramming.geolists.database.models;
 
 import java.io.Serializable;
+import java.io.InputStream;
 
 /**
  * Model of relation CItem
@@ -16,16 +17,16 @@ public class CatItem implements Serializable {
     private long idCatItem;
     private String name;
     private String description;
-    private String image;
+    private InputStream image;
 
-    public CatItem(long idCatItem, String name, String description, String image) {
+    public CatItem(long idCatItem, String name, String description, InputStream image) {
         this.idCatItem = idCatItem;
         this.name = name;
         this.description = description;
         this.image = image;
     }
     
-    public CatItem( String name, String description, String image) {
+    public CatItem( String name, String description, InputStream image) {
         this.name = name;
         this.description = description;
         this.image = image;
@@ -55,11 +56,11 @@ public class CatItem implements Serializable {
         this.description = description;
     }
 
-    public String getImage() {
+    public InputStream getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(InputStream image) {
         this.image = image;
     }
 

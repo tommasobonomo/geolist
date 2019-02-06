@@ -44,7 +44,7 @@ public class AccessDAO{
             while (rs.next()) {
                 list.add(a.get(rs.getLong("idUser")).get());
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -60,6 +60,7 @@ public class AccessDAO{
     public boolean canHaveAccess(long userID, long listID) {
         String query = "SELECT * FROM Access AS A WHERE a.idlist = " + listID 
                 + "and a.iduser = " + userID;
+        boolean res = false;
         
         try {
             Connection c = Database.openConnection();
@@ -67,15 +68,15 @@ public class AccessDAO{
             ResultSet rs = s.executeQuery(query);
             
             if(rs.next())
-                return true;
+                res = true;
             else
-                return false;
-            
+                res = false;
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return false;
+        return res;
     }
 
     /**
@@ -96,7 +97,7 @@ public class AccessDAO{
             while (rs.next()) {
                 list.add(a.get(rs.getLong("idlist")).get());
             }
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -121,9 +122,7 @@ public class AccessDAO{
             ps.setLong(2, obj.getIdUser());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }   
@@ -145,9 +144,7 @@ public class AccessDAO{
             ps.setLong(2, obj.getIdUser());
             
             ps.executeUpdate();
-            ps.close();
-            Database.closeConnection(c);
-            
+            c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } 
