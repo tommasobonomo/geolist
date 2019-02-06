@@ -43,6 +43,7 @@ VALUES  (DEFAULT, 'Meat', 'Everything meaty is to be found here', NULL),
 
 
 
+
 INSERT INTO GEODB.USERSANONIMOUS(ID, COOKIE)    
 VALUES (DEFAULT, 'cookiediprova');
 
