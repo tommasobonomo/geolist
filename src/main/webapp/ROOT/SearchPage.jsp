@@ -101,10 +101,11 @@
                             <!--carta-->
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
                                 <div class="card">
-                                    <img class="card-img-top" src="<c:url value="/ItemServlet">
+                                    <img class="card-img-top border-bottom" src="<c:url value="/ItemServlet">
                                            <c:param value="${item.getId()}" name="itemID"/>
                                            <c:param value="retrieveImage" name="action"/>
                                            </c:url>">
+                                    <%--<img class="card-img-top" src="<c:url value="/ROOT/logos/durango.png"></c:url>">--%>
                                     <div class="card-body">
                                         <h4 class="card-title">${item.getName()}</h4>
                                         <p class="card-text">${item.getNote()}</p>
@@ -114,7 +115,7 @@
                                            <c:param value="${item.getId()}" name="itemID"/>
                                            <c:param value="viewItem" name="action"/>
                                            </c:url>
-                                           " class="btn btn-outline-danger ml-2 mr-sm-2">see</a>
+                                           " class="btn btn-danger ml-2 mr-sm-2">see</a>
                                     
                                         <select class="form-control mr-sm-2" name="list" id="selectList">
                                             <option disabled selected hidden>add to</option>                            

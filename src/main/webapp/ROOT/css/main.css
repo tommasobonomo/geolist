@@ -46,6 +46,9 @@
     width: 100%;
     left: 0;
 }
+p{
+    word-wrap: break-word;
+}
 
 /*tooltips*/
 .tooltip {
@@ -273,6 +276,19 @@ head, body {
 #card-trash button{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+.card-img-top{
+    height: 250px;
+    object-fit:scale-down;
+}
+.card-body{
+    height: 120px;
+}
+.card-body p{
+    overflow:hidden;
+    white-space: nowrap; /* Don't forget this one */
+    text-overflow: ellipsis;
+}
+
 
 
 /*social icons*/
@@ -315,6 +331,14 @@ hr.light {
     width: 75%;
     margin-top: .8rem;
     margin-bottom: 1rem;
+}
+
+/*immagine item nell pagina dell'item'*/
+.gallery-wrap .img-big-wrap object {
+    height: 450px;
+    width: 100%;
+    display: inline-block;
+    object-fit:scale-down;
 }
 
 /*id*/
@@ -364,5 +388,8 @@ hr.light {
     }
     #titles-list{
         margin:0 auto;
+    }
+    .card-img-top{
+        height: 300px;
     }
 }

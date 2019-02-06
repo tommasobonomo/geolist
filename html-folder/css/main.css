@@ -317,6 +317,19 @@ hr.light {
     margin-bottom: 1rem;
 }
 
+
+.gallery-wrap .img-big-wrap img {
+    height: 450px;
+    width: auto;
+    display: inline-block;
+    cursor: zoom-in;
+}
+.gallery-wrap .img-big-wrap img:hover{
+    transform: scale(1.05);
+    transition: transform .2s;
+}
+
+
 /*id*/
 #titoloPrincipale{
     padding-top: 5rem;

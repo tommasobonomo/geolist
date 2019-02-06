@@ -67,7 +67,7 @@ CREATE TABLE item (
         ON DELETE CASCADE,
     "NAME" VARCHAR(30),
     logo BLOB,
-    note VARCHAR(30),
+    note VARCHAR(300),
     CONSTRAINT item_pk PRIMARY KEY (id)
 );
 
