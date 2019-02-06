@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -73,25 +74,25 @@ public class ListServlet extends HttpServlet {
 
             switch (action) {
                 case "plusQty":
-                    plusQty(request, response, listID, userID.get());
+                    plusQty(request, response, listID);
                     break;
                 case "minusQty":
-                    minusQty(request, response, listID, userID.get());
+                    minusQty(request, response, listID);
                     break;
                 case "addItem":
-                    addItem(request, response, listID, userID.get());
+                    addItem(request, response, listID);
                     break;
                 case "removeItem":
-                    removeItem(request, response, listID, userID.get());
+                    removeItem(request, response, listID);
                     break;
                 case "view":
                 default:
-                    viewList(request, response, listID, userID.get());
+                    viewList(request, response, listID);
             }
         }
     }
 
-    private void addItem(HttpServletRequest request, HttpServletResponse response, long listID, long userID) {
+    private void addItem(HttpServletRequest request, HttpServletResponse response, long listID) {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
 
@@ -101,10 +102,10 @@ public class ListServlet extends HttpServlet {
             request.setAttribute("success", false);
         }
 
-        viewList(request, response, listID, userID);
+        viewList(request, response, listID);
     }
 
-    private void removeItem(HttpServletRequest request, HttpServletResponse response, long listID, long userID) {
+    private void removeItem(HttpServletRequest request, HttpServletResponse response, long listID) {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
 
@@ -114,10 +115,10 @@ public class ListServlet extends HttpServlet {
             request.setAttribute("success", false);
         }
 
-        viewList(request, response, listID, userID);
+        viewList(request, response, listID);
     }
 
-    private void viewList(HttpServletRequest request, HttpServletResponse response, long listID, long userID) {
+    private void viewList(HttpServletRequest request, HttpServletResponse response, long listID) {
         // Get needed DAOs
         ComposeDAO composeDAO = new ComposeDAO();
         ItemDAO itemDAO = new ItemDAO();
@@ -153,6 +154,12 @@ public class ListServlet extends HttpServlet {
 
         // Get all items for adding purposes
         List<Item> allItems = itemDAO.getAll();
+        
+        //get user id from cookie
+        UserUtil u = new UserUtil();
+        Optional<Cookie> cookie = u.getCookie(request);
+        
+        request.setAttribute("userCookie", cookie.get().getValue());
 
         // Return everything to List.jsp
         response.setContentType("text/html;charset=UTF-8");
@@ -161,7 +168,6 @@ public class ListServlet extends HttpServlet {
         request.setAttribute("allItems", allItems);
         request.setAttribute("name", name);
         request.setAttribute("desc", desc);
-        request.setAttribute("userCookie", new UserDAO().get(userID).get().getCookie());
         request.setAttribute("url", "ws://localhost:8084/quantity/");
         
         //for retrieve quantity
@@ -213,7 +219,7 @@ public class ListServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void plusQty(HttpServletRequest request, HttpServletResponse response, long listID, long userID) throws IOException {
+    private void plusQty(HttpServletRequest request, HttpServletResponse response, long listID) throws IOException {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
         
@@ -226,12 +232,12 @@ public class ListServlet extends HttpServlet {
             composeObj.setQuantity(composeObj.getQuantity()+1);
             composeDAO.updateQuantity(composeObj);
                     
-            viewList(request, response, listID, userID);
+            viewList(request, response, listID);
         }
         
     }
 
-    private void minusQty(HttpServletRequest request, HttpServletResponse response, long listID, long userID) throws IOException {
+    private void minusQty(HttpServletRequest request, HttpServletResponse response, long listID) throws IOException {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
         
@@ -246,7 +252,7 @@ public class ListServlet extends HttpServlet {
                 composeDAO.updateQuantity(composeObj);
             }
                     
-            viewList(request, response, listID, userID);
+            viewList(request, response, listID);
         }
     }
     

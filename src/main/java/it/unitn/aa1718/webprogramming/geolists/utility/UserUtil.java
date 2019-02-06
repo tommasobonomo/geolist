@@ -155,4 +155,27 @@ public class UserUtil {
         UserAnonimousDAO u = new UserAnonimousDAO();
         return u.getFromCookie(thisCookie);
     }
+    
+    /**
+     * get user from cookie
+     * @param request
+     * @return
+     */
+    public Optional<Cookie> getCookie(HttpServletRequest request){
+        
+        
+        Cookie[] cookies = request.getCookies();
+        String thisCookie = "noCookie";
+        
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Cookie")) {
+                    return Optional.of(cookie);
+                }
+            }
+        }
+        
+        return Optional.empty();
+    }
+    
 }

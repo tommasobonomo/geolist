@@ -4,11 +4,15 @@ import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.MessageDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Message;
+import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -32,14 +36,32 @@ public class QuantityEndpoint {
     private static HashMap<Session, Long> listIdFromSession = new HashMap<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("userCookie") long userCookie, @PathParam("listid") long listid) throws IOException {
-        Optional<User> u = (new UserDAO()).getUser(String.valueOf(userCookie));
-
+    public void onOpen(Session session, @PathParam("userCookie") String userCookie, @PathParam("listid") long listid) throws IOException {
+        Optional<User> u = (new UserDAO()).getUser(userCookie);
+        
+        AccessDAO aDAO = new AccessDAO();
+        ProductListDAO pDAO = new ProductListDAO();
+        
         if (!u.isPresent()) {
-            session.getBasicRemote().sendText(new MessageJson("error", "bad request", "").toJson());
+            UserAnonimousDAO dao = new UserAnonimousDAO();
+            Optional<UserAnonimous> ua = dao.getFromCookie(userCookie);
+            
+            if(ua.isPresent()){
+                if(possiedeAnonimamente(ua.get().getId(),listid)){
+                    listIdFromSession.put(session, listid);
+                    session.getBasicRemote().sendText(new MessageJson("server", "connection succesfull", "").toJson());
+                } else {
+                    session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
+                }
+            }
+            else
+                session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
+            
         } else {
-            session.getBasicRemote().sendText(new MessageJson("success", "connection succesfull", "").toJson());
-            listIdFromSession.put(session, listid);
+            if(aDAO.canHaveAccess(u.get().getId(), listid)){
+                session.getBasicRemote().sendText(new MessageJson("server", "connection succesfull", "").toJson());
+                listIdFromSession.put(session, listid);
+            }
 
         }
     }
@@ -57,7 +79,7 @@ public class QuantityEndpoint {
         Optional<Item> itemOpt = itemDAO.get(itemId);
 
         if (!itemOpt.isPresent()) {
-            session.getBasicRemote().sendText(new MessageJson("error", "bad request", "").toJson());
+            session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
         } else {
             ComposeDAO composeDAO = new ComposeDAO();
             int quantity = composeDAO.getQauntityFromItemAndList(itemId, listId).get();
@@ -70,7 +92,7 @@ public class QuantityEndpoint {
                         quantity--;
             }        
             else
-                 session.getBasicRemote().sendText(new MessageJson("error", "bad request", "").toJson());
+                 session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
             
             
             
@@ -106,5 +128,15 @@ public class QuantityEndpoint {
         
         return new Pair(words[0],Long.valueOf(words[1]));
     }
+    
+    private boolean possiedeAnonimamente(long aninimoid,long listid){
+        ProductListDAO pDAO = new ProductListDAO();
+        
+        ProductList plist = pDAO.getListAnon(aninimoid).get();
+        
+        return (plist.getId()==listid);
+    }
 
 }
+
+
