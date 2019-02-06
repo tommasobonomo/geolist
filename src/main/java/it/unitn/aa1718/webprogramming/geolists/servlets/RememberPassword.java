@@ -8,11 +8,15 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.EmailSender;
+import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import it.unitn.aa1718.webprogramming.geolists.utility.PasswordGenerator;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -70,8 +74,14 @@ public class RememberPassword extends HttpServlet {
             EmailSender es = new EmailSender(thisUser.getEmail(), "", "");
             es.sendEmailWithNewPassword(newPassword);
             
+            String hashPassword="error inside";
+            try {
+                hashPassword = HashGenerator.Hash(newPassword);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(RememberPassword.class.getName()).log(Level.SEVERE, null, ex);
+            }
             //setto la nuova password nel db
-            thisUser.setPassword(newPassword);
+            thisUser.setPassword(hashPassword);
             userDAO.update(thisUser.getId(), thisUser);
             
             request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
