@@ -35,7 +35,8 @@ VALUES  (DEFAULT, 'Meat', 'Everything meaty is to be found here', NULL),
         (DEFAULT, 'Drinks', 'Full list of avaiable drinks within our service', NULL),
         (DEFAULT, 'Condiments', 'jhk', NULL),
         (DEFAULT, 'Bakery', 'jhk', NULL),
-        (DEFAULT, 'Bath and Body', 'jhk', NULL);
+        (DEFAULT, 'Bath and Body', 'jhk', NULL),
+        (DEFAULT, 'Pharmacy', 'jhk', NULL);
 
 
 INSERT INTO GEODB.USERSANONIMOUS(ID, COOKIE)    
