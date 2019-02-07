@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Geolist-Chat</title>
         <script type="text/javascript">
             var listid = '${listID}';
             var userCookie = '${userCookie}';
