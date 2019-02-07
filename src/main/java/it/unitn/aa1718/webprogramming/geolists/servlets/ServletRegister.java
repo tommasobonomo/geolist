@@ -114,11 +114,11 @@ public class ServletRegister extends HttpServlet {
             error = true;
             request.setAttribute("passwordError", true);
         }
-        if(!pc.surnameCtrl(this.lastname)){  //controllo password
+        if(!pc.surnameCtrl(this.lastname)){  //controllo username
             error = true;
             request.setAttribute("surnameError", true);
         }
-        if(!pc.nameCtrl(this.name)){  //controllo password
+        if(!pc.nameCtrl(this.name)){  //controllo name
             error = true;
             request.setAttribute("nameError", true);
         }
@@ -163,7 +163,7 @@ public class ServletRegister extends HttpServlet {
             es.sendEmail();
             
             //mando l'utente nella pagina di corretto invio della mail
-            request.getRequestDispatcher("/ROOT/email/verify.jsp").forward(request, response);
+            request.getRequestDispatcher("/ROOT/register/verify.jsp").forward(request, response);
         }
         else{
             request.getRequestDispatcher("/ROOT/register/register.jsp").forward(request, response);

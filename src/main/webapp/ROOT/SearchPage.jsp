@@ -111,7 +111,6 @@
                                         <p class="card-text font-10">${item.getNote()}</p>
                                     </div>
                                     <div class="card-footer">
-
                                         <a href="<c:url value="/ItemServlet">
                                            <c:param value="${item.getId()}" name="itemID"/>
                                            <c:param value="viewItem" name="action"/>
