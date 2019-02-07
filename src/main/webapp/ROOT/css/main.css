@@ -346,6 +346,16 @@ hr.light {
     display: inline-block;
     object-fit:scale-down;
 }
+.img-wrap{
+    height: 200px;
+    width: 200px;
+}
+.img-wrap object {
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    object-fit:scale-down;
+}
 
 /*id*/
 #titoloPrincipale{
