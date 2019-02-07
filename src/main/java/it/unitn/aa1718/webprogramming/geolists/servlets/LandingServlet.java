@@ -10,6 +10,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.CatItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
@@ -17,6 +18,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import it.unitn.aa1718.webprogramming.geolists.utility.CookieManager;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +54,8 @@ public class LandingServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-
+        //setto di default valore non ha gia una lista, in modo che se è loggato non ci sono problemi
+        request.setAttribute("hasAlreadyList", false);
         //Richiedo i cookie in ingresso e controllo che faccia parte di un utente loggato
         //oppure di uno anonimo
         
@@ -156,12 +159,21 @@ public class LandingServlet extends HttpServlet {
                 itemsOfList.put(listID, items);
             }
             username = "ANONYMOUS";
+            
+            ProductListDAO plDAO = new ProductListDAO();
+            UserUtil userInfo = new UserUtil();
+            UserAnonimous ua = userInfo.getUserAnonymousOptional(request).get();
+            request.setAttribute("hasAlreadyList", plDAO.getListAnon(ua.getId()).isPresent());
         } else {
             listOfPL = new ArrayList<>();
             itemsOfList = new HashMap<>();
             username = "ANONYMOUS";
         }
+        
+        
             
+            
+        
             
         //prendo le categorie da mettere nel form della ricerca
         CatItemDAO categoriesDao = new CatItemDAO();

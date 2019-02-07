@@ -46,21 +46,29 @@
             </c:forEach>
         </div>
 
-        <p> 
+        <c:if test="${!hasAlreadyList}"> 
+            <p> 
+                <!-- se l'utente anonimo ha gia una lista -->
+                <!-- se l'utente è loggato questo valore è sempre false -->
+
                 <a href="
                    <c:url value="/ListRegistration">
                        <c:param name="action" value="formView"/>
                    </c:url>">
                     Add list
                 </a>
-                |
-                <a href="
-                   <c:url value="/ItemRegistration">
-                       <c:param name="action" value="viewForm"/>
-                   </c:url>">
-                    Add Item<br>
-                </a>
-        </p>
+
+                <c:if test="${logged}"> 
+                    | 
+                    <a href="
+                       <c:url value="/ItemRegistration">
+                           <c:param name="action" value="viewForm"/>
+                       </c:url>">
+                        Add Item<br>
+                    </a>
+                </c:if>
+            </p>
+        </c:if>
 
         <c:if test="${logged}">
             <p>User <c:out value="${username}"/> is logged in</p>
