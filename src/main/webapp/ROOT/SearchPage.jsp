@@ -107,21 +107,26 @@
                                            </c:url>">
                                     <%--<img class="card-img-top" src="<c:url value="/ROOT/logos/durango.png"></c:url>">--%>
                                     <div class="card-body">
-                                        <h4 class="card-title">${item.getName()}</h4>
-                                        <p class="card-text">${item.getNote()}</p>
+                                        <h4 class="card-title font-12">${item.getName()}</h4>
+                                        <p class="card-text font-10">${item.getNote()}</p>
                                     </div>
-                                    <div class="card-footer form-inline">
+                                    <div class="card-footer">
+
                                         <a href="<c:url value="/ItemServlet">
                                            <c:param value="${item.getId()}" name="itemID"/>
                                            <c:param value="viewItem" name="action"/>
                                            </c:url>
-                                           " class="btn btn-danger ml-2 mr-sm-2">see</a>
+                                           " class="btn btn-md btn-danger fluid m-2" >see</a><br>
                                     
-                                        <select class="form-control mr-sm-2" name="list" id="selectList">
-                                            <option disabled selected hidden>add to</option>                            
-                                            <option>list 1</option>
-                                            <option>list 2</option>
-                                        </select>
+                                        <div class="btn-group fluid ml-2" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-md btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Add to list
+                                            </button>
+                                            <div class="dropdown-menu mr-sm-2" aria-labelledby="btnGroupDrop1">
+                                                <a class="dropdown-item" href="#">Dropdown list link</a>
+                                                <a class="dropdown-item" href="#">Dropdown list link</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -48,7 +48,7 @@
                 
                 <div class="form-group">
                     <label for="UserName">Username *</label>
-                    <input type="text" name="UserName" id="UserName" class="form-control" >
+                    <input type="text" name="UserName" id="UserName" class="form-control">
                     <c:if test="${usernameError}"><small style="color:red">User already present or not correct (can't have spaces or be empty)</small></c:if>
                 </div>
 
@@ -56,14 +56,14 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="Email">Email *</label>
-                            <input type="email" name="Email" id="Email" class="form-control" >
+                            <input type="email" name="Email" id="Email" class="form-control">
                             <c:if test="${emailError}"><small style="color:red">Email already present or not correct</small></c:if>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="Password">Password *</label>
-                            <input type="password" name="Password" id="Password" class="form-control" type="password" >
+                            <input type="password" name="Password" id="Password" class="form-control">
                             <c:if test="${passwordError}"><small style="color:red">Password not correct (needs a number, a special character and a numeric one)</small></c:if>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                 <div class="form-group">
                     <!--checkbox terms-->
                     <div class="form-check">
-                        <input type="checkbox" name="terms" class="form-check-input" >
+                        <input type="checkbox" name="terms" class="form-check-input">
                         <label for="terms" class="form-check-label">  I've read all the terms and conditions *</label>
                         <c:if test="${termsError}"><small style="color:red">You need to check this box</small></c:if>
                     </div>
