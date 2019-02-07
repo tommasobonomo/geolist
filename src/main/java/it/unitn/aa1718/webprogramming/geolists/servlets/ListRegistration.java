@@ -167,19 +167,13 @@ public class ListRegistration extends HttpServlet {
 
         }
         else {//utente anonimo possiede gia una lista
-              response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                /* TODO output your page here. You may use following sample code. */
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>NO ACCESS</title>");
-                out.println("</head>"); 
-                out.println("<body>");
-                out.println("<h1>you can't create another list</h1>");
-                out.println("</body>");
-                out.println("</html>");
-            }
+            try {
+                    response.setContentType("text/html;charset=UTF-8");
+                    request.setAttribute("error", "you can't create another");
+                    getServletContext().getRequestDispatcher("/ROOT/ErrorView.jsp").forward(request, response);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
         }
     }
     

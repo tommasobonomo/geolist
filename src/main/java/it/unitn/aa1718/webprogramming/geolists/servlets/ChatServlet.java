@@ -60,17 +60,12 @@ public class ChatServlet extends HttpServlet {
             
             //controll if have access
             if (v.isError()) {
-                response.setContentType("text/html;charset=UTF-8");
-                try (PrintWriter out = response.getWriter()) {
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>YOU DON'T HAVE ACCESS</title>");
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>DON'T</h1>");
-                    out.println("</body>");
-                    out.println("</html>");
+                try {
+                    response.setContentType("text/html;charset=UTF-8");
+                    request.setAttribute("error", "you don't have access");
+                    getServletContext().getRequestDispatcher("/ROOT/ErrorView.jsp").forward(request, response);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
 
