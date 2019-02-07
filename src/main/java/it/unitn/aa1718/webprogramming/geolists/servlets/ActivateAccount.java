@@ -44,7 +44,7 @@ public class ActivateAccount extends HttpServlet {
             u.setIsActive(true); //setto attivo
             userdb.update(u.getId(), u);
             //apre pagina dove si fa il login
-            request.getRequestDispatcher("/ROOT/email/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/ROOT/register/activate.jsp").forward(request, response);
         }
         else{
             //apre pagina di registrazione se non presente il token nel database

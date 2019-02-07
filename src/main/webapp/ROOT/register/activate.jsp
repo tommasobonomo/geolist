@@ -18,13 +18,13 @@
             <div class="row text-center padding-bottom padding-top">
                 <div class="col-12">
                     <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"></c:url>" alt="logo orizzontale" height="60" width="180">
-                    <p class="lead">Registration form</p>
+                    <p class="lead">Registration</p>
                     <hr class="my-4 padding-bottom">
                 </div>
 
                 <div class="col-12">
-                    <p class="display-4 font-20">Thanks for your registration!</p>
-                    <p class="display-4 font-20">You will receive an email to activate your account</p>
+                    <p class="display-4 font-20">Welcome to Geolist!</p>
+                    <p class="display-4 font-20">Now your account is active</p>
                     <p><a href="/"><button type="button" class="btn btn-outline-Danger btn-lg">Go Home</button></a></p
                 </div>   
 

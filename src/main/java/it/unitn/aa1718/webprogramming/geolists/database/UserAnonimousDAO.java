@@ -42,7 +42,6 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         User u_new;
         if(userDb.get(u.getUsername()).isPresent()){//è gia registrato
             u_new = userDb.get(u.getUsername()).get();
-            //TODO inviare il cookie del db all'utente browser 
             
         }else{//si deve registrare
             u.setCookie(ua.getCookie());

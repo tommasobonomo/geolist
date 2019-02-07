@@ -60,7 +60,7 @@ public class ParametersController {
             }else{
                 email = email.substring(email.indexOf("@"));
                 // controllo esistenza "."
-                if(!email.contains(".")){
+                if(!email.contains(".") || email.indexOf(".") == 0){
                     return false;
                 }else{
                     // controllo esistenza di una stringa dopo il punto
@@ -133,4 +133,5 @@ public class ParametersController {
         
         return true;
     }
+    
 }

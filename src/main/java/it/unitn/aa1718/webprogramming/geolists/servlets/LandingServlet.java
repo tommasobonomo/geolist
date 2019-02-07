@@ -76,7 +76,7 @@ public class LandingServlet extends HttpServlet {
             CookieManager cm = new CookieManager(request.getCookies());
             userOpt = cm.checkExistenceUser();
             userAnonOpt = cm.checkExistenceAnonimous();
-            if (!userOpt.isPresent()){ // se non è un utente registrato controllo che sia anonimo
+            if (!userOpt.isPresent() || (userOpt.isPresent() && !userOpt.get().isActive())){ // se non è un utente registrato controllo che sia anonimo
                 request.getSession().setAttribute("logged", false);
                 userAnonOpt = cm.checkExistenceAnonimous();
                 if(!userAnonOpt.isPresent()){     // se non è nemmeno anonimo ne creo uno anonimo
@@ -87,7 +87,7 @@ public class LandingServlet extends HttpServlet {
                     alreadyLogged = true;
                 }
                 id = userAnonOpt.get().getId();
-            } else {
+            } else{
                 request.getSession().setAttribute("logged", true);
                 id = userOpt.get().getId();
             }
@@ -99,7 +99,7 @@ public class LandingServlet extends HttpServlet {
         session.setAttribute("userAnonOpt", userAnonOpt);
         
         // Se cookie indica un normale utente
-        if (userOpt.isPresent()){
+        if (userOpt.isPresent() && userOpt.get().isActive()){
             isAnon = false;
             // DAO necessari
             AccessDAO accessDAO = new AccessDAO();
