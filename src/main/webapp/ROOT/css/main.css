@@ -347,8 +347,8 @@ hr.light {
     object-fit:scale-down;
 }
 .img-wrap{
-    height: 200px;
-    width: 200px;
+    height: 300px;
+    width: 300px;
 }
 .img-wrap object {
     height: 100%;
@@ -388,6 +388,9 @@ hr.light {
     #center-phone{
         text-align: center;
         padding-top: 1rem;
+    }
+    #center-phone .img-wrap{
+        margin: 0 auto;
     }
     #remove-padding-phone{
         padding-top: 1.5rem;
