@@ -6,13 +6,14 @@
 package it.unitn.aa1718.webprogramming.geolists.database.models;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Model of the Item relation
  * @author tommaso
  */
-public class Item {
+public class Item implements Serializable{
     private long id;
     private long idCat;
     private String name;

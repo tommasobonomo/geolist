@@ -66,7 +66,7 @@
         <div class="container padding-top2">
     
             <div class="row padding-top">
-                <aside class="col-sm-5 col-5">
+                <aside class="col-sm-12 col-md-5">
                     <article class="gallery-wrap"> 
                         <div class="img-big-wrap border">
                             <object data="  <c:url value="/ItemServlet">
@@ -79,9 +79,9 @@
                     </article> <!-- gallery-wrap .end// -->
                 </aside>
                 
-                <aside class="col-sm-1 col-1"></aside>
+                <aside class=" col-md-1"></aside>
                 
-                <aside class="col-sm-6 col-6">
+                <aside class=" col-md-6">
                     <h3 class="display-4 font-25 padding-bottom">${name}</h3>
                     <div class="padding-bottom">
                         <div class="display-4 font-15">Description</div>

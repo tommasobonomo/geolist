@@ -382,6 +382,10 @@ hr.light {
     #remove-padding-phone{
         padding-top: 1.5rem;
     }
+    aside{
+        text-align: center;
+        padding-top: 1rem;
+    }
 }
 
 /*media per schermo lg*/
