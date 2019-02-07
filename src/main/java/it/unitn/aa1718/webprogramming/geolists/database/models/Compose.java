@@ -14,11 +14,13 @@ public class Compose {
     private long idList;
     private long idItem;
     private int quantity;
+    private boolean take;
 
-    public Compose(long idList, long idItem, int quantity) {
+    public Compose(long idList, long idItem, int quantity,boolean take) {
         this.idList = idList;
         this.idItem = idItem;
         this.quantity = quantity;
+        this.take=take;
     }
 
     public long getIdList() {
@@ -43,6 +45,14 @@ public class Compose {
 
     public void setIdItem(long idItem) {
         this.idItem = idItem;
+    }
+    
+    public boolean isTake() {
+        return take;
+    }
+
+    public void setIsTake(boolean isTake) {
+        this.take = isTake;
     }
 
     @Override
@@ -76,7 +86,7 @@ public class Compose {
 
     @Override
     public String toString() {
-        return "Compose{" + "idList=" + idList + ", idItem=" + idItem + ", quantity= " + quantity + '}';
+        return "Compose{" + "idList=" + idList + ", idItem=" + idItem + ", quantity= " + quantity + ", istake= " + take +'}';
     }
     
     

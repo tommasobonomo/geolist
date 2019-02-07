@@ -76,6 +76,7 @@ CREATE TABLE compose(
     list INTEGER,
     item INTEGER ,
     quantity INTEGER,
+    take BOOLEAN,
     FOREIGN KEY (item) 
         REFERENCES item(id)
         ON DELETE CASCADE,
