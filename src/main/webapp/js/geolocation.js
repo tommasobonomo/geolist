@@ -5,7 +5,7 @@ const geoSuccess = position => {
     $("#geoerror").hide();
     
     // aggiungo precisione per evitare chiamate in più
-    const eps_precision = 0.0005;
+    const eps_precision = 0.00001;
     
     if (
             Math.abs(position.coords.latitude - latestLat) > eps_precision ||
@@ -13,11 +13,12 @@ const geoSuccess = position => {
         ) {
         latestLat = position.coords.latitude;
         latestLng = position.coords.longitude;
+        
         $.ajax({
             url: "/Geolocation",
             data: {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
+                latitude: latestLat,
+                longitude: latestLng
             },
             success: result => {
                 console.log(result);
