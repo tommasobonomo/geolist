@@ -51,6 +51,8 @@ public class ParametersController {
      */
     public boolean emailCtrl(String email){
         
+        String emailNoTest = email;
+        
         // controllo esistenza della "@"
         if(!email.contains("@")){
             return false;
@@ -70,7 +72,7 @@ public class ParametersController {
                 }
             }
         }
-        return true && isEmailNew(email) && email.length()>0;
+        return true && isEmailNew(emailNoTest) && email.length()>0;
     }
     
     /**
