@@ -110,13 +110,13 @@ CREATE TABLE access(
     PRIMARY KEY (iduser, idlist)    
 );
 
-CREATE TABLE productsoflists(
-    idlistcat INTEGER,
-    idprodcat INTEGER,
-    FOREIGN KEY (idlistcat)
+CREATE TABLE ItemPermission(
+    categoryListId INTEGER,
+    categoryItemId INTEGER,
+    FOREIGN KEY (categoryListId)
         REFERENCES clist(id)
         ON DELETE CASCADE,
-    FOREIGN KEY (idprodcat)
+    FOREIGN KEY (categoryItemId)
         REFERENCES citem(id)
         ON DELETE CASCADE
 );    
