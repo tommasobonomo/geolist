@@ -83,21 +83,23 @@ public class QuantityEndpoint {
         } else {
             ComposeDAO composeDAO = new ComposeDAO();
             int quantity = composeDAO.getQuantityFromItemAndList(itemId, listId).get();
+            boolean take = composeDAO.getComposeObjectFromItemIdListId(itemId, listId).get().isTake();
             
-            System.out.println("operator :"+operation);
             if(operation.equals("+"))
                 quantity++;
             else if(operation.equals("-")){
                 if (quantity > 1) 
                         quantity--;
-            }        
+            }else if(operation.equals("k")){
+                take=!take;
+            }       
             else
                  session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
             
             
             
-
-            Compose c = new Compose(listId, itemId, quantity);
+            
+            Compose c = new Compose(listId, itemId, quantity,take);
             composeDAO.updateQuantity(c);
             session.getBasicRemote().sendText(new MessageJson(String.valueOf(itemId), operation, "").toJson());
 

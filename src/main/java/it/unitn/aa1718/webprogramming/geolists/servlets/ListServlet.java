@@ -90,7 +90,7 @@ public class ListServlet extends HttpServlet {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
 
-        if (composeDAO.addItemToList(itemID, listID, 1)) {
+        if (composeDAO.addItemToList(itemID, listID, 1,false)) {
             request.setAttribute("success", true);
         } else {
             request.setAttribute("success", false);
@@ -134,6 +134,9 @@ public class ListServlet extends HttpServlet {
         
         Map<Long,Integer> mapQuantityItem = new HashMap<>();
         mapQuantityItem = createMapQuantityItem(listItems,listID);
+        
+        Map<Long,Boolean> mapIsTakeItem = new HashMap<>();
+        mapIsTakeItem = createMapIsTakeItem(listItems,listID);
 
         // Get list details if present
         Optional<ProductList> plOpt = plDAO.get(listID);
@@ -166,6 +169,7 @@ public class ListServlet extends HttpServlet {
         
         //for retrieve quantity
         request.setAttribute("mapQuantityItem", mapQuantityItem);
+        request.setAttribute("mapIsTakeItem", mapIsTakeItem);
         
         try {
             request.getRequestDispatcher("/ROOT/List.jsp").forward(request, response);
@@ -261,6 +265,19 @@ public class ListServlet extends HttpServlet {
         }
         
         return mapQuantityItem;
+    }
+    
+    private Map<Long,Boolean> createMapIsTakeItem (List<Item> items,long listID) {
+
+        ComposeDAO composeDAO = new ComposeDAO();
+        Map<Long,Boolean> mapIsTakeItem = new HashMap<>();
+        
+        
+        for (Item i : items) {
+            mapIsTakeItem.put(i.getId(), composeDAO.getComposeObjectFromItemIdListId(i.getId(),listID).get().isTake());
+        }
+        
+        return mapIsTakeItem;
     }
     
     private void viewError(HttpServletRequest request, HttpServletResponse response,String error) throws IOException{

@@ -39,10 +39,10 @@
                 ws.send(txt);
                 console.log(txt[0]);
                 if (txt[0] === '-')
-                    decrementValue('counter'+itemid)
-                else if (txt[0] === '+'){
+                    decrementValue('counter'+itemid);
+                else if (txt[0] === '+')
                     incrementValue('counter'+itemid);
-                }
+                
             }
 
             window.addEventListener('beforeunload', function (e) {
@@ -101,8 +101,14 @@
                     <input type="text" id="counter${item.getId()}" value="${mapQuantityItem.get(item.getId())}"/>
                     
                     <input type="submit" value="+" onClick="writeMessage('+' + ' ' + '${item.getId()}','${item.getId()}')"/>
-
-
+                    
+                    <c:if test="${not mapIsTakeItem.get(item.getId())}">
+                        <input type="checkbox" name="take${item.getId()}" onClick="writeMessage('k' + ' ' + '${item.getId()}','${item.getId()}')">
+                    </c:if>
+                    <c:if test="${mapIsTakeItem.get(item.getId())}">
+                        <input type="checkbox" name="take${item.getId()}" onClick="writeMessage('k' + ' ' + '${item.getId()}','${item.getId()}')" checked>
+                    </c:if>
+                    
                     <form method="POST" action="<c:url value="/List">
                               <c:param name="listID" value="${listID}"/>
                               <c:param name="itemID" value="${item.getId()}"/>
