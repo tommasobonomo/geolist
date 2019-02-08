@@ -9,10 +9,14 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -30,9 +34,9 @@ import org.json.JSONObject;
 @WebServlet(name = "Geolocation", urlPatterns = {"/Geolocation"})
 public class Geolocation extends HttpServlet {
 
-    private String app_id = "R6mhWpHMAL1WKFiqlNVn";
-    private String app_code = "fjkiwApcOJdDm38A_tvw_Q";
-    private double MAX_DISTANCE = 1000; // in metri, fino a quanto lontano includere i posti 
+    private final String app_id = "R6mhWpHMAL1WKFiqlNVn";
+    private final String app_code = "fjkiwApcOJdDm38A_tvw_Q";
+    private final double MAX_DISTANCE = 1000; // in metri, fino a quanto lontano includere i posti 
     
     private HttpResponse<JsonNode> makeRequest(String location, String shop) {
         HttpResponse<JsonNode> res = null;
@@ -50,6 +54,27 @@ public class Geolocation extends HttpServlet {
         return res;
     }
     
+    private List<Place> getCategoryPlaces(String location, String category) {
+        
+        HttpResponse<JsonNode> responseJson = makeRequest(location, category);
+        
+        JSONArray results = responseJson.getBody().getObject().getJSONArray("results");
+        
+        List<Place> places = new ArrayList<>();
+        for (int i = 1; i < results.length() - 1; i++) {
+            JSONObject tmp = results.getJSONObject(i);
+            if (tmp.getDouble("distance") < MAX_DISTANCE) {
+                places.add(new Place(tmp));   
+            }
+        }
+        
+        for (Place place : places) {
+            System.out.println(place.toString());
+        }
+        
+        return places;
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -62,28 +87,46 @@ public class Geolocation extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        // Location
         String latStr = request.getParameter("latitude");
         String lngStr = request.getParameter("longitude");
-        
+
         double latitude = Double.parseDouble(latStr);
         double longitude = Double.parseDouble(lngStr);
-       
+
         String location = latStr.concat(",").concat(lngStr);
         
-        HttpResponse<JsonNode> responseJson = makeRequest(location, "supermarket");
+        // Categories IDs
+        String categoriesString = request.getParameter("categories");
         
-        JSONArray results = responseJson.getBody().getObject().getJSONArray("results");
+        JSONArray categories = new JSONArray(categoriesString);
         
-        List<Place> places = new ArrayList<>();
-        for (int i = 1; i < results.length() - 1; i++) {
-            JSONObject tmp = results.getJSONObject(i);
-            if (tmp.getDouble("distance") < MAX_DISTANCE) {
-                places.add(new Place(tmp));   
-            }
+        List<Long> catIDs = new ArrayList<>();
+        for (int i = 0; i < categories.length(); i++) {
+            catIDs.add(Long.parseLong(categories.getString(i)));
         }
 
+        // Categories Names
+        CatProductListDAO catListDAO = new CatProductListDAO();
+        List<String> catNames = new ArrayList<>();
+        for (long id : catIDs) {
+            Optional<CatList> tmp = catListDAO.get(id);
+            if (tmp.isPresent()) {
+                catNames.add(tmp.get().getName().toLowerCase());
+            }
+        }
         
+        // Requests
+        Map<String, List<Place>> allPlaces = new HashMap<>();
+        for (String category : catNames) {
+            allPlaces.put(category, getCategoryPlaces(location, category));
+        }
         
+        String json = new JSONObject(allPlaces).toString();
+        
+        response.setStatus(200);
+        response.getOutputStream().print(json);
+        response.flushBuffer();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
