@@ -122,11 +122,17 @@
                                                 Add to list
                                             </button>
                                             <div class="dropdown-menu mr-sm-2" aria-labelledby="btnGroupDrop1">
-                                                <c:forEach var="idlist" items="${mapListAddPermissionByItem.get(item.getId())}">
-                                                    <a class="dropdown-item" 
-                                                        href="../List?listID=${listOfUser.get(idlist).getId()}&itemID=${item.getId()}&action=addItem">
-                                                    ${listOfUser.get(idlist).getName()}</a>
-                                                </c:forEach>
+                                                <c>
+                                                    <c:if test="${logged}"> 
+                                                        <c:forEach var="idlist" items="${mapListAddPermissionByItem.get(item.getId())}">
+                                                            <a class="dropdown-item" 
+                                                               href="../List?listID=${listOfUser.get(idlist).getId()}&itemID=${item.getId()}&action=addItem">
+                                                                ${listOfUser.get(idlist).getName()}</a>
+                                                        </c:forEach>
+                                                    </c:if> 
+                                                    <c:if test="${not logged}"> 
+                                                        <a class="dropdown-item" href="#">incognito</a>
+                                                    </c:if> 
                                             </div>
                                         </div>
                                     </div>
