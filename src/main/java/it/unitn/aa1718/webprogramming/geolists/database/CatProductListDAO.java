@@ -6,6 +6,7 @@
 package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
+import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;

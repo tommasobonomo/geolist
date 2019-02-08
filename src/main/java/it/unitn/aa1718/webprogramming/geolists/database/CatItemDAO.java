@@ -55,6 +55,27 @@ public class CatItemDAO implements CrudDao<CatItem>{
         
         return res;
     }
+    
+    public Optional<CatItem> getCategoryFromitem(long idItem) {
+        String query = "SELECT C.* FROM GEODB.citem as C join GEODB.item as I on C.ID=I.IDCAT WHERE I.ID=" + idItem;
+        Optional<CatItem> res = Optional.empty();
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            if (rs.next()) {
+                res = Optional.of(createCategoryItem(rs));
+            } else {
+                res = Optional.empty();
+            }
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return res;
+    }
 
     @Override
     public List<CatItem> getAll() {

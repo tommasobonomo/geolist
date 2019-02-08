@@ -122,8 +122,11 @@
                                                 Add to list
                                             </button>
                                             <div class="dropdown-menu mr-sm-2" aria-labelledby="btnGroupDrop1">
-                                                <a class="dropdown-item" href="#">Dropdown list link</a>
-                                                <a class="dropdown-item" href="#">Dropdown list link</a>
+                                                <c:forEach var="idlist" items="${mapListAddPermissionByItem.get(item.getId())}">
+                                                    <a class="dropdown-item" 
+                                                        href="../List?listID=${listOfUser.get(idlist).getId()}&itemID=${item.getId()}&action=addItem">
+                                                    ${listOfUser.get(idlist).getName()}</a>
+                                                </c:forEach>
                                             </div>
                                         </div>
                                     </div>

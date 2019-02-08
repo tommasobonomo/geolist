@@ -98,6 +98,25 @@ public class ProductListDAO implements CrudDao<ProductList> {
         
         return byteArrayOpt;
     }
+    
+    public List<ProductList> getListsFromCategoryId(long catogoryListId) {
+        String query = "SELECT L.* FROM GEODB.CLIST as C join GEODB.LIST as L on C.ID=L.IDCAT WHERE C.ID= " + catogoryListId;
+        List<ProductList> list = new ArrayList<>();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            while (rs.next()) {
+                list.add(createProductList(rs));
+            }
+            c.commit();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
         
     @Override
     public void create(ProductList obj) {

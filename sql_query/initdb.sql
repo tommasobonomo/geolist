@@ -118,7 +118,8 @@ CREATE TABLE ItemPermission(
         ON DELETE CASCADE,
     FOREIGN KEY (categoryItemId)
         REFERENCES citem(id)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+    PRIMARY KEY (categoryListId, categoryItemId)
 );    
 
 CREATE TABLE message(

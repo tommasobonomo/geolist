@@ -5,12 +5,23 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.CatItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ItemPermissionDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
+import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -75,11 +86,31 @@ public class SearchItem extends HttpServlet {
             });
         }
         
-         
+        Map<Long,List<Long>> mapListAddPermissionByItem = new HashMap<>();
+        ItemPermissionDAO itemPermissionDAO = new ItemPermissionDAO();
+        
+        UserUtil u = new UserUtil();
+        
+        for(Item i : items){
+            long userId = u.getUserOptional(request).get().getId();
+            List<Long> list = itemPermissionDAO.getPossibleMyListToAddItem(userId,i.getId());
+            mapListAddPermissionByItem.put(i.getId(),list);
+        }
+        
+        ProductListDAO plDAO = new ProductListDAO();
+        List <ProductList> listOfProductListUser = plDAO.getListUser(u.getUserOptional(request).get().getId());
+        Map <Long, ProductList> mapListOfUser= new HashMap<>();
+       
+        for(ProductList list : listOfProductListUser){
+            mapListOfUser.put(list.getId(), list);
+        }
+        
         //inserisco gli elementi nella sessione
         session.setAttribute("items", items);
         session.setAttribute("wordSearched", wordSearched);
         session.setAttribute("categorySearched", categorySearched);
+        session.setAttribute("mapListAddPermissionByItem", mapListAddPermissionByItem);
+        session.setAttribute("listOfUser",mapListOfUser);
         request.getRequestDispatcher("/ROOT/SearchPage.jsp").forward(request, response);
     }
     
