@@ -19,7 +19,7 @@ VALUES  (DEFAULT, 'Grocery', 'A business that sells a large variety of food incl
         (DEFAULT, 'Bookstore', 'A retail business that primarily sells books.', '600-6700-0087', NULL),
         (DEFAULT, 'Sporting Goods Store', 'A business that sells individual and team sports equipment and other related items.', '600-6900-0094', NULL),
         (DEFAULT, 'Pet Supply', 'A business that sells goods and services for pets.', '600-6900-0097', NULL),
-        (DEFAULT, 'Florist', 'A business that sells and arranges plants and cut flowers.', '600-6900-0355', NULL)
+        (DEFAULT, 'Florist', 'A business that sells and arranges plants and cut flowers.', '600-6900-0355', NULL);
 
 
 INSERT INTO GEODB.CITEM(ID,"NAME",DESCRIPTION, IMAGE)

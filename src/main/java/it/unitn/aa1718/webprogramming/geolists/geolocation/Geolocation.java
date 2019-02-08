@@ -38,14 +38,15 @@ public class Geolocation extends HttpServlet {
     private final String app_code = "fjkiwApcOJdDm38A_tvw_Q";
     private final double MAX_DISTANCE = 1000; // in metri, fino a quanto lontano includere i posti 
     
-    private HttpResponse<JsonNode> makeRequest(String location, String shop) {
+    private HttpResponse<JsonNode> makeRequest(String location, String category) {
         HttpResponse<JsonNode> res = null;
         try {
-            res = Unirest.get("https://places.cit.api.here.com/places/v1/autosuggest")
-                    .queryString("at", location)
-                    .queryString("q", shop)
+            res = Unirest.get("https://places.cit.api.here.com/places/v1/discover/explore")
                     .queryString("app_id", app_id)
                     .queryString("app_code", app_code)
+                    .queryString("at", location)
+                    .queryString("cs", "pds")
+                    .queryString("cat", category)
                     .asJson();
         } catch (UnirestException ex) {
             Logger.getLogger(Geolocation.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,7 +59,7 @@ public class Geolocation extends HttpServlet {
         
         HttpResponse<JsonNode> responseJson = makeRequest(location, category);
         
-        JSONArray results = responseJson.getBody().getObject().getJSONArray("results");
+        JSONArray results = responseJson.getBody().getObject().getJSONObject("results").getJSONArray("items");
         
         List<Place> places = new ArrayList<>();
         for (int i = 1; i < results.length() - 1; i++) {
@@ -112,7 +113,7 @@ public class Geolocation extends HttpServlet {
         for (long id : catIDs) {
             Optional<CatList> tmp = catListDAO.get(id);
             if (tmp.isPresent()) {
-                catNames.add(tmp.get().getName().toLowerCase());
+                catNames.add(tmp.get().getHERECODE().toLowerCase());
             }
         }
         

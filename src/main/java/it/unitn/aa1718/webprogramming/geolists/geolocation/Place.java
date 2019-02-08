@@ -17,13 +17,11 @@ public class Place {
     private String title;
     private String location;
     private String vicinity;
-    private String category;
     private double distance;
     
     public Place(JSONObject place) {
-        title = place.getString("highlightedTitle");
+        title = place.getString("title");
         vicinity = place.getString("vicinity");
-        category = place.getString("categoryTitle");
         distance = place.getDouble("distance");
         
         JSONArray tmp = place.getJSONArray("position");
@@ -54,14 +52,6 @@ public class Place {
         this.vicinity = vicinity;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public double getDistance() {
         return distance;
     }
@@ -72,7 +62,7 @@ public class Place {
 
     @Override
     public String toString() {
-        return "Place{" + "title=" + title + ", location=" + location + ", vicinity=" + vicinity + ", category=" + category + ", distance=" + distance + '}';
+        return "Place{" + "title=" + title + ", location=" + location + ", vicinity=" + vicinity + ", distance=" + distance + '}';
     }
     
 }

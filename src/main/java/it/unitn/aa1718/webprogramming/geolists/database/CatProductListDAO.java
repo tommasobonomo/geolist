@@ -32,7 +32,7 @@ public class CatProductListDAO implements CrudDao<CatList> {
             image = blob.getBinaryStream();
         }
         return new CatList(rs.getLong("id"), rs.getString("name"), 
-                rs.getString("description"), image);
+                rs.getString("description"), rs.getString("HERECODE"), image);
     }
     
     @Override
