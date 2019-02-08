@@ -1,6 +1,7 @@
 
 INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, TOKEN, ACTIVE, "ADMIN")
 VALUES (DEFAULT,NULL,'rappasta', 'Lorenzo', 'Framba', 'lorenzoframba@gmail.com',NULL,'4613650b16296964685818117f557e57366f92b', NULL, TRUE, TRUE),
+
        (DEFAULT,NULL,'Molone','Mattia', 'Molon','molon@gmail.com',NULL,'29707645067686736492cf6e16526b6e4245',NULL, TRUE,FALSE),
        (DEFAULT,NULL,'Tommy','Tommaso','Bonomo','tommasoni394@gmail.com',NULL,'4f4d773a0540130176787a4f1574100759521e',NULL, TRUE,FALSE),
        (DEFAULT,NULL,'Remo','Leonardo','Remondini', 'remoromolo@gmail.com',NULL, '3949350913f2c7e1b31e366c602f4e5a313a75',NULL, TRUE,FALSE),
