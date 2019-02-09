@@ -330,8 +330,7 @@ VALUES (1,DEFAULT,'wurstel',DEFAULT,'This fun and easy dinner or lunch recipe wi
        (20,DEFAULT,'Angle Grinder',DEFAULT, '4-1/2" grinder has 7.5 Amp high output motor, Large paddle switch for easy operation, Labyrinth construction seals/protects motor-, and bearings from dust and debris, All ball bearing design & metal gear housing, Rotatable gear housing rotates 90 degrees-, for cutting applications - includes, wheel,-, wheel guard, wrench, side handle & alum case, 10,000 Rpm'),
        (20,DEFAULT,'Wet Tile Saw',DEFAULT, 'Benchtop tile saw is designed for small jobs, High-torque 1/2 HP, 115V/230V, 4amp, 5,500 RPM motor, Cuts ceramic, marble, granite, slate, Also terra cotta wall and floor tiles, Cuts up to 1" thickness, Built-in 22 & 45 degree miter table, Includes 45 degree rip guide'),
        (20,DEFAULT,'Sawsquatch Worm Drive Saw',DEFAULT, '15 Amp Dual-Field(TM) motor for power/durability, 10-1/4" blade for cutting 4X cleanly in one pass, Magnesium motor housing stabilizes drive train, Legendary Skil Saw worm driver gearing, Comes with 40-tooth Diablo carbide blade and multi-function wrench that stores in saw foot'),
-       
-
+      
 
        (21,DEFAULT,'screwdriver',DEFAULT, '⚠ WARNING: This product can expose you to lead a chemical known to the State of California to cause cancer and reproductive harm.'),
        (21,DEFAULT,'Booster Cable',DEFAULT, 'Need to jump start your car in a hurry? This booster cable will do the job! Use on either side or top post batteries, 400 amp clamps, PVC jacket material is oil, chemical and water resistant, Copper plated jaw clamps'),
