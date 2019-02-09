@@ -14,6 +14,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -82,11 +83,16 @@ public class SearchItem extends HttpServlet {
         UserUtil u = new UserUtil();
         Optional<User> userOpt = u.getUserOptional(request);
         Optional<UserAnonimous> userAnoOpt = u.getUserAnonymousOptional(request);
+        
+        //attributi della sessione
+        Map<Long, List<Long>> mapListAddPermissionByItem = new HashMap<>();
+        Map<Long, ProductList> mapListOfUser = new HashMap<>();
+        boolean isLogged = false;
 
         //se è loggato
         if (userOpt.isPresent()) {
-            Map<Long, List<Long>> mapListAddPermissionByItem = new HashMap<>();
             ItemPermissionDAO itemPermissionDAO = new ItemPermissionDAO();
+            
 
             for (Item i : items) {
                 long userId = userOpt.get().getId();
@@ -96,28 +102,50 @@ public class SearchItem extends HttpServlet {
 
             ProductListDAO plDAO = new ProductListDAO();
             List<ProductList> listOfProductListUser = plDAO.getListUser(userOpt.get().getId());
-            Map<Long, ProductList> mapListOfUser = new HashMap<>();
+            
 
             for (ProductList list : listOfProductListUser) {
                 mapListOfUser.put(list.getId(), list);
             }
 
-            session.setAttribute("mapListAddPermissionByItem", mapListAddPermissionByItem);
-            session.setAttribute("listOfUser", mapListOfUser);
-            session.setAttribute("logged", true);
+            isLogged = true;
 
-        } else if(userAnoOpt.isPresent()){
-            //ProductListDAO plDAO = new ProductListDAO();
-            //plDAO.getListAnon(userAnoOpt.get().getId());
+        } else if(userAnoOpt.isPresent()){ //se è anonimo
+            ProductListDAO plDAO = new ProductListDAO();
             
-            //session.setAttribute("listAnon", mapListOfUser);
-            session.setAttribute("logged", false);
+            
+            Optional<ProductList> listAnonymousOpt = plDAO.getListAnon(userAnoOpt.get().getId());
+            
+            if (listAnonymousOpt.isPresent()) {
+                //aggiungo l'unica lista dell'utente anonimo alla mappa delle liste
+                ProductList listAnonymous = listAnonymousOpt.get();
+                mapListOfUser.put(listAnonymous.getId(), listAnonymous);
+                long categoryOfListId = listAnonymous.getIdCat();
+
+                ItemPermissionDAO itemPermissionDAO = new ItemPermissionDAO();
+                
+                //se ha il permesso di essere aggiunto agli item la metto
+                for (Item i : items) {
+                    if (itemPermissionDAO.catogoryItemIsUnderCategoryList(categoryOfListId, i.getIdCat())) {
+                        List<Long> list = new ArrayList<>();
+                        list.add(listAnonymous.getId());
+                        mapListAddPermissionByItem.put(i.getId(), list);
+                    }
+                }
+            }
+            isLogged = false;
+            
+        } else {
+            response.sendRedirect("/");
         }
 
         //inserisco gli elementi nella sessione
         session.setAttribute("items", items);
         session.setAttribute("wordSearched", wordSearched);
         session.setAttribute("categorySearched", categorySearched);
+        session.setAttribute("mapListAddPermissionByItem", mapListAddPermissionByItem);
+        session.setAttribute("listOfUser", mapListOfUser);
+        session.setAttribute("logged", isLogged);
         request.getRequestDispatcher("/ROOT/SearchPage.jsp").forward(request, response);
     }
 
