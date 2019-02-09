@@ -161,12 +161,40 @@ public class FriendServlet extends HttpServlet {
         }
     }
 
-    private void accept(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void accept(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        UserUtil util = new UserUtil();
+        User thisUser = util.getUserOptional(request).get();
+        
+        long friendId = Long.valueOf(request.getParameter("friendId"));
+        UserDAO userDAO = new UserDAO();
+        Optional<User> userRequestOptional = userDAO.get(friendId);
+        
+        if (userRequestOptional.isPresent()) {
+             IsFriendDAO isFriendDAO = new IsFriendDAO();
+             isFriendDAO.create(new IsFriend(thisUser.getId(),userRequestOptional.get().getId()));
+             
+        } else {
+            response.setContentType("text/html;charset=UTF-8");
+            response.sendRedirect("/error?error=" + "YOU DON'T HAVE ACCESS");
+        }
     }
 
-    private void refuse(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void refuse(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        UserUtil util = new UserUtil();
+        User thisUser = util.getUserOptional(request).get();
+        
+        long friendId = Long.valueOf(request.getParameter("friendId"));
+        UserDAO userDAO = new UserDAO();
+        Optional<User> userRequestOptional = userDAO.get(friendId);
+        
+        if (userRequestOptional.isPresent()) {
+             IsFriendDAO isFriendDAO = new IsFriendDAO();
+             isFriendDAO.delete(new IsFriend(userRequestOptional.get().getId(),thisUser.getId()));
+             
+        } else {
+            response.setContentType("text/html;charset=UTF-8");
+            response.sendRedirect("/error?error=" + "YOU DON'T HAVE ACCESS");
+        }
     }
     
 
