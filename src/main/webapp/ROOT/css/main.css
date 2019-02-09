@@ -279,7 +279,7 @@ head, body {
     float: none;
     margin: 0 auto;
 }
-#card-trash button{
+#card-trash button, #card-trash-solo button{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .card-img-top{
@@ -289,13 +289,28 @@ head, body {
 .card-body{
     height: 125px;
 }
-.card-body p{
+.card-body #p-card-body-search{
     overflow:hidden;
     white-space: nowrap; /* Don't forget this one */
     text-overflow: ellipsis;
 }
+.card-body p{
+    max-height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 
+/*media*/
+.media div img{
+    object-fit:scale-down;
+}
+
+/*checkbox*/
+.custom-control-label:before{
+    transform: scaleX(2.0) scaleY(2.0);
+}
 
 /*social icons*/
 .social a{
@@ -356,6 +371,16 @@ hr.light {
     display: inline-block;
     object-fit:scale-down;
 }
+.img-wrap-list{
+    height: 250px;
+    width: 100%;
+}
+.img-wrap-list img {
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    object-fit:scale-down;
+}
 
 /*id*/
 #titoloPrincipale{
@@ -375,11 +400,43 @@ hr.light {
 }*/
 #card-trash{
     position: absolute;
+    right: 50px;
+}
+#card-trash-solo{
+    position: absolute;
     right: 10px;
+}
+#card-trash-2{
+    position: absolute;
+    left: auto;
+    right: 15px;
+    top: 12px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 #description-box{
     width: 100%;
     height: 2.5rem;
+}
+#listaIcons{
+    text-align: right;
+}
+
+
+
+@media (max-width: 576px) { 
+    #listaTitle{
+        text-align: center;
+    }
+    #listaIcons{
+        text-align: center;
+    }
+    .width-phone{
+        width: 80%;
+        margin: 0 auto;
+    }
+    .card-img-top{
+        height: 150px;
+    }
 }
 
 /*media per schermo md*/
@@ -399,6 +456,9 @@ hr.light {
         text-align: center;
         padding-top: 1rem;
     }
+    .card-img-top{
+        height: 200px;
+    }
 }
 
 /*media per schermo lg*/
@@ -413,6 +473,6 @@ hr.light {
         margin:0 auto;
     }
     .card-img-top{
-        height: 300px;
+        height: 250px;
     }
 }

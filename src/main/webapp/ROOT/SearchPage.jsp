@@ -109,7 +109,7 @@
                                     <%--<img class="card-img-top" src="<c:url value="/ROOT/logos/durango.png"></c:url>">--%>
                                     <div class="card-body">
                                         <h4 class="card-title font-12">${item.getName()}</h4>
-                                        <p class="card-text font-10">${item.getNote()}</p>
+                                        <p id="p-card-body-search" class="card-text font-10">${item.getNote()}</p>
                                     </div>
                                     <div class="card-footer">
                                         <a href="<c:url value="/ItemServlet">
