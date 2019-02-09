@@ -75,10 +75,6 @@ VALUES  (1,2),
 
 INSERT INTO GEODB.ITEM(IDCAT,ID,"NAME",LOGO, NOTE)
 VALUES (1,DEFAULT,'wurstel',DEFAULT,'This fun and easy dinner or lunch recipe will have everyone including kiddos happy to eat.'),
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> added more items and cathegoris
        (1,DEFAULT,'chicken',DEFAULT,'Cheap meatSwanson Premium White Chunk Chicken Breast is fully cooked and perfect for quick and easy everyday meals and sides. Living up to Swanson s tradition of simple ingredients, our delicious white chunk chicken breast meat has no antibiotics and comes from farm-raised chickens in the USA.'),
        (1,DEFAULT,'horse meat',DEFAULT,'Horse meat forms a significant part of the culinary traditions of many countries, particularly in Europe, South America and Asia. The top eight countries consume about 4.7 million horses a year. For the majority of humanity is early existence, wild horses were hunted as a source of protein'),       
        (1,DEFAULT,'beef',DEFAULT,'Beef is the culinary name for meat from cattle, particularly skeletal muscle. Humans have been eating beef since prehistoric times. Beef is a source of high-quality protein and nutrients'),
@@ -198,52 +194,34 @@ VALUES (1,DEFAULT,'wurstel',DEFAULT,'This fun and easy dinner or lunch recipe wi
        (9,DEFAULT,'Crafted Beer',DEFAULT, 'Wychwood Brewery Hobgoblin Beer is a delicious traditional craft ruby beer that is full-bodied and packed with mischievous character. Made with Chocolate and Crystal malts and a blend of Styrian, Goldings and Fuggles hops that delivers a chocolate toffee flavour balanced with moderate bitterness and overall fruity character. Hobgoblin is the perfect beer to drink alongside Steak and Ale Pies, Sausages and Mash, BBQs or for Halloween! 5.2% ABV.'),
        (9,DEFAULT,'margarita',DEFAULT, 'A margarita is a cocktail consisting of tequila, orange liqueur, and lime juice often served with salt on the rim of the glass. The drink is served shaken with ice (on the rocks), blended with ice (frozen margarita), or without ice (straight up). Although it has become acceptable to serve a margarita in a wide variety of glass types, ranging from cocktail and wine glasses to pint glasses and even large schooners, the drink is traditionally served in the eponymous margarita glass, a stepped-diameter variant of a cocktail glass or champagne coupe.'),
        (9,DEFAULT,'wine',DEFAULT, 'Wine is an alcoholic beverage made from fermented grapes. Yeast consumes the sugar in the grapes and converts it to ethanol, carbon dioxide, and heat. Different varieties of grapes and strains of yeasts produce different styles of wine'),
-<<<<<<< HEAD
-  
-=======
-       
->>>>>>> added more items and cathegoris
+
        (10,DEFAULT,'Reggae Reggae Sauce',DEFAULT, 'Bring the sunshine of the Caribbean to your food with a splash of Levi Roots Mild Reggae Reggae Sauce. A mild and tangy Caribbean BBQ sauce flavoured with allspice and herbs. It has all the taste of a classic Reggae Reggae sauce but without the heat. This versatile sauce is so tasty that it can be used as a marinade for meat or why try a generous splash on the side of your meal? Perfect for dunking your chips or smothering on a burger! '),
        (10,DEFAULT,'Olive Oil Spray',DEFAULT, 'Fry Light Extra Virgin Olive Oil Spray is made using only the best quality Extra Virgin Olive Oil and is ideal for baking, roasting and shallow frying when you want a more subtle olive oil flavouring. This handy spray oil product delivers precisely one calorie per spray, making it the perfect choice if you are calorie counting or just watching your weight generally. This unique and innovative product has won several consumer awards; if you haven’t tried it yet now is your chance.'),
        (10,DEFAULT,'Salad Cream Squeezy',DEFAULT, 'Heinz Squeezy Salad Cream Top Down is a modern take on the original and celebrated Heinz Salad Cream. Unlike the traditional glass bottle, this version comprises of a squeezy bottle with the lid pointing downwards. The major advantage of Heinz Squeezy Salad Cream Top Down is that it is much easier to use – there is no need to spend wasted minutes patting the end of the bottle, even when there is hardly any salad cream left. The salad cream itself is unchanged, offering that instantly recognisable flavour; tangy and more vinegary than mayonnaise, and perfect for adding that certain something to an otherwise bland salad.'),
        (10,DEFAULT,'Piccalilli Pickle',DEFAULT, 'This Piccalilli Pickle is a deliciously fruity and tangy pickle from sauce masters Heinz. It contains an intoxicating mixture of marrow, cauliflower and turmeric as well as various other vegetables and spices. Heinz Piccalilli Pickle is a great accompaniment to a cooked breakfast or ploughman’s lunch. If you have never tried this condiment then give it a go – you won’t be disappointed.'),
        (10,DEFAULT,'Ranch Dressing',DEFAULT, 'Newmans Own Ranch Dressing is a rich and creamy salad dressing, with garlic and parsley, that is the perfect accompaniment to all kinds of salads. A mayonnaise based dressing, ranch dressing is a refreshing way to dress a salad, particularly in the summertime. Suitable for vegetarians and coeliacs. Once opened, store in the fridge and use within four weeks.'),
        (10,DEFAULT,'Sarsons Malt Vinegar',DEFAULT, 'Vinegar is an essential part of so many British favourites. Sprinkle over chips, fried egg, ham or tomatoes to add an acidic edge to lots of classic dishes. This bottle will sate your vinegar needs for a while, and as it is made from plastic, it is unlikely to break if dropped by butter fingers.'),
-<<<<<<< HEAD
 
-=======
-       
->>>>>>> added more items and cathegoris
        (11,DEFAULT,'Pumpkin Seed Bread',DEFAULT, 'Made using traditional artisan skills and techniques, Biona Organic Rye Pumpkin Seed Bread is a delicious alternative to regular bread. Freshly grinding the grains just before baking creates loaves packed with wholegrain goodness. And with pumpkin seeds known for their health benefits, you can enjoy a slice of this delicious bread guilt free.'),
        (11,DEFAULT,'Wraps Wheat',DEFAULT, 'Why choose between wheat and white wraps when you can have both with these wraps from Mission Deli? These extra soft wraps from Mission Deli can be used for all sorts of delicious snacks and are easy to use, hot or cold. Simply fill with your ingredients, roll and voila, a tasty way to combine your favourite flavours! Each pack contains 8 soft, fresh wraps for you to enjoy.'),
        (11,DEFAULT,'Crusty Rolls',DEFAULT, 'Smell the aroma of baking bread in your own kitchen, with Paul Hollywood is Ready To Bake Crusty Rolls. A white bread with added Rye flour, all you need to do with these par baked rolls is pop them in the oven. Have a soft or crusty finish, and enjoy a delicious warm bread roll with plenty of melted butter.'),
        (11,DEFAULT,'Sandwich Thins Brown',DEFAULT, 'Warburtons Brown Sandwich Thins offer a great alternative to regular bread. They can be topped, filled or toasted with whatever takes your fancy to make a satisfying and delicious meal. Wonderfully soft and with only 100 calories each, they make a tasty lunchtime alternative to sandwiches. Each pack contains 6 of these delicious thins. '),
        (11,DEFAULT,'White Danish Bread',DEFAULT, 'Bread is generally a no no when it comes to dieting. But thanks to Warburtons, now you can have your slice and eat it, with this white Danish Weight Watchers bread. As each slice contains only 50 calories, you can enjoy the taste of traditional Warburtons bread, without the side portion of guilt. Baked in a traditional pan, this bread has a lovely soft texture, perfect for sandwiches.'),
        (11,DEFAULT,'Genius Crumpets',DEFAULT, 'Wish your morning crumpets were gluten free? Well now they can be with Genius Crumpets. These delicious crumpets are free from all traces of gluten, so even coeliacs can enjoy them. Serve them toasted with plenty of butter, or even a scraping of Marmite if you fancy. They also taste great topped with cheese!'),
-<<<<<<< HEAD
 
-=======
->>>>>>> added more items and cathegoris
        (11,DEFAULT,'spaghetti',DEFAULT, 'An emblem of Italian cuisine, spaghetti is frequently served with tomato sauce, which may contain various herbs (especially oregano and basil), olive oil, meat, or vegetables. Other spaghetti preparations include amatriciana or carbonara. Grated hard cheeses, such as Pecorino Romano, Parmesan and Grana Padano, are often sprinkled on top.'),       
        (11,DEFAULT,'pizza',DEFAULT, 'Pizza is a savory dish of Italian origin, consisting of a usually round, flattened base of leavened wheat-based dough topped with tomatoes, cheese, and various other ingredients (anchovies, olives, meat, etc.) baked at a high temperature, traditionally in a wood-fired oven. In formal settings, like a restaurant, pizza is eaten with knife and fork, but in casual settings it is cut into wedges to be eaten while held in the hand. '),   
        (11,DEFAULT,'bread',DEFAULT, 'Bread is a staple food prepared from a dough of flour and water, usually by baking. Throughout recorded history it has been a prominent food in large parts of the world and is one of the oldest man-made foods, having been of significant importance since the dawn of agriculture.'),
        (11,DEFAULT,'ciabatta',DEFAULT,'Ciabatta is an Italian white bread made from wheat flour, water, olive oil, salt, and yeast, created in 1982 by a baker in Verona, Veneto, Italy, in response to the popularity of French baguettes. Ciabatta is somewhat elongated, broad, and flat, and is baked in many variations.'),   
 
-<<<<<<< HEAD
-=======
 
->>>>>>> added more items and cathegoris
        (12,DEFAULT,'Bath & Body Oil',DEFAULT, 'Do you need a bit of re-balancing in your life? This cheekily-named bath and body oil has been designed to de-stress and relax any woman, even after the most difficult of days! It is sure to become a new favourite, and will give you that moment of luxury and bliss you have been waiting for!'),
        (12,DEFAULT,'Hair & Body Wash',DEFAULT, 'Feel like a Rockstar in but a moment with this incredible Joe Bloggs Rock Star Hair & Body Wash 200ml, a potent and luxuriant 2-in-1 for men. This deeply cleansing and nourishing hair and body gel cleanses and softens skin whilst enveloping you in a head to toe sensory experience, complete with scent notes of citrus, spices and wood accords.'),
        (12,DEFAULT,'Bubble Bath',DEFAULT, 'If you or your little ones love the world of Skylander, then this bubble bath will really hit the high notes! Enjoy thick, foamy bubbles, and make every bathtime a real adventure. You are sure to love it and return to it over and over again.'),
        (12,DEFAULT,'Refreshing Leg Gel',DEFAULT, 'With the onset of age comes many unexpected surprises, including the feeling of heaviness and fatigue in our legs, which can be easily combatted with Decleors Aroma Dynamic Circulagel Refreshing Leg Toning Gel 150ml. This incredible gel boosts the skin surfaces micro-circulation, soothes and energises skin, and leaves legs refreshed and ready to take on the day.'),
        (12,DEFAULT,'Lavender Cologne Stick',DEFAULT, 'Yardley English Lavender Cologne Stick 20ml. For her, from the English Lavender collection'),
        (12,DEFAULT,'Insect Repellent Wipe',DEFAULT, 'Before spending time outdoors, be sure to use MosquitNo Insect Repellent Wipe to help keep nasty bugs at bay. Made with nourishing aloe vera and saltidin, which repels mosquitos and ticks, this wipe can be used multiple times on any area of the body. Provides up to 5 hours of protection on areas of the body likely to be targeted by pests.'),
-<<<<<<< HEAD
 
-=======
-       
->>>>>>> added more items and cathegoris
        (13,DEFAULT,'Dazzling Eye Drops',DEFAULT, 'Perk up tired eyes with Optrex Eyedew Dazzling Eye Drops. The perfect weapon against long nights, makeup and tired eyes, this small tube is easy to carry around for a convenient solution for sore eyes, anytime you need it.'),
        (13,DEFAULT,'Daktarin Aktiv Cream',DEFAULT, 'Daktarin Dual Action Cream is an extremely effective lotion that fights athlete’s foot. Even though it’s prescription strength, you can still buy this over the counter! Keep applying the cream and your condition will get better before you even know it!'),
        (13,DEFAULT,'Piriteze One A Day',DEFAULT, 'For those with allergies, try Piriteze One A Day tablets, which relieves symptoms such as hay fever, mite bites or rashes and itching. This antihistamine is suitable for adults and children over 12 years. So do not suffer dry itchy skin or rashes from bites when you can find relief in this one small tablet.'),
@@ -348,7 +326,7 @@ VALUES (1,DEFAULT,'wurstel',DEFAULT,'This fun and easy dinner or lunch recipe wi
 
 
 
-<<<<<<< HEAD
+
  
 INSERT INTO GEODB.COMPOSE(LIST,ITEM,QUANTITY,TAKE)
 VALUES (1,1,2,false),
@@ -379,38 +357,6 @@ VALUES (1,1,2,false),
        (8,2,2,false),
        (8,4,2,false),
        (8,5,2,false);
-=======
-INSERT INTO GEODB.COMPOSE(LIST,ITEM,QUANTITY)
-VALUES (1,1,2),
-       (1,2,3),
-       (1,3,1),
-       (1,4,1),
-       (1,5,1),
-       (1,6,1),
-       (1,7,1),
-       (2,2,1),
-       (2,5,1),
-       (3,10,1),
-       (3,11,1),
-       (3,2,1),
-       (3,1,1),
-       (4,2,1),
-       (4,1,3),
-       (4,3,3),
-       (4,4,3),
-       (5,6,3),
-       (5,1,3),
-       (5,2,3),
-       (5,5,2),
-       (6,3,2),
-       (6,6,2),
-       (7,6,2),
-       (7,1,2),
-       (8,2,2),
-       (8,4,2),
-       (8,5,2);
->>>>>>> added more items and cathegoris
-
 
 INSERT INTO GEODB.ACCESS(IDUSER, IDLIST)
 VALUES(1,1),
