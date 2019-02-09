@@ -38,16 +38,16 @@ INSERT INTO GEODB.USERSANONIMOUS(ID, COOKIE)
 VALUES (DEFAULT, 'cookiediprova');
 
 INSERT INTO GEODB.LIST(ID,USEROWNER, USERANONOWNER, IDCAT, "NAME",DESCRIPTION, IMAGE)
-VALUES  (1, 1, null, 1,  'BIRTHDAY', 'I just wanted to get the goods for the party, not too much sugar for us',NULL),
-        (2, 1, null, 1,  'FRIDAY NIGHT', 'As a family, we do celebrate friday-myDAY, in which we like to eat healthy ',NULL),
-        (3, 2, null, 2, 'GRANDMA', 'Minimalistic for grandma, but still going to reject it due to fat circumstances ',NULL),
-        (4, 3, null, 3, 'CHEESE', 'Cheesy meal for us, we do like animals but the juicy milk is what we need',NULL),
-        (5, 4, null, 4, 'PICNIC', 'A bunch of sandwiches with unexplored sauce in it',NULL),
-        (6, 5, null, 4, 'COLLEGE', 'Providing a good value for money, not really great but who am I to complain? ',NULL),
-        (7, 6, null, 2, 'WEEKEND', 'We do like to experiment with expensive and rare meal, therefore we prefer to save up for weekends',NULL),
-        (8, 7, null, 1, 'FATTY', 'There is that time of the year where you just need to appreciate what you have and celebrate, by eating unpriviledged fat food',NULL),
-        (9, 7, null, 4, 'FRIEND', 'A bunch of cheesy drinks and some snacks. Easy peasy lemon squeezy. Also some beer',NULL),
-        (10, null, 1, 3, 'LISTA DI PROVA ANONIMA', 'Gotta stay fit to fit in outfit',NULL);
+VALUES  (DEFAULT, 1, null, 1,  'BIRTHDAY', 'I just wanted to get the goods for the party, not too much sugar for us',NULL),
+        (DEFAULT, 1, null, 1,  'FRIDAY NIGHT', 'As a family, we do celebrate friday-myDAY, in which we like to eat healthy ',NULL),
+        (DEFAULT, 2, null, 2, 'GRANDMA', 'Minimalistic for grandma, but still going to reject it due to fat circumstances ',NULL),
+        (DEFAULT, 3, null, 3, 'CHEESE', 'Cheesy meal for us, we do like animals but the juicy milk is what we need',NULL),
+        (DEFAULT, 4, null, 4, 'PICNIC', 'A bunch of sandwiches with unexplored sauce in it',NULL),
+        (DEFAULT, 5, null, 4, 'COLLEGE', 'Providing a good value for money, not really great but who am I to complain? ',NULL),
+        (DEFAULT, 6, null, 2, 'WEEKEND', 'We do like to experiment with expensive and rare meal, therefore we prefer to save up for weekends',NULL),
+        (DEFAULT, 7, null, 1, 'FATTY', 'There is that time of the year where you just need to appreciate what you have and celebrate, by eating unpriviledged fat food',NULL),
+        (DEFAULT, 7, null, 4, 'FRIEND', 'A bunch of cheesy drinks and some snacks. Easy peasy lemon squeezy. Also some beer',NULL),
+        (DEFAULT, null, 1, 3, 'LISTA DI PROVA ANONIMA', 'Gotta stay fit to fit in outfit',NULL);
     
 
 INSERT INTO GEODB.ISFRIEND(USR1,USR2)
