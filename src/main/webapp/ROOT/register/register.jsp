@@ -70,8 +70,8 @@
                 </div>
 
                 <div class="form-group ">
-                    <label for="avatar">choose an image for your avatar</label>
-                    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/jpg">
+                    <label for="File">choose an image for your avatar</label>
+                    <input type="file" id="File" name="File" accept="image/png, image/jpeg, image/jpg">
                 </div>
 
                 <div class="form-group">
