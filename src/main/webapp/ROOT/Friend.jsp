@@ -16,7 +16,7 @@
         Scrivi l'username della persona di cui vuoi diventare amico
         <c:if test="${error}">
             <div>
-                <font color="red">username non esistente<font>
+                <font color="red">username inesistente<font>
             </div> 
         </c:if>
         
@@ -34,9 +34,10 @@
         FRIENDS
         <div >
             <c:forEach var="friend" items="${friends}">
-                <a href="<c:url value="/ViewAccount">
-                       <c:param name="userId" value="${friend.getId()}"/>
-                   </c:url>">
+                <a href="<c:url value="/friend/profile">
+                       <c:param name="friendId" value="${friend.getId()}"/>
+                       <c:param name="action" value="viewFriend"/>
+                    </c:url>">
                     <c:out value="${friend.getUsername()}"/>
                 </a>
                 <form method="POST" action="<c:url value="/friend">
@@ -48,14 +49,10 @@
             </c:forEach>
         </div> 
         
-        REQUEST FRIENDS (RECEIVED)
+        REQUEST FRIENDS 
         <div >
             <c:forEach var="friend" items="${requestFriends}">
-                <a href="<c:url value="/ViewAccount">
-                       <c:param name="userId" value="${friend.getId()}"/>
-                   </c:url>">
-                    <c:out value="${friend.getUsername()}"/>
-                </a>
+                ${friend.getUsername()}
                 <form method="POST" action="<c:url value="/friend">
                           <c:param name="friendId" value="${friend.getId()}"/>
                           <c:param name="action" value="accept"/>
@@ -71,7 +68,6 @@
             </c:forEach>
         </div> 
         
-        RE
         
     </body>
 </html>

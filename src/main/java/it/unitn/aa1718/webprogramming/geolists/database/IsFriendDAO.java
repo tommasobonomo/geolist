@@ -26,7 +26,7 @@ public class IsFriendDAO{
     /**
      * get user who have isFriend to that list
      * ricordo due utenti sono amici se esistono due righe con (id1,id2) e (id2,id1)
-     * @param listID
+     * @param userID
      * @return list of user
      */
     public List<User> getFriends(long userID) {
@@ -52,6 +52,26 @@ public class IsFriendDAO{
         }
         
         return list;
+    }
+    
+    /**
+     * 
+     * @param userId
+     * @param possibleFriendId
+     * @return true if they are friend, false else
+     */
+    public boolean isFriend(long userId, long possibleFriendId) {
+        IsFriendDAO isFriendDAO = new IsFriendDAO();
+        List<User> friends = isFriendDAO.getFriends(userId);
+        
+        //controllo siano realmente amici
+        boolean isReallyFriends=false;
+        for(User f : friends){
+            if(f.getId()==possibleFriendId)
+                isReallyFriends=true;
+        }
+        
+        return isReallyFriends;
     }
     
     /**
