@@ -5,6 +5,7 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemPermissionDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
@@ -139,8 +140,13 @@ public class SearchItem extends HttpServlet {
         } else {
             response.sendRedirect("/");
         }
+        
+        
+        //genero la mappa che al suo interno ha gli id delle categorie e il nome della categoria relativo
+        Map<Long, String> mapIdCat = new CatProductListDAO().getAllNamesOfCat();
 
         //inserisco gli elementi nella sessione
+        session.setAttribute("mapIdCat", mapIdCat);
         session.setAttribute("items", items);
         session.setAttribute("wordSearched", wordSearched);
         session.setAttribute("categorySearched", categorySearched);

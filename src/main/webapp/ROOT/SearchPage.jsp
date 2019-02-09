@@ -17,12 +17,12 @@
         <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             <div class="container-fluid">
-                
+
                 <!--logo e titolo del sito-->
                 <a class="navbar-brand" href="/">
                     <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"/>" height="40" width="120" alt="logo">
                 </a>
-                
+
                 <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
                 la dimensione specificata nel target-->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
@@ -45,7 +45,7 @@
 
                 <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
                 <div class="collapse navbar-collapse" id="collapse-target">
-                    
+
                     <!--lista degli elementi cliccabili-->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
@@ -62,24 +62,24 @@
                 </div>
             </div>
         </nav>
-                
-                        <!--vero body della pagina-->
+
+        <!--vero body della pagina-->
         <div class="container padding-top padding-bottom">
             <div class="row">
 
                 <!--menu laterale-->
                 <div class="col-md-3 padding-top menu">
-                    <p class="display-4 padding-top menu-title">Categories</p>
+                    <p class="display-4 padding-top menu-title">Order by</p>
                     <hr>
                     <a href="<c:url value="/form-action/search">
                            <c:param name="orderBy" value="alfabetico"></c:param>
-                        </c:url>" 
-                        class="menu-link"><p class="menu-link">Order by name</p>
+                       </c:url>" 
+                       class="menu-link"><p class="menu-link">Order by name</p>
                     </a>
                     <a href="<c:url value="/form-action/search">
                            <c:param name="orderBy" value="categoria"></c:param>
-                        </c:url>" 
-                        class="menu-link"><p class="menu-link">Order by category</p>
+                       </c:url>" 
+                       class="menu-link"><p class="menu-link">Order by category</p>
                     </a>
                     <hr>
                 </div>
@@ -99,54 +99,54 @@
                         <div class="row">
 
                             <c:forEach var="item" items="${items}">
-                            <!--carta-->
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
-                                <div class="card">
-                                    <img class="card-img-top border-bottom" src="<c:url value="/ItemServlet">
-                                           <c:param value="${item.getId()}" name="itemID"/>
-                                           <c:param value="retrieveImage" name="action"/>
-                                           </c:url>">
-                                    <%--<img class="card-img-top" src="<c:url value="/ROOT/logos/durango.png"></c:url>">--%>
-                                    <div class="card-body">
-                                        <h4 class="card-title font-12">${item.getName()}</h4>
-                                        <p id="p-card-body-search" class="card-text font-10">${item.getNote()}</p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <a href="<c:url value="/ItemServlet">
-                                           <c:param value="${item.getId()}" name="itemID"/>
-                                           <c:param value="viewItem" name="action"/>
-                                           </c:url>
-                                           " class="btn btn-md btn-danger fluid m-2" >see</a><br>
-                                    
-                                        <div class="btn-group fluid ml-2" role="group">
-                                            <button id="btnGroupDrop1" type="button" class="btn btn-md btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Add to list
-                                            </button>
-                                            <div class="dropdown-menu mr-sm-2" aria-labelledby="btnGroupDrop1">
-                                                <c>
-                                                    
-                                                        <c:forEach var="idlist" items="${mapListAddPermissionByItem.get(item.getId())}">
-                                                            <a class="dropdown-item" 
-                                                               href="../List?listID=${listOfUser.get(idlist).getId()}&itemID=${item.getId()}&action=addItem">
-                                                                ${listOfUser.get(idlist).getName()}</a>
+                                <!--carta-->
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                    <div class="card">
+                                        <div id="card-trash-solo"><span class="badge badge-pill badge-info my-2">${mapIdCat.get(item.getIdCat())}</span></div>
+                                        <img class="card-img-top border-bottom" src="<c:url value="/ItemServlet">
+                                                 <c:param value="${item.getId()}" name="itemID"/>
+                                                 <c:param value="retrieveImage" name="action"/>
+                                             </c:url>">
+                                        <%--<img class="card-img-top" src="<c:url value="/ROOT/logos/durango.png"></c:url>">--%>
+                                        <div class="card-body">
+                                            <h4 class="card-title font-12">${item.getName()}</h4>
+                                            <p id="p-card-body-search" class="card-text font-10">${item.getNote()}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a href="<c:url value="/ItemServlet">
+                                                   <c:param value="${item.getId()}" name="itemID"/>
+                                                   <c:param value="viewItem" name="action"/>
+                                               </c:url>
+                                               " class="btn btn-md btn-danger fluid m-2" >see</a><br>
+
+                                            <div class="btn-group fluid ml-2" role="group">
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-md btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Add to list
+                                                </button>
+                                                <div class="dropdown-menu mr-sm-2" aria-labelledby="btnGroupDrop1">
+
+                                                    <c:forEach var="idlist" items="${mapListAddPermissionByItem.get(item.getId())}">
+                                                        <a class="dropdown-item" 
+                                                           href="../List?listID=${listOfUser.get(idlist).getId()}&itemID=${item.getId()}&action=addItem">
+                                                            ${listOfUser.get(idlist).getName()}</a>
                                                         </c:forEach>
-                                                        
-                                                   
+
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </c:forEach>
 
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
-                
-                
+
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
