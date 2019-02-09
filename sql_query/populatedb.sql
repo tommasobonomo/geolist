@@ -52,13 +52,16 @@ VALUES  (DEFAULT, 1, null, 1,  'BIRTHDAY', 'I just wanted to get the goods for t
 
 INSERT INTO GEODB.ISFRIEND(USR1,USR2)
 VALUES  (1,2),
+        (2,1),
         (2,3),
         (1,3),
         (3,4),
         (4,5),
         (4,6),
+        (6,4),
         (6,7),
         (8,1),
+        (1,8),
         (2,6),
         (4,2);
 

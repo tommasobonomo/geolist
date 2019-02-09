@@ -25,12 +25,14 @@ public class IsFriendDAO{
     
     /**
      * get user who have isFriend to that list
+     * ricordo due utenti sono amici se esistono due righe con (id1,id2) e (id2,id1)
      * @param listID
      * @return list of user
      */
     public List<User> getFriends(long userID) {
-        String query1 = "SELECT usr2 FROM IsFriend AS F WHERE F.usr1 = " + userID;
-        String query2 = "SELECT usr1 FROM IsFriend AS F WHERE F.usr2 = " + userID;
+        String query1 = " (SELECT usr2 as id FROM IsFriend AS F WHERE F.usr1 =" + userID +")"
+                + " INTERSECT "
+                + " (SELECT usr1 as id FROM IsFriend AS F WHERE F.usr2 =" + userID +")";
         
         List<User> list = new ArrayList<>();
         UserDAO a = new UserDAO();
@@ -41,13 +43,39 @@ public class IsFriendDAO{
             ResultSet rs = s.executeQuery(query1); //usr2
             
             while (rs.next()) {
-                list.add(a.get(rs.getLong("usr2")).get());
+                list.add(a.get(rs.getLong("id")).get());
             }
             
-            rs = s.executeQuery(query2); //usr1
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return list;
+    }
+    
+    /**
+     * get friend request pending
+     * @param listID
+     * @return list of user
+     */
+    public List<User> getRequestFriends(long userID) {
+        String query1 = "(SELECT usr1 as id FROM IsFriend AS F WHERE F.usr2 = "+userID  +")"
+                + " EXCEPT "
+                + " (SELECT usr2 as id FROM IsFriend AS F WHERE F.usr1 = "+userID
+                + " INTERSECT "
+                + " SELECT usr1 as id FROM IsFriend AS F WHERE F.usr2 = "+userID +")";
+        
+        List<User> list = new ArrayList<>();
+        UserDAO a = new UserDAO();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query1); //usr2
             
             while (rs.next()) {
-                list.add(a.get(rs.getLong("usr1")).get());
+                list.add(a.get(rs.getLong("id")).get());
             }
             
             c.commit();

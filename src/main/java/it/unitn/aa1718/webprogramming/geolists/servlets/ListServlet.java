@@ -59,8 +59,7 @@ public class ListServlet extends HttpServlet {
         if ( userID.isPresent() && !( new AccessDAO() ).canHaveAccess(userID.get(), listID)) {
             try {
                     response.setContentType("text/html;charset=UTF-8");
-                    request.setAttribute("error", "YOU DON'T HAVE ACCESS");
-                    getServletContext().getRequestDispatcher("/ROOT/ErrorView.jsp").forward(request, response);
+                    response.sendRedirect("/error?error="+"YOU DON'T HAVE ACCESS");
             } catch (Exception ex) {
                     ex.printStackTrace();
             }
