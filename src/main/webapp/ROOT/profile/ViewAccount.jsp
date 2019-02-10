@@ -71,6 +71,7 @@
                     <hr>
                     <a href="#" class="menu-link-active"><p class="menu-link-active">General Info</p></a>
                     <a href="/ModifyServlet" class="menu-link"><p class="menu-link" >Edit profile</p></a> 
+                    <a href="/ManageFriends" class="menu-link"><p class="menu-link" >Friends</p></a>
                     <c:if test="${user.isAdmin()}"><a href="admin-profile.html" class="menu-link"><p class="menu-link">Administration area</p></a></c:if>
                     <a href="/signOut" class="menu-link"><p class="menu-link">Log out</p></a> 
                     <hr>

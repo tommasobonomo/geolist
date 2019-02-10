@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author root
  */
-@WebServlet(name = "FriendServlet", urlPatterns = {"/friend"})
+@WebServlet(name = "FriendServlet", urlPatterns = {"/ManageFriends"})
 public class FriendServlet extends HttpServlet {
 
     
@@ -105,9 +105,10 @@ public class FriendServlet extends HttpServlet {
             //inserisco gli elementi nella sessione
             HttpSession session = request.getSession();
             session.setAttribute("error", false);
+            request.setAttribute("isAdmin", user.isAdmin());
             session.setAttribute("friends", friends);
             session.setAttribute("requestFriends", requestFriends);
-            request.getRequestDispatcher("/ROOT/Friend.jsp").forward(request, response);
+            request.getRequestDispatcher("/ROOT/profile/ViewFriends.jsp").forward(request, response);
         } else {
             response.setContentType("text/html;charset=UTF-8");
             response.sendRedirect("/error?error="+"YOU DON'T HAVE ACCESS");
@@ -136,7 +137,8 @@ public class FriendServlet extends HttpServlet {
         } else {
             //username inesistente o lo stesso mio
             request.setAttribute("error", true);
-            request.getRequestDispatcher("/ROOT/Friend.jsp").forward(request, response);
+            request.setAttribute("isAdmin", new UserUtil().getUserOptional(request).get().isAdmin());
+            request.getRequestDispatcher("/ROOT/profile/ViewFriends.jsp").forward(request, response);
         }
     }
 

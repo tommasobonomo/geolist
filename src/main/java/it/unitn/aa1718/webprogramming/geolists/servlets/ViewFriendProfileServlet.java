@@ -5,17 +5,12 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
-import it.unitn.aa1718.webprogramming.geolists.database.CatItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.IsFriendDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
-import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -115,7 +110,7 @@ public class ViewFriendProfileServlet extends HttpServlet {
 
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("friend", friend);
-            request.getRequestDispatcher("/ROOT/FriendProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("/ROOT/profile/FriendProfile.jsp").forward(request, response);
         }else{
             String error= "you don't have access";
             response.setContentType("text/html;charset=UTF-8");

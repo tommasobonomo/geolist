@@ -72,6 +72,7 @@
                     <hr>
                     <a href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>" class="menu-link"><p class="menu-link">General Info</p></a>
                     <a href="#" class="menu-link-active"><p class="menu-link-active" >Edit profile</p></a> 
+                    <a href="/ManageFriends" class="menu-link"><p class="menu-link" >Friends</p></a>
                     <c:if test="${isAdmin}"><a href="admin-profile.html" class="menu-link"><p class="menu-link">Administration area</p></a></c:if>
                     <a href="/signOut" class="menu-link"><p class="menu-link">Log out</p></a> 
                     <hr>
