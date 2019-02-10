@@ -39,7 +39,7 @@
                                 <option value="${category.getIdCatItem()}">${category.getName()}</option>
                             </c:forEach>
                         </select>
-                        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
+                        <button name="page" value="1" class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
 
@@ -56,32 +56,64 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
-                        </li>
-                    </ul>
+                                </li>
+                            </ul>
 
-                </div>
-            </div>
-        </nav>
+                        </div>
+                    </div>
+                </nav>
 
-        <!--vero body della pagina-->
-        <div class="container padding-top padding-bottom">
-            <div class="row">
+                <!--vero body della pagina-->
+                <div class="container padding-top padding-bottom">
+                    <div class="row">
 
-                <!--menu laterale-->
-                <div class="col-md-3 padding-top menu">
-                    <p class="display-4 padding-top menu-title">Order by</p>
-                    <hr>
-                    <a href="<c:url value="/form-action/search">
+                        <!--menu laterale-->
+                        <div class="col-md-3 padding-top menu">
+                            <p class="display-4 padding-top menu-title">Order by</p>
+                            <hr>
+                            <a href="<c:url value="/form-action/search">
                            <c:param name="orderBy" value="alfabetico"></c:param>
+                           <c:param name="page" value="1"></c:param>
                        </c:url>" 
                        class="menu-link"><p class="menu-link">Order by name</p>
                     </a>
                     <a href="<c:url value="/form-action/search">
                            <c:param name="orderBy" value="categoria"></c:param>
+                           <c:param name="page" value="1"></c:param>
                        </c:url>" 
                        class="menu-link"><p class="menu-link">Order by category</p>
                     </a>
                     <hr>
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+
+                            <c:choose>
+                            <c:when test="${page == 1}">
+                                <li class="page-item disabled">
+                                </c:when>
+                                <c:otherwise>
+                                <li class="page-item">
+                                </c:otherwise>
+                            </c:choose>
+                                <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=1&orderBy=${orderBy}" tabindex="-1">&laquo;</a>
+                            </li>
+                            <c:if test="${page != 1}">
+                                <li class="page-item">
+                                    <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${Integer.parseInt(page)-1}&orderBy=${orderBy}">
+                                        ${Integer.parseInt(page)-1}</a>
+                                </li>
+                            </c:if>
+                            <li class="page-item active"><span class="page-link">${page}</span></li>
+                            <li class="page-item">
+                                <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${Integer.parseInt(page)+1}&orderBy=${orderBy}">
+                                    ${Integer.parseInt(page)+1}</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
                 <div class="col-md-1"></div>
 
@@ -140,6 +172,8 @@
                             </c:forEach>
 
                         </div>
+
+
                     </div>
 
                 </div>
