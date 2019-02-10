@@ -7,10 +7,10 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.CatItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
@@ -125,7 +125,7 @@ public class LandingServlet extends HttpServlet {
                 itemsOfList.put(listID, items);
             }
             
-            username = user.getName() + " " + user.getLastname() + " " + user.getUsername();
+            username = user.getUsername();
             
         } else if (alreadyLogged) { // Utente anonimo
             ProductListDAO plistDAO = new ProductListDAO();
@@ -169,9 +169,7 @@ public class LandingServlet extends HttpServlet {
             itemsOfList = new HashMap<>();
             username = "ANONYMOUS";
         }
-        
-        
-            
+   
             
         
             
