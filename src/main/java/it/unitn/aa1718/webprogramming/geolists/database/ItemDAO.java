@@ -80,6 +80,27 @@ public class ItemDAO implements CrudDao<Item>{
         return list;
     }
     
+    public int getNResultsFromPattern(String pattern) {
+        String query = "SELECT count(I.name) FROM Item AS I WHERE I.name LIKE '%"+pattern+"%'";
+        int n = 0;
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while (rs.next()) {
+                n = rs.getInt(1);
+            }
+            
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return n;
+    }
+    
     public List<Item> getFromPatternOrderedByAlfabetico(String pattern, int start, int total) {
         String query = "SELECT * FROM Item AS I WHERE I.name LIKE '%"+pattern+"%' order by name OFFSET "+start+" ROWS FETCH NEXT "+total+" ROWS ONLY";
         List list = new ArrayList<>();
@@ -144,6 +165,29 @@ public class ItemDAO implements CrudDao<Item>{
         }
         
         return list;
+    }
+    
+    public int getNResultsFromPatternAndCategory(String pattern, Integer category) {
+        String query = "SELECT count(I.name) "
+                + "FROM Item AS I "
+                + "WHERE I.idcat = ? AND I.name LIKE '%"+pattern+"%'";
+        int n=0;
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps =c.prepareStatement(query);
+            ps.setInt(1,category);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                n = rs.getInt(1);
+            }
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return n;
     }
     
     public List<Item> getFromPatternAndCategoryOrderedByAlfabetico(String pattern, Integer category, int start, int total) {

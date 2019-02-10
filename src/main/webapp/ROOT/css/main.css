@@ -287,7 +287,7 @@ head, body {
     object-fit:scale-down;
 }
 .card-body{
-    height: 125px;
+    height: 115px;
 }
 .card-body #p-card-body-search{
     overflow:hidden;
@@ -299,6 +299,20 @@ head, body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/*paginazione*/
+.page-item.active .page-link {
+    color: #fff;
+    background-color: #DC143C;
+    border-color: #DC143C;
+    text-decoration: none;
+}
+.page-item .page-link {
+    color: #DC143C;
+}
+.page-item.active{
+    text-decoration: none;
 }
 
 

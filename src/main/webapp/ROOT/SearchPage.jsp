@@ -88,30 +88,25 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-center">
 
-                            <c:choose>
-                            <c:when test="${page == 1}">
-                                <li class="page-item disabled">
-                                </c:when>
-                                <c:otherwise>
-                                <li class="page-item">
-                                </c:otherwise>
-                            </c:choose>
-                                <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=1&orderBy=${orderBy}" tabindex="-1">&laquo;</a>
-                            </li>
                             <c:if test="${page != 1}">
+                                <li class="page-item">
+                                    <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=1&orderBy=${orderBy}" tabindex="-1">&laquo;</a>
+                                </li>
                                 <li class="page-item">
                                     <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${Integer.parseInt(page)-1}&orderBy=${orderBy}">
                                         ${Integer.parseInt(page)-1}</a>
                                 </li>
                             </c:if>
                             <li class="page-item active"><span class="page-link">${page}</span></li>
-                            <li class="page-item">
-                                <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${Integer.parseInt(page)+1}&orderBy=${orderBy}">
-                                    ${Integer.parseInt(page)+1}</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">&raquo;</a>
-                            </li>
+                            <c:if test="${page != pageTot}">
+                                <li class="page-item">
+                                    <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${Integer.parseInt(page)+1}&orderBy=${orderBy}">
+                                        ${Integer.parseInt(page)+1}</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${pageTot}&orderBy=${orderBy}">&raquo;</a>
+                                </li>
+                            </c:if>
                         </ul>
                     </nav>
                 </div>

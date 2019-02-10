@@ -42,6 +42,7 @@ public class SearchItem extends HttpServlet {
         Integer categorySearched = null;
         ItemDAO itemDAO = new ItemDAO();
         List<Item> items = null;
+        int nResults = 0, pageTot;
         String orderBy = (String) request.getParameter("orderBy");
         if(orderBy == null){orderBy = "noOrder";}
         int start = Integer.parseInt(request.getParameter("page"));
@@ -59,8 +60,10 @@ public class SearchItem extends HttpServlet {
             //faccio ricerca normale
             if (categorySearched == 0) {
                 items = itemDAO.getFromPattern(wordSearched, start, total);
+                nResults = itemDAO.getNResultsFromPattern(wordSearched);
             } else {
                 items = itemDAO.getFromPatternAndCategory(wordSearched, categorySearched, start, total);
+                nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched);
             }
         } else {
             wordSearched = (String) session.getAttribute("wordSearched");
@@ -69,18 +72,26 @@ public class SearchItem extends HttpServlet {
             if ("alfabetico".equals(orderBy)) {
                 if (categorySearched == 0) {
                     items = itemDAO.getFromPatternOrderedByAlfabetico(wordSearched, start, total);
+                    nResults = itemDAO.getNResultsFromPattern(wordSearched);
                 } else {
                     items = itemDAO.getFromPatternAndCategoryOrderedByAlfabetico(wordSearched, categorySearched, start, total);
+                    nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched);
                 }
             }
             if ("categoria".equals(orderBy)) {
                 if (categorySearched == 0) {
                     items = itemDAO.getFromPatternOrderedByCategory(wordSearched, start, total);
+                    nResults = itemDAO.getNResultsFromPattern(wordSearched);
                 } else {
                     items = itemDAO.getFromPatternAndCategory(wordSearched, categorySearched, start, total);
+                    nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched);
                 }
             }
         }
+        
+        //conto le pagine di item totali
+        pageTot = nResults/12;
+        if(nResults%12!=0){pageTot++;}
 
 
         //COSE DI GIORGIO
@@ -145,6 +156,7 @@ public class SearchItem extends HttpServlet {
 
         //inserisco gli elementi nella sessione
         request.setAttribute("page", request.getParameter("page"));
+        request.setAttribute("pageTot", pageTot);
         request.setAttribute("orderBy", orderBy);
         session.setAttribute("mapIdCat", mapIdCat);
         session.setAttribute("items", items);
