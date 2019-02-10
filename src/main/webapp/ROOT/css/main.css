@@ -279,15 +279,15 @@ head, body {
     float: none;
     margin: 0 auto;
 }
-#card-trash button, #card-trash-solo button{
+#card-trash button, #card-trash-solo button, #card-trash-solo span{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .card-img-top{
-    height: 250px;
+    height: 220px;
     object-fit:scale-down;
 }
 .card-body{
-    height: 125px;
+    height: 115px;
 }
 .card-body #p-card-body-search{
     overflow:hidden;
@@ -299,6 +299,20 @@ head, body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/*paginazione*/
+.page-item.active .page-link {
+    color: #fff;
+    background-color: #DC143C;
+    border-color: #DC143C;
+    text-decoration: none;
+}
+.page-item .page-link {
+    color: #DC143C;
+}
+.page-item.active{
+    text-decoration: none;
 }
 
 
