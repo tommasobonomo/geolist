@@ -44,12 +44,16 @@ public class SearchItem extends HttpServlet {
         List<Item> items = null;
         int nResults = 0, pageTot;
         String orderBy = (String) request.getParameter("orderBy");
-        if(orderBy == null){orderBy = "noOrder";}
+        if (orderBy == null) {
+            orderBy = "noOrder";
+        }
+
+        //calcolo page e offset
         int start = Integer.parseInt(request.getParameter("page"));
         int total = 12;
-        if(start!=1){
-            start = start-1;
-            start = start*total +1; 
+        start = start - 1;
+        if (start != 0) {
+            start = start * total + 1;
         }
 
         //recupero da dove di dovere
@@ -88,11 +92,12 @@ public class SearchItem extends HttpServlet {
                 }
             }
         }
-        
-        //conto le pagine di item totali
-        pageTot = nResults/12;
-        if(nResults%12!=0){pageTot++;}
 
+        //conto le pagine di item totali
+        pageTot = nResults / 12;
+        if (nResults % 12 != 0) {
+            pageTot++;
+        }
 
         //COSE DI GIORGIO
         UserUtil u = new UserUtil();
