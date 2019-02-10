@@ -44,7 +44,7 @@ const geoSuccess = position => {
                 'categories': JSON.stringify(categories)
             },
             success: result => {
-                console.log(result);
+                displayResult(result);
             }
         })
     }
@@ -60,6 +60,34 @@ const geoOptions = {
   timeout           : 27000
 };
  
+const displayResult = result => {
+    let j = 0;
+    for (category in result) {
+        let shops = result[category];
+        if (shops !== undefined && shops !== null && shops.length > 0) {
+            console.log(shops)
+            $(".georesults").append(
+                        `<div class="catTitle${j}">${shops[0].catName}</div>`
+            );
+            for (let i = 0; i < shops.length; i++) {
+                let shop = shops[i];
+                $(`.catTitle${j}`).append(
+                    `<p>
+                        ${shop.title}, ${shop.vicinity}, Location: ${shop.location},
+                        Distance: ${shop.distance}. 
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${shop.location}" target="_blank">
+                            Directions
+                        </a>
+                    </p>`
+                )
+            }
+        }
+        j++;
+    }
+    
+    
+}
+
 $(window).load(() => {
         if ("geolocation" in navigator) {
             navigator.geolocation.watchPosition(geoSuccess, geoError, geoOptions)

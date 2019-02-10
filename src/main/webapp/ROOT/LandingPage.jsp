@@ -26,8 +26,8 @@
         <!-- GEOLOCATION STUFF -->
         <h1 id="geoerror" style="display: none">Location not available!</h1>
         <p id="listcategories" style="display: none"><c:forEach var="list" items="${listOfPL}">${list.getIdCat()},</c:forEach></p>
-        <p id="logged">${logged}</p>
-        
+        <p id="logged" style="display:none">${logged}</p>
+        <div class="georesults"></div>
         
         <img src="<c:url value="/images/banana.png"/>" width="100"/>
         

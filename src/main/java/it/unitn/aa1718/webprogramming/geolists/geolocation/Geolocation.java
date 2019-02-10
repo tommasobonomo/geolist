@@ -10,6 +10,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,16 +62,18 @@ public class Geolocation extends HttpServlet {
         
         JSONArray results = responseJson.getBody().getObject().getJSONObject("results").getJSONArray("items");
         
-        List<Place> places = new ArrayList<>();
-        for (int i = 1; i < results.length() - 1; i++) {
-            JSONObject tmp = results.getJSONObject(i);
-            if (tmp.getDouble("distance") < MAX_DISTANCE) {
-                places.add(new Place(tmp));   
-            }
-        }
+        // Get category name from hereCode
+        CatProductListDAO catPLDAO = new CatProductListDAO();
+        Optional<String> hereCodeName = catPLDAO.getNameFromHereCode(category);
         
-        for (Place place : places) {
-            System.out.println(place.toString());
+        List<Place> places = new ArrayList<>();
+        if (hereCodeName.isPresent()) {
+            for (int i = 1; i < results.length() - 1; i++) {
+                JSONObject tmp = results.getJSONObject(i);
+                if (tmp.getDouble("distance") < MAX_DISTANCE) {
+                    places.add(new Place(tmp, hereCodeName.get()));   
+                }
+            }
         }
         
         return places;
@@ -107,7 +110,7 @@ public class Geolocation extends HttpServlet {
             catIDs.add(Long.parseLong(categories.getString(i)));
         }
 
-        // Categories Names
+        // Categories hereCode
         CatProductListDAO catListDAO = new CatProductListDAO();
         List<String> catNames = new ArrayList<>();
         for (long id : catIDs) {
@@ -120,7 +123,8 @@ public class Geolocation extends HttpServlet {
         // Requests
         Map<String, List<Place>> allPlaces = new HashMap<>();
         for (String category : catNames) {
-            allPlaces.put(category, getCategoryPlaces(location, category));
+            List<Place> categoryPlaces = getCategoryPlaces(location, category);
+            allPlaces.put(category, categoryPlaces);
         }
         
         String json = new JSONObject(allPlaces).toString();

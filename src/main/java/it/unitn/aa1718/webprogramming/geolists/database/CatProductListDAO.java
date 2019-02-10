@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * DAO pattern for the CatList relation
@@ -120,6 +122,28 @@ public class CatProductListDAO implements CrudDao<CatList> {
         }
         
         return byteArrayOpt;
+    }
+    
+    public Optional<String> getNameFromHereCode(String herecode) {
+        String query = "SELECT DISTINCT \"NAME\" FROM CLIST WHERE HERECODE = ?";
+        Optional<String> res = Optional.empty();
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            ps.setString(1, herecode);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                res = Optional.of(rs.getString("NAME"));
+            }
+            c.commit();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CatProductListDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return res;
     }
     
     @Override

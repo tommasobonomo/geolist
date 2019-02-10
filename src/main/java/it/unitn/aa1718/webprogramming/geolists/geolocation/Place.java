@@ -5,6 +5,7 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.geolocation;
 
+import java.util.Optional;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,12 +18,14 @@ public class Place {
     private String title;
     private String location;
     private String vicinity;
+    private String catName;
     private double distance;
     
-    public Place(JSONObject place) {
+    public Place(JSONObject place, String catName) {
         title = place.getString("title");
         vicinity = place.getString("vicinity");
         distance = place.getDouble("distance");
+        this.catName = catName;
         
         JSONArray tmp = place.getJSONArray("position");
         location = Double.toString(tmp.getDouble(0)) + "," + Double.toString(tmp.getDouble(1));
@@ -30,6 +33,14 @@ public class Place {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getCatName() {
+        return catName;
+    }
+
+    public void setCatName(String catName) {
+        this.catName = catName;
     }
 
     public void setTitle(String title) {
@@ -62,7 +73,7 @@ public class Place {
 
     @Override
     public String toString() {
-        return "Place{" + "title=" + title + ", location=" + location + ", vicinity=" + vicinity + ", distance=" + distance + '}';
+        return "Place{" + "title=" + title + ", location=" + location + ", vicinity=" + vicinity + ", catName=" + catName + ", distance=" + distance + '}';
     }
-    
+
 }
