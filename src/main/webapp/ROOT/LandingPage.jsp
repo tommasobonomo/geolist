@@ -111,7 +111,7 @@
 
         <!--sezione di modifica del profilo-->
         <c:if test="${logged}">
-            <a href="/ViewAccount">
+            <a href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">
                 Profilo<br>
             </a>
         </c:if>

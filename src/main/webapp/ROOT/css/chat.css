@@ -103,15 +103,25 @@ img{
     display: inline-block;
     width: 6%;
 }
+.authorName {
+    font-weight: bold;
+    background: #ebebeb;
+    border-radius: 3px 3px 0 0;
+    color: #646464;
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 10px 0px 12px;
+    width: 100%;
+}
 .received_msg {
     display: inline-block;
-    padding: 0 0 0 10px;
+    padding: 0 0 5px 5px;
     vertical-align: top;
     width: 92%;
  }
  .received_withd_msg p {
-    background: #ebebeb none repeat scroll 0 0;
-    border-radius: 3px;
+    background: #ebebeb;
+    border-radius: 0 0 3px 3px;
     color: #646464;
     font-size: 14px;
     margin: 0;
@@ -142,7 +152,7 @@ img{
 }
 .outgoing_msg{ 
     overflow:hidden; 
-    margin:26px 0 26px;
+    margin:26px 0 5px;
 }
 .sent_msg {
     float: right;

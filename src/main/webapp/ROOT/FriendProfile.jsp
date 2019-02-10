@@ -28,20 +28,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="collapse-target">
-                    <!--pulsante ricerca prodotto-->
-                    <form method="POST" action="/form-action/search" class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search.." aria-label="Search" name="wordSearched">
-                        <select class="form-control mr-sm-2" id="selezione" name="categorySearched">
-                            <option value="0" selected>all</option>
-                            <c:forEach var="category" items="${listOfCat}">
-                                <option value="${category.getIdCatItem()}">${category.getName()}</option>
-                            </c:forEach>
-                        </select>
-                        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-
                 <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
                 <div class="collapse navbar-collapse" id="collapse-target">
                     
@@ -66,12 +52,12 @@
         <div class="container padding-top2">
     
             <div class="row padding-top">
-                <aside class="col-sm-12 col-md-5">
+                <aside class="col-sm-5 col-5">
                     <article class="gallery-wrap"> 
                         <div class="img-big-wrap border">
-                            <object data="  <c:url value="/ItemServlet">
+                            <object data="  <c:url value="/friend/profile">
                                         <c:param name="action" value="retrieveImage"/>
-                                        <c:param name="itemID" value="${itemID}"/>
+                                        <c:param name="friendId" value="${friend.getId()}"/>
                                     </c:url>
                                     " type="image/jpg"> 
                             </object>
@@ -79,32 +65,23 @@
                     </article> <!-- gallery-wrap .end// -->
                 </aside>
                 
-                <aside class=" col-md-1"></aside>
+                <aside class="col-sm-1 col-1"></aside>
                 
-                <aside class=" col-md-6">
-                    <h3 class="display-4 font-25 padding-bottom">${name}</h3>
+                <aside class="col-sm-6 col-6">
+                    <h3 class="display-4 font-25 padding-bottom">${friend.getUsername()}</h3>
                     <div class="padding-bottom">
-                        <div class="display-4 font-15">Description</div>
-                        <div class="display-4 font-10"><p>${note}</p></div>
+                        <div class="display-4 font-15">Name</div>
+                        <div class="display-4 font-10"><p>${friend.getName()}</p></div>
                     </div>
                     <div class="padding-bottom">
-                        <div class="display-4 font-15">Categoria</div>
-                        <div class="display-4 font-10">${category}</div>
-                    </div>  <!-- item-property-hor .// -->
+                        <div class="display-4 font-15">LastName</div>
+                        <div class="display-4 font-10">${friend.getLastname()}</div>
+                    </div>  
+                    <div class="padding-bottom">
+                        <div class="display-4 font-15">Email</div>
+                        <div class="display-4 font-10">${friend.getEmail()}</div>
+                    </div> <!-- item-property-hor .// -->
                     <hr>
-                    <c:if test="${listID != null}">
-                        <a href="<c:url value="/List">
-                            <c:param name="listID" value="${listID}"/>
-                            <c:param name="action" value="view"/>
-                        </c:url>">
-                            <button class="btn btn-outline-danger btn-md my-2"><i class="fas fa-chevron-left"></i> Back to List</button></a>
-                    </c:if>
-                    <c:if test="${isAdmin}">
-                        <a href="create-lists.html"><button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i> modifica</button></a>
-                    </c:if>
-                    
-                        
-
                 </aside> <!-- col.// -->
             </div> <!-- row.// -->
         </div>

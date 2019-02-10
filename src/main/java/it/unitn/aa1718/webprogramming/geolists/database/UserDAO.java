@@ -208,7 +208,7 @@ public class UserDAO implements CrudDao<User> {
     
     public Optional<byte[]> getBlobImageFromItem(long id) {
         
-        String query = "SELECT * FROM User AS I WHERE I.id = ?";
+        String query = "SELECT * FROM Users AS I WHERE I.id = ?";
         Optional<byte[]> byteArrayOpt = Optional.empty();
         try {
             

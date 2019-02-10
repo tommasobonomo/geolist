@@ -80,7 +80,13 @@
                 
                 <!--body a destra-->
                 <div class="col-md-8 padding-top2 padding-bottom" id="center-phone">
-                    <img src="${user.getImage()}" height="200" width="200"> <br>
+                    <div class="img-wrap border">
+                        <object data="  <c:url value="/ViewAccount">
+                                    <c:param name="action" value="retrieveImage"/>
+                                </c:url>
+                                " type="image/jpg"> 
+                        </object>
+                    </div><br>
 
                     <label for="name" class="padding-top">Name and Surname:</label>
                     <div id="name">${user.getName()} ${user.getLastname()}</div>

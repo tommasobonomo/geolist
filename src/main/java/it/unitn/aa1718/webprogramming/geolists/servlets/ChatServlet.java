@@ -7,14 +7,13 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.MessageDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Message;
+import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,9 +69,13 @@ public class ChatServlet extends HttpServlet {
             }
 
             //set attribute
+            User u = new UserDAO().get(userID).get();
+            ProductList pl = new ProductListDAO().get(Long.valueOf(listID)).get();
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("listID", Long.valueOf(listID));
-            request.setAttribute("userCookie", new UserDAO().get(userID).get().getCookie());
+            request.setAttribute("listName", pl.getName());
+            request.setAttribute("myUsername", u.getUsername());
+            request.setAttribute("userCookie", u.getCookie());
             request.setAttribute("url", "ws://localhost:8084/chat/");
 
             try {

@@ -47,6 +47,7 @@ public class SearchItem extends HttpServlet {
         //recupero da dove di dovere
         if (orderBy == null) {
             wordSearched = (String) request.getParameter("wordSearched");
+            wordSearched = wordSearched.toLowerCase();
             categorySearched = Integer.parseInt(request.getParameter("categorySearched"));
         } else {
             wordSearched = (String) session.getAttribute("wordSearched");
