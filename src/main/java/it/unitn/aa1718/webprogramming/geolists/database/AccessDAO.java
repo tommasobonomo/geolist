@@ -72,12 +72,13 @@ public class AccessDAO{
                 res = true;
             else
                 res = false;
+            
             c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        return res;
+        return true;
     }
     
     /**

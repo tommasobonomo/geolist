@@ -98,6 +98,9 @@ public class LandingServlet extends HttpServlet {
         session.setAttribute("userOpt", userOpt);
         session.setAttribute("userAnonOpt", userAnonOpt);
         
+        //mappa per i permessi
+        Map<Long,Boolean> hasPermissionInThisList = new HashMap<>();
+        
         // Se cookie indica un normale utente
         if (userOpt.isPresent() && userOpt.get().isActive()){
             isAnon = false;
@@ -113,6 +116,12 @@ public class LandingServlet extends HttpServlet {
             itemsOfList = new HashMap<>();
             for (ProductList list : listOfPL) {
                 long listID = list.getId();
+                
+                //controllo permessi
+                boolean havePermission = accessDAO.havePermission(user.getId(), listID);
+                hasPermissionInThisList.put(listID,havePermission);
+                
+                //item della lista
                 List<Compose> relationList = composeDAO.getItemsID(listID);
                 List<Item> items = new ArrayList<>();
                 for (Compose rel : relationList) {
@@ -142,6 +151,8 @@ public class LandingServlet extends HttpServlet {
             
             if (onlylistOpt.isPresent()) {
                 ProductList onlylist = onlylistOpt.get();
+                
+                hasPermissionInThisList.put(onlylist.getId(),true);
                 
                 // Prendi tutti gli elementi 
                 long listID = onlylist.getId();
@@ -182,6 +193,7 @@ public class LandingServlet extends HttpServlet {
         // Aggiungo i parametri alla richiesta da inoltrare alla JSP
         response.setContentType("text/html;charset=UTF-8");
         session.setAttribute("listOfCat", listOfCat);
+        request.setAttribute("hasPermissionInThisList", hasPermissionInThisList);
         request.setAttribute("listOfPL", listOfPL);
         request.setAttribute("itemsOfList", itemsOfList);
         request.setAttribute("username", username);

@@ -54,21 +54,22 @@ public class ListServlet extends HttpServlet {
         long listID = Long.parseLong(request.getParameter("listID"));
         String action = request.getParameter("action");
         
+        AccessDAO accessDAO = new AccessDAO();
         
-        if (userID.isPresent() && !(new AccessDAO()).canHaveAccess(userID.get(), listID)) {
+        
+        if (userID.isPresent() && !accessDAO.canHaveAccess(userID.get(), listID)) {
+            System.out.println("errore non ha accesso");
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("error", "YOU DON'T HAVE ACCESS");
             request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
-
-        } else {
-
+            
+        } else if (userID.isPresent() && !accessDAO.havePermission(userID.get(), listID) ) { // se non ha i permessi di modifica
+            System.out.println("errore non ha permesso");
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "YOU CAN'T MODIFY THIS LIST \n ASK TO THE OWNER FOR PERMISSION ");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+        }else {
             switch (action) {
-                case "plusQty":
-                    plusQty(request, response, listID);
-                    break;
-                case "minusQty":
-                    minusQty(request, response, listID);
-                    break;
                 case "addItem":
                     addItem(request, response, listID);
                     break;
@@ -212,43 +213,6 @@ public class ListServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private void plusQty(HttpServletRequest request, HttpServletResponse response, long listID) throws IOException {
-        long itemID = Long.parseLong(request.getParameter("itemID"));
-        ComposeDAO composeDAO = new ComposeDAO();
-        
-        Optional<Compose> composeOptional = composeDAO.getComposeObjectFromItemIdListId(itemID, listID);
-        
-        if(!composeOptional.isPresent()){
-            viewError(request,response,"BAD REQUEST");
-        } else {
-            Compose composeObj = composeOptional.get();
-            composeObj.setQuantity(composeObj.getQuantity()+1);
-            composeDAO.updateQuantity(composeObj);
-                    
-            viewList(request, response, listID);
-        }
-        
-    }
-
-    private void minusQty(HttpServletRequest request, HttpServletResponse response, long listID) throws IOException {
-        long itemID = Long.parseLong(request.getParameter("itemID"));
-        ComposeDAO composeDAO = new ComposeDAO();
-        
-        Optional<Compose> composeOptional = composeDAO.getComposeObjectFromItemIdListId(itemID, listID);
-        
-        if(!composeOptional.isPresent()){
-            viewError(request,response,"BAD REQUEST");
-        } else {
-            Compose composeObj = composeOptional.get();
-            if(composeObj.getQuantity()>1){
-                composeObj.setQuantity(composeObj.getQuantity()-1);
-                composeDAO.updateQuantity(composeObj);
-            }
-                    
-            viewList(request, response, listID);
-        }
-    }
     
     private Map<Long,Integer> createMapQuantityItem (List<Item> items,long listID) {
 
@@ -276,19 +240,4 @@ public class ListServlet extends HttpServlet {
         return mapIsTakeItem;
     }
     
-    private void viewError(HttpServletRequest request, HttpServletResponse response,String error) throws IOException{
-        response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                /* TODO output your page here. You may use following sample code. */
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>ERROR</title>");
-                out.println("</head>"); 
-                out.println("<body>");
-                out.println("<h1>"+error+"</h1>");
-                out.println("</body>");
-                out.println("</html>");
-            }
-    }
 }

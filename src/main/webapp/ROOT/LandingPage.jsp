@@ -22,12 +22,7 @@
         <div class="list-category">
             <c:forEach var="list" items="${listOfPL}">
                 <div class="name">
-                    <a href="<c:url value="/List">
-                           <c:param name="listID" value="${list.getId()}"/>
-                           <c:param name="action" value="view"/>
-                       </c:url>">
-                        <c:out value="${list.getName()}" />
-                    </a>
+                    <c:out value="${list.getName()}" />
                 </div>
                 <c:set var="listID" value="${list.getId()}" />
                 <div class="items">
@@ -42,7 +37,16 @@
                        <c:param name="listID" value="${listID}"/>
                    </c:url>">
                     Remove
-                </a>
+                </a> 
+                <br>
+                <c:if test="${hasPermissionInThisList.get(list.getId())}"> 
+                    <a href="<c:url value="/List">
+                       <c:param name="listID" value="${list.getId()}"/>
+                       <c:param name="action" value="view"/>
+                   </c:url>">
+                   Modifica
+                   </a>
+                </c:if>
             </c:forEach>
         </div>
 
