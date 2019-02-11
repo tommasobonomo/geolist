@@ -62,10 +62,11 @@ const geoOptions = {
  
 const displayResult = result => {
     let j = 0;
+    $(".georesults").empty();
     for (category in result) {
+        $(`.catTitle${j}`).empty();
         let shops = result[category];
         if (shops !== undefined && shops !== null && shops.length > 0) {
-            console.log(shops)
             $(".georesults").append(
                         `<div class="catTitle${j}">${shops[0].catName}</div>`
             );
