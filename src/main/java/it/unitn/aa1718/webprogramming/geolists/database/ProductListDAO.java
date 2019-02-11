@@ -313,5 +313,5 @@ public class ProductListDAO implements CrudDao<ProductList> {
         
         return res;
     }
-       
+
 }
