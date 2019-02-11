@@ -12,6 +12,6 @@
         <title>Error</title>
     </head>
     <body>
-        <h1>${error}</h1>
+        <h1>è stata eliminata questa pagina, se vedi questo errore contatta giorgio</h1>
     </body>
 </html>

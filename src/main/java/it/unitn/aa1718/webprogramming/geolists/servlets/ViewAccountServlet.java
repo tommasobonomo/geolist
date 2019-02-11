@@ -1,6 +1,5 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
-import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
@@ -35,22 +34,35 @@ public class ViewAccountServlet extends HttpServlet {
         //mi ricavo lo user dal coockie
         UserUtil uUtil = new UserUtil();
         Optional<User> userOptional = uUtil.getUserOptional(request);
-        User user = null;
-        if(userOptional.isPresent()){
-            user = userOptional.get();
-        }
-        
         String action = request.getParameter("action");
-        switch (action) {
-            case "retrieveImage":
-                retrieveImage(request,response, user.getId());
-                break;
-            case "viewAccount":
-                request.setAttribute("user", user);
-                request.getRequestDispatcher("/ROOT/profile/ViewAccount.jsp").forward(request, response);
-                break;
-            default:
-                break;
+        
+        if (!userOptional.isPresent()){
+            
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "YOU DON'T HAVE ACCESS");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            
+        } else if(action==null){
+            
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "BAD REQUEST");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            
+        } else {
+            User user = userOptional.get();
+
+            
+            switch (action) {
+                case "retrieveImage":
+                    retrieveImage(request, response, user.getId());
+                    break;
+                case "viewAccount":
+                    request.setAttribute("user", user);
+                    request.getRequestDispatcher("/ROOT/profile/ViewAccount.jsp").forward(request, response);
+                    break;
+                default:
+                    break;
+            }
         }
         
     }

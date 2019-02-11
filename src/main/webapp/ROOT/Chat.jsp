@@ -110,7 +110,7 @@
                             <a class="nav-link" href="/">Lists</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/ViewAccount">Profile</a>
+                            <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
                         </li>
                     </ul>
 

@@ -6,7 +6,6 @@
 package it.unitn.aa1718.webprogramming.geolists.database;
 
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
-import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -15,7 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -72,6 +73,28 @@ public class CatProductListDAO implements CrudDao<CatList> {
             ex.printStackTrace();
         }
         return list;
+    }
+    
+    /**
+     * create a map of ids of categories and their names
+     * @return the map
+     */
+    public Map<Long, String> getAllNamesOfCat() {
+        String query = "SELECT id, name FROM CItem";
+        Map <Long, String> map = new HashMap<>();
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while(rs.next()) {
+                map.put(rs.getLong("id"), rs.getString("name"));
+            }
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return map;
     }
 
     public Optional<byte[]> getBlobImageFromCatList(long id) {

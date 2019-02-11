@@ -110,6 +110,12 @@ public class ComposeDAO {
         return success;
     }
     
+    /**
+     * ottiene la quantità di un item
+     * @param itemID
+     * @param listID
+     * @return
+     */
     public Optional<Integer> getQuantityFromItemAndList(long itemID, long listID) {
         String query = "SELECT * FROM Compose WHERE LIST="+ listID +" AND ITEM="+ itemID ;
         Optional<Integer> res = Optional.empty();
@@ -130,6 +136,12 @@ public class ComposeDAO {
         return res;
     }
     
+    /**
+     * ottieni il compose object quindi la quantita e se è gia stato preso
+     * @param itemID
+     * @param listID
+     * @return
+     */
     public Optional<Compose> getComposeObjectFromItemIdListId(long itemID, long listID) {
         String query = "SELECT * FROM Compose WHERE LIST="+ listID +" AND ITEM="+ itemID ;
         Optional<Compose> res = Optional.empty();

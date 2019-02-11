@@ -105,7 +105,7 @@
                         <option value="${category.getIdCatItem()}">${category.getName()}</option>
                     </c:forEach>
                 </select>
-                <button type="submit"> search </button>
+                <button name="page" value="1" type="submit"> search </button>
             </form>
         </div>
 

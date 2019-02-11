@@ -9,7 +9,6 @@ import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.IsFriendDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Access;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
@@ -18,7 +17,6 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -68,19 +66,27 @@ public class ListRegistration extends HttpServlet {
         Optional<UserAnonimous> userAnonOpt
                 = (Optional<UserAnonimous>) util.getUserAnonymousOptional(request);
 
-        switch (request.getParameter("action")) {
-            case "addList":
-                addList(request, response, userOpt, userAnonOpt);
-                response.sendRedirect("/");
-                break;
-            case "removeList":
-                removeList(request, response, userOpt, userAnonOpt);
-                response.sendRedirect("/");
-                break;
-            case "viewForm":
-            default:
-                viewForm(request, response, userOpt, userAnonOpt);
-                request.getRequestDispatcher("ROOT/AddList.jsp").forward(request, response);
+        String action = request.getParameter("action");
+
+        if (action != null) {
+            switch (action) {
+                case "addList":
+                    addList(request, response, userOpt, userAnonOpt);
+                    response.sendRedirect("/");
+                    break;
+                case "removeList":
+                    removeList(request, response, userOpt, userAnonOpt);
+                    response.sendRedirect("/");
+                    break;
+                case "viewForm":
+                default:
+                    viewForm(request, response, userOpt, userAnonOpt);
+                    request.getRequestDispatcher("ROOT/AddList.jsp").forward(request, response);
+            }
+        } else {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "BAD REQUEST");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
         }
     }
 
@@ -163,20 +169,18 @@ public class ListRegistration extends HttpServlet {
                 for (String i : friends) {
                     accessDAO.create(new Access(Long.valueOf(i), listID.get()));
                 }
-            } 
+            }
 
-        }
-        else {//utente anonimo possiede gia una lista
+        } else {//utente anonimo possiede gia una lista
             try {
-                    response.setContentType("text/html;charset=UTF-8");
-                    request.setAttribute("error", "you can't create another");
-                    getServletContext().getRequestDispatcher("/ROOT/ErrorView.jsp").forward(request, response);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                response.setContentType("text/html;charset=UTF-8");
+                request.setAttribute("error", "YOU CAN'T CREATE ANOTHER");
+                getServletContext().getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
-    
 
     private List<CatList> getListCategories() {
         CatProductListDAO clDAO = new CatProductListDAO();
