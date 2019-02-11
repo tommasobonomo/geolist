@@ -110,7 +110,7 @@ public class ViewFriendProfileServlet extends HttpServlet {
 
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("friend", friend);
-            request.getRequestDispatcher("/ROOT/FriendProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("/ROOT/profile/FriendProfile.jsp").forward(request, response);
         }else{
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("error", "YOU DON'T HAVE ACCESS");

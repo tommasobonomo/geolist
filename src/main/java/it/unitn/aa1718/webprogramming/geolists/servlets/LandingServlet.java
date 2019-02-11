@@ -7,11 +7,12 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.CatItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
@@ -134,7 +135,8 @@ public class LandingServlet extends HttpServlet {
                 itemsOfList.put(listID, items);
             }
             
-            username = user.getName() + " " + user.getLastname() + " " + user.getUsername();
+            username = user.getUsername();
+            //prendo liste di utenti con cui la lista è condivisa
             
         } else if (alreadyLogged) { // Utente anonimo
             ProductListDAO plistDAO = new ProductListDAO();
@@ -182,18 +184,30 @@ public class LandingServlet extends HttpServlet {
         }
         
         
-            
-            
+        //prendo le informazioni degli item
+        List<Compose> listCompose = new ComposeDAO().getAll();
+        Map<String, Compose> mapCompose = new HashMap<>(); 
+        for(Compose elem : listCompose){
+            mapCompose.put(elem.getIdItem()+""+elem.getIdList(), elem);
+        }
         
+        //prendo le categorie da mettere al posto dei nomi
+        Map<Long, String> mapCatOfLists = new HashMap<>();
+        List<CatList> listProductList = new CatProductListDAO().getAll();
+        for(CatList elem : listProductList){
+            mapCatOfLists.put(elem.getIdCategory(), elem.getName());
+        }
             
         //prendo le categorie da mettere nel form della ricerca
         CatItemDAO categoriesDao = new CatItemDAO();
         List<CatItem> listOfCat = categoriesDao.getAll();
       
-        // Aggiungo i parametri alla richiesta da inoltrare alla JSP
+        //Aggiungo i parametri alla richiesta da inoltrare alla JSP
         response.setContentType("text/html;charset=UTF-8");
         session.setAttribute("listOfCat", listOfCat);
         request.setAttribute("hasPermissionInThisList", hasPermissionInThisList);
+        request.setAttribute("mapCatOfLists", mapCatOfLists);
+        request.setAttribute("mapCompose", mapCompose);
         request.setAttribute("listOfPL", listOfPL);
         request.setAttribute("itemsOfList", itemsOfList);
         request.setAttribute("username", username);
