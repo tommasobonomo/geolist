@@ -86,7 +86,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setLong(1,id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Blob blob = rs.getBlob("logo");
+                Blob blob = rs.getBlob("image");
                 byteArrayOpt = Optional.of(blob.getBytes(1, (int) blob.length()));
             } else {
                 System.out.println("no image to be found");

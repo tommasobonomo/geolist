@@ -149,7 +149,7 @@
                     <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8" id="listaTitle">
                         <div class="display-4 font-20 my-2">
                             ${list.getName()}<br>
-                            <small class="font-10 mr-sm-2">categoria</small>
+                            <small class="font-10 mr-sm-2">${mapCatOfLists.get(list.getId())}</small>
                         </div>
                     </div>
 
@@ -186,7 +186,10 @@
                         <div class="row padding-top">
                             <div class="col-xs-12 col-sm-3">
                                 <div class="img-wrap-list border">
-                                    <img class="mr-3" src="../images/cards/vegetariano.jpg" alt="image">
+                                    <img class="mr-3" src="<c:url value="/List">
+                                             <c:param name="action" value="retrieveImage" />
+                                             <c:param name="listID" value="${list.getId()}" />
+                                    </c:url>" alt="image">
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-9">
@@ -208,6 +211,7 @@
 
                         <!--elenco di carte-->
                         <c:forEach var="item" items="${itemsOfList.get(list.getId())}">
+                            <c:set var="keyItem" value="${item.getId()}${list.getId()}" /><!--chiave per ricavare il compose dalla mappa-->
                             <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
                                 <div class="card m-0">
                                     <a href="<c:url value="/ItemServlet">
@@ -217,7 +221,8 @@
                                         <button class="btn btn-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
                                     </a>
                                     <div class="custom-control custom-checkbox" id="card-trash-2">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck${item.getId()}${list.getId()}" name="example1">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck${item.getId()}${list.getId()}" name="example1"
+                                               <c:if test="${mapCompose.get(keyItem).isTake()}">checked</c:if>>
                                         <label class="custom-control-label" for="customCheck${item.getId()}${list.getId()}"></label>
                                     </div>
                                     <img class="card-img-top border" src="<c:url value="/ItemServlet">
@@ -229,14 +234,14 @@
                                         <p class="card-text">${item.getNote()}</p>
                                     </div>
                                     <div class="card-footer text-center">
-                                        Quantity : 5
+                                        Quantity : ${mapCompose.get(keyItem).getQuantity()}
                                     </div>
                                 </div>
                             </div>
                         </c:forEach>
                     </div>
                 </div>        
-                <hr>
+                <hr class="padding-bottom">
 
             </c:forEach>
         </div>

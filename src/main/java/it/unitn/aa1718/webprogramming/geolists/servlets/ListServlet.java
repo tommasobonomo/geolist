@@ -15,6 +15,7 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,10 +79,26 @@ public class ListServlet extends HttpServlet {
                 case "removeItem":
                     removeItem(request, response, listID);
                     break;
+                case "retrieveImage":
+                    retrieveImage(request, response, listID);
+                    break;
                 case "view":
                 default:
                     viewList(request, response, listID);
             }
+        }
+    }
+    
+    private void retrieveImage(HttpServletRequest request, HttpServletResponse response, long id) throws IOException {
+        ProductListDAO listDAO = new ProductListDAO();
+        Optional<byte[]> byteArrayOpt = listDAO.getBlobImageFromList(id);
+        
+        if (byteArrayOpt.isPresent()) {
+            response.setContentType("image/gif");
+            OutputStream os = response.getOutputStream();
+            os.write(byteArrayOpt.get());
+            os.flush();
+            os.close();
         }
     }
 
