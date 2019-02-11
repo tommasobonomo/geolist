@@ -17,7 +17,7 @@ public class CatItem implements Serializable {
     private long idCatItem;
     private String name;
     private String description;
-    private InputStream image;
+    transient private InputStream image;
 
     public CatItem(long idCatItem, String name, String description, InputStream image) {
         this.idCatItem = idCatItem;

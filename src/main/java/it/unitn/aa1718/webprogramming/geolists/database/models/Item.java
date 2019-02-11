@@ -17,7 +17,7 @@ public class Item implements Serializable{
     private long id;
     private long idCat;
     private String name;
-    private InputStream logo;
+    transient private InputStream logo;
     private String note;
     private BigDecimal price;
 

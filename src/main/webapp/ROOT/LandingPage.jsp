@@ -6,8 +6,10 @@
         <link rel="icon" href="/ROOT/logos/logo.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script><%@include file="./javascript/clientLanding.js" %></script>
-        <script> connect('${url}','${userCookie}')</script>
+        <c:if test="${logged}">
+            <script><%@include file="./javascript/clientLanding.js" %></script>
+            <script> connect('${url}','${userCookie}')</script>
+        </c:if>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <style><%@include file="/ROOT/css/main.css" %></style>
@@ -175,7 +177,7 @@
                         </c:if>
                         <div class="display-4 font-20 my-2">
                             ${list.getName()}<br>
-                            <small class="font-10 mr-sm-2">${mapCatOfLists.get(list.getId())}</small>
+                            <small class="font-10 mr-sm-2">${mapCatOfLists.get(list.getIdCat())}</small>
                         </div>
                     </div>
 
@@ -260,8 +262,7 @@
                                     <div class="card-body">
                                         <h4 class="card-title">${item.getName()}</h4>
                                         <p class="card-text">${item.getNote()}</p>
-                                    </div>
-                                    
+                                    </div>         
                                     <input type="submit" value="-" onClick="writeMessage('-' + ' ' + '${item.getId()}'+ ' ' + '${list.getId()}','${item.getId()}','${list.getId()}')"/>
                                     
                                     <div class="card-footer text-center">
@@ -459,3 +460,4 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </body>
 </html>
+

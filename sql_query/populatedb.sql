@@ -11,15 +11,11 @@ VALUES (DEFAULT,NULL,'rappasta', 'Lorenzo', 'Framba', 'lorenzoframba@gmail.com',
        (DEFAULT,NULL,'ipoap','Nicola','Nicoli', 'naso@gmail.com',NULL, '5b41455d063c7b7e1c7e697a25261c5f7c532780',NULL, TRUE,FALSE),
        (DEFAULT,NULL,'Bottiglia','Marco','Bestioni', 'tomcat@gmail.com',NULL, '0e23557c11275d16585244671730147418524644',NULL, TRUE,FALSE);
 
-INSERT INTO GEODB.CLIST(ID,"NAME", DESCRIPTION, HERECODE, IMAGE)
-VALUES  (DEFAULT, 'Grocery', 'A business that sells a large variety of food including fresh produce, frozen foods, packaged goods, bakery items and meat products.','600-6300-0066', NULL),
-        (DEFAULT, 'Pharmacy', 'A business that sells prescription and non-prescription medications in addition to other consumer goods, such as cosmetics, snacks and beverages.', '600-6400-0000',NULL),
-        (DEFAULT, 'Hardware Store', 'A business that sells a variety of building materials, hardware, and home improvement products. ', '600-6600-0077',NULL),
-        (DEFAULT, 'Consumer Electronics Store', 'A business that sells consumer and entertainment electronics such as cooking/washing appliances, televisions, and gaming systems.', '600-6500-0072', NULL),
-        (DEFAULT, 'Bookstore', 'A retail business that primarily sells books.', '600-6700-0087', NULL),
-        (DEFAULT, 'Sporting Goods Store', 'A business that sells individual and team sports equipment and other related items.', '600-6900-0094', NULL),
-        (DEFAULT, 'Pet Supply', 'A business that sells goods and services for pets.', '600-6900-0097', NULL),
-        (DEFAULT, 'Florist', 'A business that sells and arranges plants and cut flowers.', '600-6900-0355', NULL);
+INSERT INTO GEODB.CLIST(ID,"NAME", DESCRIPTION, IMAGE )
+VALUES  (DEFAULT, 'Food and Drink ', 'is a self-service shop offering a wide variety of food and household products, organized into sections and shelves. It is larger and has a wider selection than earlier grocery stores, but is smaller and more limited in the range of merchandise than a hypermarket or big-box market.',NULL),
+        (DEFAULT, 'Drugstore or Pharmacy', 'is the science and technique of preparing and dispensing drugs. It is a health profession that links health sciences with chemical sciences and aims to ensure the safe and effective use of pharmaceutical drugs.',NULL),
+        (DEFAULT, 'Hardware, House and Garden', 'sell household hardware for home improvement including: fasteners, building materials, hand tools, power tools, keys, locks, hinges, chains, plumbing supplies, electrical supplies, cleaning products, housewares, tools, utensils, paint, and lawn and garden products directly to consumers for use at home or for business.',NULL),
+        (DEFAULT, 'Convenience Store', 'is a physical retail marketplace intended to sell foods directly by farmers to consumers. Farmers markets may be indoors or outdoors.',NULL);
 
 
 INSERT INTO GEODB.CITEM(ID,"NAME",DESCRIPTION, IMAGE)
@@ -55,24 +51,18 @@ INSERT INTO GEODB.USERSANONIMOUS(ID, COOKIE)
 VALUES (DEFAULT, 'cookiediprova');
 
 INSERT INTO GEODB.LIST(ID,USEROWNER, USERANONOWNER, IDCAT, "NAME",DESCRIPTION, IMAGE)
-VALUES  (DEFAULT, 1, null, 1,  'BIRTHDAY', 'I just wanted to get the goods for the party, not too much sugar for us',NULL),
-        (DEFAULT, 1, null, 1,  'FRIDAY NIGHT', 'As a family, we do celebrate friday-myDAY, in which we like to eat healthy ',NULL),
-        (DEFAULT, 2, null, 2, 'GRANDMA', 'Minimalistic for grandma, but still going to reject it due to fat circumstances ',NULL),
-        (DEFAULT, 3, null, 3, 'CHEESE', 'Cheesy meal for us, we do like animals but the juicy milk is what we need',NULL),
-        (DEFAULT, 4, null, 4, 'PICNIC', 'A bunch of sandwiches with unexplored sauce in it',NULL),
-        (DEFAULT, 5, null, 4, 'COLLEGE', 'Providing a good value for money, not really great but who am I to complain? ',NULL),
-        (DEFAULT, 6, null, 2, 'WEEKEND', 'We do like to experiment with expensive and rare meal, therefore we prefer to save up for weekends',NULL),
-        (DEFAULT, 7, null, 1, 'FATTY', 'There is that time of the year where you just need to appreciate what you have and celebrate, by eating unpriviledged fat food',NULL),
-        (DEFAULT, 7, null, 4, 'FRIEND', 'A bunch of cheesy drinks and some snacks. Easy peasy lemon squeezy. Also some beer',NULL);
+VALUES  (DEFAULT, 1, null, 1, 'Birthday', 'I just wanted to get the goods for the party, not too much sugar for us',NULL),
+        (DEFAULT, 1, null, 1, 'Friday Night', 'As a family, we do celebrate friday-myDAY, in which we like to eat healthy ',NULL),
+        (DEFAULT, 1, null, 2, 'Grandma', 'Minimalistic for grandma, Healthy and soupy,with dessert in the end for a good ending ',NULL),        
+        (DEFAULT, 1, null, 4, 'Camping', 'A bunch of sandwiches with unexplored sauce in it',NULL),
+        (DEFAULT, 1, null, 4, 'DIY', 'Do it yourself, with all the good powertools and helpful tools for the right moment',NULL);
 
     
 INSERT INTO GEODB.ISFRIEND(USR1,USR2)
-VALUES  (2,1),
-        (1,2),
+VALUES  (1,2),
+        (2,1),
         (2,3),
-        (3,2),
         (1,3),
-        (3,1),
         (3,4),
         (4,5),
         (4,6),
@@ -81,9 +71,7 @@ VALUES  (2,1),
         (8,1),
         (1,8),
         (2,6),
-        (6,2),
-        (4,2),
-        (2,4);
+        (4,2);
 
 INSERT INTO GEODB.ITEM(IDCAT,ID,"NAME",LOGO, NOTE)
 VALUES (1,DEFAULT,'wurstel',DEFAULT,'This fun and easy dinner or lunch recipe will have everyone including kiddos happy to eat.'),
@@ -472,7 +460,3 @@ VALUES (1,1),
        (19,3),
        (20,3),
        (21,3);
-
-
-
-

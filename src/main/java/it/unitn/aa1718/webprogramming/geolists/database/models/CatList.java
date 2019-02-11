@@ -16,7 +16,7 @@ public class CatList {
     private String name;
     private String description;
     private String HERECODE;
-    private InputStream image;
+    transient private InputStream image;
 
     public CatList(long idCategory, String name, String description, String HERECODE, InputStream image) {
         this.idCategory = idCategory;
