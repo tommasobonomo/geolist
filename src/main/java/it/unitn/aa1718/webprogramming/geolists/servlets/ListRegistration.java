@@ -162,12 +162,12 @@ public class ListRegistration extends HttpServlet {
             AccessDAO accessDAO = new AccessDAO();
             // If not anonymous user, add to Access
             if (userOpt.isPresent()) {
-                accessDAO.create(new Access(userID, listID.get()));
+                accessDAO.create(new Access(userID, listID.get(),true));
             }
             //inserisco gli amici nella lista
             if (friends != null) {
                 for (String i : friends) {
-                    accessDAO.create(new Access(Long.valueOf(i), listID.get()));
+                    accessDAO.create(new Access(Long.valueOf(i), listID.get(),false));
                 }
             }
 

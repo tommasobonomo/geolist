@@ -46,12 +46,10 @@ VALUES  (DEFAULT, 1, null, 1,  'BIRTHDAY', 'I just wanted to get the goods for t
         (DEFAULT, 5, null, 4, 'COLLEGE', 'Providing a good value for money, not really great but who am I to complain? ',NULL),
         (DEFAULT, 6, null, 2, 'WEEKEND', 'We do like to experiment with expensive and rare meal, therefore we prefer to save up for weekends',NULL),
         (DEFAULT, 7, null, 1, 'FATTY', 'There is that time of the year where you just need to appreciate what you have and celebrate, by eating unpriviledged fat food',NULL),
-        (DEFAULT, 7, null, 4, 'FRIEND', 'A bunch of cheesy drinks and some snacks. Easy peasy lemon squeezy. Also some beer',NULL),
-        (DEFAULT, null, 1, 3, 'LISTA DI PROVA ANONIMA', 'Gotta stay fit to fit in outfit',NULL);
+        (DEFAULT, 7, null, 4, 'FRIEND', 'A bunch of cheesy drinks and some snacks. Easy peasy lemon squeezy. Also some beer',NULL);
     
-
 INSERT INTO GEODB.ISFRIEND(USR1,USR2)
-VALUES  (1,2),
+VALUES  (1,1),
         (2,1),
         (2,3),
         (1,3),
@@ -238,22 +236,20 @@ VALUES (1,1,2,false),
        (8,4,2,false),
        (8,5,2,false);
 
-INSERT INTO GEODB.ACCESS(IDUSER, IDLIST)
-VALUES(1,1),
-      (1,2),
-      (2,1),
-      (3,1),
-      (4,2),
-      (1,9),
-      (2,3),
-      (3,4),
-      (4,5),
-      (5,6),
-      (6,7),
-      (7,8),
-      (7,9);
-      
-    
+INSERT INTO GEODB.ACCESS(idUser , idList, havePermission)
+VALUES(1,1,true),
+      (1,2,true),
+      (2,1,true),
+      (3,1,false),
+      (4,2,false),
+      (1,9,false),
+      (2,3,true),
+      (3,4,true),
+      (4,5,true),
+      (5,6,true),
+      (6,7,true),
+      (7,8,true),
+      (7,9,true);
 
 INSERT INTO GEODB.MESSAGE(ID,IDUSER,IDLIST,TEXT,SENDTIME)
 VALUES (DEFAULT,1,1,'state studiando web?',CURRENT_TIMESTAMP),

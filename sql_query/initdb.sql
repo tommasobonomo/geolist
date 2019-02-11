@@ -75,8 +75,8 @@ CREATE TABLE item (
 CREATE TABLE compose(
     list INTEGER,
     item INTEGER ,
-    quantity INTEGER,
-    take BOOLEAN,
+    quantity INTEGER NOT NULL,
+    take BOOLEAN NOT NULL,
     FOREIGN KEY (item) 
         REFERENCES item(id)
         ON DELETE CASCADE,
@@ -101,6 +101,7 @@ CREATE TABLE isfriend(
 CREATE TABLE access(
     iduser INTEGER,
     idlist INTEGER,
+    havePermission BOOLEAN NOT NULL,
     FOREIGN KEY (iduser) 
         REFERENCES users(id)
         ON DELETE CASCADE,

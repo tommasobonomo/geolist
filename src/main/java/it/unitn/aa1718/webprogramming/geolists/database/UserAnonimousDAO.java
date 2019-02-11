@@ -60,7 +60,7 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         
         if(p.isPresent()){   // se possiede una lista l'utente anonimo
             //aggiungo l'accesso
-            Access a = new Access(u_new.getId(), p.get().getId());
+            Access a = new Access(u_new.getId(), p.get().getId(), true);
             aDAO.create(a);
             
             //setto il possessore all'utente esistente
@@ -132,7 +132,7 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         ////////////////////////////////
         if (listID != 0) {
             AccessDAO accessDAO = new AccessDAO();
-            Access access = new Access(userWithID.getId(),listID);
+            Access access = new Access(userWithID.getId(),listID,true);
             accessDAO.create(access);
         }
         

@@ -12,10 +12,12 @@ package it.unitn.aa1718.webprogramming.geolists.database.models;
 public class Access { 
     private long idUser;
     private long idList;
+    private boolean havePermission;
     
-    public Access(long idUser,long idList){
+    public Access(long idUser,long idList, boolean havePermission){
         this.idList=idList;
         this.idUser=idUser;
+        this.havePermission=havePermission;
     }
     
     public void setIdUser(long idUser){
@@ -32,6 +34,14 @@ public class Access {
     
     public long getIdList(){
         return this.idList;
+    }
+    
+    public void setHavePermission(boolean havePermission){
+        this.havePermission=havePermission;
+    }
+    
+    public boolean getHavePermission(){
+        return this.havePermission;
     }
     
 }
