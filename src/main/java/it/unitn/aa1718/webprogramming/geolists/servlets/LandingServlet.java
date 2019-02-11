@@ -207,7 +207,6 @@ public class LandingServlet extends HttpServlet {
         UserUtil u = new UserUtil();
         Optional<Cookie> cookie = u.getCookie(request);
         request.setAttribute("userCookie", cookie.get().getValue());
-        request.setAttribute("listID", 1);
         request.setAttribute("url", "ws://localhost:8084/quantity/");
       
         //Aggiungo i parametri alla richiesta da inoltrare alla JSP

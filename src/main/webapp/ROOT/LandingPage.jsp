@@ -6,58 +6,8 @@
         <link rel="icon" href="/ROOT/logos/logo.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script type="text/javascript">
-            var userCookie = '${userCookie}';
-            var url = '${url}';
-            var ws = new WebSocket(url + userCookie);
-
-            ws.onopen = function (evt) {
-                console.log("open");
-            };
-
-            ws.onmessage = function (evt) {
-                console.log(JSON.parse(evt.data));
-            };
-
-            ws.onclose = function (evt) {
-                console.log("close");
-            };
-
-            ws.onerror = function (evt) {
-                console.log("big error");
-            };
-
-            function writeMessage(txt,itemid,listid) {
-                ws.send(txt);
-                console.log(txt[0]);
-                if (txt[0] === '-')
-                    decrementValue('counter'+itemid+' '+listid);
-                else if (txt[0] === '+')
-                    incrementValue('counter'+itemid+' '+listid);
-                
-            }
-
-            window.addEventListener('beforeunload', function (e) {
-                ws.close();
-            });
-
-            function incrementValue(id)
-            {
-                var value = parseInt(document.getElementById(id).innerHTML, 10);
-                value = isNaN(value) ? 0 : value;
-                value++;
-                document.getElementById(id).innerHTML = value;
-            }
-            
-            function decrementValue(id)
-            {
-                var value = parseInt(document.getElementById(id).innerHTML, 10);
-                value = isNaN(value) ? 0 : value;
-                if(value>1)
-                    value--;
-                document.getElementById(id).innerHTML = value;
-            }
-        </script>
+        <script><%@include file="./javascript/clientLanding.js" %></script>
+        <script> connect('${url}','${userCookie}')</script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <style><%@include file="/ROOT/css/main.css" %></style>

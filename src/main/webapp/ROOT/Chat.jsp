@@ -11,59 +11,9 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
         <style><%@include file="./css/main.css" %></style>
         <style><%@include file="./css/chat.css" %></style>
+        <script><%@include file="./javascript/clientChat.js" %></script>
         <script type="text/javascript">
-            var listid = '${listID}';
-            var userCookie = '${userCookie}';
-            var url = '${url}';
-            var myUsername = '${myUsername}';
-            var ws = new WebSocket(url + listid + "/" + userCookie);
-
-            ws.onopen = function (evt) {
-
-            };
-
-            ws.onmessage = function (evt) {
-                var json = JSON.parse(evt.data);
-                console.log("|"+json.authorName+"|");
-                console.log("|"+myUsername+"|");
-                if(json.authorName === myUsername){
-                    createOutMsg(json.authorName, json.text, json.sendTime);
-                }else{
-                    createInMsg(json.authorName, json.text, json.sendTime);
-                }
-            };
-
-            ws.onclose = function (evt) {
-                console.log("close");
-            };
-
-            ws.onerror = function (evt) {
-                console.log("big error");
-            };
-
-            function writeMessage(txt) {
-                ws.send(txt);
-            }
-
-            window.addEventListener('beforeunload', function (e) {
-                ws.close()
-            });
-
-            function createInMsg(authorName, text, sentTime) {
-                var div = document.createElement("div");
-                div.classList.add("incoming_msg");
-                div.innerHTML = "<div class=\"received_msg\"> <div class=\"received_withd_msg\"><div class=\"authorName\">"+authorName+":</div><p>"+ text +"</p> <span class=\"time_date\"> "+ sentTime +" </span> </div> </div>";
-
-                document.getElementById("main").appendChild(div);
-            }
-            
-            function createOutMsg(authorName, text, sentTime) {
-                var div = document.createElement("div");
-                div.classList.add("outgoing_msg");
-                div.innerHTML = "<div class=\"outgoing_msg_img\"> <div class=\"sent_msg\"> <p>"+ text +"</p> <span class=\"time_date\"> "+ sentTime +" </span> </div> </div>";
-
-                document.getElementById("main").appendChild(div);
-            }
+            connect('${url}', '${listID}', '${userCookie}', '${myUsername}');
         </script>
     </head>
 
@@ -108,20 +58,20 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
-                        </li>
-                    </ul>
+                                </li>
+                            </ul>
 
-                </div>
-            </div>
-        </nav>
+                        </div>
+                    </div>
+                </nav>
 
 
 
-        <div class="container">
-            <!--titolo-->
-            <div class="row text-center padding-top2">
-                <div class="col-12">
-                    <p class="display-4 font-15 padding-top">Chat of ${listName}</p>
+                <div class="container">
+                    <!--titolo-->
+                    <div class="row text-center padding-top2">
+                        <div class="col-12">
+                            <p class="display-4 font-15 padding-top">Chat of ${listName}</p>
                 </div>
             </div>
 
@@ -136,7 +86,7 @@
                         <div class="type_msg">
                             <div class="input_msg_write">
                                 <input type="text" class="write_msg" placeholder="Type a message" name="text" id="textMessage"/>
-                                <button class="msg_send_btn" onclick="writeMessage(document.getElementById('textMessage').value)" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                <button class="msg_send_btn" onclick="writeMessage(document.getElementById('textMessage').value)" id ="myBtn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>
@@ -144,14 +94,23 @@
             </div>
         </div>
 
+        <script>
+            var input = document.getElementById("textMessage");
+            
+            input.addEventListener("keyup", function (event) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Trigger the button element with a click
+                    document.getElementById("myBtn").click();
+                    document.getElementById("textMessage").value='';
+                }
+            });
+        </script>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-        <script>
-            function addText(event) {
-                //document.getElementById("chatbox").value += event;
-            }
-        </script>
     </body>
 </html>
