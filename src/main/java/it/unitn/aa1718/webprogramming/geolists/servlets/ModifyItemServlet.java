@@ -33,10 +33,10 @@ public class ModifyItemServlet extends HttpServlet {
             ItemDAO dao = new ItemDAO();
             String modify =  request.getParameter("modify");  
             
-            long iD = Long.parseLong(request.getParameter("items"));   
-            System.out.println("\n\n\nNUMERO ID ITEM: " + iD);
+            long Id = Long.parseLong(request.getParameter("items"));   
+            System.out.println("\n\n\nNUMERO ID ITEM: " + Id);
             System.out.println("\n\n\n ");
-            Optional items = dao.get(iD);
+            Optional items = dao.get(Id);
             Item item = (Item) items.get();
             String  newDescription = null, newName = null,
                    newNote = null;
@@ -51,7 +51,7 @@ public class ModifyItemServlet extends HttpServlet {
             
             if("note".equals(modify)){      
                    
-                System.out.println("\n\n\nANCORA NUMERO ID " + iD);
+                System.out.println("\n\n\nANCORA NUMERO ID " + Id);
                 newNote = (String) request.getParameter("newNote");
                     item.setNote(newNote);
                     ItemDAO itemDB = new ItemDAO();
@@ -102,7 +102,7 @@ public class ModifyItemServlet extends HttpServlet {
             }else{
                 request.setAttribute("logoError", false);
             }// </editor-fold>
-            request.setAttribute("itemID",iD);
+            request.setAttribute("itemID",Id);
            // request.setAttribute("items", item);            
             request.getRequestDispatcher("/ROOT/ModifyItem.jsp").forward(request, response);
         

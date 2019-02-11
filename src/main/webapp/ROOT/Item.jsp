@@ -16,12 +16,12 @@
         <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             <div class="container-fluid">
-                
+
                 <!--logo e titolo del sito-->
                 <a class="navbar-brand" href="/">
                     <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"/>" height="40" width="120" alt="logo">
                 </a>
-                
+
                 <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
                 la dimensione specificata nel target-->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
@@ -44,7 +44,7 @@
 
                 <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
                 <div class="collapse navbar-collapse" id="collapse-target">
-                    
+
                     <!--lista degli elementi cliccabili-->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
@@ -52,21 +52,21 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
-                        </li>
-                    </ul>
+                                </li>
+                            </ul>
 
-                </div>
-            </div>
-        </nav>
-        
-                
-        <div class="container padding-top2">
-    
-            <div class="row padding-top">
-                <aside class="col-sm-12 col-md-5">
-                    <article class="gallery-wrap"> 
-                        <div class="img-big-wrap border">
-                            <object data="  <c:url value="/ItemServlet">
+                        </div>
+                    </div>
+                </nav>
+
+
+                <div class="container padding-top2">
+
+                    <div class="row padding-top">
+                        <aside class="col-sm-12 col-md-5">
+                            <article class="gallery-wrap"> 
+                                <div class="img-big-wrap border">
+                                    <object data="  <c:url value="/ItemServlet">
                                         <c:param name="action" value="retrieveImage"/>
                                         <c:param name="itemID" value="${itemID}"/>
                                     </c:url>
@@ -75,9 +75,9 @@
                         </div> <!-- slider-product.// -->
                     </article> <!-- gallery-wrap .end// -->
                 </aside>
-                
+
                 <aside class=" col-md-1"></aside>
-                
+
                 <aside class=" col-md-6">
                     <h3 class="display-4 font-25 padding-bottom">${name}</h3>
                     <div class="padding-bottom">
@@ -89,31 +89,32 @@
                         <div class="display-4 font-10">${category}</div>
                     </div>  <!-- item-property-hor .// -->
                     <hr>
-                    
-                    
-                  <c:if test="${isAdmin}">
-                         <a class="menu-link" href="<c:url value="/ModifyItem" > 
-                            <c:param name="items" value="${itemID}"/>   
-                        </c:url>">
-                         <p class="menu-link" >Edit Item</p></a>      </c:if>
-                         
-                         
+
+
+                    <c:if test="${isAdmin}">
+                        <a class="menu-link" href="<c:url value="/ModifyItem" > 
+                               <c:param name="items" value="${itemID}"/>   
+                           </c:url>">
+                            <button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i>Modify</button></a>
+                        </c:if>
+
+
                     <c:if test="${listID != null}">
                         <a href="<c:url value="/List"> 
-                            <c:param name="listID" value="${listID}"/>
-                            <c:param name="action" value="view"/>
-                        </c:url>">
+                               <c:param name="listID" value="${listID}"/>
+                               <c:param name="action" value="view"/>
+                           </c:url>">
                             <button class="btn btn-outline-danger btn-md my-2"><i class="fas fa-chevron-left"></i> Back to List</button></a>
-                    </c:if>
+                        </c:if>
 
-                    
-                        
+
+
 
                 </aside> <!-- col.// -->
             </div> <!-- row.// -->
         </div>
-        
-                
+
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>

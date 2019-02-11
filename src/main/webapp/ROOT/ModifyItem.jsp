@@ -21,12 +21,12 @@
         <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             <div class="container-fluid">
-                
+
                 <!--logo e titolo del sito-->
                 <a class="navbar-brand" href="/">
                     <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"/>" height="40" width="120" alt="logo">
                 </a>
-                
+
                 <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
                 la dimensione specificata nel target-->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
@@ -36,7 +36,7 @@
 
                 <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
                 <div class="collapse navbar-collapse" id="collapse-target">
-                    
+
                     <!--lista degli elementi cliccabili-->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
@@ -47,6 +47,8 @@
             </div>
         </nav>
 
+        ${itemID}
+
         <!--vero body della pagina-->
         <div class="container padding-top padding-bottom">
             <div class="row">
@@ -54,17 +56,19 @@
                 <div class="col-md-8 padding-top2 padding-bottom" id="remove-padding-phone">
 
 
-    
+
                     <!--change avatar-->
                     <button class="button-collapse display-4 font-15 " data-toggle="collapse" data-target="#logoWindow"> 
                         Edit logo <i class="fas fa-arrow-circle-right"></i> 
                     </button>
                     <div>use this option to change your item logo with a new one</div> 
                     <c:if test="${logoError}"><small style="color:red">some errors accured</small></c:if>
-                    <div class="collapse" id="logoWindow">
-                        <div class="container">
-                            <div class="row padding-top">
-                                <form method="POST" action="/ModifyItem" enctype="multipart/form-data" class="form-spacer" id="changeLogo" novalidate>
+                        <div class="collapse" id="logoWindow">
+                            <div class="container">
+                                <div class="row padding-top">
+                                    <form method="POST" action="<c:url value="/ModifyItem">
+                                          <c:param value="${itemID}" name="items"/>
+                                      </c:url>" enctype="multipart/form-data" class="form-spacer" id="changeLogo" novalidate>
                                     <div class="form-group">
                                         <label for="logo">choose an image for your new logo </label>
                                         <input type="file" id="logo" name="newLogo" accept="image/png, image/jpeg, image/jpg">
@@ -78,23 +82,24 @@
                     </div>
                     <hr class="padding-bottom">
 
-                    
+
                     <!--change name-->
                     <button class="button-collapse display-4 font-15 " data-toggle="collapse" data-target="#nameWindow"> 
                         Edit name <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <div>use this option to change your name with a new one</div>
                     <c:if test="${nameError}"><small style="color:red">some errors accured</small></c:if>
-                    <div class="collapse" id="nameWindow">
-                        <div class="container">
-                            <div class="row padding-top">
-                                <form method="POST" action="/ModifyItem" class="form-spacer" id="changeName">
-
+                        <div class="collapse" id="nameWindow">
+                            <div class="container">
+                                <div class="row padding-top">
+                                    <form method="POST" action="<c:url value="/ModifyItem">
+                                          <c:param value="${itemID}" name="items"/>
+                                      </c:url>" class="form-spacer" id="changeName">
                                     <div class="form-group">
                                         <label for="newName">Write your new item name</label>
                                         <input type="text" name="newName" id="newName" class="form-control">
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <button type="submit" name="modify" value="name" class="btn btn-outline-danger btn-large">Submit changes</button>
                                     </div>
@@ -104,23 +109,24 @@
                     </div>
                     <hr class="padding-bottom">
 
-                    
+
                     <!--change description-->
                     <button class="button-collapse display-4 font-15 " data-toggle="collapse" data-target="#descriptionWindow"> 
                         Edit item Description <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <div>use this option to change your Description with a new one</div>
                     <c:if test="${noteError}"><small style="color:red">some errors accured</small></c:if>
-                    <div class="collapse" id="descriptionWindow">
-                        <div class="container">
-                            <div class="row padding-top">
-                                <form method="POST" action="/ModifyItem" class="form-spacer" id="changeDescription">
-
+                        <div class="collapse" id="descriptionWindow">
+                            <div class="container">
+                                <div class="row padding-top">
+                                    <form method="POST" action="<c:url value="/ModifyItem">
+                                          <c:param value="${itemID}" name="items"/>
+                                      </c:url>" class="form-spacer" id="changeDescription">
                                     <div class="form-group">
                                         <label for="newNote">Write your new description</label>
                                         <input type="text" name="newNote" id="newNote" class="form-control">
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <button type="submit" name="modify" value="note" class="btn btn-outline-danger btn-large">Submit changes</button>
                                     </div>
