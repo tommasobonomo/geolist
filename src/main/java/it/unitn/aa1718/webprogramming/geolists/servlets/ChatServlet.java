@@ -62,7 +62,7 @@ public class ChatServlet extends HttpServlet {
                 try {
                     response.setContentType("text/html;charset=UTF-8");
                     request.setAttribute("error", "you don't have access");
-                    getServletContext().getRequestDispatcher("/ROOT/ErrorView.jsp").forward(request, response);
+                    getServletContext().getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
-        <title>Geolist - profile</title>
+        <title>Geolist - Error</title>
         <link rel="icon" href="../images/logos/logo.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,7 @@
                     <div class="col-12">
                         <p class="display-4 font-20">We are sorry, some error occurred!</p>
                         <p class="display-4 font-20">${error}</p>
-                    <p><a href="../index.html"><button type="button" class="btn btn-outline-Danger btn-lg">Go Home</button></a></p>
+                    <p><a href="/"><button type="button" class="btn btn-outline-Danger btn-lg">Go Home</button></a></p>
                 </div>
             </div>
         </div>

@@ -15,6 +15,7 @@ import it.unitn.aa1718.webprogramming.geolists.utility.ParametersController;
 import java.sql.Timestamp;
 import javax.servlet.annotation.WebServlet;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -46,20 +47,40 @@ public class ServletRegister extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //mi ricavo lo user dal coockie
+        UserUtil uUtil = new UserUtil();
+        Optional<User> userOptional = uUtil.getUserOptional(request);
         
-        String action = null;
-        action =(String) request.getParameter("action");
-        switch (action){
-            case "view":
-                request.getRequestDispatcher("/ROOT/register/register.jsp").forward(request, response);
-                break;
-            case "send":
-                sendRegister(request, response);
-                break;
-            default:
-                break;
-        }        
+        String action = request.getParameter("action");
         
+        if (!userOptional.isPresent() && action!=null) {
+            
+            switch (action) {
+                case "send":
+                    sendRegister(request, response);
+                    break;
+                case "view":
+                default:
+                    request.getRequestDispatcher("/ROOT/register/register.jsp").forward(request, response);
+                    break;
+            }
+            
+        } else if(userOptional.isPresent()){
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "YOU ARE ALREADY REGISTER");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            
+        } else if(action==null){
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "BAD REQUEST");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            
+        } else {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "BAD REQUEST");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            
+        }
     }
     
     void sendRegister(HttpServletRequest request, HttpServletResponse response)
