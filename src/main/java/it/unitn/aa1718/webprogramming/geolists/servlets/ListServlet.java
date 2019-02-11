@@ -9,7 +9,6 @@ import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
@@ -47,7 +46,7 @@ public class ListServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         
         UserUtil u = new UserUtil();
         Optional<Long> userID = u.getUserOptionalID(request);
@@ -56,13 +55,11 @@ public class ListServlet extends HttpServlet {
         String action = request.getParameter("action");
         
         
-        if ( userID.isPresent() && !( new AccessDAO() ).canHaveAccess(userID.get(), listID)) {
-            try {
-                    response.setContentType("text/html;charset=UTF-8");
-                    response.sendRedirect("/error?error="+"YOU DON'T HAVE ACCESS");
-            } catch (Exception ex) {
-                    ex.printStackTrace();
-            }
+        if (userID.isPresent() && !(new AccessDAO()).canHaveAccess(userID.get(), listID)) {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "YOU DON'T HAVE ACCESS");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+
         } else {
 
             switch (action) {
