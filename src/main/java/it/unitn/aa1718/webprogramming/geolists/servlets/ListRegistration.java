@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.util.Pair;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -71,8 +72,15 @@ public class ListRegistration extends HttpServlet {
         if (action != null) {
             switch (action) {
                 case "addList":
-                    addList(request, response, userOpt, userAnonOpt);
-                    response.sendRedirect("/");
+                    Pair<Boolean, String> success = addList(request, response, userOpt, userAnonOpt);
+                    if (success.getKey()) {
+                        response.sendRedirect("/");
+                    } else {
+                        response.setContentType("text/html");
+                        request.setAttribute("formError", success.getValue());
+                        request.setAttribute("action", "viewForm");
+                        request.getRequestDispatcher("/ROOT/AddList.jsp").forward(request, response);
+                    }
                     break;
                 case "removeList":
                     removeList(request, response, userOpt, userAnonOpt);
@@ -99,87 +107,100 @@ public class ListRegistration extends HttpServlet {
 
         if (userID.isPresent()) {
 
-            request.setAttribute("isAnon", false);
-            request.setAttribute("id", userID.get());
+            request.getSession().setAttribute("isAnon", false);
+            request.getSession().setAttribute("id", userID.get());
 
             //mostra gli amici tra cui sciegliere
             IsFriendDAO friendDAO = new IsFriendDAO();
             List<User> friends = friendDAO.getFriends(userID.get());
-            request.setAttribute("friends", friends);
+            request.getSession().setAttribute("friends", friends);
 
         } else if (userAnonOpt.isPresent()) {
-            request.setAttribute("isAnon", true);
+            request.getSession().setAttribute("isAnon", true);
         }
 
         List<CatList> possibleCategories = getListCategories();
-        request.setAttribute("categories", possibleCategories);
+        request.getSession().setAttribute("categories", possibleCategories);
 
     }
 
-    private void addList(HttpServletRequest request, HttpServletResponse response,
+    private Pair<Boolean, String> addList(HttpServletRequest request, HttpServletResponse response,
             Optional<User> userOpt, Optional<UserAnonimous> userAnonOpt)
             throws ServletException, IOException {
 
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        InputStream image = null;
-        long catID = Long.parseLong(request.getParameter("category"));
-        //id of friends that have possibility to modify list
-        String[] friends = request.getParameterValues("friends");
 
-        long userID = 0;
-        long userAnonID = 0;
-        boolean anonHasAlreadyList = false;
-        if (userOpt.isPresent()) {
-            userID = userOpt.get().getId();
-        } else if (userAnonOpt.isPresent()) {
-            userAnonID = userAnonOpt.get().getId();
-            ProductListDAO uaDAO = new ProductListDAO();
-            Optional<ProductList> pl = uaDAO.getListAnon(userAnonID);
-            anonHasAlreadyList = pl.isPresent();
-        }
+        Boolean success_bool = false;
+        String success_string = "";
 
-        System.out.println(anonHasAlreadyList);
-        if (!anonHasAlreadyList) {
-            // Image retrieval
-            try {
-                Part filePart = request.getPart("image");
-                if (filePart != null) {
-                    // obtains input stream of the upload file
-                    image = filePart.getInputStream();
-                }
-            } catch (IOException | ServletException ex) {
-                Logger.getLogger(ItemRegister.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (name.equals("") || description.equals("")) {
+            success_bool = false;
+            success_string = name.equals("") ? "Name is missing" : "Description is missing";
+        } else {
+            success_bool = true;
 
-            // Create ProductList to insert into DB
-            ProductList newList = new ProductList(userID, userAnonID, catID, name, description, image);
+            InputStream image = null;
+            long catID = Long.parseLong(request.getParameter("category"));
+            //id of friends that have possibility to modify list
+            String[] friends = request.getParameterValues("friends");
 
-            // Add it to DB        
-            ProductListDAO plDAO = new ProductListDAO();
-            Optional<Long> listID = plDAO.createAndReturnID(newList);
-
-            AccessDAO accessDAO = new AccessDAO();
-            // If not anonymous user, add to Access
+            long userID = 0;
+            long userAnonID = 0;
+            boolean anonHasAlreadyList = false;
             if (userOpt.isPresent()) {
-                accessDAO.create(new Access(userID, listID.get(),true));
-            }
-            //inserisco gli amici nella lista
-            if (friends != null) {
-                for (String i : friends) {
-                    accessDAO.create(new Access(Long.valueOf(i), listID.get(),false));
-                }
+                userID = userOpt.get().getId();
+            } else if (userAnonOpt.isPresent()) {
+                userAnonID = userAnonOpt.get().getId();
+                ProductListDAO uaDAO = new ProductListDAO();
+                Optional<ProductList> pl = uaDAO.getListAnon(userAnonID);
+                anonHasAlreadyList = pl.isPresent();
             }
 
-        } else {//utente anonimo possiede gia una lista
-            try {
-                response.setContentType("text/html;charset=UTF-8");
-                request.setAttribute("error", "YOU CAN'T CREATE ANOTHER");
-                getServletContext().getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            System.out.println(anonHasAlreadyList);
+            if (!anonHasAlreadyList) {
+                // Image retrieval
+                try {
+                    Part filePart = request.getPart("image");
+                    if (filePart != null) {
+                        // obtains input stream of the upload file
+                        image = filePart.getInputStream();
+                    }
+                } catch (IOException | ServletException ex) {
+                    Logger.getLogger(ItemRegister.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                // Create ProductList to insert into DB
+                ProductList newList = new ProductList(userID, userAnonID, catID, name, description, image);
+
+                // Add it to DB        
+                ProductListDAO plDAO = new ProductListDAO();
+                Optional<Long> listID = plDAO.createAndReturnID(newList);
+
+                AccessDAO accessDAO = new AccessDAO();
+                // If not anonymous user, add to Access
+                if (userOpt.isPresent()) {
+                    accessDAO.create(new Access(userID, listID.get(), true));
+                }
+                //inserisco gli amici nella lista
+                if (friends != null) {
+                    for (String i : friends) {
+                        accessDAO.create(new Access(Long.valueOf(i), listID.get(), false));
+                    }
+                }
+
+            } else {//utente anonimo possiede gia una lista
+                try {
+                    response.setContentType("text/html;charset=UTF-8");
+                    request.setAttribute("error", "YOU CAN'T CREATE ANOTHER");
+                    getServletContext().getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
+
+        return new Pair<>(success_bool, success_string);
     }
 
     private List<CatList> getListCategories() {

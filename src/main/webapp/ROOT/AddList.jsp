@@ -19,8 +19,8 @@
             </p>
             <form method="POST" action="<c:url value="/ListRegistration">
                   <c:param name="action" value="addList"/>
-            </c:url>" enctype="multipart/form-data">
-            
+              </c:url>" enctype="multipart/form-data">
+
 
             <label>Name: </label>   
             <input name="name" id="name" type="text"/><br/>
@@ -28,7 +28,7 @@
             <input name="description" id="description" type="text"/><br/>
             <label>Image: </label>
             <input name="image" id="image" type="file"/><br/>
-            
+
             <c:if test="${not isAnon}">
                 <select name="friends" multiple>     
 
@@ -46,5 +46,6 @@
 
             <input value="Sumbit" type="submit"/>
         </form>
+            <p><c:out value="${formError}"/></p>
     </body>
 </html>
