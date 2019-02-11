@@ -179,11 +179,11 @@ public class ListServlet extends HttpServlet {
         request.setAttribute("allItems", allItems);
         request.setAttribute("name", name);
         request.setAttribute("desc", desc);
-        request.setAttribute("url", "ws://localhost:8084/quantity/");
         
         //for retrieve quantity
         request.setAttribute("mapQuantityItem", mapQuantityItem);
         request.setAttribute("mapIsTakeItem", mapIsTakeItem);
+        
         
         try {
             request.getRequestDispatcher("/ROOT/List.jsp").forward(request, response);
