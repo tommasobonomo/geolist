@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -201,6 +202,13 @@ public class LandingServlet extends HttpServlet {
         //prendo le categorie da mettere nel form della ricerca
         CatItemDAO categoriesDao = new CatItemDAO();
         List<CatItem> listOfCat = categoriesDao.getAll();
+        
+        //get user id from cookie
+        UserUtil u = new UserUtil();
+        Optional<Cookie> cookie = u.getCookie(request);
+        request.setAttribute("userCookie", cookie.get().getValue());
+        request.setAttribute("listID", 1);
+        request.setAttribute("url", "ws://localhost:8084/quantity/");
       
         //Aggiungo i parametri alla richiesta da inoltrare alla JSP
         response.setContentType("text/html;charset=UTF-8");
