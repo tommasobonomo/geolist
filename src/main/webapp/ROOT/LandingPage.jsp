@@ -3,7 +3,7 @@
 <html>
     <head>
         <title>Geolist - Home</title>
-        <link rel="icon" href="../images/logos/logo.png">
+        <link rel="icon" href="/ROOT/logos/logo.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
@@ -49,9 +49,6 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="/">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Lists</a>
                         </li>
                         <c:if test="${logged}">
                             <li class="nav-item">
@@ -125,28 +122,55 @@
                     </div>
                 </div>
 
-                <!--Welcome back-->
-                <div class="container-fluid">
-                    <div class="row welcome text-center" id="titoloPrincipale">
-                        <div class="col-12 padding-top">
-                            <img src="/ROOT/logos/logo-orizzontale.png" height="60" width="160">
-                        </div>
-                        <div class="col-12">
-                            <h1 class="display-4 font-20 my-2">${username}, Welcome back to Geolist</h1>
+                                                    
+        <!--Welcome della page-->                                            
+        <c:if test="${logged}">
+            <div class="container-fluid">
+                <div class="row welcome text-center" id="titoloPrincipale">
+                    <div class="col-12 padding-top">
+                        <img src="/ROOT/logos/logo-orizzontale.png" height="60" width="160">
+                    </div>
+                    <div class="col-12">
+                        <h1 class="display-4 font-20 my-2">${username}, Welcome back to Geolist</h1>
+                    </div>
                 </div>
             </div>
-        </div>
-        <hr>      
+            <hr>
+        </c:if>
+        <c:if test="${!logged}">
+            <div class="container-fluid padding-bottom">
+                <div class="row welcome text-center" id="titoloPrincipale">
+                    <div class="col-12 padding-top">
+                        <img src="/ROOT/logos/logo.png" height="60" width="60">
+                        <p class="logo-text-xxl">GEOLIST</p>
+                    </div>
+                    <div class="col-12">
+                        <h1 class="display-4">Organize your shop experience.</h1>
+                    </div>
+                    <hr class="my-2">
+                    <div class="col-12">
+                        <p class="lead">Organize better your shopping lists with your friends and family.
+                            <br> You will always know what and where buy stuff for your needs.
+                            </h1>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+        </c:if>
 
         <!--liste-->
         <div class="container padding-top">
 
-            <!--lista 1-->
             <c:forEach var="list" items="${listOfPL}">
                 <div class="row padding-bottom" style="width: 100%">
 
                     <!--titolo-->
                     <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8" id="listaTitle">
+                        <c:if test="${!logged}">
+                            <div class="display-4 font-25 my-2">
+                                This is your try list:
+                            </div>
+                        </c:if>
                         <div class="display-4 font-20 my-2">
                             ${list.getName()}<br>
                             <small class="font-10 mr-sm-2">${mapCatOfLists.get(list.getId())}</small>
@@ -189,7 +213,7 @@
                                     <img class="mr-3" src="<c:url value="/List">
                                              <c:param name="action" value="retrieveImage" />
                                              <c:param name="listID" value="${list.getId()}" />
-                                    </c:url>" alt="image">
+                                         </c:url>" alt="image">
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-9">
@@ -242,10 +266,180 @@
                     </div>
                 </div>        
                 <hr class="padding-bottom">
-
             </c:forEach>
         </div>
 
+        
+        <!--resto pagina per non loggato-->
+        <c:if test="${!logged}">
+            
+            <!--3 colonne spiegazione-->
+            <div class="container-fluid padding-bottom">
+                <div class="row welcome text-center">
+                    <div class="col-12 padding-bottom">
+                        <h1 class="display-4">Never thought of having an account?</h1>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <i class="fas fa-list-ol"></i>
+                        <h3>CREATE INFINITE LISTS</h3>
+                        <p class="width-80">use lists for all your different needings instead of only one</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <i class="fas fa-user-friends"></i>
+                        <h3>SHARE LISTS WITH YOUR FRIENDS</h3>
+                        <p class="width-80">manage lists shared with who of interest</p>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h3>NEVER MISS A SHOP</h3>
+                        <p class="width-80">receive notifications when you are near a shop where you can buy stuff on your lists</p>
+                    </div>
+                </div>
+                <hr class="my-4">
+            </div>
+            
+            <!--titolo liste prestabilite-->
+            <div class="container-fluid padding-bottom">
+                <div class="row welcome text-center">
+                    <div class="col-12">
+                        <h1 class="display-4">Use premade lists!</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!--card per le liste prestabilite-->
+            <div class="container-fluid padding-bottom">
+                <div class="row padding-bottom">
+                    <div class="card-deck">
+                        <div class="card">
+                            <img class="card-img-top" src="images/cards/carne.jpg">
+                            <div class="card-body" style="height:160px">
+                                <h4 class="card-title">Meat lover</h4>
+                                <p class="card-text">Perfect for someone who loves cooking meat</p>
+                                <a href="" class="btn btn-outline-danger">see list</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img class="card-img-top" src="images/cards/farmacia.jpg">
+                            <div class="card-body" style="height:160px">
+                                <h4 class="card-title">All for your Health</h4>
+                                <p class="card-text">Never remain without medications</p>
+                                <a href="" class="btn btn-outline-danger">see list</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img class="card-img-top" src="images/cards/vegetariano.jpg">
+                            <div class="card-body" style="height:160px">
+                                <h4 class="card-title">Veggie time</h4>
+                                <p class="card-text">Just remain healty for today</p>
+                                <a href="" class="btn btn-outline-danger">see list</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="mx-auto text-center padding-top" id="addList" style="width:100%">
+                                <h4 class="card-title">Try out your own</h4>
+                                <p class="card-text">create a simple list without an account and test the experience</p>
+                                <button data-toggle="modal" data-target="#listModal" class="btn btn-outline-danger">Create one</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:if>
+        
+        
+        <!--bottone fissato in basso a destra con finestra modale-->
+        <button class="button-fixed-list btn btn-danger" data-toggle="modal" data-target="#listModal">
+            New list <i class="fas fa-plus"></i>
+        </button>
+        <c:if test="${logged}"> 
+            <a href="<c:url value="/ItemRegistration">
+                   <c:param name="action" value="viewForm"/>
+               </c:url>"><button class="button-fixed-item btn btn-info">
+                    New item <i class="fas fa-plus"></i>
+                </button>
+            </a>
+        </c:if>
+
+        <!--finestra modale lista-->
+        <div class="modal fade show" id="listModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <c:if test="${!hasAlreadyList}"> 
+                            <!-- se è l'utente anonimo ha già una lista
+                                 se l'utente è loggato questo valore è sempre false -->
+
+                            <div class="center-absolute">
+                                <span class="display-4 font-15">Create a new list</span>
+                            </div>
+
+                            <form method="POST" action="<c:url value="/ListRegistration">
+                                      <c:param name="action" value="viewForm"/>
+                                  </c:url>" class="form-spacer needs-validation padding-top">
+
+                                <!--input "base"-->
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" id="name" class="form-control" required autofocus>
+                                    <div class="invalid-feedback">name required</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="categoria">Category</label>
+                                    <select class="form-control mr-sm-2" id="categoria" required>
+                                        <c:forEach var="category" items="${mapCatOfLists}">
+                                            <option value="${category.key}">${category.value}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <div class="invalid-feedback">category required</div>
+                                </div>
+                                <!--bottoni-->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-6 text-center">
+                                            <button type="button" class="btn btn-outline-secondary btn-md" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                        <div class="col-6 text-center">
+                                            <!--div da cambiare in button-->
+                                            <a href="create-lists.html">
+                                                <button type="submit" class="btn btn-outline-danger btn-md">Create</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </c:if>
+                        <c:if test="${hasAlreadyList}">
+                            <div class="text-center">
+                                <span class="display-4 font-15">You can't make more than one list as an anonymous user.<br>
+                                    Register to create more of them.</span>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6 text-center">
+                                        <button type="button" class="btn btn-outline-secondary btn-md" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <!--div da cambiare in button-->
+                                        <a href="create-lists.html">
+                                            <a href="<c:url value="/form-actions/register"><c:param name="action" value="view"></c:param></c:url>" >
+                                                        <button class="btn btn-outline-danger btn-md">Register</button>
+                                                    </a>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </c:if>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>

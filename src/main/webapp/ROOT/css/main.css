@@ -347,10 +347,16 @@ head, body {
 }
 
 /*bottone fissato per il view list*/
-.button-fixed{
+.button-fixed-list{
     position: fixed;
     right: 2rem;
     bottom: 2rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.button-fixed-item{
+    position: fixed;
+    right: 2rem;
+    bottom: 5rem;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 

@@ -3,7 +3,7 @@
 <html>
     <head>
         <title>Geolist - register</title>
-        <link rel="icon" href="../images/logos/logo.png">
+        <link rel="icon" href="/ROOT/logos/logo.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
