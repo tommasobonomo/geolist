@@ -5,7 +5,9 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.utility;
 
+import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -112,6 +114,16 @@ public class ParametersController {
         UserDAO db = new UserDAO();
         Optional<User> u = db.get(username);
         if(u.isPresent() || username.contains(" "))
+            return false;
+        
+        return true;
+    }
+    
+    public boolean isInameNew(String name){
+        
+        ItemDAO db = new ItemDAO();
+        Optional<Item> u = db.get(name);
+        if(u.isPresent() || name.contains(" "))
             return false;
         
         return true;

@@ -58,7 +58,7 @@
                 </div>
             </div>
         </nav>
-              
+        
                 
         <div class="container padding-top2">
     
@@ -89,16 +89,23 @@
                         <div class="display-4 font-10">${category}</div>
                     </div>  <!-- item-property-hor .// -->
                     <hr>
+                    
+                    
+                  <c:if test="${isAdmin}">
+                         <a class="menu-link" href="<c:url value="/ModifyItem" > 
+                            <c:param name="items" value="${itemID}"/>   
+                        </c:url>">
+                         <p class="menu-link" >Edit Item</p></a>      </c:if>
+                         
+                         
                     <c:if test="${listID != null}">
-                        <a href="<c:url value="/List">
+                        <a href="<c:url value="/List"> 
                             <c:param name="listID" value="${listID}"/>
                             <c:param name="action" value="view"/>
                         </c:url>">
                             <button class="btn btn-outline-danger btn-md my-2"><i class="fas fa-chevron-left"></i> Back to List</button></a>
                     </c:if>
-                    <c:if test="${isAdmin}">
-                        <a href="create-lists.html"><button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i> modifica</button></a>
-                    </c:if>
+
                     
                         
 

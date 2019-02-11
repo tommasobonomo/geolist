@@ -23,7 +23,7 @@ import javax.servlet.http.Part;
  *
  * @author mattia
  */
-@WebServlet(urlPatterns = "/ModifyServlet", name="ModifyAccountServlet")
+@WebServlet(urlPatterns = "/ModifyServlet", name="ciao")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
         maxRequestSize = 1024 * 1024 * 50) // 50MB

@@ -19,11 +19,10 @@ public class Item implements Serializable{
     private String name;
     transient private InputStream logo;
     private String note;
-    private BigDecimal price;
+
 
     /**
      * constructor with all field
-     * use BigDecimal.valueOf(value) for set the price
      * @param id
      * @param idCat
      * @param name
@@ -40,7 +39,6 @@ public class Item implements Serializable{
     
     /**
      * constructor without id
-     * use BigDecimal.valueOf(value) for set the price
      * @param idCat
      * @param name
      * @param logo
