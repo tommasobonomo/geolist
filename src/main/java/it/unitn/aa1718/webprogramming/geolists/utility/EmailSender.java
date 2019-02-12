@@ -42,7 +42,7 @@ public class EmailSender {
         String subject = "This is the confirmation number for your GeoList account";
         String messageText = (" Hello, Thanks for subscribing to our Website\n"
                 + "Click the link to activate your account! \n watch out, it only lasts for 30 minutes\n "
-                + "Verification Link :: http://localhost:8080/activateAccount?email="+ this.userEmail+"&token="+ this.token+"&time="+this.time);
+                + "Verification Link :: http://localhost:8084/activateAccount?email="+ this.userEmail+"&token="+ this.token+"&time="+this.time);
         Properties props = new Properties();
 
         // ottengo permessi di autenticazione
