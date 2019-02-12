@@ -13,9 +13,14 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <style><%@include file="/ROOT/css/main.css" %></style>
+        <!-- Geolocation scripts in JS -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/geolocation.js"></script>
     </head>
 
     <body>
+        <!-- Geolocation -->
+        <p id="listcategories" style="display: none"><c:forEach var="list" items="${listOfPL}">${list.getIdCat()},</c:forEach></p>
 
         <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -371,6 +376,9 @@
         <button class="button-fixed-list btn btn-danger" data-toggle="modal" data-target="#listModal">
             New list <i class="fas fa-plus"></i>
         </button>
+        <button class="button-fixed-geo btn btn-success" data-toggle="modal" data-target="#geoModal">
+            Geolocation
+        </button>
         <c:if test="${logged}"> 
             <button class="button-fixed-item btn btn-info" data-toggle="modal" data-target="#itemModal">
                 New item <i class="fas fa-plus"></i>
@@ -427,6 +435,21 @@
                                 </div>
                             </div>
                         </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--finestra modale geolocation-->
+        <div class="modal fade show" id="geoModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <p id="geoerror" style="display: none">Location not available!</p>
+                        <div class="georesults"></div>
 
                     </div>
 

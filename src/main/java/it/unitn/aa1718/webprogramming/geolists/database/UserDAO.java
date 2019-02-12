@@ -93,7 +93,6 @@ public class UserDAO implements CrudDao<User> {
     }
     
     /**
-     * added the method for get user from cookie
      * Get a user from username
      * @param username
      * @return 
@@ -145,9 +144,12 @@ public class UserDAO implements CrudDao<User> {
         return u;
     }
     
-    
-   
-
+    /**
+     * get user from email and token
+     * @param email
+     * @param token
+     * @return
+     */
     public Optional<User> getFromEmailAndToken(String email, String token) {
         String query= " SELECT * FROM GEODB.USERS WHERE email=? AND token=? and active=false ";
         Optional<User> u=Optional.empty();
@@ -175,7 +177,6 @@ public class UserDAO implements CrudDao<User> {
     /** 
      * Return a list of all user in the database
      * @return List of User
-     * @throws SQLException
      */
     @Override
     public List<User> getAll(){
@@ -272,6 +273,11 @@ public class UserDAO implements CrudDao<User> {
     
     }
     
+    /**
+     * update a user object by id
+     * @param id
+     * @param obj
+     */
     @Override
     public void update(long id, User obj) {
         String query="UPDATE Users "
@@ -303,6 +309,11 @@ public class UserDAO implements CrudDao<User> {
 
     }
     
+    /**
+     * update without use image
+     * @param id
+     * @param obj
+     */
     public void updateWithoutImage(long id, User obj) {
         String query="UPDATE Users "
                 + "SET cookie=?, username=?, name=?, lastname=?, email=?, token=?, active=?, admin=?, password=?"
@@ -333,7 +344,7 @@ public class UserDAO implements CrudDao<User> {
     
     /**
      * delete the user with that value
-     * @param obj
+     * @param id
      */
     @Override
     public void delete(long id) {

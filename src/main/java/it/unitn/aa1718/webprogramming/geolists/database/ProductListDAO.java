@@ -37,6 +37,12 @@ public class ProductListDAO implements CrudDao<ProductList> {
                 rs.getLong("idCat"), rs.getString("name"), rs.getString("description"), image);
     }
 
+    /**
+     * get product list by id, in a optional object to understand exist really
+     * 
+     * @param id
+     * @return
+     */
     @Override
     public Optional<ProductList> get(long id) {
         String query = "SELECT * FROM List AS L WHERE L.id=" + id;
@@ -59,6 +65,10 @@ public class ProductListDAO implements CrudDao<ProductList> {
         return res;
     }
 
+    /**
+     * get all product list
+     * @return
+     */
     @Override
     public List<ProductList> getAll() {
         String query = "SELECT * FROM List";
@@ -109,6 +119,11 @@ public class ProductListDAO implements CrudDao<ProductList> {
         return byteArrayOpt;
     }
 
+    /**
+     * get list of product list by category list id
+     * @param catogoryListId
+     * @return
+     */
     public List<ProductList> getListsFromCategoryId(long catogoryListId) {
         String query = "SELECT L.* FROM GEODB.CLIST as C join GEODB.LIST as L on C.ID=L.IDCAT WHERE C.ID= " + catogoryListId;
         List<ProductList> list = new ArrayList<>();
@@ -128,6 +143,10 @@ public class ProductListDAO implements CrudDao<ProductList> {
         return list;
     }
 
+    /**
+     * create an object productlist
+     * @param obj
+     */
     @Override
     public void create(ProductList obj) {
         String query = "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n"
@@ -158,6 +177,11 @@ public class ProductListDAO implements CrudDao<ProductList> {
         }
     }
 
+    /**
+     * create and return the product list create, in a optional object to understand exist really
+     * @param obj
+     * @return
+     */
     public Optional<Long> createAndReturnID(ProductList obj) {
         String query = "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n"
                 + "VALUES (?,?,?,?,?,?)";
@@ -219,6 +243,11 @@ public class ProductListDAO implements CrudDao<ProductList> {
 
     }
 
+    /**
+     * update a productlist by id
+     * @param id
+     * @param obj
+     */
     @Override
     public void update(long id, ProductList obj) {
         String query = "UPDATE List "
@@ -253,6 +282,10 @@ public class ProductListDAO implements CrudDao<ProductList> {
 
     }
 
+    /**
+     * remove an object 
+     * @param id
+     */
     @Override
     public void delete(long id) {
         String query = "DELETE FROM List WHERE id=?";

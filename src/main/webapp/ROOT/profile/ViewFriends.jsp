@@ -38,7 +38,7 @@
                                 <option value="${category.getIdCatItem()}">${category.getName()}</option>
                             </c:forEach>
                         </select>
-                        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
+                        <button name="page" value="1" class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
 

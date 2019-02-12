@@ -27,7 +27,7 @@ public class AccessDAO{
     }
     
     /**
-     * get user who have access to that list
+     * get list of user who have access to that list
      * @param listID
      * @return list of user
      */
@@ -78,17 +78,17 @@ public class AccessDAO{
             ex.printStackTrace();
         }
         
-        return true;
+        return res;
     }
     
     /**
-     * get user who have access to that list
+     * get user who have the permission to modify productlist
      * @param userID
      * @param listID
      * @return if use have permission, false default
      */
     public boolean havePermission(long userID, long listID) {
-        String query = "SELECT a.havePermission FROM Access AS A WHERE a.idlist = " + listID 
+        String query = "SELECT a.havePermission FROM Access AS a WHERE a.idlist = " + listID 
                 + "and a.iduser = " + userID;
         boolean res = false;
         
@@ -135,7 +135,7 @@ public class AccessDAO{
     }
 
     /**
-     * add access on db
+     * create new access on db
      * @param obj
      */
     public void create(Access obj) {
