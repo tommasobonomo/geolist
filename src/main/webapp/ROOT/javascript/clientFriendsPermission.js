@@ -35,3 +35,30 @@ window.addEventListener('beforeunload', function (e) {
     ws.close();
 });
 
+function updatePermission(friendId){
+    if(document.getElementById("shared"+friendId).checked){
+        ws.send('perm '+friendId);
+        console.log('perm '+friendId);
+    } else {
+       alert("before share with him");
+       document.getElementById("permission"+friendId).checked=false;
+    }
+}
+
+function updateSharing(friendId){
+    if(document.getElementById("shared"+friendId).checked){
+        ws.send('share '+friendId);
+        
+        
+        
+    
+    } else {
+        ws.send('share '+friendId);
+        //put false the checkbox
+        if(document.getElementById("permission"+friendId).checked){
+            document.getElementById("permission"+friendId).checked=false;
+            ws.send('perm '+friendId);
+        }
+    }
+}
+

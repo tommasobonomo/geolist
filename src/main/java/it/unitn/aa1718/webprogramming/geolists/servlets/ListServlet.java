@@ -135,6 +135,7 @@ public class ListServlet extends HttpServlet {
         ComposeDAO composeDAO = new ComposeDAO();
         ItemDAO itemDAO = new ItemDAO();
         ProductListDAO plDAO = new ProductListDAO();
+        AccessDAO accessDAO = new AccessDAO();
 
         // Get all ids of listItems in listID and init listItems array
         List<Compose> itemsIDs = composeDAO.getItemsID(listID);
@@ -156,6 +157,10 @@ public class ListServlet extends HttpServlet {
         Map<Long,Boolean> mapIsTakeItem = new HashMap<>();
         mapIsTakeItem = createMapIsTakeItem(listItems,listID);
 
+        //map permessi e sharing della lista
+        Map<Long,Boolean> mapPermission = new HashMap<>();
+        Map<Long,Boolean> mapSharing = new HashMap<>();
+        
         // Get list details if present
         Optional<ProductList> plOpt = plDAO.get(listID);
         List<Item> items = new ArrayList<>();
@@ -181,8 +186,14 @@ public class ListServlet extends HttpServlet {
             UserUtil uUtil = new UserUtil();
             Optional<User> userOptional = uUtil.getUserOptional(request);
             if(userOptional.isPresent()){
-                User user = userOptional.get();
-                friends = new IsFriendDAO().getFriends(user.getId());
+                long userId = userOptional.get().getId();
+                
+                friends = new IsFriendDAO().getFriends(userId);
+                
+                for(User f: friends){
+                    mapSharing.put(f.getId(),accessDAO.canHaveAccess(f.getId(),listID));
+                    mapPermission.put(f.getId(),accessDAO.havePermission(f.getId(), listID));
+                }
             }
         }
         
@@ -195,7 +206,7 @@ public class ListServlet extends HttpServlet {
         items.removeAll(listItems);
         
         request.setAttribute("userCookie", cookie.get().getValue());
-        
+        request.setAttribute("url", "ws://localhost:8084/friend/");
 
         // Return everything to List.jsp
         response.setContentType("text/html;charset=UTF-8");
@@ -210,6 +221,10 @@ public class ListServlet extends HttpServlet {
         //for retrieve quantity
         request.setAttribute("mapQuantityItem", mapQuantityItem);
         request.setAttribute("mapIsTakeItem", mapIsTakeItem);
+        
+        //friend sharing and permission map
+        request.setAttribute("mapPermission", mapPermission);
+        request.setAttribute("mapSharing", mapSharing);
         
         
         try {

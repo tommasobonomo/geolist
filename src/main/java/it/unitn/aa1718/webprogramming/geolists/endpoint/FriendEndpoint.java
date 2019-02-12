@@ -79,14 +79,31 @@ public class FriendEndpoint {
         if(!userDAO.get(friendId).isPresent()){
             session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
             this.onClose(session);
-        } else if(isFriendDAO.isFriend(userId, friendId) && accessDAO.canHaveAccess(friendId, listId)){
+        } else if(isFriendDAO.isFriend(userId, friendId) && !accessDAO.canHaveAccess(friendId, listId)) {
+            Access access = new Access(friendId,listId,false);
+            System.out.println("creo nuovo access");
+            switch (message.getOp()) {
+                case "share":
+                    accessDAO.create(access);
+                    break; 
+                default:
+                    session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
+                    break;
+            }
+            
+            
+        } else if (isFriendDAO.isFriend(userId, friendId) && accessDAO.canHaveAccess(friendId, listId)) {
             boolean havePermission = accessDAO.havePermission(friendId, listId);
-            Access access = new Access(friendId,listId,!havePermission);
+            Access access = new Access(friendId,listId,false);
             
             //gestire le operazioni
             switch (message.getOp()) {
                 case "perm":
+                    access.setHavePermission(!havePermission);
                     accessDAO.updatePermission(access);
+                    break;
+                case "share":
+                    accessDAO.delete(access);
                     break; 
                 default:
                     session.getBasicRemote().sendText(new MessageJson("server", "+perm or -perm bad request", "").toJson());

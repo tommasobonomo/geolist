@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <style><%@include file="/ROOT/css/main.css" %></style>
-        <script><%@include file="./javascript/clientChat.js" %></script>
+        <script><%@include file="../javascript/clientFriendsPermission.js" %></script>
         <script type="text/javascript">
             connect('${url}', '${listID}', '${userCookie}');
         </script>
@@ -181,12 +181,16 @@
                                     <h4 class="card-title text-center">${friend.getName()}</h4>
                                     <div class="card-footer">
                                         <div class="custom-control custom-checkbox ml-3">
-                                            <input type="checkbox" class="custom-control-input" id="shared${friend.getId()}" name="example1" checked>
+                                            <input type="checkbox" class="custom-control-input" id="shared${friend.getId()}" 
+                                                   name="example1" onCLick="updateSharing('${friend.getId()}')" 
+                                                   <c:if test="${mapSharing.get(friend.getId())}">checked</c:if> >
                                             <label class="custom-control-label" for="shared${friend.getId()}"> &nbsp; shared</label>
                                         </div><br>
 
                                         <div class="custom-control custom-checkbox ml-3">
-                                            <input type="checkbox" class="custom-control-input" id="permission${friend.getId()}" name="example1">
+                                            <input type="checkbox" class="custom-control-input" id="permission${friend.getId()}"
+                                                   onCLick="updatePermission('${friend.getId()}')" name="example1"
+                                                   <c:if test="${mapPermission.get(friend.getId())}">checked</c:if>  >
                                             <label class="custom-control-label" for="permission${friend.getId()}"> &nbsp; can modify</label>
                                         </div>
                                     </div>

@@ -78,7 +78,7 @@ public class AccessDAO{
             ex.printStackTrace();
         }
         
-        return true;
+        return res;
     }
     
     /**
@@ -88,7 +88,7 @@ public class AccessDAO{
      * @return if use have permission, false default
      */
     public boolean havePermission(long userID, long listID) {
-        String query = "SELECT a.havePermission FROM Access AS A WHERE a.idlist = " + listID 
+        String query = "SELECT a.havePermission FROM Access AS a WHERE a.idlist = " + listID 
                 + "and a.iduser = " + userID;
         boolean res = false;
         
