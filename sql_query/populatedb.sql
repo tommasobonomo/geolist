@@ -16,10 +16,8 @@ VALUES  (DEFAULT, 'Grocery', 'A business that sells a large variety of food incl
         (DEFAULT, 'Pharmacy', 'A business that sells prescription and non-prescription medications in addition to other consumer goods, such as cosmetics, snacks and beverages.', '600-6400-0000',NULL),
         (DEFAULT, 'Hardware Store', 'A business that sells a variety of building materials, hardware, and home improvement products. ', '600-6600-0077',NULL),
         (DEFAULT, 'Consumer Electronics Store', 'A business that sells consumer and entertainment electronics such as cooking/washing appliances, televisions, and gaming systems.', '600-6500-0072', NULL),
-        (DEFAULT, 'Bookstore', 'A retail business that primarily sells books.', '600-6700-0087', NULL),
-        (DEFAULT, 'Sporting Goods Store', 'A business that sells individual and team sports equipment and other related items.', '600-6900-0094', NULL),
         (DEFAULT, 'Pet Supply', 'A business that sells goods and services for pets.', '600-6900-0097', NULL),
-        (DEFAULT, 'Florist', 'A business that sells and arranges plants and cut flowers.', '600-6900-0355', NULL);
+        (DEFAULT, 'Convenience Store', 'An establishment that sells groceries, candy, toiletries, soft drinks, tobacco products, newspapers and other products. Some convenience stores may be part of a petro/fuel station.', '600-6000-0061', NULL)
 
 INSERT INTO GEODB.CITEM(ID,"NAME",DESCRIPTION, IMAGE)
 VALUES  (DEFAULT, 'Meat', 'Everything meaty is to be found here', NULL),
