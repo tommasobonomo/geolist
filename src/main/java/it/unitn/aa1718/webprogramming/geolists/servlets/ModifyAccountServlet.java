@@ -61,7 +61,7 @@ public class ModifyAccountServlet extends HttpServlet {
                 if(pc.usernameCtrl(newUsername)){
                     user.setUsername(newUsername);
                     UserDAO userDB = new UserDAO();
-                    userDB.update(user.getId(), user);
+                    userDB.updateWithoutImage(user.getId(), user);
                     request.setAttribute("usernameError", false); //questi errori mi servono per comunicare che sia andato tutto bene oppure no
                 }
                 else{
@@ -77,7 +77,7 @@ public class ModifyAccountServlet extends HttpServlet {
                 if(pc.emailCtrl(newEmail)){
                     user.setEmail(newEmail);
                     UserDAO userDB = new UserDAO();
-                    userDB.update(user.getId(), user);
+                    userDB.updateWithoutImage(user.getId(), user);
                     request.setAttribute("emailError", false); //questi errori mi servono per comunicare che sia andato tutto bene oppure no
                 }
                 else{
@@ -93,7 +93,7 @@ public class ModifyAccountServlet extends HttpServlet {
                 if(pc.nameCtrl(newName)){
                     user.setName(newName);
                     UserDAO userDB = new UserDAO();
-                    userDB.update(user.getId(), user);
+                    userDB.updateWithoutImage(user.getId(), user);
                     request.setAttribute("nameError", false); //questi errori mi servono per comunicare che sia andato tutto bene oppure no
                 }
                 else{
@@ -109,7 +109,7 @@ public class ModifyAccountServlet extends HttpServlet {
                 if(pc.surnameCtrl(newSurname)){
                     user.setLastname(newSurname);
                     UserDAO userDB = new UserDAO();
-                    userDB.update(user.getId(), user);
+                    userDB.updateWithoutImage(user.getId(), user);
                     request.setAttribute("surnameError", false); //questi errori mi servono per comunicare che sia andato tutto bene oppure no
                 }
                 else{
@@ -126,7 +126,7 @@ public class ModifyAccountServlet extends HttpServlet {
                 if(user.getPassword().equals(HashGenerator.Hash(oldPassword)) && pc.passwordCtrl(newPassword)){
                     user.setPassword(HashGenerator.Hash(newPassword));
                     UserDAO userDB = new UserDAO();
-                    userDB.update(user.getId(), user);
+                    userDB.updateWithoutImage(user.getId(), user);
                     request.setAttribute("passwordError", false); //questi errori mi servono per comunicare che sia andato tutto bene oppure no
                 }
                 else{

@@ -128,7 +128,7 @@ public class ViewFriendProfileServlet extends HttpServlet {
         long id = Long.parseLong(request.getParameter("friendId"));
         
         UserDAO userDAO = new UserDAO();
-        Optional<byte[]> byteArrayOpt = userDAO.getBlobImageFromItem(id);
+        Optional<byte[]> byteArrayOpt = userDAO.getBlobImage(id);
         
         if (byteArrayOpt.isPresent()) {
             response.setContentType("image/gif");

@@ -93,7 +93,7 @@ public class RememberPassword extends HttpServlet {
                 }
                 //setto la nuova password nel db
                 thisUser.setPassword(hashPassword);
-                userDAO.update(thisUser.getId(), thisUser);
+                userDAO.updateWithoutImage(thisUser.getId(), thisUser);
 
                 request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
             } else {

@@ -70,7 +70,7 @@ public class ViewAccountServlet extends HttpServlet {
         private void retrieveImage(HttpServletRequest request, HttpServletResponse response, long id) throws IOException {
 
         UserDAO userDAO = new UserDAO();
-        Optional<byte[]> byteArrayOpt = userDAO.getBlobImageFromItem(id);
+        Optional<byte[]> byteArrayOpt = userDAO.getBlobImage(id);
         
         if (byteArrayOpt.isPresent()) {
             response.setContentType("image/gif");

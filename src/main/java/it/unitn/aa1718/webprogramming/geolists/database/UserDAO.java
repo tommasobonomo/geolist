@@ -206,13 +206,15 @@ public class UserDAO implements CrudDao<User> {
         return null;
     }
     
-    public Optional<byte[]> getBlobImageFromItem(long id) {
+    public Optional<byte[]> getBlobImage(long id) {
         
         String query = "SELECT * FROM Users AS I WHERE I.id = ?";
         Optional<byte[]> byteArrayOpt = Optional.empty();
+        Connection c = null;
+        
         try {
             
-            Connection c = Database.openConnection();
+            c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             ps.setLong(1,id);
             ResultSet rs = ps.executeQuery();
@@ -223,9 +225,15 @@ public class UserDAO implements CrudDao<User> {
             } else {
                 System.out.println("no image to be found");
             }
-            c.commit();
+            
         } catch (Exception e) {
              System.out.println(e);
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         return byteArrayOpt;
@@ -286,6 +294,34 @@ public class UserDAO implements CrudDao<User> {
             ps.setBoolean(9, obj.isAdmin());
             ps.setString(10, obj.getPassword());
             ps.setLong(11, id);
+            
+            ps.executeUpdate();
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
+
+    }
+    
+    public void updateWithoutImage(long id, User obj) {
+        String query="UPDATE Users "
+                + "SET cookie=?, username=?, name=?, lastname=?, email=?, token=?, active=?, admin=?, password=?"
+                + "WHERE id=?";
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+
+            ps.setString(1, obj.getCookie());
+            ps.setString(2, obj.getUsername());
+            ps.setString(3, obj.getName());
+            ps.setString(4, obj.getLastname());
+            ps.setString(5, obj.getEmail());
+            ps.setString(6, obj.getToken());
+            ps.setBoolean(7, obj.isActive());
+            ps.setBoolean(8, obj.isAdmin());
+            ps.setString(9, obj.getPassword());
+            ps.setLong(10, id);
             
             ps.executeUpdate();
             c.commit();

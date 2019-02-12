@@ -146,7 +146,7 @@ public class ItemServlet extends HttpServlet {
         long id = Long.parseLong(request.getParameter("itemID"));
         
         ItemDAO itemDAO = new ItemDAO();
-        Optional<byte[]> byteArrayOpt = itemDAO.getBlobImageFromItem(id);
+        Optional<byte[]> byteArrayOpt = itemDAO.getBlobImage(id);
         
         if (byteArrayOpt.isPresent()) {
             response.setContentType("image/gif");

@@ -42,7 +42,7 @@ public class ActivateAccount extends HttpServlet {
         if(userdb.getFromEmailAndToken(email, token).isPresent() && notTooLate(b,a,email)==true){//controllo se presente e se il token non e' scaduto
             User u= userdb.getFromEmailAndToken(email, token).get();
             u.setIsActive(true); //setto attivo
-            userdb.update(u.getId(), u);
+            userdb.updateWithoutImage(u.getId(), u);
             //apre pagina dove si fa il login
             request.getRequestDispatcher("/ROOT/register/activate.jsp").forward(request, response);
         }
