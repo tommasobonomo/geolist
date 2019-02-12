@@ -93,7 +93,7 @@ public class ListServlet extends HttpServlet {
     
     private void retrieveImage(HttpServletRequest request, HttpServletResponse response, long id) throws IOException {
         ProductListDAO listDAO = new ProductListDAO();
-        Optional<byte[]> byteArrayOpt = listDAO.getBlobImageFromList(id);
+        Optional<byte[]> byteArrayOpt = listDAO.getBlobImage(id);
         
         if (byteArrayOpt.isPresent()) {
             response.setContentType("image/gif");

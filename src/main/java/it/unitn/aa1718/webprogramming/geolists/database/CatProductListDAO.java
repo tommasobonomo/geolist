@@ -99,13 +99,15 @@ public class CatProductListDAO implements CrudDao<CatList> {
         return map;
     }
 
-    public Optional<byte[]> getBlobImageFromCatList(long id) {
+    public Optional<byte[]> getBlobImage(long id) {
        
         String query = "SELECT * FROM CList AS CL WHERE I.id = ?";
         Optional<byte[]> byteArrayOpt = Optional.empty();
+        Connection c = null;
+        
         try {
             
-            Connection c = Database.openConnection();
+            c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             ps.setLong(1,id);
             ResultSet rs = ps.executeQuery();
@@ -119,6 +121,12 @@ public class CatProductListDAO implements CrudDao<CatList> {
             c.commit();
         } catch (Exception e) {
              System.out.println(e);
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CatProductListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         return byteArrayOpt;
