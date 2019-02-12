@@ -5,11 +5,12 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.utility;
 
-import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
-import java.util.HashMap;
+import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ItemPermissionDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
+import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -17,14 +18,15 @@ import java.util.Map;
  */
 public class test {
     public static void main(String[] args){
-        Map<Long, String> mapCatOfLists = new HashMap<>();
-        List<CatList> listProductList = new CatProductListDAO().getAll();
-        for(CatList elem : listProductList){
-            mapCatOfLists.put(elem.getIdCategory(), elem.getName());
+        List<CatItem> idCategories = new ItemPermissionDAO().getItemCategories(1);
+        List<Item> items = new ArrayList<>();
+        for (CatItem elem : idCategories){
+            List<Item> itemOfCategory = new ItemDAO().getAllByIdCat(elem.getIdCatItem());
+            items.addAll(itemOfCategory);
         }
         
-        for(int i = 1; i<=listProductList.size(); i++){
-            System.out.println("key :"+i+" -- value:"+mapCatOfLists.get(i));
+        for(Item elem : items){
+            System.out.println("catItem:"+ elem.getIdCat()+" ----- name:"+elem.getName());
         }
     }
 }

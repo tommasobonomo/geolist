@@ -107,6 +107,7 @@
                             <a style="display: inline-block;" href="<c:url value="/ItemServlet">
                                    <c:param name="itemID" value="${item.getId()}"/>
                                    <c:param name="action" value="viewItem"/>
+                                   <c:param name="listID" value="${listID}"/>
                                </c:url>">
                                 <button class="btn btn-outline-info btn-md ml-2 my-2 mr-2"><i class="far fa-eye"></i></button>
                             </a>
@@ -136,6 +137,61 @@
                 </div>
             </div>
             <hr>
+
+
+            <!--cambio del logo-->
+            <div class="row">
+                <div class="col-6 m-auto" >
+                    <div class="dislpay-4 font-10 my-2">
+                        current logo: <img class="mx-auto border" src="<c:url value="/List">
+                                               <c:param name="action" value="retrieveImage" />
+                                               <c:param name="listID" value="${listID}" />
+                                           </c:url>" alt="logo image" id="logoEditItem">
+                    </div>
+                </div>
+                <div class="col-6  m-auto">
+                    <div class="dislpay-4 font-10 my-2">
+                        change with: <input type="file" id="newLogo" name="newLogo" accept="image/png, image/jpeg">
+                    </div>
+                </div>
+            </div>
+            <hr class="padding-bottom">
+
+
+            <c:if test="${friends.size() != 0}">
+                <!--container con amici-->
+                <div class="display-4 font-15 my-2 padding-bottom padding-top text-center">
+                    Your Friends:
+                </div>
+                <div class="container testimonial-group padding-bottom">
+                    <div class="row flex-row flex-nowrap card-deck">
+
+                        <c:forEach var="friend" items="${friends}">
+                            <!--elenco di carte-->
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="card m-0">
+                                    <img class="card-img-top border" src="<c:url value="/friend/profile">
+                                             <c:param name="action" value="retrieveImage"/>
+                                             <c:param name="friendId" value="${friend.getId()}"/>
+                                         </c:url>">
+                                    <h4 class="card-title text-center">${friend.getName()}</h4>
+                                    <div class="card-footer">
+                                        <div class="custom-control custom-checkbox ml-3">
+                                            <input type="checkbox" class="custom-control-input" id="shared${friend.getId()}" name="example1" checked>
+                                            <label class="custom-control-label" for="shared${friend.getId()}"> &nbsp; shared</label>
+                                        </div><br>
+
+                                        <div class="custom-control custom-checkbox ml-3">
+                                            <input type="checkbox" class="custom-control-input" id="permission${friend.getId()}" name="example1">
+                                            <label class="custom-control-label" for="permission${friend.getId()}"> &nbsp; can modify</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </c:if>
         </div>
 
 

@@ -202,13 +202,13 @@
                                </c:url>"><button class="d-inline btn btn-outline-info btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="Modify">
                                     <i class="fas fa-pencil-alt"></i></button>
                             </a>
+                            <a href="<c:url value="/ListRegistration">
+                                   <c:param name="action" value="removeList"/>
+                                   <c:param name="listID" value="${list.getId()}"/>
+                               </c:url>"><button class="d-inline btn btn-outline-danger btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="Remove">
+                                    <i class="far fa-trash-alt"></i></button>
+                            </a>
                         </c:if>
-                        <a href="<c:url value="/ListRegistration">
-                               <c:param name="action" value="removeList"/>
-                               <c:param name="listID" value="${list.getId()}"/>
-                           </c:url>"><button class="d-inline btn btn-outline-danger btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="Remove">
-                                <i class="far fa-trash-alt"></i></button>
-                        </a>
                     </div>
 
                     <!--collapse-->

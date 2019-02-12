@@ -8,7 +8,6 @@ package it.unitn.aa1718.webprogramming.geolists.database;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ItemPermission;
-import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

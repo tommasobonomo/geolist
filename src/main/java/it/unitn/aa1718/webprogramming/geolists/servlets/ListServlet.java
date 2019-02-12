@@ -8,12 +8,15 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.IsFriendDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ItemPermissionDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -60,15 +63,15 @@ public class ListServlet extends HttpServlet {
         
         
         if (userID.isPresent() && !accessDAO.canHaveAccess(userID.get(), listID)) {
-            System.out.println("errore non ha accesso");
+            // System.out.println("errore non ha accesso");
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("error", "YOU DON'T HAVE ACCESS");
             request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
             
         } else if (userID.isPresent() && !accessDAO.havePermission(userID.get(), listID) ) { // se non ha i permessi di modifica
-            System.out.println("errore non ha permesso");
+            // System.out.println("errore non ha permesso");
             response.setContentType("text/html;charset=UTF-8");
-            request.setAttribute("error", "YOU CAN'T MODIFY THIS LIST \n ASK TO THE OWNER FOR PERMISSION ");
+            request.setAttribute("error", "YOU CAN'T MODIFY THIS LIST <br> ASK TO THE OWNER FOR PERMISSION ");
             request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
         }else {
             switch (action) {
@@ -155,6 +158,8 @@ public class ListServlet extends HttpServlet {
 
         // Get list details if present
         Optional<ProductList> plOpt = plDAO.get(listID);
+        List<Item> items = new ArrayList<>();
+        List<User> friends = new ArrayList<>();
         String name = "";
         String desc = "";
         String category = "";
@@ -164,14 +169,27 @@ public class ListServlet extends HttpServlet {
             name = pl.getName();
             desc = pl.getDescription();
             category = new CatProductListDAO().get(pl.getIdCat()).get().getName();
+            
+            // Get items related to the category id for adding purposes
+            List<CatItem> idCategories = new ItemPermissionDAO().getItemCategories(pl.getIdCat());
+            for (CatItem elem : idCategories) {
+                List<Item> itemOfCategory = new ItemDAO().getAllByIdCat(elem.getIdCatItem());
+                items.addAll(itemOfCategory);
+            }
+            
+            // get friends of user
+            UserUtil uUtil = new UserUtil();
+            Optional<User> userOptional = uUtil.getUserOptional(request);
+            if(userOptional.isPresent()){
+                User user = userOptional.get();
+                friends = new IsFriendDAO().getFriends(user.getId());
+            }
         }
-
-        // Get all items for adding purposes
-        List<Item> allItems = itemDAO.getAllOrderedByName();
+        
         
         //get user id from cookie
-        UserUtil u = new UserUtil();
-        Optional<Cookie> cookie = u.getCookie(request);
+        UserUtil us = new UserUtil();
+        Optional<Cookie> cookie = us.getCookie(request);
         
         request.setAttribute("userCookie", cookie.get().getValue());
         
@@ -180,10 +198,11 @@ public class ListServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setAttribute("listID", listID);
         request.setAttribute("listItems", listItems);
-        request.setAttribute("allItems", allItems);
+        request.setAttribute("allItems", items);
         request.setAttribute("name", name);
         request.setAttribute("desc", desc);
         request.setAttribute("category",category);
+        request.setAttribute("friends", friends);
         
         //for retrieve quantity
         request.setAttribute("mapQuantityItem", mapQuantityItem);
