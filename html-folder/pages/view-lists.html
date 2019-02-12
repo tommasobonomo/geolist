@@ -1,455 +1,789 @@
 <html>
-    <head>
-        <title>Geolist - lists</title>
-        <link rel="icon" href="../images/logos/logo.png">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-        <link rel="stylesheet" href="../css/main.css">
-    </head>
 
-    <body>
+<head>
+    <title>Geolist - lists</title>
+    <link rel="icon" href="../images/logos/logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../../src/main/webapp/ROOT/css/main.css">
+</head>
 
-        <!--navbar-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <div class="container-fluid">
-                
-                <!--logo e titolo del sito-->
-                <a class="navbar-brand" href="../index.html">
-                    <img src="../images/logos/logo-orizzontale.png" height="40px" width="120px">
-                </a>
-                
-                <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
+<body>
+
+    <!--navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container-fluid">
+
+            <!--logo e titolo del sito-->
+            <a class="navbar-brand" href="../index.html">
+                <img src="../images/logos/logo-orizzontale.png" height="40px" width="120px">
+            </a>
+
+            <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
                 la dimensione specificata nel target-->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div action="" class="collapse navbar-collapse" id="collapse-target">
-                    <!--pulsante ricerca prodotto-->
-                    <form class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <select class="form-control mr-sm-2">
-                            <option disabled selected hidden>category</option>                            
-                            <option>all</option>
-                            <option>farmacia</option>
-                            <option>carne</option>
-                            <option>pesce</option>
-                        </select>
-                        <a href="search.html"><button class="btn btn-outline-danger my-2 my-sm-0" type="button">Search</button></a>
+            <div action="" class="collapse navbar-collapse" id="collapse-target">
+                <!--pulsante ricerca prodotto-->
+                <form class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <select class="form-control mr-sm-2">
+                        <option disabled selected hidden>category</option>
+                        <option>all</option>
+                        <option>farmacia</option>
+                        <option>carne</option>
+                        <option>pesce</option>
+                    </select>
+                    <a href="search.html"><button class="btn btn-outline-danger my-2 my-sm-0" type="button">Search</button></a>
+                </form>
+            </div>
+
+            <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
+            <div class="collapse navbar-collapse" id="collapse-target">
+
+                <!--lista degli elementi cliccabili-->
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link " href="#">Lists</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">Profile</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row welcome text-center" id="titoloPrincipale">
+            <div class="col-12 padding-top">
+                <img src="../images/logos/logo-orizzontale.png" height="60" width="160">
+            </div>
+            <div class="col-12">
+                <h1 class="display-4 font-20 my-2">NOME UTENTE, Welcome back to Geolist</h1>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!--riga separatrice-->
+
+    <!--body con liste-->
+    <div class="container">
+
+        <!--lista 1-->
+        <div class="row padding-bottom" >
+
+            <!--titolo-->
+            <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8" id="listaTitle">
+                <div class="display-4 font-20 my-2">
+                    Nome della lista<br>
+                    <small class="font-10 mr-sm-2">categoria</small>
+                </div>
+            </div>
+
+            <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4" id="listaIcons" data-toggle="collapse" data-target="#listWindow1">
+                <button class="btn btn-outline-secondary btn-md my-2" data-toggle="tooltip" data-placement="bottom"
+                    title="See description">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="chat.html"><button class="btn btn-outline-warning btn-md my-2" data-toggle="tooltip"
+                        data-placement="bottom" title="Chat">
+                        <i class="far fa-comments"></i></button>
+                </a>
+                <a href="create-lists.html"><button class="btn btn-outline-info btn-md my-2" data-toggle="tooltip"
+                        data-placement="bottom" title="modify">
+                        <i class="fas fa-pencil-alt"></i></button>
+                </a>
+                <a href=""><button class="btn btn-outline-danger btn-md my-2" data-toggle="tooltip" data-placement="bottom"
+                        title="cancel">
+                        <i class="far fa-trash-alt"></i></button>
+                </a>
+            </div>
+
+            <!--collapse-->
+            <div class="collapse width-phone" id="listWindow1">
+                <div class="row padding-bottom padding-top">
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="img-wrap-list border">
+                            <img class="mr-3" src="../images/cards/vegetariano.jpg" alt="Generic placeholder image">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-9">
+                        <h5 class="mt-0">Description</h5>
+                        <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                            sollicitudin.
+                            Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum
+                            nunc
+                            ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                        <p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo.
+                            Cum
+                            sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                        <p div="d-inline padding-top" class="mb-0">
+                            You shared this list with :
+                            <div class="d-inline font-italic font-weight-bold">
+                                Mario rossi, Giorgio Segalla, Carlo Carlino.
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--lista-->
+            <div class="container padding-top testimonial-group">
+                <div class="row flex-nowrap flex-row card-deck">
+
+                    <!--elenco di carte-->
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+        <hr>
+
+
+        <!--lista 2-->
+        <div class="row padding-bottom">
+
+            <!--titolo-->
+            <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8" id="listaTitle">
+                <div class="display-4 font-20 my-2">
+                    Nome della lista<br>
+                    <small class="font-10 mr-sm-2">categoria</small>
+                </div>
+            </div>
+
+            <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4" id="listaIcons" data-toggle="collapse" data-target="#listWindow2">
+                <button class="btn btn-outline-secondary btn-md my-2" data-toggle="tooltip" data-placement="bottom"
+                    title="See description">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="chat.html"><button class="btn btn-outline-warning btn-md my-2" data-toggle="tooltip"
+                        data-placement="bottom" title="Chat">
+                        <i class="far fa-comments"></i></button>
+                </a>
+                <a href="create-lists.html"><button class="btn btn-outline-info btn-md my-2" data-toggle="tooltip"
+                        data-placement="bottom" title="modify">
+                        <i class="fas fa-pencil-alt"></i></button>
+                </a>
+                <a href=""><button class="btn btn-outline-danger btn-md my-2" data-toggle="tooltip" data-placement="bottom"
+                        title="cancel">
+                        <i class="far fa-trash-alt"></i></button>
+                </a>
+            </div>
+
+            <!--collapse-->
+            <div class="collapse width-phone" id="listWindow2">
+                <div class="row padding-bottom padding-top">
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="img-wrap-list border">
+                            <img class="mr-3" src="../images/cards/vegetariano.jpg" alt="Generic placeholder image">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-9">
+                        <h5 class="mt-0">Description</h5>
+                        <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                            sollicitudin.
+                            Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum
+                            nunc
+                            ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                        <p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo.
+                            Cum
+                            sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                        <p div="d-inline padding-top" class="mb-0">
+                            You shared this list with :
+                            <div class="d-inline font-italic font-weight-bold">
+                                Mario rossi, Giorgio Segalla, Carlo Carlino.
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--lista-->
+            <div class="container padding-top testimonial-group">
+                <div class="row flex-nowrap flex-row card-deck">
+
+                    <!--elenco di carte-->
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+        <hr>
+
+
+        <!--lista 3-->
+        <div class="row padding-bottom">
+
+            <!--titolo-->
+            <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8" id="listaTitle">
+                <div class="display-4 font-20 my-2">
+                    Nome della lista<br>
+                    <small class="font-10 mr-sm-2">categoria</small>
+                </div>
+            </div>
+
+            <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4" id="listaIcons" data-toggle="collapse" data-target="#listWindow3">
+                <button class="btn btn-outline-secondary btn-md my-2" data-toggle="tooltip" data-placement="bottom"
+                    title="See description">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="chat.html"><button class="btn btn-outline-warning btn-md my-2" data-toggle="tooltip"
+                        data-placement="bottom" title="Chat">
+                        <i class="far fa-comments"></i></button>
+                </a>
+                <a href="create-lists.html"><button class="btn btn-outline-info btn-md my-2" data-toggle="tooltip"
+                        data-placement="bottom" title="modify">
+                        <i class="fas fa-pencil-alt"></i></button>
+                </a>
+                <a href=""><button class="btn btn-outline-danger btn-md my-2" data-toggle="tooltip" data-placement="bottom"
+                        title="cancel">
+                        <i class="far fa-trash-alt"></i></button>
+                </a>
+            </div>
+
+            <!--collapse-->
+            <div class="collapse width-phone" id="listWindow3">
+                <div class="row padding-bottom padding-top">
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="img-wrap-list border">
+                            <img class="mr-3" src="../images/cards/vegetariano.jpg" alt="Generic placeholder image">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-9">
+                        <h5 class="mt-0">Description</h5>
+                        <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                            sollicitudin.
+                            Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum
+                            nunc
+                            ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                        <p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo.
+                            Cum
+                            sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                        <p div="d-inline padding-top" class="mb-0">
+                            You shared this list with :
+                            <div class="d-inline font-italic font-weight-bold">
+                                Mario rossi, Giorgio Segalla, Carlo Carlino.
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--lista-->
+            <div class="container padding-top testimonial-group">
+                <div class="row flex-nowrap flex-row card-deck">
+
+                    <!--elenco di carte-->
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card m-0">
+                            <a href="item.html" id="card-trash">
+                                <button class="btn btn-outline-success btn-md my-2 mr-2"><i class="far fa-eye"></i></button>
+                            </a>
+                            <div class="custom-control custom-checkbox" id="card-trash-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                <label class="custom-control-label" for="customCheck"></label>
+                            </div>
+                            <img class="card-img-top border" src="../images/cards/durango.png">
+                            <div class="card-body">
+                                <h4 class="card-title">Durango</h4>
+                                <p class="card-text">Delicioudsfdsf chicken wings, ready in jus</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                Quantity : 5
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+        <hr>
+
+
+
+    </div>
+
+
+    <!--bottone fissato in basso a destra con finestra modale-->
+    <button class="button-fixed btn btn-danger" data-toggle="modal" data-target="#createModal">
+        Create a new one <i class="fas fa-plus"></i>
+    </button>
+
+    <!--finestra modale -->
+    <div class="modal fade show" id="createModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+
+                    <div class="center-absolute">
+                        <span class="display-4 font-15">Create a new list</span>
+                    </div>
+
+                    <form action="" class="form-spacer needs-validation padding-top" novalidate>
+
+                        <!--input "base"-->
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name" class="form-control" required autofocus>
+                            <div class="invalid-feedback">name required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoria">Category</label>
+                            <select class="form-control mr-sm-2" id="categoria" required>
+                                <option>farmacia</option>
+                                <option>carne</option>
+                                <option>pesce</option>
+                            </select>
+                            <div class="invalid-feedback">category required</div>
+                        </div>
+                        <!--bottoni-->
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <button type="button" class="btn btn-outline-secondary btn-md" data-dismiss="modal">Cancel</button>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <!--div da cambiare in button-->
+                                    <a href="create-lists.html">
+                                        <div class="btn btn-outline-danger btn-md">Create</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
 
-                <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
-                <div class="collapse navbar-collapse" id="collapse-target">
-                    
-                    <!--lista degli elementi cliccabili-->
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="../index.html">Home</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link " href="#">Lists</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="profile.html">Profile</a>
-                        </li>
-                    </ul>
-
-                </div>
-            </div>
-        </nav>
-
-        <!--body con liste-->
-        <div class="container padding-top2">
-
-            <!--lista 1-->
-            <div class="row padding-top padding-bottom">
-
-                <!--titolo-->
-                <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8">
-                    <div class="display-4 font-20 my-2">
-                        Nome della lista<br>
-                        <small class="font-10 mr-sm-2">categoria</small>
-                    </div>
-                </div>
-
-                <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4 text-right">
-                    <a href="chat.html"><button class="btn btn-outline-warning btn-md my-2"><i class="far fa-comments"></i></button></a> 
-                    <a href="create-lists.html"><button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i></button></a>
-                    <a href=""><button class="btn btn-outline-danger btn-md my-2"><i class="far fa-trash-alt"></i></button></a>
-                </div>
-
-                <!--items-->
-                <div class="container testimonial-group">
-                    <div class="row flex-nowrap card-deck">
-
-                        <!--elenco di carte-->
-
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-
-                    
-                    </div>
-                </div>
-                
-            </div>
-            <hr>
-
-            <!--lista 2-->
-            <div class="row padding-top padding-bottom">
-
-                <!--titolo-->
-                <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8">
-                    <div class="display-4 font-20 my-2">
-                        Nome della lista<br>
-                        <small class="font-10 mr-sm-2">categoria</small>
-                    </div>
-                </div>
-
-                <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4 text-right">
-                    <a href="chat.html"><button class="btn btn-outline-warning btn-md my-2"><i class="far fa-comments"></i></button></a> 
-                    <a href="create-lists.html"><button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i></button></a>
-                    <a href=""><button class="btn btn-outline-danger btn-md my-2"><i class="far fa-trash-alt"></i></button></a>
-                </div>
-
-                <!--items-->
-                <div class="container testimonial-group">
-                    <div class="row flex-nowrap card-deck">
-
-                        <!--elenco di carte-->
-
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-
-                    
-                    </div>
-                </div>
-                
-            </div>
-            <hr>
-
-            <!--lista 3-->
-            <div class="row padding-top padding-bottom">
-
-                <!--titolo-->
-                <div class="col-xs-4 col-sm-6 col-md-7 col-lg-8">
-                    <div class="display-4 font-20 my-2">
-                        Nome della lista<br>
-                        <small class="font-10 mr-sm-2">categoria</small>
-                    </div>
-                </div>
-
-                <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4 text-right">
-                    <a href="chat.html"><button class="btn btn-outline-warning btn-md my-2"><i class="far fa-comments"></i></button></a> 
-                    <a href="create-lists.html"><button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i></button></a>
-                    <a href=""><button class="btn btn-outline-danger btn-md my-2"><i class="far fa-trash-alt"></i></button></a>
-                </div>
-
-                <!--items-->
-                <div class="container testimonial-group">
-                    <div class="row flex-nowrap card-deck">
-
-                        <!--elenco di carte-->
-
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card" id="cardInSlider">
-                                <img class="card-img-top" src="../images/cards/durango.png">
-                                <div class="card-body">
-                                    <h4 class="card-title">Durango</h4>
-                                    <p class="card-text">Delicious chicken wings, ready in just 2 minutes in the hoven</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    Quantity : 5
-                                </div>
-                            </div>
-                        </div>
-                        
-
-                    
-                    </div>
-                </div>
-                
-            </div>
-
-        </div>
-
-
-        <!--bottone fissato in basso a destra con finestra modale-->
-        <button class="button-fixed btn btn-danger" data-toggle="modal" data-target="#createModal">
-            Create a new one <i class="fas fa-plus"></i>
-        </button>
-
-        <!--finestra modale -->
-        <div class="modal fade show" id="createModal">
-            <div class="modal-dialog">
-                <div class="modal-content">                
-                    <div class="modal-body">
-                        
-                        <div class="center-absolute">
-                            <span class="display-4 font-15">Create a new list</span> 
-                        </div>
-
-                        <form action="" class="form-spacer needs-validation padding-top" novalidate>
-                            
-                            <!--input "base"-->
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" name="name" id="name" class="form-control" required autofocus>
-                                <div class="invalid-feedback">name required</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="categoria">Category</label>
-                                <select class="form-control mr-sm-2" id="categoria" required>
-                                    <option>farmacia</option>
-                                    <option>carne</option>
-                                    <option>pesce</option>
-                                </select>
-                                <div class="invalid-feedback">category required</div> 
-                            </div>
-                            <!--bottoni-->
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-6 text-center">
-                                        <button type="button" class="btn btn-outline-secondary btn-md" data-dismiss="modal">Cancel</button>
-                                    </div>
-                                    <div class="col-6 text-center"><!--div da cambiare in button-->
-                                        <a href="create-lists.html"><div class="btn btn-outline-danger btn-md">Create</div></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-
-                </div>
             </div>
         </div>
+    </div>
 
-        
-        
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-        <script src="../scripts/main.js"></script>
-    </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="../scripts/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</body>
+
 </html>

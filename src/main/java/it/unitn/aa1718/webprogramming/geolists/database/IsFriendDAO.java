@@ -25,12 +25,14 @@ public class IsFriendDAO{
     
     /**
      * get user who have isFriend to that list
-     * @param listID
+     * ricordo due utenti sono amici se esistono due righe con (id1,id2) e (id2,id1)
+     * @param userID
      * @return list of user
      */
     public List<User> getFriends(long userID) {
-        String query1 = "SELECT usr2 FROM IsFriend AS F WHERE F.usr1 = " + userID;
-        String query2 = "SELECT usr1 FROM IsFriend AS F WHERE F.usr2 = " + userID;
+        String query1 = " (SELECT usr2 as id FROM IsFriend AS F WHERE F.usr1 =" + userID +")"
+                + " INTERSECT "
+                + " (SELECT usr1 as id FROM IsFriend AS F WHERE F.usr2 =" + userID +")";
         
         List<User> list = new ArrayList<>();
         UserDAO a = new UserDAO();
@@ -41,13 +43,59 @@ public class IsFriendDAO{
             ResultSet rs = s.executeQuery(query1); //usr2
             
             while (rs.next()) {
-                list.add(a.get(rs.getLong("usr2")).get());
+                list.add(a.get(rs.getLong("id")).get());
             }
             
-            rs = s.executeQuery(query2); //usr1
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return list;
+    }
+    
+    /**
+     * 
+     * @param userId
+     * @param possibleFriendId
+     * @return true if they are friend, false else
+     */
+    public boolean isFriend(long userId, long possibleFriendId) {
+        IsFriendDAO isFriendDAO = new IsFriendDAO();
+        List<User> friends = isFriendDAO.getFriends(userId);
+        
+        //controllo siano realmente amici
+        boolean isReallyFriends=false;
+        for(User f : friends){
+            if(f.getId()==possibleFriendId)
+                isReallyFriends=true;
+        }
+        
+        return isReallyFriends;
+    }
+    
+    /**
+     * get friend request pending
+     * @param listID
+     * @return list of user
+     */
+    public List<User> getRequestFriends(long userID) {
+        String query1 = "(SELECT usr1 as id FROM IsFriend AS F WHERE F.usr2 = "+userID  +")"
+                + " EXCEPT "
+                + " (SELECT usr2 as id FROM IsFriend AS F WHERE F.usr1 = "+userID
+                + " INTERSECT "
+                + " SELECT usr1 as id FROM IsFriend AS F WHERE F.usr2 = "+userID +")";
+        
+        List<User> list = new ArrayList<>();
+        UserDAO a = new UserDAO();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query1); //usr2
             
             while (rs.next()) {
-                list.add(a.get(rs.getLong("usr1")).get());
+                list.add(a.get(rs.getLong("id")).get());
             }
             
             c.commit();

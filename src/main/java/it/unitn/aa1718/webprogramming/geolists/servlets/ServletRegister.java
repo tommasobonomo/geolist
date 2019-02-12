@@ -15,6 +15,7 @@ import it.unitn.aa1718.webprogramming.geolists.utility.ParametersController;
 import java.sql.Timestamp;
 import javax.servlet.annotation.WebServlet;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -37,28 +38,55 @@ import javax.servlet.http.Part;
 public class ServletRegister extends HttpServlet {
      
     Random rand = new Random();
-    String username, email, name, lastname, password,
+    String username="", email="", name="", lastname="", password="",
             cookie= Integer.toString(rand.nextInt(5000000)+1), 
-            token, time, timeToken;
+            token="", time="", timeToken="";
     InputStream image = null;
     boolean admin=false, active=false;
     
-    @Override
-    protected void  doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/ROOT/email/register.jsp").forward(request, response);
-     
+    
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //mi ricavo lo user dal coockie
+        UserUtil uUtil = new UserUtil();
+        Optional<User> userOptional = uUtil.getUserOptional(request);
+        
+        String action = request.getParameter("action");
+        
+        if (!userOptional.isPresent() && action!=null) {
+            
+            switch (action) {
+                case "send":
+                    sendRegister(request, response);
+                    break;
+                case "view":
+                default:
+                    request.getRequestDispatcher("/ROOT/register/register.jsp").forward(request, response);
+                    break;
+            }
+            
+        } else if(userOptional.isPresent()){
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "YOU ARE ALREADY REGISTER");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            
+        } else if(action==null){
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "BAD REQUEST");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            
+        } else {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "BAD REQUEST");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            
+        }
     }
     
-    /**
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    @Override
-    protected void  doPost(HttpServletRequest request, HttpServletResponse response) 
+    void sendRegister(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+                
+
         //con questo mi prendo l'utente anonimo con il cookie della richiesta
         Cookie[] cookies = request.getCookies();
         String thisCookie= "noCookie";
@@ -72,9 +100,7 @@ public class ServletRegister extends HttpServlet {
         }
         
         Optional<UserAnonimous> utenteAnonimo = (new UserAnonimousDAO()).getFromCookie(thisCookie);
-        
-        
-        
+
         //prendo valori variabili dalla richiesta
         this.username = request.getParameter("UserName");
         this.name = request.getParameter("FirstName");
@@ -93,26 +119,46 @@ public class ServletRegister extends HttpServlet {
             Logger.getLogger(ItemRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        
+        //variabili varie
         ParametersController pc = new ParametersController();
-        //controllo esistenza user
-        boolean unameNew = pc.isUnameNew(this.username);
-        //controllo esistenza email
-        boolean emailNew = pc.isEmailNew(this.email);
-        //controllo la email
-        boolean emailCheck = pc.emailCtrl(this.email);
-        //controllo la password
-        boolean passCheck = pc.passwordCtrl(this.password);
+        Boolean error = false;
+        request.setAttribute("passwordError", false);
+        request.setAttribute("emailError", false);
+        request.setAttribute("usernameError", false);
+        request.setAttribute("nameError", false);
+        request.setAttribute("surnameError", false);
+        request.setAttribute("termsError", false);
+        
+        //controlli
+        if(!pc.passwordCtrl(this.password)){  //controllo password
+            error = true;
+            request.setAttribute("passwordError", true);
+        }
+        if(!pc.surnameCtrl(this.lastname)){  //controllo username
+            error = true;
+            request.setAttribute("surnameError", true);
+        }
+        if(!pc.nameCtrl(this.name)){  //controllo name
+            error = true;
+            request.setAttribute("nameError", true);
+        }
+        if (!pc.emailCtrl(this.email)){  //controllo la mail
+            error = true;
+            request.setAttribute("emailError", true);
+        }
+        if (!pc.usernameCtrl(this.username)){
+            error = true;
+            request.setAttribute("usernameError", true);
+        }
+        if (!"on".equals(request.getParameter("terms"))){
+            error = true;
+            request.setAttribute("termsError", true);
+        }
         
         
-        if(!passCheck){  //controllo password
-            System.out.println("PASSWORD NON CORRETTA, DEVE CONTENERE UN NUMERO, UNA LETTERA E UN CARATTERE SPECIALE");    
-        }else if (!emailCheck){  //controllo la mail
-            System.out.println("EMAIL NON CORRETTA, DEVE CONTENERE UNA @,UN CARATTARE DAVANTI ALLA \"@\", UN \".\" DOPO LA @ E CON UN DOMINIO DOPO IL \".\"");
-        }else if (!unameNew){
-            System.out.println("USER GIA PRESENTE NEL DATABASE");
-        }else if (!emailNew){
-            System.out.println("EMAIL GIA PRESENTE NEL DATABASE");
-        }else{
+        //controllo se c'è stato un errore
+        if(!error){
             //creo il token (PER ORA A RANDOM)
             this.token = DigestUtils.md5Hex(""+this.rand.nextInt(999999999));
             //creo user che andrò a ficcare nel database e lo inserisco
@@ -138,11 +184,52 @@ public class ServletRegister extends HttpServlet {
             es.sendEmail();
             
             //mando l'utente nella pagina di corretto invio della mail
-            request.getRequestDispatcher("/ROOT/email/verify.jsp").forward(request, response);
+            request.getRequestDispatcher("/ROOT/register/verify.jsp").forward(request, response);
+        }
+        else{
+            request.getRequestDispatcher("/ROOT/register/register.jsp").forward(request, response);
         }
         
-        //mando l'utente nella pagina di errore
-        request.getRequestDispatcher("/ROOT/email/error.jsp").forward(request, response);
-        
     }
+
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+    
 }

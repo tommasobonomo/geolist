@@ -76,7 +76,7 @@ public class CookieManager{
             
             UserDAO db = new UserDAO();
             u.setCookie(cookieVal);
-            db.update(u.getId(), u);
+            db.updateWithoutImage(u.getId(), u);
         }
       
         cookieNew = new Cookie("Cookie", cookieVal);

@@ -18,7 +18,7 @@ public class User {
     private String name;
     private String lastname;
     private String email;
-    private InputStream image;
+    transient private InputStream image;
     private String password;
     private String token;
     private boolean isActive;

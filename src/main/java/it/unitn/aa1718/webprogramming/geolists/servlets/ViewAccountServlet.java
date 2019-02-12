@@ -1,8 +1,10 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,14 +34,51 @@ public class ViewAccountServlet extends HttpServlet {
         //mi ricavo lo user dal coockie
         UserUtil uUtil = new UserUtil();
         Optional<User> userOptional = uUtil.getUserOptional(request);
-        User user = null;
-        if(userOptional.isPresent()){
-            user = userOptional.get();
+        String action = request.getParameter("action");
+        
+        if (!userOptional.isPresent()){
+            
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "YOU DON'T HAVE ACCESS");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            
+        } else if(action==null){
+            
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "BAD REQUEST");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            
+        } else {
+            User user = userOptional.get();
+
+            
+            switch (action) {
+                case "retrieveImage":
+                    retrieveImage(request, response, user.getId());
+                    break;
+                case "viewAccount":
+                    request.setAttribute("user", user);
+                    request.getRequestDispatcher("/ROOT/profile/ViewAccount.jsp").forward(request, response);
+                    break;
+                default:
+                    break;
+            }
         }
         
+    }
+    
+        private void retrieveImage(HttpServletRequest request, HttpServletResponse response, long id) throws IOException {
+
+        UserDAO userDAO = new UserDAO();
+        Optional<byte[]> byteArrayOpt = userDAO.getBlobImage(id);
         
-        request.setAttribute("user", user);
-        request.getRequestDispatcher("/ROOT/profile/ViewAccount.jsp").forward(request, response);
+        if (byteArrayOpt.isPresent()) {
+            response.setContentType("image/gif");
+            OutputStream os = response.getOutputStream();
+            os.write(byteArrayOpt.get());
+            os.flush();
+            os.close();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

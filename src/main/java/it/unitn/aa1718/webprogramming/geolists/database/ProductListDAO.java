@@ -17,9 +17,12 @@ import static java.sql.Types.INTEGER;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * DAO pattern for the List relation
+ *
  * @author tommaso
  */
 public class ProductListDAO implements CrudDao<ProductList> {
@@ -30,19 +33,19 @@ public class ProductListDAO implements CrudDao<ProductList> {
         if (blob != null) {
             image = blob.getBinaryStream();
         }
-        return new ProductList(rs.getLong("id"),rs.getLong("userOwner"), rs.getLong("userAnonOwner"),
-                rs.getLong("idCat"), rs.getString("name"),rs.getString("description"), image);
+        return new ProductList(rs.getLong("id"), rs.getLong("userOwner"), rs.getLong("userAnonOwner"),
+                rs.getLong("idCat"), rs.getString("name"), rs.getString("description"), image);
     }
-    
+
     @Override
     public Optional<ProductList> get(long id) {
-        String query = "SELECT * FROM List AS L WHERE L.id=" + id; 
+        String query = "SELECT * FROM List AS L WHERE L.id=" + id;
         Optional<ProductList> res = Optional.empty();
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
-            
+
             if (rs.next()) {
                 res = Optional.of(createProductList(rs));
             } else {
@@ -52,7 +55,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
         return res;
     }
 
@@ -60,12 +63,12 @@ public class ProductListDAO implements CrudDao<ProductList> {
     public List<ProductList> getAll() {
         String query = "SELECT * FROM List";
         List list = new ArrayList<>();
-        
+
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
-            
+
             while (rs.next()) {
                 list.add(createProductList(rs));
             }
@@ -73,40 +76,66 @@ public class ProductListDAO implements CrudDao<ProductList> {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
         return list;
     }
 
-    public Optional<byte[]> getBlobImageFromList(long id) {
+    public Optional<byte[]> getBlobImage(long id) {
         String query = "SELECT * FROM LIST AS L WHERE L.id = ?";
         Optional<byte[]> byteArrayOpt = Optional.empty();
+        Connection c = null;
         try {
-            Connection c = Database.openConnection();
-            PreparedStatement ps =c.prepareStatement(query);
-            ps.setLong(1,id);
+            c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Blob blob = rs.getBlob("logo");
+                Blob blob = rs.getBlob("image");
                 byteArrayOpt = Optional.of(blob.getBytes(1, (int) blob.length()));
             } else {
                 System.out.println("no image to be found");
             }
             c.commit();
         } catch (Exception e) {
-             System.out.println(e);
+            System.out.println(e);
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
+
         return byteArrayOpt;
     }
-        
+
+    public List<ProductList> getListsFromCategoryId(long catogoryListId) {
+        String query = "SELECT L.* FROM GEODB.CLIST as C join GEODB.LIST as L on C.ID=L.IDCAT WHERE C.ID= " + catogoryListId;
+        List<ProductList> list = new ArrayList<>();
+
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            while (rs.next()) {
+                list.add(createProductList(rs));
+            }
+            c.commit();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
     @Override
     public void create(ProductList obj) {
-        String query= "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
-                        "VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n"
+                + "VALUES (?,?,?,?,?,?)";
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
-            
+
             if (obj.getUserOwner() == 0) {
                 ps.setNull(1, INTEGER);
             } else {
@@ -121,22 +150,22 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setString(4, obj.getName());
             ps.setString(5, obj.getDescription());
             ps.setBlob(6, obj.getImage());
-            
+
             ps.executeUpdate();
             c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-    
+
     public Optional<Long> createAndReturnID(ProductList obj) {
-        String query= "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n" +
-                        "VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n"
+                + "VALUES (?,?,?,?,?,?)";
         Optional<Long> listID = Optional.empty();
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-            
+
             if (obj.getUserOwner() == 0) {
                 ps.setNull(1, INTEGER);
             } else {
@@ -151,9 +180,9 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setString(4, obj.getName());
             ps.setString(5, obj.getDescription());
             ps.setBlob(6, obj.getImage());
-            
+
             ps.executeUpdate();
-            
+
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 listID = Optional.of(rs.getLong(1));
@@ -164,41 +193,41 @@ public class ProductListDAO implements CrudDao<ProductList> {
         }
         return listID;
     }
-    
+
     /**
      * set the user owner anonymous of the list to null
+     *
      * @param id of the list
      */
     public void updateUserAnonOwnerToNull(long id) {
-        String query="UPDATE List "
+        String query = "UPDATE List "
                 + "SET userAnonOwner=?"
                 + "WHERE id=?";
-        
+
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
-            
+
             ps.setString(1, null);
-            ps.setLong(2,id);
-            
+            ps.setLong(2, id);
+
             ps.executeUpdate();
             c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }   
-        
+        }
+
     }
-    
+
     @Override
     public void update(long id, ProductList obj) {
-        String query="UPDATE List "
+        String query = "UPDATE List "
                 + "SET userOwner=?, userAnonOwner=?, idCat=?, name=?, description=?, image=?"
                 + "WHERE id=?";
-        
+
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
-            
 
             if (obj.getUserOwner() == 0) {
                 ps.setNull(1, INTEGER);
@@ -214,48 +243,48 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setString(4, obj.getName());
             ps.setString(5, obj.getDescription());
             ps.setBlob(6, obj.getImage());
-            ps.setLong(7,obj.getId());
-            
+            ps.setLong(7, obj.getId());
+
             ps.executeUpdate();
             c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }   
-        
+        }
+
     }
 
     @Override
     public void delete(long id) {
-        String query ="DELETE FROM List WHERE id=?";
-        
+        String query = "DELETE FROM List WHERE id=?";
+
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
-            
 
             ps.setLong(1, id);
-            
+
             ps.executeUpdate();
             c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-    
+
     /**
      * restituisce tutte le liste di un utente loggato
+     *
      * @param userID
      */
     public List<ProductList> getListUser(long userID) {
         String query = "SELECT * FROM List AS L WHERE L.userowner = " + userID;
         List<ProductList> list = new ArrayList<>();
         ProductListDAO a = new ProductListDAO();
-        
+
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
-            
+
             while (rs.next()) {
                 list.add(a.get(rs.getLong("id")).get());
             }
@@ -263,36 +292,36 @@ public class ProductListDAO implements CrudDao<ProductList> {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
         return list;
     }
-    
+
     /**
      * @author giorgio
-     * 
-     * restituisce la lista di un utente anonimo, non una lista di liste
-     * dato che un utente puo averne al massimo una
+     *
+     * restituisce la lista di un utente anonimo, non una lista di liste dato
+     * che un utente puo averne al massimo una
      * @param userAnonID
      * @return optional of a product list, Otpional.empty() se non ce ne sono
      */
     public Optional<ProductList> getListAnon(long userAnonID) {
         String query = "SELECT * FROM List AS L WHERE L.useranonowner = " + userAnonID;
         Optional<ProductList> res = Optional.empty();
-        
+
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
-            
+
             if (rs.next()) {
-                res=Optional.of(createProductList(rs));
+                res = Optional.of(createProductList(rs));
             }
             c.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
         return res;
     }
-       
+
 }

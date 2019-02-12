@@ -14,8 +14,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * DAO pattern for the CatList relation
@@ -30,7 +34,7 @@ public class CatProductListDAO implements CrudDao<CatList> {
             image = blob.getBinaryStream();
         }
         return new CatList(rs.getLong("id"), rs.getString("name"), 
-                rs.getString("description"), image);
+                rs.getString("description"), rs.getString("HERECODE"), image);
     }
     
     @Override
@@ -72,14 +76,38 @@ public class CatProductListDAO implements CrudDao<CatList> {
         }
         return list;
     }
+    
+    /**
+     * create a map of ids of categories and their names
+     * @return the map
+     */
+    public Map<Long, String> getAllNamesOfCat() {
+        String query = "SELECT id, name FROM CItem";
+        Map <Long, String> map = new HashMap<>();
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while(rs.next()) {
+                map.put(rs.getLong("id"), rs.getString("name"));
+            }
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return map;
+    }
 
-    public Optional<byte[]> getBlobImageFromCatList(long id) {
+    public Optional<byte[]> getBlobImage(long id) {
        
         String query = "SELECT * FROM CList AS CL WHERE I.id = ?";
         Optional<byte[]> byteArrayOpt = Optional.empty();
+        Connection c = null;
+        
         try {
             
-            Connection c = Database.openConnection();
+            c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             ps.setLong(1,id);
             ResultSet rs = ps.executeQuery();
@@ -93,9 +121,37 @@ public class CatProductListDAO implements CrudDao<CatList> {
             c.commit();
         } catch (Exception e) {
              System.out.println(e);
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CatProductListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         return byteArrayOpt;
+    }
+    
+    public Optional<String> getNameFromHereCode(String herecode) {
+        String query = "SELECT DISTINCT \"NAME\" FROM CLIST WHERE HERECODE = ?";
+        Optional<String> res = Optional.empty();
+        
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+            ps.setString(1, herecode);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                res = Optional.of(rs.getString("NAME"));
+            }
+            c.commit();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CatProductListDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return res;
     }
     
     @Override

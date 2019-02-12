@@ -15,12 +15,14 @@ public class CatList {
     private long idCategory;
     private String name;
     private String description;
-    private InputStream image;
+    private String HERECODE;
+    transient private InputStream image;
 
-    public CatList(long idCategory, String name, String description, InputStream image) {
+    public CatList(long idCategory, String name, String description, String HERECODE, InputStream image) {
         this.idCategory = idCategory;
         this.name = name;
         this.description = description;
+        this.HERECODE = HERECODE;
         this.image = image;
     }
 
@@ -42,6 +44,14 @@ public class CatList {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getHERECODE() {
+        return HERECODE;
+    }
+
+    public void setHERECODE(String HERECODE) {
+        this.HERECODE = HERECODE;
     }
 
     public void setDescription(String description) {
@@ -80,7 +90,7 @@ public class CatList {
 
     @Override
     public String toString() {
-        return "CatList{" + "idCategory=" + idCategory + ", name=" + name + ", description=" + description + ", image=" + image + '}';
+        return "CatList{" + "idCategory=" + idCategory + ", name=" + name + ", description=" + description + ", HERECODE=" + HERECODE + ", image=" + image + '}';
     }
     
 }

@@ -19,7 +19,7 @@ public class ProductList {
     private long idCat;
     private String name;
     private String description;
-    private InputStream image;
+    transient private InputStream image;
 
     /**
      * constructor with id

@@ -3,22 +3,16 @@ package it.unitn.aa1718.webprogramming.geolists.endpoint;
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.MessageDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
-import it.unitn.aa1718.webprogramming.geolists.database.models.Message;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 import javafx.util.Pair;
 import javax.websocket.OnClose;
@@ -29,78 +23,83 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/quantity/{listid}/{userCookie}")
+@ServerEndpoint(value = "/quantity/{userCookie}")
 public class QuantityEndpoint {
 
     private Session session;
-    private static HashMap<Session, Long> listIdFromSession = new HashMap<>();
+    private static HashMap<Session, Long> userIdFromSession = new HashMap<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("userCookie") String userCookie, @PathParam("listid") long listid) throws IOException {
+    public void onOpen(Session session, @PathParam("userCookie") String userCookie) throws IOException {
         Optional<User> u = (new UserDAO()).getUser(userCookie);
-        
-        AccessDAO aDAO = new AccessDAO();
-        ProductListDAO pDAO = new ProductListDAO();
         
         if (!u.isPresent()) {
             UserAnonimousDAO dao = new UserAnonimousDAO();
             Optional<UserAnonimous> ua = dao.getFromCookie(userCookie);
             
             if(ua.isPresent()){
-                if(possiedeAnonimamente(ua.get().getId(),listid)){
-                    listIdFromSession.put(session, listid);
-                    session.getBasicRemote().sendText(new MessageJson("server", "connection succesfull", "").toJson());
-                } else {
-                    session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
-                }
+                
+                this.onClose(session);
+                session.getBasicRemote().sendText(new MessageJson("server", "you are anonymous", "").toJson());
+                
             }
             else
                 session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
             
         } else {
-            if(aDAO.canHaveAccess(u.get().getId(), listid)){
-                session.getBasicRemote().sendText(new MessageJson("server", "connection succesfull", "").toJson());
-                listIdFromSession.put(session, listid);
-            }
-
+            session.getBasicRemote().sendText(new MessageJson("server", "connection succesfull", "").toJson());
+            userIdFromSession.put(session, u.get().getId());
         }
     }
 
     @OnMessage
     public void onMessage(Session session, String txt)
             throws IOException {
-        long listId = listIdFromSession.get(session);
+        long userId = userIdFromSession.get(session);
         
-        Pair <String,Long> parsedString = parse(txt);
-        long itemId = parsedString.getValue();
-        String operation = parsedString.getKey();
-
+        MessageSession message = new MessageSession(txt);
+        long itemId=message.getItemId();
+        long listId=message.getListId();
+        AccessDAO accessDAO = new AccessDAO();
+        
         ItemDAO itemDAO = new ItemDAO();
         Optional<Item> itemOpt = itemDAO.get(itemId);
-
-        if (!itemOpt.isPresent()) {
+        
+        ProductListDAO listDAO = new ProductListDAO();
+        Optional<ProductList> listOpt = listDAO.get(listId);
+        
+        ComposeDAO composeDAO = new ComposeDAO();
+        Optional<Compose> composeOpt = composeDAO.getComposeObjectFromItemIdListId(itemId, listId);
+        
+        if (!itemOpt.isPresent() || !listOpt.isPresent() || !composeOpt.isPresent()) {
+            session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
+        }
+        if(!accessDAO.canHaveAccess(userId, listId)){
             session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
         } else {
-            ComposeDAO composeDAO = new ComposeDAO();
-            int quantity = composeDAO.getQuantityFromItemAndList(itemId, listId).get();
             
-            System.out.println("operator :"+operation);
-            if(operation.equals("+"))
-                quantity++;
-            else if(operation.equals("-")){
-                if (quantity > 1) 
+            int quantity = composeOpt.get().getQuantity();
+            boolean take = composeOpt.get().isTake();
+            
+            //gestire le operazioni
+            switch (message.getOp()) {
+                case "+":
+                    quantity++;
+                    break; 
+                case "-":
+                    if (quantity > 1)
                         quantity--;
-            }        
-            else
-                 session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
+                    break;
+                case "k":
+                    take=!take;
+                    break;
+                default:
+                    session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
+                    break;
+            }
             
-            
-            
-
-            Compose c = new Compose(listId, itemId, quantity);
+            Compose c = new Compose(listId, itemId, quantity,take);
             composeDAO.updateQuantity(c);
-            session.getBasicRemote().sendText(new MessageJson(String.valueOf(itemId), operation, "").toJson());
-
         }
 
     }
@@ -108,7 +107,7 @@ public class QuantityEndpoint {
     @OnClose
     public void onClose(Session session) throws IOException {
         System.out.println("chiudo sessione");
-        listIdFromSession.remove(session);
+        userIdFromSession.remove(session);
     }
 
     @OnError
@@ -138,5 +137,7 @@ public class QuantityEndpoint {
     }
 
 }
+
+
 
 

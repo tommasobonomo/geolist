@@ -5,7 +5,9 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.utility;
 
+import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -51,6 +53,8 @@ public class ParametersController {
      */
     public boolean emailCtrl(String email){
         
+        String emailNoTest = email;
+        
         // controllo esistenza della "@"
         if(!email.contains("@")){
             return false;
@@ -60,7 +64,7 @@ public class ParametersController {
             }else{
                 email = email.substring(email.indexOf("@"));
                 // controllo esistenza "."
-                if(!email.contains(".")){
+                if(!email.contains(".") || email.indexOf(".") == 0){
                     return false;
                 }else{
                     // controllo esistenza di una stringa dopo il punto
@@ -70,7 +74,34 @@ public class ParametersController {
                 }
             }
         }
-        return true;
+        return true && isEmailNew(emailNoTest) && email.length()>0;
+    }
+    
+    /**
+     * function that check if the name is written correctly
+     * @param name name to check
+     * @return true if the name is written correctly false otherwise
+     */
+    public boolean nameCtrl(String name){
+        return name.length()>0;
+    }
+    
+    /**
+     * function that check if the surname is written correctly
+     * @param surname surname to check
+     * @return true if the surname is written correctly false otherwise
+     */
+    public boolean surnameCtrl(String surname){
+        return surname.length()>0;
+    }
+    
+    /**
+     * function that check if the username is written correctly
+     * @param username username to check
+     * @return true if the username is written correctly false otherwise
+     */
+    public boolean usernameCtrl(String username){
+        return username.length()>0 && isUnameNew(username) && !username.contains(" ");
     }
     
     /**
@@ -83,6 +114,16 @@ public class ParametersController {
         UserDAO db = new UserDAO();
         Optional<User> u = db.get(username);
         if(u.isPresent() || username.contains(" "))
+            return false;
+        
+        return true;
+    }
+    
+    public boolean isInameNew(String name){
+        
+        ItemDAO db = new ItemDAO();
+        Optional<Item> u = db.get(name);
+        if(u.isPresent() || name.contains(" "))
             return false;
         
         return true;
@@ -106,4 +147,5 @@ public class ParametersController {
         
         return true;
     }
+    
 }

@@ -86,7 +86,7 @@ public class LoginServlet extends HttpServlet {
                         }
                         else{//se l'utente non vuole essere ricordato
                             Cookie c = cm.setCookieOldUser(user);
-                            c.setMaxAge(60*30);//ricordo l'utente per mezz'ora
+                            c.setMaxAge(-1);//ricordo l'utente per mezz'ora
                             response.addCookie(c);
                         }
                     }

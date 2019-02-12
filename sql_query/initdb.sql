@@ -5,10 +5,10 @@ CREATE TABLE users (
     cookie VARCHAR(30),
     username VARCHAR(40) NOT NULL UNIQUE, 
     name VARCHAR(40) NOT NULL ,
-    lastname VARCHAR(40),
-    email VARCHAR(100) NOT NULL UNIQUE, 
+    lastname VARCHAR(40) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE, 
     image BLOB,
-    password VARCHAR(100) NOT NULL,
+    password VARCHAR(150) NOT NULL,
     token VARCHAR(255),
     active boolean,
     "ADMIN" BOOLEAN,
@@ -23,8 +23,9 @@ CREATE TABLE usersanonimous (
 
 CREATE TABLE clist (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
-    "NAME" VARCHAR(30),
-    description VARCHAR(30),
+    "NAME" VARCHAR(50),
+    description VARCHAR(1000),
+    HERECODE VARCHAR(20),
     image BLOB,
     CONSTRAINT clist_pk PRIMARY KEY (id)
 );
@@ -35,8 +36,8 @@ CREATE TABLE list (
     userowner INTEGER,
     useranonowner INTEGER UNIQUE,
     idcat INTEGER,
-    "NAME" VARCHAR(30),
-    description VARCHAR(255),
+    "NAME" VARCHAR(50),
+    description VARCHAR(1000),
     image BLOB,
     FOREIGN KEY (userowner) 
         REFERENCES users(id)
@@ -52,8 +53,8 @@ CREATE TABLE list (
 
 CREATE TABLE citem (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
-    "NAME" VARCHAR(30),
-    description VARCHAR(255),
+    "NAME" VARCHAR(50),
+    description VARCHAR(1000),
     image BLOB,
     CONSTRAINT citem_pk PRIMARY KEY (id)
 );
@@ -65,9 +66,9 @@ CREATE TABLE item (
     FOREIGN KEY (idcat) 
         REFERENCES citem(id)
         ON DELETE CASCADE,
-    "NAME" VARCHAR(30),
+    "NAME" VARCHAR(50),
     logo BLOB,
-    note VARCHAR(255),
+    note VARCHAR(1000),
     CONSTRAINT item_pk PRIMARY KEY (id)
 );
 
@@ -75,7 +76,8 @@ CREATE TABLE item (
 CREATE TABLE compose(
     list INTEGER,
     item INTEGER ,
-    quantity INTEGER,
+    quantity INTEGER NOT NULL,
+    take BOOLEAN NOT NULL,
     FOREIGN KEY (item) 
         REFERENCES item(id)
         ON DELETE CASCADE,
@@ -100,6 +102,7 @@ CREATE TABLE isfriend(
 CREATE TABLE access(
     iduser INTEGER,
     idlist INTEGER,
+    havePermission BOOLEAN NOT NULL,
     FOREIGN KEY (iduser) 
         REFERENCES users(id)
         ON DELETE CASCADE,
@@ -109,15 +112,16 @@ CREATE TABLE access(
     PRIMARY KEY (iduser, idlist)    
 );
 
-CREATE TABLE productsoflists(
-    idlistcat INTEGER,
-    idprodcat INTEGER,
-    FOREIGN KEY (idlistcat)
+CREATE TABLE ItemPermission(
+    categoryListId INTEGER,
+    categoryItemId INTEGER,
+    FOREIGN KEY (categoryListId)
         REFERENCES clist(id)
         ON DELETE CASCADE,
-    FOREIGN KEY (idprodcat)
+    FOREIGN KEY (categoryItemId)
         REFERENCES citem(id)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+    PRIMARY KEY (categoryListId, categoryItemId)
 );    
 
 CREATE TABLE message(

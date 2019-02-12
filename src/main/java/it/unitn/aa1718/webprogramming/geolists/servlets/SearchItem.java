@@ -5,12 +5,21 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ItemPermissionDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
+import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,66 +33,146 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "SearchItem", urlPatterns = {"/form-action/search"})
 public class SearchItem extends HttpServlet {
 
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            
+
         //parametri di ricerca
         HttpSession session = request.getSession();
         String wordSearched = null;
         Integer categorySearched = null;
-        String orderBy = null;
-        orderBy = (String) request.getParameter("orderBy");
-        
-
-        //recupero da dove di dovere
-        if(orderBy == null){
-            wordSearched = (String) request.getParameter("wordSearched");
-            categorySearched = Integer.parseInt(request.getParameter("categorySearched"));
-        } else{
-            wordSearched = (String) session.getAttribute("wordSearched");
-            categorySearched = (Integer) session.getAttribute("categorySearched");
-        }
-
-        
-        //effettuo la ricerca
         ItemDAO itemDAO = new ItemDAO();
         List<Item> items = null;
-        if(categorySearched == 0){
-            items = itemDAO.getFromPattern(wordSearched);
+        int nResults = 0, pageTot;
+        String orderBy = (String) request.getParameter("orderBy");
+        if (orderBy == null) {
+            orderBy = "noOrder";
         }
-        else{
-            items = itemDAO.getFromPatternAndCategory(wordSearched, categorySearched);
+
+        //calcolo page e offset
+        int start = Integer.parseInt(request.getParameter("page"));
+        int total = 12;
+        start = start - 1;
+        if (start != 0) {
+            start = start * total + 1;
         }
-        
-           
-        //ordino se c'è bisogno di ordinare qualcosa
-        if("alfabetico".equals(orderBy)){
-           Collections.sort(items, new Comparator<Item>() {
-                @Override
-                public int compare(Item i1, Item i2) {
-                    return i1.getName().compareTo(i2.getName());
+
+        //recupero da dove di dovere
+        if ("noOrder".equals(orderBy)) {
+            wordSearched = (String) request.getParameter("wordSearched");
+            wordSearched = wordSearched.toLowerCase();
+            categorySearched = Integer.parseInt(request.getParameter("categorySearched"));
+            //faccio ricerca normale
+            if (categorySearched == 0) {
+                items = itemDAO.getFromPattern(wordSearched, start, total);
+                nResults = itemDAO.getNResultsFromPattern(wordSearched);
+            } else {
+                items = itemDAO.getFromPatternAndCategory(wordSearched, categorySearched, start, total);
+                nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched);
+            }
+        } else {
+            wordSearched = (String) session.getAttribute("wordSearched");
+            categorySearched = (Integer) session.getAttribute("categorySearched");
+            //faccio ricerca ordinata
+            if ("alfabetico".equals(orderBy)) {
+                if (categorySearched == 0) {
+                    items = itemDAO.getFromPatternOrderedByAlfabetico(wordSearched, start, total);
+                    nResults = itemDAO.getNResultsFromPattern(wordSearched);
+                } else {
+                    items = itemDAO.getFromPatternAndCategoryOrderedByAlfabetico(wordSearched, categorySearched, start, total);
+                    nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched);
                 }
-            });
-        }
-        if("categoria".equals(orderBy)){
-           Collections.sort(items, new Comparator<Item>() {
-                @Override
-                public int compare(Item i1, Item i2) {
-                    return Long.valueOf(i1.getIdCat()).compareTo(Long.valueOf(i2.getIdCat()));
+            }
+            if ("categoria".equals(orderBy)) {
+                if (categorySearched == 0) {
+                    items = itemDAO.getFromPatternOrderedByCategory(wordSearched, start, total);
+                    nResults = itemDAO.getNResultsFromPattern(wordSearched);
+                } else {
+                    items = itemDAO.getFromPatternAndCategory(wordSearched, categorySearched, start, total);
+                    nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched);
                 }
-            });
+            }
         }
-        
-         
+
+        //conto le pagine di item totali
+        pageTot = nResults / 12;
+        if (nResults % 12 != 0) {
+            pageTot++;
+        }
+
+        //COSE DI GIORGIO
+        UserUtil u = new UserUtil();
+        Optional<User> userOpt = u.getUserOptional(request);
+        Optional<UserAnonimous> userAnoOpt = u.getUserAnonymousOptional(request);
+
+        //attributi della sessione
+        Map<Long, List<Long>> mapListAddPermissionByItem = new HashMap<>();
+        Map<Long, ProductList> mapListOfUser = new HashMap<>();
+        boolean isLogged = false;
+
+        //se è loggato
+        if (userOpt.isPresent()) {
+            ItemPermissionDAO itemPermissionDAO = new ItemPermissionDAO();
+
+            for (Item i : items) {
+                long userId = userOpt.get().getId();
+                List<Long> list = itemPermissionDAO.getPossibleMyListToAddItem(userId, i.getId());
+                mapListAddPermissionByItem.put(i.getId(), list);
+            }
+
+            ProductListDAO plDAO = new ProductListDAO();
+            List<ProductList> listOfProductListUser = plDAO.getListUser(userOpt.get().getId());
+
+            for (ProductList list : listOfProductListUser) {
+                mapListOfUser.put(list.getId(), list);
+            }
+
+            isLogged = true;
+
+        } else if (userAnoOpt.isPresent()) { //se è anonimo
+            ProductListDAO plDAO = new ProductListDAO();
+
+            Optional<ProductList> listAnonymousOpt = plDAO.getListAnon(userAnoOpt.get().getId());
+
+            if (listAnonymousOpt.isPresent()) {
+                //aggiungo l'unica lista dell'utente anonimo alla mappa delle liste
+                ProductList listAnonymous = listAnonymousOpt.get();
+                mapListOfUser.put(listAnonymous.getId(), listAnonymous);
+                long categoryOfListId = listAnonymous.getIdCat();
+
+                ItemPermissionDAO itemPermissionDAO = new ItemPermissionDAO();
+
+                //se ha il permesso di essere aggiunto agli item la metto
+                for (Item i : items) {
+                    if (itemPermissionDAO.catogoryItemIsUnderCategoryList(categoryOfListId, i.getIdCat())) {
+                        List<Long> list = new ArrayList<>();
+                        list.add(listAnonymous.getId());
+                        mapListAddPermissionByItem.put(i.getId(), list);
+                    }
+                }
+            }
+            isLogged = false;
+
+        } else {
+            response.sendRedirect("/");
+        }
+
+        //genero la mappa che al suo interno ha gli id delle categorie e il nome della categoria relativo
+        Map<Long, String> mapIdCat = new CatProductListDAO().getAllNamesOfCat();
+
         //inserisco gli elementi nella sessione
+        request.setAttribute("page", request.getParameter("page"));
+        request.setAttribute("pageTot", pageTot);
+        request.setAttribute("orderBy", orderBy);
+        session.setAttribute("mapIdCat", mapIdCat);
         session.setAttribute("items", items);
         session.setAttribute("wordSearched", wordSearched);
         session.setAttribute("categorySearched", categorySearched);
+        session.setAttribute("mapListAddPermissionByItem", mapListAddPermissionByItem);
+        session.setAttribute("listOfUser", mapListOfUser);
+        session.setAttribute("logged", isLogged);
         request.getRequestDispatcher("/ROOT/SearchPage.jsp").forward(request, response);
     }
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -98,8 +187,7 @@ public class SearchItem extends HttpServlet {
             throws ServletException, IOException {
 
         processRequest(request, response);
-        
-  
+
     }
 
     /**
@@ -113,7 +201,7 @@ public class SearchItem extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         processRequest(request, response);
     }
 
@@ -126,6 +214,5 @@ public class SearchItem extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
 
 }

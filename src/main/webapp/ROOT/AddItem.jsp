@@ -29,5 +29,6 @@
             </p>
             <p> <input type="submit" value="Submit"> </p>
         </form>
+        <p>${formError}</p>
     </body>
 </html>

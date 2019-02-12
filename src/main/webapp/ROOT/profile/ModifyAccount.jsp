@@ -3,7 +3,7 @@
 <html>
     <head>
         <title>Geolist - profile</title>
-        <link rel="icon" href="../images/logos/logo.png">
+        <link rel="icon" href="/ROOT/logos/logo.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
@@ -50,11 +50,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Lists</a>
-                        </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="profile.html">Profile</a>
+                            <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
                         </li>
                     </ul>
 
@@ -70,8 +67,9 @@
                 <div class="col-md-3 padding-top menu">
                     <p class="display-4 padding-top menu-title">Profile</p>
                     <hr>
-                    <a href="/ViewAccount" class="menu-link"><p class="menu-link">General Info</p></a>
+                    <a href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>" class="menu-link"><p class="menu-link">General Info</p></a>
                     <a href="#" class="menu-link-active"><p class="menu-link-active" >Edit profile</p></a> 
+                    <a href="/ManageFriends" class="menu-link"><p class="menu-link" >Friends</p></a>
                     <c:if test="${isAdmin}"><a href="admin-profile.html" class="menu-link"><p class="menu-link">Administration area</p></a></c:if>
                     <a href="/signOut" class="menu-link"><p class="menu-link">Log out</p></a> 
                     <hr>

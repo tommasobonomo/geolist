@@ -17,6 +17,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of DAO pattern for CatItem relation
@@ -37,6 +39,27 @@ public class CatItemDAO implements CrudDao<CatItem>{
     @Override
     public Optional<CatItem> get(long id) {
         String query = "SELECT * FROM CItem AS C WHERE C.id = " + id;
+        Optional<CatItem> res = Optional.empty();
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            if (rs.next()) {
+                res = Optional.of(createCategoryItem(rs));
+            } else {
+                res = Optional.empty();
+            }
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return res;
+    }
+    
+    public Optional<CatItem> getCategoryFromitem(long idItem) {
+        String query = "SELECT C.* FROM GEODB.citem as C join GEODB.item as I on C.ID=I.IDCAT WHERE I.ID=" + idItem;
         Optional<CatItem> res = Optional.empty();
         try {
             Connection c = Database.openConnection();
@@ -77,11 +100,13 @@ public class CatItemDAO implements CrudDao<CatItem>{
         return list;
     }
     
-    public Optional<byte[]> getBlobImageFromCatItem(long id) {
+    public Optional<byte[]> getBlobImage(long id) {
         String query = "SELECT * FROM CItem AS CI WHERE CI.id = ?";
         Optional<byte[]> byteArrayOpt = Optional.empty();
+        Connection c = null;
+        
         try {
-            Connection c = Database.openConnection();
+            c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
             ps.setLong(1,id);
             ResultSet rs = ps.executeQuery();
@@ -95,7 +120,13 @@ public class CatItemDAO implements CrudDao<CatItem>{
             c.commit();
         
         } catch (Exception e) {
-             System.out.println(e);
+            System.out.println(e);
+        } finally {
+            try {
+                c.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CatItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         return byteArrayOpt;

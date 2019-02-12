@@ -24,7 +24,7 @@ import java.util.Optional;
 public class ComposeDAO {
 
     private Compose createCompose(ResultSet rs) throws SQLException {
-        return new Compose(rs.getLong("LIST"), rs.getLong("ITEM"), rs.getInt("QUANTITY"));
+        return new Compose(rs.getLong("LIST"), rs.getLong("ITEM"), rs.getInt("QUANTITY"),rs.getBoolean("TAKE"));
     }
     
     public List<Compose> getItemsID(long listID) {
@@ -87,8 +87,8 @@ public class ComposeDAO {
         return list;
     }
     
-    public boolean addItemToList(long itemID, long listID, int quantity) {
-        String query = "INSERT INTO Compose(LIST,ITEM,QUANTITY) VALUES(?,?,?)";
+    public boolean addItemToList(long itemID, long listID, int quantity, boolean take) {
+        String query = "INSERT INTO Compose(LIST,ITEM,QUANTITY,TAKE) VALUES(?,?,?,?)";
         boolean success = true;
         
         try {
@@ -98,6 +98,7 @@ public class ComposeDAO {
             ps.setLong(1, listID);
             ps.setLong(2, itemID);
             ps.setInt(3, quantity);
+            ps.setBoolean(4, take);
             
             ps.executeUpdate();
             c.commit();
@@ -109,6 +110,12 @@ public class ComposeDAO {
         return success;
     }
     
+    /**
+     * ottiene la quantità di un item
+     * @param itemID
+     * @param listID
+     * @return
+     */
     public Optional<Integer> getQuantityFromItemAndList(long itemID, long listID) {
         String query = "SELECT * FROM Compose WHERE LIST="+ listID +" AND ITEM="+ itemID ;
         Optional<Integer> res = Optional.empty();
@@ -129,6 +136,12 @@ public class ComposeDAO {
         return res;
     }
     
+    /**
+     * ottieni il compose object quindi la quantita e se è gia stato preso
+     * @param itemID
+     * @param listID
+     * @return
+     */
     public Optional<Compose> getComposeObjectFromItemIdListId(long itemID, long listID) {
         String query = "SELECT * FROM Compose WHERE LIST="+ listID +" AND ITEM="+ itemID ;
         Optional<Compose> res = Optional.empty();
@@ -151,7 +164,7 @@ public class ComposeDAO {
     
     public void updateQuantity(Compose obj) {
         String query="UPDATE Compose "
-                + "SET quantity=?"
+                + "SET quantity=?, take=?"
                 + "WHERE LIST="+ obj.getIdList() +" AND ITEM="+ obj.getIdItem() ;
         
         try {
@@ -160,6 +173,7 @@ public class ComposeDAO {
             
 
             ps.setInt(1, obj.getQuantity());
+            ps.setBoolean(2, obj.isTake());
             
             ps.executeUpdate();
             c.commit();

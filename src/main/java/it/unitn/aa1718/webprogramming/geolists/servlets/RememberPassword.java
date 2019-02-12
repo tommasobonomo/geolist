@@ -10,10 +10,9 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.EmailSender;
 import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import it.unitn.aa1718.webprogramming.geolists.utility.PasswordGenerator;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,11 +40,22 @@ public class RememberPassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.setAttribute("error", false);
-            request.getRequestDispatcher("/ROOT/RequestNewPassword.jsp").forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+
+//mi ricavo lo user dal coockie
+        UserUtil uUtil = new UserUtil();
+        Optional<User> userOptional = uUtil.getUserOptional(request);
+
+        if (!userOptional.isPresent()) {
+            try {
+                request.setAttribute("error", false);
+                request.getRequestDispatcher("/ROOT/RequestNewPassword.jsp").forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "YOU ARE ALREADY SIGNED IN");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
         }
     }
 
@@ -63,31 +73,37 @@ public class RememberPassword extends HttpServlet {
         String userName = request.getParameter("userName");
         UserDAO userDAO = new UserDAO();
 
-        Optional<User> userOptional = userDAO.get(userName);
+        if (userName != null) {
+            Optional<User> userOptional = userDAO.get(userName);
 
-        if (userOptional.isPresent()) {
-            User thisUser = userOptional.get();
-            
-            String newPassword = PasswordGenerator.generate();
-            
-            //inivio la nuova password
-            EmailSender es = new EmailSender(thisUser.getEmail(), "", "");
-            es.sendEmailWithNewPassword(newPassword);
-            
-            String hashPassword="error inside";
-            try {
-                hashPassword = HashGenerator.Hash(newPassword);
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(RememberPassword.class.getName()).log(Level.SEVERE, null, ex);
+            if (userOptional.isPresent()) {
+                User thisUser = userOptional.get();
+
+                String newPassword = PasswordGenerator.generate();
+
+                //inivio la nuova password
+                EmailSender es = new EmailSender(thisUser.getEmail(), "", "");
+                es.sendEmailWithNewPassword(newPassword);
+
+                String hashPassword = "error inside";
+                try {
+                    hashPassword = HashGenerator.Hash(newPassword);
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(RememberPassword.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                //setto la nuova password nel db
+                thisUser.setPassword(hashPassword);
+                userDAO.updateWithoutImage(thisUser.getId(), thisUser);
+
+                request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
+            } else {
+                request.setAttribute("error", true);
+                request.getRequestDispatcher("/ROOT/RequestNewPassword.jsp").forward(request, response);
             }
-            //setto la nuova password nel db
-            thisUser.setPassword(hashPassword);
-            userDAO.update(thisUser.getId(), thisUser);
-            
-            request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
         } else {
-            request.setAttribute("error", true);
-            request.getRequestDispatcher("/ROOT/RequestNewPassword.jsp").forward(request, response);
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "BAD REQUEST");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
         }
     }
 
