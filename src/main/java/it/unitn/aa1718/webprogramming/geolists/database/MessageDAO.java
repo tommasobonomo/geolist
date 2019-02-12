@@ -27,6 +27,11 @@ public class MessageDAO implements CrudDao<Message>{
                  rs.getTimestamp("sendTime"),rs.getString("text"));
     }
     
+    /**
+     * get message by id, in a optional object to understand exist really
+     * @param id
+     * @return
+     */
     @Override
     public Optional<Message> get(long id) {
         String query = "SELECT * FROM Message AS M WHERE M.id = " + id;
@@ -49,6 +54,10 @@ public class MessageDAO implements CrudDao<Message>{
         return res;
     }
 
+    /**
+     * get all message
+     * @return
+     */
     @Override
     public List<Message> getAll() {
         String query = "SELECT * FROM Message";
@@ -70,6 +79,11 @@ public class MessageDAO implements CrudDao<Message>{
         return list;
     }
     
+    /**
+     * get messages of a list
+     * @param idList
+     * @return
+     */
     public List<Message> getMessageFromList(long idList) {
         String query = "SELECT * FROM Message WHERE idList="+idList;
         List listOfMessage = new ArrayList<>();
@@ -90,6 +104,10 @@ public class MessageDAO implements CrudDao<Message>{
         return listOfMessage;
     }
 
+    /**
+     * create message
+     * @param obj
+     */
     @Override
     public void create(Message obj) {
         String query= "INSERT INTO GEODB.MESSAGE(IDUSER,IDList,TEXT,SENDTIME)\n" +
@@ -112,8 +130,11 @@ public class MessageDAO implements CrudDao<Message>{
         }
     }
     
-    
-
+    /**
+     * update message by id
+     * @param id
+     * @param obj
+     */
     @Override
     public void update(long id, Message obj) {
         String query="UPDATE Message "
@@ -138,6 +159,10 @@ public class MessageDAO implements CrudDao<Message>{
         }  
     }
 
+    /**
+     * delete message by id
+     * @param id
+     */
     @Override
     public void delete(long id) {
         String query ="DELETE FROM Message WHERE id=?";

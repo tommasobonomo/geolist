@@ -138,6 +138,11 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         
     }
     
+    /**
+     * get user from id
+     * @param id
+     * @return
+     */
     @Override
     public Optional<UserAnonimous> get(long id) {
         String query= "SELECT * FROM UsersAnonimous as U WHERE U.id="+id;
@@ -159,7 +164,7 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
     }
     
     /**
-     * Obtain a UserAnonimous from his cookie
+     * Obtain a UserAnonimous from his cookie, in a optional object to understand exist really
      * @param cookie
      * @return
      */
@@ -182,7 +187,10 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         return u;
     }
     
-    
+    /**
+     * get all useranonimous, in a optional object to understand exist really
+     * @return
+     */
     @Override
     public List<UserAnonimous> getAll() {
         String query= "SELECT * FROM UsersAnonimous";
@@ -203,6 +211,10 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         return resList; //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * create user anonimous
+     * @param obj
+     */
     @Override
     public void create(UserAnonimous obj) {
         String query= "INSERT INTO GEODB.USERSANONIMOUS(COOKIE)\n" +
@@ -222,6 +234,11 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         }
     }
 
+    /**
+     * update useranonymous
+     * @param id
+     * @param obj
+     */
     @Override
     public void update(long id, UserAnonimous obj) {
         String query="UPDATE UsersAnonimous "
@@ -243,6 +260,10 @@ public class UserAnonimousDAO implements CrudDao<UserAnonimous>{
         } 
     }
 
+    /**
+     * delete user anonymous
+     * @param id
+     */
     @Override
     public void delete(long id) {
         String query ="DELETE FROM UsersAnonimous WHERE id=?";

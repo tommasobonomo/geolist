@@ -27,7 +27,7 @@ public class AccessDAO{
     }
     
     /**
-     * get user who have access to that list
+     * get list of user who have access to that list
      * @param listID
      * @return list of user
      */
@@ -82,7 +82,7 @@ public class AccessDAO{
     }
     
     /**
-     * get user who have access to that list
+     * get user who have the permission to modify productlist
      * @param userID
      * @param listID
      * @return if use have permission, false default
@@ -135,7 +135,7 @@ public class AccessDAO{
     }
 
     /**
-     * add access on db
+     * create new access on db
      * @param obj
      */
     public void create(Access obj) {
