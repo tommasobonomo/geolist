@@ -58,8 +58,8 @@ public class QuantityEndpoint {
         long userId = userIdFromSession.get(session);
         
         MessageSession message = new MessageSession(txt);
-        long itemId=message.getItemId();
-        long listId=message.getListId();
+        long itemId=message.getId1();
+        long listId=message.getId2();
         AccessDAO accessDAO = new AccessDAO();
         
         ItemDAO itemDAO = new ItemDAO();
