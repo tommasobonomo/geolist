@@ -191,6 +191,9 @@ public class ListServlet extends HttpServlet {
         UserUtil us = new UserUtil();
         Optional<Cookie> cookie = us.getCookie(request);
         
+        //rimuovo dalla lista di items che posso aggiungere gli items che sono già nella lista
+        items.removeAll(listItems);
+        
         request.setAttribute("userCookie", cookie.get().getValue());
         
 
