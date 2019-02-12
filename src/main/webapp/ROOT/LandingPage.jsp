@@ -253,6 +253,7 @@
                                     <div class="custom-control custom-checkbox" id="card-trash-2">
                                         <input type="checkbox" class="custom-control-input" id="customCheck${item.getId()}${list.getId()}" name="example1"
                                                onClick="writeMessage('k' + ' ' + '${item.getId()}'+ ' ' + '${list.getId()}','${item.getId()}','${list.getId()}')" <c:if test="${mapCompose.get(keyItem).isTake()}">checked</c:if>>
+
                                         <label class="custom-control-label" for="customCheck${item.getId()}${list.getId()}"></label>
                                     </div>
                                     <img class="card-img-top border" src="<c:url value="/ItemServlet">
@@ -423,7 +424,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </form>
                         </c:if>
                         <c:if test="${hasAlreadyList}">

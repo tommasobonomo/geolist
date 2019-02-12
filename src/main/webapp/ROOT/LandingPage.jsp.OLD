@@ -12,7 +12,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style><%@include file="./css/LandingPage.css" %></style>
         <title>Landing Page</title>
-
         <!-- Geolocation scripts in JS -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/geolocation.js"></script>
@@ -35,6 +34,16 @@
             <c:forEach var="list" items="${listOfPL}">
                 <div class="name">
                     <c:out value="${list.getName()}" />
+
+        <div class="list-category">
+            <c:forEach var="list" items="${listOfPL}">
+                <div class="name">
+                    <a href="<c:url value="/List">
+                           <c:param name="listID" value="${list.getId()}"/>
+                           <c:param name="action" value="view"/>
+                       </c:url>">
+                        <c:out value="${list.getName()}" />
+                    </a>
                 </div>
                 <c:set var="listID" value="${list.getId()}" />
                 <div class="items">
