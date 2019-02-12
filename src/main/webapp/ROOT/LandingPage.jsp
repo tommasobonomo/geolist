@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <c:if test="${logged}">
             <script><%@include file="./javascript/clientLanding.js" %></script>
-            <script> connect('${url}','${userCookie}')</script>
+            <script> connect('${url}', '${userCookie}')</script>
         </c:if>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
@@ -126,8 +126,8 @@
                     </div>
                 </div>
 
-                                                    
-        <!--Welcome della page-->                                            
+
+                <!--Welcome della page-->                                            
         <c:if test="${logged}">
             <div class="container-fluid">
                 <div class="row welcome text-center" id="titoloPrincipale">
@@ -196,12 +196,12 @@
                             </a>
                         </c:if>
                         <c:if test="${hasPermissionInThisList.get(list.getId())}">      
-                        <a href="<c:url value="/List">
-                               <c:param name="listID" value="${list.getId()}"/>
-                               <c:param name="action" value="view"/>
-                           </c:url>"><button class="d-inline btn btn-outline-info btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="Modify">
-                                <i class="fas fa-pencil-alt"></i></button>
-                        </a>
+                            <a href="<c:url value="/List">
+                                   <c:param name="listID" value="${list.getId()}"/>
+                                   <c:param name="action" value="view"/>
+                               </c:url>"><button class="d-inline btn btn-outline-info btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="Modify">
+                                    <i class="fas fa-pencil-alt"></i></button>
+                            </a>
                         </c:if>
                         <a href="<c:url value="/ListRegistration">
                                <c:param name="action" value="removeList"/>
@@ -252,9 +252,9 @@
                                     </a>
                                     <div class="custom-control custom-checkbox" id="card-trash-2">
                                         <input type="checkbox" class="custom-control-input" id="customCheck${item.getId()}${list.getId()}" name="example1"
-                                               onClick="writeMessage('k' + ' ' + '${item.getId()}'+ ' ' + '${list.getId()}','${item.getId()}','${list.getId()}')" <c:if test="${mapCompose.get(keyItem).isTake()}">checked</c:if>>
+                                               onClick="writeMessage('k' + ' ' + '${item.getId()}' + ' ' + '${list.getId()}', '${item.getId()}', '${list.getId()}')" <c:if test="${mapCompose.get(keyItem).isTake()}">checked</c:if>>
 
-                                        <label class="custom-control-label" for="customCheck${item.getId()}${list.getId()}"></label>
+                                               <label class="custom-control-label" for="customCheck${item.getId()}${list.getId()}"></label>
                                     </div>
                                     <img class="card-img-top border" src="<c:url value="/ItemServlet">
                                              <c:param value="${item.getId()}" name="itemID"/>
@@ -264,16 +264,19 @@
                                         <h4 class="card-title">${item.getName()}</h4>
                                         <p class="card-text">${item.getNote()}</p>
                                     </div>         
-                                    <input type="submit" value="-" onClick="writeMessage('-' + ' ' + '${item.getId()}'+ ' ' + '${list.getId()}','${item.getId()}','${list.getId()}')"/>
-                                    
+
                                     <div class="card-footer text-center">
+                                        <button type="submit" class="d-inline btn btn-outline-danger btn-sm my-3" value="-" onClick="writeMessage('-' + ' ' + '${item.getId()}' + ' ' + '${list.getId()}', '${item.getId()}', '${list.getId()}')">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
                                         Quantity: 
+                                        <div class="d-inline" id="counter${item.getId()} ${list.getId()}">
+                                            ${mapCompose.get(keyItem).getQuantity()}
+                                        </div>
+                                        <button type="submit" class="d-inline btn btn-outline-success btn-sm my-3" value="+" onClick="writeMessage('+' + ' ' + '${item.getId()}' + ' ' + '${list.getId()}', '${item.getId()}', '${list.getId()}')">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
                                     </div>
-                                    <div class="card-footer text-center" id="counter${item.getId()} ${list.getId()}">
-                                        ${mapCompose.get(keyItem).getQuantity()}
-                                    </div>
-                                    
-                                    <input type="submit" value="+" onClick="writeMessage('+' + ' ' + '${item.getId()}'+ ' ' + '${list.getId()}','${item.getId()}','${list.getId()}')"/>
                                 </div>
                             </div>
                         </c:forEach>
@@ -283,10 +286,10 @@
             </c:forEach>
         </div>
 
-        
+
         <!--resto pagina per non loggato-->
         <c:if test="${!logged}">
-            
+
             <!--3 colonne spiegazione-->
             <div class="container-fluid padding-bottom">
                 <div class="row welcome text-center">
@@ -313,7 +316,7 @@
                 </div>
                 <hr class="my-4">
             </div>
-            
+
             <!--titolo liste prestabilite-->
             <div class="container-fluid padding-bottom">
                 <div class="row welcome text-center">
@@ -362,8 +365,8 @@
                 </div>
             </div>
         </c:if>
-        
-        
+
+
         <!--bottone fissato in basso a destra con finestra modale-->
         <button class="button-fixed-list btn btn-danger" data-toggle="modal" data-target="#listModal">
             New list <i class="fas fa-plus"></i>

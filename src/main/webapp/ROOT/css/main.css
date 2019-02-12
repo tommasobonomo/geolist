@@ -440,6 +440,11 @@ hr.light {
 #listaIcons{
     text-align: right;
 }
+#listItems{
+  width: 100%;
+  height: 250px;
+  overflow-y: auto;
+}
 
 
 

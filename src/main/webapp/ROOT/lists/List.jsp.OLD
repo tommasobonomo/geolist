@@ -73,7 +73,7 @@
 
         <div class="header">Geolist</div>
         <h1>${name}</h1>
-        <p>${description}</p>
+        <p>${desc}</p>
 
         <c:if test="${logged}">
             <div class="chatoflist">

@@ -6,16 +6,17 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ComposeDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -156,21 +157,24 @@ public class ListServlet extends HttpServlet {
         Optional<ProductList> plOpt = plDAO.get(listID);
         String name = "";
         String desc = "";
+        String category = "";
 
         if (plOpt.isPresent()) {
             ProductList pl = plOpt.get();
             name = pl.getName();
             desc = pl.getDescription();
+            category = new CatProductListDAO().get(pl.getIdCat()).get().getName();
         }
 
         // Get all items for adding purposes
-        List<Item> allItems = itemDAO.getAll();
+        List<Item> allItems = itemDAO.getAllOrderedByName();
         
         //get user id from cookie
         UserUtil u = new UserUtil();
         Optional<Cookie> cookie = u.getCookie(request);
         
         request.setAttribute("userCookie", cookie.get().getValue());
+        
 
         // Return everything to List.jsp
         response.setContentType("text/html;charset=UTF-8");
@@ -179,6 +183,7 @@ public class ListServlet extends HttpServlet {
         request.setAttribute("allItems", allItems);
         request.setAttribute("name", name);
         request.setAttribute("desc", desc);
+        request.setAttribute("category",category);
         
         //for retrieve quantity
         request.setAttribute("mapQuantityItem", mapQuantityItem);
@@ -186,7 +191,7 @@ public class ListServlet extends HttpServlet {
         
         
         try {
-            request.getRequestDispatcher("/ROOT/List.jsp").forward(request, response);
+            request.getRequestDispatcher("/ROOT/lists/List.jsp").forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
