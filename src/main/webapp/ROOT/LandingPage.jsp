@@ -395,23 +395,29 @@
                             </div>
 
                             <form method="POST" action="<c:url value="/ListRegistration">
-                                      <c:param name="action" value="viewForm"/>
-                                  </c:url>" class="form-spacer needs-validation padding-top">
+                                      <c:param name="action" value="addList"/>
+                                  </c:url>" class="form-spacer needs-validation padding-top" enctype="multipart/form-data">
 
                                 <!--input "base"-->
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" id="name" class="form-control" required autofocus>
-                                    <div class="invalid-feedback">name required</div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="categoria">Category</label>
-                                    <select class="form-control mr-sm-2" id="categoria" required>
+                                    <label for="description">Description</label>
+                                    <textarea name="description" id="description" class="form-control" style="height:150px; overflow-y: scroll;" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="image">Image</label>
+                                    <input name="image" id="image" type="file" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select class="form-control mr-sm-2" id="category" name="category" required>
                                         <c:forEach var="category" items="${mapCatOfLists}">
                                             <option value="${category.key}">${category.value}</option>
                                         </c:forEach>
                                     </select>
-                                    <div class="invalid-feedback">category required</div>
                                 </div>
                                 <!--bottoni-->
                                 <div class="form-group">
@@ -422,7 +428,7 @@
                                         <div class="col-6 text-center">
                                             <!--div da cambiare in button-->
                                             <a href="create-lists.html">
-                                                <button type="submit" class="btn btn-outline-danger btn-md">Create</button>
+                                                <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
                                             </a>
                                         </div>
                                     </div>
