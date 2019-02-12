@@ -10,36 +10,39 @@ package it.unitn.aa1718.webprogramming.geolists.endpoint;
  * @author root
  */
 public class MessageSession {
-    private long itemId;
-    private long listId;
+    private long id2;
+    private long id1;
     private String op;
     
     public MessageSession(String txt) {
         String[] words = txt.split(" ");
         
-        for(String w : words){
-            System.out.println(w);
-        }
+        op    =words[0];
+        id1=Long.valueOf(words[1]);
+        id2=Long.valueOf(words[2]);
+    }
+    
+    public MessageSession(String txt, int x) {
+        String[] words = txt.split(" ");
         
         op    =words[0];
-        itemId=Long.valueOf(words[1]);
-        listId=Long.valueOf(words[2]);
+        id1=Long.valueOf(words[1]);
     }
 
-    public long getItemId() {
-        return itemId;
+    public long getId1() {
+        return id1;
     }
 
-    public void setItemId(long itemId) {
-        this.itemId = itemId;
+    public void setId1(long id1) {
+        this.id1 = id1;
     }
 
-    public long getListId() {
-        return listId;
+    public long getId2() {
+        return id2;
     }
 
-    public void setListId(long listId) {
-        this.listId = listId;
+    public void setId2(long id2) {
+        this.id2 = id2;
     }
 
     public String getOp() {

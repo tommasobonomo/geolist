@@ -9,6 +9,10 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <style><%@include file="/ROOT/css/main.css" %></style>
+        <script><%@include file="./javascript/clientChat.js" %></script>
+        <script type="text/javascript">
+            connect('${url}', '${listID}', '${userCookie}');
+        </script>
     </head>
 
     <body>
