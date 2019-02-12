@@ -464,7 +464,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="image">Image</label><br>
-                                    <input name="image" id="image" type="file" class="form-control" accept="image/png, image/jpeg, image/jpg" required>
+                                    <input name="image" id="image" type="file" accept="image/png, image/jpeg, image/jpg" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="category">Category</label>

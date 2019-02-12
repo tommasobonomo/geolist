@@ -108,7 +108,7 @@ public class ModifyItemServlet extends HttpServlet {
             }// </editor-fold>
 
             request.setAttribute("itemID", itemID);
-            request.getRequestDispatcher("/ROOT/ModifyItem.jsp").forward(request, response);
+            request.getRequestDispatcher("/ROOT/item/ModifyItem.jsp").forward(request, response);
         }
     }
 

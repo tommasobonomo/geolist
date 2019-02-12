@@ -50,7 +50,7 @@ public class ItemServlet extends HttpServlet {
             case "viewItem":
             default:
                 viewItem(request,response);
-                request.getRequestDispatcher("/ROOT/Item.jsp").forward(request, response);
+                request.getRequestDispatcher("/ROOT/item/Item.jsp").forward(request, response);
         }
         
     }

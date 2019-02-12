@@ -8,12 +8,12 @@
 <html>
     <head>
         <title>Geolist - item</title>
-        <link rel="icon" href="../images/logos/logo.png">
+        <link rel="icon" href="ROOT/logos/logo.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
-        <style><%@include file="./css/main.css" %></style>
+        <style><%@include file="/ROOT/css/main.css" %></style>
     </head>
 
     <body>
