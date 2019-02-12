@@ -372,13 +372,68 @@
             New list <i class="fas fa-plus"></i>
         </button>
         <c:if test="${logged}"> 
-            <a href="<c:url value="/ItemRegistration">
-                   <c:param name="action" value="viewForm"/>
-               </c:url>"><button class="button-fixed-item btn btn-info">
-                    New item <i class="fas fa-plus"></i>
-                </button>
-            </a>
+            <button class="button-fixed-item btn btn-info" data-toggle="modal" data-target="#itemModal">
+                New item <i class="fas fa-plus"></i>
+            </button>
         </c:if>
+
+        <!--finestra modale item-->
+        <div class="modal fade show" id="itemModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <div class="center-absolute">
+                            <span class="display-4 font-15">Create a new item</span>
+                        </div>
+
+                        <form method="POST" action="<c:url value="/ItemRegistration">
+                                  <c:param name="action" value="addItem"/>
+                              </c:url>" class="form-spacer needs-validation padding-top" enctype="multipart/form-data">
+
+                            <!--input "base"-->
+                            <div class="form-group">
+                                <label for="Name">Name</label>
+                                <input type="text" name="Name" id="Name" class="form-control" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label for="Note">Description</label>
+                                <textarea name="Note" id="Note" class="form-control" style="height:150px; overflow-y: scroll;" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="File">Image</label><br>
+                                <input name="File" id="File" type="file" accept="image/png, image/jpeg, image/jpg" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select class="form-control mr-sm-2" id="category" name="category" required>
+                                    <c:forEach var="category" items="${listOfCat}">
+                                        <option value="${category.getIdCatItem()}">${category.getName()}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <!--bottoni-->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6 text-center">
+                                        <button type="button" class="btn btn-outline-secondary btn-md" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <!--div da cambiare in button-->
+                                        <a href="create-lists.html">
+                                            <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
 
         <!--finestra modale lista-->
         <div class="modal fade show" id="listModal">
@@ -395,23 +450,29 @@
                             </div>
 
                             <form method="POST" action="<c:url value="/ListRegistration">
-                                      <c:param name="action" value="viewForm"/>
-                                  </c:url>" class="form-spacer needs-validation padding-top">
+                                      <c:param name="action" value="addList"/>
+                                  </c:url>" class="form-spacer needs-validation padding-top" enctype="multipart/form-data">
 
                                 <!--input "base"-->
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" id="name" class="form-control" required autofocus>
-                                    <div class="invalid-feedback">name required</div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="categoria">Category</label>
-                                    <select class="form-control mr-sm-2" id="categoria" required>
+                                    <label for="description">Description</label>
+                                    <textarea name="description" id="description" class="form-control" style="height:150px; overflow-y: scroll;" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="image">Image</label><br>
+                                    <input name="image" id="image" type="file" class="form-control" accept="image/png, image/jpeg, image/jpg" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select class="form-control mr-sm-2" id="category" name="category" required>
                                         <c:forEach var="category" items="${mapCatOfLists}">
                                             <option value="${category.key}">${category.value}</option>
                                         </c:forEach>
                                     </select>
-                                    <div class="invalid-feedback">category required</div>
                                 </div>
                                 <!--bottoni-->
                                 <div class="form-group">
@@ -422,7 +483,7 @@
                                         <div class="col-6 text-center">
                                             <!--div da cambiare in button-->
                                             <a href="create-lists.html">
-                                                <button type="submit" class="btn btn-outline-danger btn-md">Create</button>
+                                                <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
                                             </a>
                                         </div>
                                     </div>
