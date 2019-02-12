@@ -2,7 +2,9 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.ParametersController;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
@@ -21,92 +23,93 @@ import javax.servlet.http.Part;
  *
  * @author mattia
  */
-@WebServlet(urlPatterns = "/ModifyItem", name="ModifyItemServlet")
+@WebServlet(urlPatterns = "/ModifyItem", name = "ModifyItemServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
         maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class ModifyItemServlet extends HttpServlet {
 
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NoSuchAlgorithmException {           
-            ItemDAO dao = new ItemDAO();
-            String modify =  request.getParameter("modify");  
-            
-            long Id = Long.parseLong(request.getParameter("items"));   
-            System.out.println("\n\n\nNUMERO ID ITEM: " + Id);
-            System.out.println("\n\n\n ");
-            Optional items = dao.get(Id);
-            Item item = (Item) items.get();
-            String  newDescription = null, newName = null,
-                   newNote = null;
+            throws ServletException, IOException, NoSuchAlgorithmException {
+
+        // Get modify parameter
+        String modify = request.getParameter("modify");
+
+        // Get item from request
+        long itemID = Long.parseLong(request.getParameter("items"));
+        ItemDAO itemDAO = new ItemDAO();
+        Optional<Item> itemOpt = itemDAO.get(itemID);
+
+        // Get user that is modifying
+        UserUtil uUtil = new UserUtil();
+        Optional<User> userOptional = uUtil.getUserOptional(request);
+
+        //se non è loggato
+        if (!userOptional.isPresent()) {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "YOU ARE NOT LOGGED IN");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+        } else if (!itemOpt.isPresent()) {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "ITEM DOES NOT EXIST");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+        } else {
+            Item item = itemOpt.get();
+            String newNote = null, newName = null;
             InputStream inputStream = null;
-            ParametersController pc = new ParametersController(); 
-            
-            
+            ParametersController pc = new ParametersController();
+
             // <editor-fold defaultstate="collapsed" desc="tutte le modifice possibili">
             //modifico ciò che viene richiesto
             //cambio note
-            
-            
-            if("note".equals(modify)){      
-                   
-                System.out.println("\n\n\nANCORA NUMERO ID " + Id);
+            if ("note".equals(modify)) {
                 newNote = (String) request.getParameter("newNote");
-                    item.setNote(newNote);
-                    ItemDAO itemDB = new ItemDAO();
-                    itemDB.update(item.getId(), item);
-                    request.setAttribute("noteError", false); //questi errori mi servono per comunicare che sia andato tutto bene oppure no
-            }else{
+                item.setNote(newNote);
+                itemDAO.updateWithoutImage(item.getId(), item);
+                request.setAttribute("noteError", false); //questi errori mi servono per comunicare che sia andato tutto bene oppure no
+            } else {
                 request.setAttribute("noteError", false);
             }
-            
-            
+
             //cambio nome
-            if("name".equals(modify)){
+            if ("name".equals(modify)) {
                 newName = (String) request.getParameter("newName");
-                if(pc.isInameNew(newName)){
+                if (pc.isInameNew(newName)) {
                     item.setName(newName);
-                    ItemDAO itemDB = new ItemDAO();
-                    itemDB.update(item.getId(), item);
+                    itemDAO.updateWithoutImage(item.getId(), item);
                     request.setAttribute("nameError", false); //questi errori mi servono per comunicare che sia andato tutto bene oppure no
-                }
-                else{
+                } else {
                     request.setAttribute("nameError", true);
                 }
-            }else{
+            } else {
                 request.setAttribute("nameError", false);
             }
-            
-            
+
             //cambio logo
-            if("logo".equals(modify)){
-                try{
+            if ("logo".equals(modify)) {
+                try {
 
                     Part filePart = request.getPart("newLogo");
-                    if (filePart != null) {             
+                    if (filePart != null) {
                         // obtains input stream of the upload file
                         inputStream = filePart.getInputStream();
                         item.setLogo(inputStream);
-                    ItemDAO itemDB = new ItemDAO();
-                    itemDB.update(item.getId(), item);
+                        itemDAO.update(item.getId(), item);
                         request.setAttribute("logoError", false); //questi errori mi servono per comunicare che sia andato tutto bene oppure no
-                    }
-                    else{
+                    } else {
                         request.setAttribute("logoError", true);
                     }
-                }catch(IOException | ServletException ex){
+                } catch (IOException | ServletException ex) {
                     Logger.getLogger(ItemRegister.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-            }else{
+
+            } else {
                 request.setAttribute("logoError", false);
             }// </editor-fold>
-            request.setAttribute("itemID",Id);
-           // request.setAttribute("items", item);            
+
+            request.setAttribute("itemID", itemID);
             request.getRequestDispatcher("/ROOT/ModifyItem.jsp").forward(request, response);
-        
-             
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -157,4 +160,3 @@ public class ModifyItemServlet extends HttpServlet {
     }// </editor-fold>
 
 }
-

@@ -377,6 +377,29 @@ public class ItemDAO implements CrudDao<Item> {
         }
     }
 
+    public void updateWithoutImage(long id, Item obj) {
+        String query = "UPDATE Item "
+                + "SET idcat=?, name=?, note=?"
+                + "WHERE id=?";
+
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+
+            ps.setLong(1, obj.getIdCat());
+            ps.setString(2, obj.getName());
+            ps.setString(3, obj.getNote());
+            ps.setLong(4, id);
+
+            ps.executeUpdate();
+
+            c.commit();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     @Override
     public void delete(long id) {
         String query = "DELETE FROM Item WHERE id=?";
