@@ -1,6 +1,8 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.ParametersController;
@@ -8,6 +10,9 @@ import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -107,7 +112,12 @@ public class ModifyItemServlet extends HttpServlet {
                 request.setAttribute("logoError", false);
             }// </editor-fold>
 
+            //genero la mappa che al suo interno ha gli id delle categorie e il nome della categoria relativo
+            Map<Long, String> mapIdCat = new CatProductListDAO().getAllNamesOfCat();
+
             request.setAttribute("itemID", itemID);
+            request.setAttribute("mapIdCat",mapIdCat);
+            request.setAttribute("item", item);
             request.getRequestDispatcher("/ROOT/item/ModifyItem.jsp").forward(request, response);
         }
     }
