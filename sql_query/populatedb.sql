@@ -1,15 +1,14 @@
-
 INSERT INTO GEODB.USERS(ID,COOKIE, USERNAME,"NAME",LASTNAME,EMAIL,IMAGE, PASSWORD, TOKEN, ACTIVE, "ADMIN")
-VALUES (DEFAULT,NULL,'rappasta', 'Lorenzo', 'Framba', 'lorenzoframba@gmail.com',NULL,'4613650b16296964685818117f557e57366f92b', NULL, TRUE, TRUE),
-       (DEFAULT,NULL,'Molone','Mattia', 'Molon','molon@gmail.com',NULL,'29707645067686736492cf6e16526b6e4245',NULL, TRUE,FALSE),
-       (DEFAULT,NULL,'Tommy','Tommaso','Bonomo','tommasoni394@gmail.com',NULL,'4f4d773a0540130176787a4f1574100759521e',NULL, TRUE,FALSE),
+VALUES (DEFAULT,NULL,'rappasta', 'Lorenzo', 'Framba', 'lorenzoframba6@gmail.com',NULL,'4613650b16296964685818117f557e57366f92b', NULL, TRUE, TRUE),
+       (DEFAULT,NULL,'Molone','Mattia', 'Molon','mmattia06@gmail.com',NULL,'29707645067686736492cf6e16526b6e4245',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'Tommy','Tommaso','Bonomo','tommabonny@gmail.com',NULL,'4f4d773a0540130176787a4f1574100759521e',NULL, TRUE,FALSE),
        (DEFAULT,NULL,'Remo','Leonardo','Remondini', 'remoromolo@gmail.com',NULL, '3949350913f2c7e1b31e366c602f4e5a313a75',NULL, TRUE,FALSE),
-       (DEFAULT,NULL,'Segret','Giorgio','Segalla','giorgionelo@gmail.com',NULL, '3949350913f2c7e1b31e366c602f4e5a313a75',NULL, TRUE,FALSE),
-       (DEFAULT,NULL,'Tonna','Marta','Tonnona', 'martinasesso@gmail.com',NULL, '6b887a3f20353200263603f6773cf09336a',NULL, TRUE,FALSE),
-       (DEFAULT,NULL,'Tartagirl','Elia','Salame','piselloni@gmail.com',NULL, '272b3357425e263811344c636c401b25407a',NULL, TRUE,FALSE),
-       (DEFAULT,NULL,'MMluca','Luca', 'Rossi', 'marione@gmail.com',NULL, '42a497b6c62447415483e173a21175a64666e65',NULL, TRUE,FALSE),
-       (DEFAULT,NULL,'ipoap','Nicola','Nicoli', 'naso@gmail.com',NULL, '5b41455d063c7b7e1c7e697a25261c5f7c532780',NULL, TRUE,FALSE),
-       (DEFAULT,NULL,'Bottiglia','Marco','Bestioni', 'tomcat@gmail.com',NULL, '0e23557c11275d16585244671730147418524644',NULL, TRUE,FALSE);
+       (DEFAULT,NULL,'giorgiosgl','Giorgio','Segalla','giorgiosgl1997@gmail.com',NULL, '3949350913f2c7e1b31e366c602f4e5a313a75',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'tsonga','Marta','Terevasi', 'martinatere12@gmail.com',NULL, '6b887a3f20353200263603f6773cf09336a',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'eli96','Elia','Salsamo','eliasalsa96@gmail.com',NULL, '272b3357425e263811344c636c401b25407a',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'lukeRos','Luca', 'Rossi', 'lucarossi@gmail.com',NULL, '42a497b6c62447415483e173a21175a64666e65',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'ipoap','Nicola','Castellani', 'castemiche@gmail.com',NULL, '5b41455d063c7b7e1c7e697a25261c5f7c532780',NULL, TRUE,FALSE),
+       (DEFAULT,NULL,'bestMarco','Marco','Perugia', 'perumark@gmail.com',NULL, '0e23557c11275d16585244671730147418524644',NULL, TRUE,FALSE);
 
 INSERT INTO GEODB.CLIST(ID,"NAME", DESCRIPTION, HERECODE, IMAGE)
 VALUES  (DEFAULT, 'Grocery', 'A business that sells a large variety of food including fresh produce, frozen foods, packaged goods, bakery items and meat products.','600-6300-0066', NULL),
@@ -53,21 +52,12 @@ VALUES  (DEFAULT, 'Meat', 'Everything meaty is to be found here', NULL),
         (DEFAULT, 'Fish Food', 'The feeds, in the form of granules or pellets, provide the nutrition in a stable and concentrated form, enabling the fish to feed efficiently and grow to their full potential. ... They are combined with other ingredients such as vegetable proteins, cereal grains, vitamins and minerals and formed into feed pellets. ', NULL),
         (DEFAULT, 'Grooming', 'Inside Animal Grooming. Animal groomers brush, bathe and style the hair or fur of domestic pets, usually dogs. They also cut animals  nails, clean their ears and maintain their general appearance. Animal groomers work in kennels, veterinary clinics, animal shelters and pet supply stores. ', NULL);
 
-
-
-
-INSERT INTO GEODB.USERSANONIMOUS(ID, COOKIE)    
-VALUES (DEFAULT, 'cookiediprova');
-
 INSERT INTO GEODB.LIST(ID,USEROWNER, USERANONOWNER, IDCAT, "NAME",DESCRIPTION, IMAGE)
 VALUES  (DEFAULT, 1, null, 1, 'Birthday', 'I just wanted to get the goods for the party, not too much sugar for us',NULL),
         (DEFAULT, 1, null, 6, 'Friday Night', 'As a family, we do celebrate friday-myDAY, in which we like to NOT eat healthy',NULL),
-        (DEFAULT, 1, null, 1, 'Grandma', 'Minimalistic for grandma, Healthy and soupy,with dessert in the end for a good ending ',NULL),        
-        (DEFAULT, 1, null, 6, 'Camping', 'A bunch of sandwiches with unexplored sauce in it',NULL),
-        (DEFAULT, 1, null, 3, 'DIY', 'Do it yourself, with all the good powertools and helpful tools for the right moment',NULL);
-
-    
-
+        (DEFAULT, 2, null, 1, 'Grandma', 'Minimalistic for grandma, Healthy and soupy,with dessert in the end for a good ending ',NULL),        
+        (DEFAULT, 2, null, 6, 'Camping', 'A bunch of sandwiches with unexplored sauce in it',NULL),
+        (DEFAULT, 3, null, 3, 'DIY', 'Do it yourself, with all the good powertools and helpful tools for the right moment',NULL);
 
 INSERT INTO GEODB.ISFRIEND(USR1,USR2)
 VALUES  (1,2),
