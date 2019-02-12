@@ -230,11 +230,16 @@
                             <div class="col-xs-12 col-sm-9">
                                 <h5 class="mt-0">Description</h5>
                                 <p>${list.getDescription()}</p>
-                                <p class="d-inline padding-top mb-0">
-                                    You shared this list with :</p>
-                                <div class="d-inline font-italic font-weight-bold">
-                                    Mario rossi, Giorgio Segalla, Carlo Carlino.
-                                </div>
+                                
+                                <c:if test="${not mapWhoHaveAccess.get(list.getId()).isEmpty()}">
+                                    <p class="d-inline padding-top mb-0">
+                                        You shared this list with :</p>
+                                    <div class="d-inline font-italic font-weight-bold">
+                                        <c:forEach var="username" items="${mapWhoHaveAccess.get(list.getId())}">
+                                            ${username}
+                                        </c:forEach>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
