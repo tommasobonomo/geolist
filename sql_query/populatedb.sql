@@ -11,12 +11,15 @@ VALUES (DEFAULT,NULL,'rappasta', 'Lorenzo', 'Framba', 'lorenzoframba@gmail.com',
        (DEFAULT,NULL,'ipoap','Nicola','Nicoli', 'naso@gmail.com',NULL, '5b41455d063c7b7e1c7e697a25261c5f7c532780',NULL, TRUE,FALSE),
        (DEFAULT,NULL,'Bottiglia','Marco','Bestioni', 'tomcat@gmail.com',NULL, '0e23557c11275d16585244671730147418524644',NULL, TRUE,FALSE);
 
-INSERT INTO GEODB.CLIST(ID,"NAME", DESCRIPTION, IMAGE )
-VALUES  (DEFAULT, 'Food and Drink ', 'is a self-service shop offering a wide variety of food and household products, organized into sections and shelves. It is larger and has a wider selection than earlier grocery stores, but is smaller and more limited in the range of merchandise than a hypermarket or big-box market.',NULL),
-        (DEFAULT, 'Drugstore or Pharmacy', 'is the science and technique of preparing and dispensing drugs. It is a health profession that links health sciences with chemical sciences and aims to ensure the safe and effective use of pharmaceutical drugs.',NULL),
-        (DEFAULT, 'Hardware, House and Garden', 'sell household hardware for home improvement including: fasteners, building materials, hand tools, power tools, keys, locks, hinges, chains, plumbing supplies, electrical supplies, cleaning products, housewares, tools, utensils, paint, and lawn and garden products directly to consumers for use at home or for business.',NULL),
-        (DEFAULT, 'Convenience Store', 'is a physical retail marketplace intended to sell foods directly by farmers to consumers. Farmers markets may be indoors or outdoors.',NULL);
-
+INSERT INTO GEODB.CLIST(ID,"NAME", DESCRIPTION, HERECODE, IMAGE)
+VALUES  (DEFAULT, 'Grocery', 'A business that sells a large variety of food including fresh produce, frozen foods, packaged goods, bakery items and meat products.','600-6300-0066', NULL),
+        (DEFAULT, 'Pharmacy', 'A business that sells prescription and non-prescription medications in addition to other consumer goods, such as cosmetics, snacks and beverages.', '600-6400-0000',NULL),
+        (DEFAULT, 'Hardware Store', 'A business that sells a variety of building materials, hardware, and home improvement products. ', '600-6600-0077',NULL),
+        (DEFAULT, 'Consumer Electronics Store', 'A business that sells consumer and entertainment electronics such as cooking/washing appliances, televisions, and gaming systems.', '600-6500-0072', NULL),
+        (DEFAULT, 'Bookstore', 'A retail business that primarily sells books.', '600-6700-0087', NULL),
+        (DEFAULT, 'Sporting Goods Store', 'A business that sells individual and team sports equipment and other related items.', '600-6900-0094', NULL),
+        (DEFAULT, 'Pet Supply', 'A business that sells goods and services for pets.', '600-6900-0097', NULL),
+        (DEFAULT, 'Florist', 'A business that sells and arranges plants and cut flowers.', '600-6900-0355', NULL);
 
 INSERT INTO GEODB.CITEM(ID,"NAME",DESCRIPTION, IMAGE)
 VALUES  (DEFAULT, 'Meat', 'Everything meaty is to be found here', NULL),
