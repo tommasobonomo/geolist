@@ -8,8 +8,6 @@ function print(){
     
 }
 
-
-
 function hideAll(){
     items.forEach((a)=>{
         document.getElementById(a).style.display="none";
@@ -39,8 +37,6 @@ function clearListItems(){
     var ul = document.getElementById("listItems");
     while(ul.firstChild)  ul.removeChild(ul.firstChild);
 }
-
-
 
 function clickButton(){
     var word = document.getElementById("searchBar").value;

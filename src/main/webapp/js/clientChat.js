@@ -1,5 +1,7 @@
 var ws;
 
+var i=1;
+
 function connect(url, listid, userCookie, myUsername) {
     ws = new WebSocket(url + listid + "/" + userCookie);
 
@@ -37,16 +39,24 @@ window.addEventListener('beforeunload', function (e) {
 
 function createInMsg(authorName, text, sentTime) {
     var div = document.createElement("div");
+    div.id=i;
+    i++;
     div.classList.add("incoming_msg");
     div.innerHTML = "<div class=\"received_msg\"> <div class=\"received_withd_msg\"><div class=\"authorName\">" + authorName + ":</div><p>" + text + "</p> <span class=\"time_date\"> " + sentTime + " </span> </div> </div>";
 
     document.getElementById("main").appendChild(div);
+    
+    document.getElementById(div.id).scrollIntoView();
 }
 
 function createOutMsg(authorName, text, sentTime) {
     var div = document.createElement("div");
+    div.id=i;
+    i++;
     div.classList.add("outgoing_msg");
     div.innerHTML = "<div class=\"outgoing_msg_img\"> <div class=\"sent_msg\"> <p>" + text + "</p> <span class=\"time_date\"> " + sentTime + " </span> </div> </div>";
-
+    
     document.getElementById("main").appendChild(div);
+    
+    document.getElementById(div.id).scrollIntoView();
 }

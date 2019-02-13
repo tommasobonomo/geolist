@@ -146,8 +146,23 @@
             <div>
               <input type="text" placeholder="Search.." id="searchBar">
               <button type="submit" class="btn btn-outline-success btn-md my-2" 
-                      onClick="clickButton()"/>
+                      onClick="clickButton()" id="buttonSearch"/>
             </div>
+            
+            <script type="text/javascript">
+                var input = document.getElementById("searchBar");
+            
+                input.addEventListener("keyup", function (event) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Number 13 is the "Enter" key on the keyboard
+                    if (event.keyCode === 13) {
+                    // Trigger the button element with a click
+                    document.getElementById("buttonSearch").click();
+                    document.getElementById("searchBar").value='';
+                    }
+                });
+            </script>
             <div class="container testimonial-group padding-bottom">
                 <ul class="list-group list-group-flush border" id="listItems">
 
