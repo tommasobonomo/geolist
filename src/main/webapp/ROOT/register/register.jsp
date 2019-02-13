@@ -71,7 +71,7 @@
 
                 <div class="form-group ">
                     <label for="File">choose an image for your avatar</label>
-                    <input type="file" id="File" name="File" accept="image/png, image/jpeg, image/jpg">
+                    <input type="file" id="File" name="File" accept="image/png, image/jpeg, image/jpg" required>
                 </div>
 
                 <div class="form-group">
