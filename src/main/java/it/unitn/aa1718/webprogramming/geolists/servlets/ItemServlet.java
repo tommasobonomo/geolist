@@ -152,7 +152,6 @@ public class ItemServlet extends HttpServlet {
             response.setContentType("image/gif");
             OutputStream os = response.getOutputStream();
             os.write(byteArrayOpt.get());
-            os.flush();
             os.close();
         }
     }
