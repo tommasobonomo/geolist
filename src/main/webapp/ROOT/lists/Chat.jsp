@@ -9,9 +9,11 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
-        <style><%@include file="/ROOT/css/main.css" %></style>
-        <style><%@include file="/ROOT/css/chat.css" %></style>
-        <script><%@include file="/ROOT/javascript/clientChat.js" %></script>
+
+        <style><%@include file="./css/main.css" %></style>
+        <style><%@include file="./css/chat.css" %></style>
+        
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/clienChat.js"></script>
         <script type="text/javascript">
             connect('${url}', '${listID}', '${userCookie}', '${myUsername}');
         </script>

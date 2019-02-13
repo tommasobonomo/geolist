@@ -9,13 +9,25 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <style><%@include file="/ROOT/css/main.css" %></style>
-        <script><%@include file="../javascript/clientFriendsPermission.js" %></script>
+        
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/clientFriendsPermission.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/search.js"></script>
         <script type="text/javascript">
             connect('${url}', '${listID}', '${userCookie}');
         </script>
         <!-- Geolocation scripts in JS -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/geolocation.js"></script>
+
+        
+        <script type="text/javascript">
+            listId='${listID}';
+            <c:forEach var="item" items="${allItems}">
+                items.push('${item.getName()}');
+                mapNameId.set('${item.getName()}','${item.getId()}');
+            </c:forEach>
+        </script>
+        
     </head>
 
     <body>
@@ -131,26 +143,33 @@
             <div class="display-4 font-15 my-2 padding-bottom padding-top text-center">
                 Elements you can add in your list:
             </div>
+            <div>
+              <input type="text" placeholder="Search.." id="searchBar">
+              <button type="submit" class="btn btn-outline-success btn-md my-2" 
+                      onClick="clickButton()"/>
+            </div>
             <div class="container testimonial-group padding-bottom">
                 <ul class="list-group list-group-flush border" id="listItems">
 
                     <c:forEach var="item" items="${allItems}">
-                        <li class="list-group-item" >${item.getName()}
-                            <a style="display: inline-block;" href="<c:url value="/ItemServlet">
-                                   <c:param name="itemID" value="${item.getId()}"/>
-                                   <c:param name="action" value="viewItem"/>
-                                   <c:param name="listID" value="${listID}"/>
-                               </c:url>">
-                                <button class="btn btn-outline-info btn-md ml-2 my-2 mr-2"><i class="far fa-eye"></i></button>
-                            </a>
-                            <form style="display: inline-block;" class="form-inline" method="POST" action="<c:url value="/List">
-                                      <c:param name="listID" value="${listID}"/>
-                                      <c:param name="itemID" value="${item.getId()}"/>
-                                      <c:param name="action" value="addItem"/>
-                                  </c:url>">
-                                <button type="submit" class="btn btn-outline-success btn-md my-2"><i class="fas fa-plus"></i></button>
-                            </form>
-                        </li>
+                        <div id="${item.getName()}${item.getId()}">
+                            <li class="list-group-item" id="${item.getName()}${item.getId()}">${item.getName()}
+                                <a style="display: inline-block;" href="<c:url value="/ItemServlet">
+                                       <c:param name="itemID" value="${item.getId()}"/>
+                                       <c:param name="action" value="viewItem"/>
+                                       <c:param name="listID" value="${listID}"/>
+                                   </c:url>">
+                                    <button class="btn btn-outline-info btn-md ml-2 my-2 mr-2"><i class="far fa-eye"></i></button>
+                                </a>
+                                <form style="display: inline-block;" class="form-inline" method="POST" action="<c:url value="/List">
+                                          <c:param name="listID" value="${listID}"/>
+                                          <c:param name="itemID" value="${item.getId()}"/>
+                                          <c:param name="action" value="addItem"/>
+                                      </c:url>">
+                                    <button type="submit" class="btn btn-outline-success btn-md my-2"><i class="fas fa-plus"></i></button>
+                                </form>
+                            </li>
+                        </div>
                     </c:forEach>
 
                 </ul>
