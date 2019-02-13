@@ -187,10 +187,10 @@
                         <div class="dislpay-4 font-10 my-2">
                             current logo: 
                             <div class="box-image border">
-                                <img class="mx-auto border" src="<c:url value="/List">
+                                <img src="<c:url value="/List">
                                                <c:param name="action" value="retrieveImage" />
                                                <c:param name="listID" value="${listID}" />
-                                           </c:url>" alt="logo image" id="logoEditItem">
+                                           </c:url>" alt="logo image" id="logoEdit">
                             </div>
                         </div>
                     </div>
