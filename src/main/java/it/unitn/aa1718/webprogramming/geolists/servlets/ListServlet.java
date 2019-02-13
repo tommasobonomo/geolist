@@ -52,28 +52,27 @@ public class ListServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        
+
         UserUtil u = new UserUtil();
         Optional<Long> userID = u.getUserOptionalID(request);
-        
+
         long listID = Long.parseLong(request.getParameter("listID"));
         String action = request.getParameter("action");
-        
+
         AccessDAO accessDAO = new AccessDAO();
-        
-        
+
         if (userID.isPresent() && !accessDAO.canHaveAccess(userID.get(), listID)) {
             // System.out.println("errore non ha accesso");
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("error", "YOU DON'T HAVE ACCESS");
             request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
-            
-        } else if (userID.isPresent() && !accessDAO.havePermission(userID.get(), listID) ) { // se non ha i permessi di modifica
+
+        } else if (userID.isPresent() && !accessDAO.havePermission(userID.get(), listID)) { // se non ha i permessi di modifica
             // System.out.println("errore non ha permesso");
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("error", "YOU CAN'T MODIFY THIS LIST <br> ASK TO THE OWNER FOR PERMISSION ");
             request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
-        }else {
+        } else {
             switch (action) {
                 case "addItem":
                     addItem(request, response, listID);
@@ -90,11 +89,11 @@ public class ListServlet extends HttpServlet {
             }
         }
     }
-    
+
     private void retrieveImage(HttpServletRequest request, HttpServletResponse response, long id) throws IOException {
         ProductListDAO listDAO = new ProductListDAO();
         Optional<byte[]> byteArrayOpt = listDAO.getBlobImage(id);
-        
+
         if (byteArrayOpt.isPresent()) {
             response.setContentType("image/gif");
             OutputStream os = response.getOutputStream();
@@ -108,7 +107,7 @@ public class ListServlet extends HttpServlet {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
 
-        if (composeDAO.addItemToList(itemID, listID, 1,false)) {
+        if (composeDAO.addItemToList(itemID, listID, 1, false)) {
             request.setAttribute("success", true);
         } else {
             request.setAttribute("success", false);
@@ -149,18 +148,17 @@ public class ListServlet extends HttpServlet {
                 listItems.add(itemOpt.get());
             }
         }
-        
-        
-        Map<Long,Integer> mapQuantityItem = new HashMap<>();
-        mapQuantityItem = createMapQuantityItem(listItems,listID);
-        
-        Map<Long,Boolean> mapIsTakeItem = new HashMap<>();
-        mapIsTakeItem = createMapIsTakeItem(listItems,listID);
+
+        Map<Long, Integer> mapQuantityItem = new HashMap<>();
+        mapQuantityItem = createMapQuantityItem(listItems, listID);
+
+        Map<Long, Boolean> mapIsTakeItem = new HashMap<>();
+        mapIsTakeItem = createMapIsTakeItem(listItems, listID);
 
         //map permessi e sharing della lista
-        Map<Long,Boolean> mapPermission = new HashMap<>();
-        Map<Long,Boolean> mapSharing = new HashMap<>();
-        
+        Map<Long, Boolean> mapPermission = new HashMap<>();
+        Map<Long, Boolean> mapSharing = new HashMap<>();
+
         // Get list details if present
         Optional<ProductList> plOpt = plDAO.get(listID);
         List<Item> items = new ArrayList<>();
@@ -174,39 +172,41 @@ public class ListServlet extends HttpServlet {
             name = pl.getName();
             desc = pl.getDescription();
             category = new CatProductListDAO().get(pl.getIdCat()).get().getName();
-            
+
             // Get items related to the category id for adding purposes
             List<CatItem> idCategories = new ItemPermissionDAO().getItemCategories(pl.getIdCat());
             for (CatItem elem : idCategories) {
                 List<Item> itemOfCategory = new ItemDAO().getAllByIdCat(elem.getIdCatItem());
                 items.addAll(itemOfCategory);
             }
-            
+
             // get friends of user
             UserUtil uUtil = new UserUtil();
             Optional<User> userOptional = uUtil.getUserOptional(request);
-            if(userOptional.isPresent()){
+            if (userOptional.isPresent()) {
                 long userId = userOptional.get().getId();
-                
+
                 friends = new IsFriendDAO().getFriends(userId);
-                
-                for(User f: friends){
-                    mapSharing.put(f.getId(),accessDAO.canHaveAccess(f.getId(),listID));
-                    mapPermission.put(f.getId(),accessDAO.havePermission(f.getId(), listID));
+
+                for (User f : friends) {
+                    mapSharing.put(f.getId(), accessDAO.canHaveAccess(f.getId(), listID));
+                    mapPermission.put(f.getId(), accessDAO.havePermission(f.getId(), listID));
                 }
             }
         }
-        
-        
+
         //get user id from cookie
         UserUtil us = new UserUtil();
         Optional<Cookie> cookie = us.getCookie(request);
-        
+
         //rimuovo dalla lista di items che posso aggiungere gli items che sono già nella lista
         items.removeAll(listItems);
-        
+
         request.setAttribute("userCookie", cookie.get().getValue());
-        request.setAttribute("url", "wss://localhost:" + String.valueOf(request.getLocalPort()) + "/friend/");
+
+        // Websocket
+        String ADDRESS = request.getLocalAddr().equals("0:0:0:0:0:0:0:1") ? "localhost" : request.getLocalAddr();
+        request.setAttribute("url", "wss://" + ADDRESS + ":" + String.valueOf(request.getLocalPort()) + "/friend/");
 
         // Return everything to List.jsp
         response.setContentType("text/html;charset=UTF-8");
@@ -215,18 +215,17 @@ public class ListServlet extends HttpServlet {
         request.setAttribute("allItems", items);
         request.setAttribute("name", name);
         request.setAttribute("desc", desc);
-        request.setAttribute("category",category);
+        request.setAttribute("category", category);
         request.setAttribute("friends", friends);
-        
+
         //for retrieve quantity
         request.setAttribute("mapQuantityItem", mapQuantityItem);
         request.setAttribute("mapIsTakeItem", mapIsTakeItem);
-        
+
         //friend sharing and permission map
         request.setAttribute("mapPermission", mapPermission);
         request.setAttribute("mapSharing", mapSharing);
-        
-        
+
         try {
             request.getRequestDispatcher("/ROOT/lists/List.jsp").forward(request, response);
         } catch (Exception ex) {
@@ -272,31 +271,29 @@ public class ListServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    private Map<Long,Integer> createMapQuantityItem (List<Item> items,long listID) {
+
+    private Map<Long, Integer> createMapQuantityItem(List<Item> items, long listID) {
 
         ComposeDAO composeDAO = new ComposeDAO();
-        Map<Long,Integer> mapQuantityItem = new HashMap<>();
-        
-        
+        Map<Long, Integer> mapQuantityItem = new HashMap<>();
+
         for (Item i : items) {
-            mapQuantityItem.put(i.getId(), composeDAO.getQuantityFromItemAndList(i.getId(),listID).get());
+            mapQuantityItem.put(i.getId(), composeDAO.getQuantityFromItemAndList(i.getId(), listID).get());
         }
-        
+
         return mapQuantityItem;
     }
-    
-    private Map<Long,Boolean> createMapIsTakeItem (List<Item> items,long listID) {
+
+    private Map<Long, Boolean> createMapIsTakeItem(List<Item> items, long listID) {
 
         ComposeDAO composeDAO = new ComposeDAO();
-        Map<Long,Boolean> mapIsTakeItem = new HashMap<>();
-        
-        
+        Map<Long, Boolean> mapIsTakeItem = new HashMap<>();
+
         for (Item i : items) {
-            mapIsTakeItem.put(i.getId(), composeDAO.getComposeObjectFromItemIdListId(i.getId(),listID).get().isTake());
+            mapIsTakeItem.put(i.getId(), composeDAO.getComposeObjectFromItemIdListId(i.getId(), listID).get().isTake());
         }
-        
+
         return mapIsTakeItem;
     }
-    
+
 }

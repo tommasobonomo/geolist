@@ -77,7 +77,10 @@ public class ChatServlet extends HttpServlet {
             request.setAttribute("listName", pl.getName());
             request.setAttribute("myUsername", u.getUsername());
             request.setAttribute("userCookie", u.getCookie());
-            request.setAttribute("url", "wss://localhost:" + String.valueOf(request.getLocalPort()) + "/chat/");
+            
+            // Websocket config
+            String ADDRESS = request.getLocalAddr().equals("0:0:0:0:0:0:0:1") ? "localhost" : request.getLocalAddr();
+            request.setAttribute("url", "wss://" + ADDRESS + ":" + String.valueOf(request.getLocalPort()) + "/chat/");
 
             try {
                 getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);

@@ -220,9 +220,10 @@ public class LandingServlet extends HttpServlet {
         Optional<Cookie> cookie = u.getCookie(request);
         if (cookie.isPresent()) {
             request.setAttribute("userCookie", cookie.get().getValue());
-            request.setAttribute("url", "wss://localhost:" + String.valueOf(request.getLocalPort()) + "/quantity/");
+            // Websocket
+            String ADDRESS = request.getLocalAddr().equals("0:0:0:0:0:0:0:1") ? "localhost" : request.getLocalAddr();
+            request.setAttribute("url", "wss://" + ADDRESS + ":" + String.valueOf(request.getLocalPort()) + "/quantity/");
         }
-        
         
         request.setAttribute("mapWhoHaveAccess", mapWhoHaveAccess);
         
