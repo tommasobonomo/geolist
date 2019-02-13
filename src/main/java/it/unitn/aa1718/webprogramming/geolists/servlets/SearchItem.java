@@ -79,6 +79,7 @@ public class SearchItem extends HttpServlet {
             }
         } else {
             wordSearched = (String) session.getAttribute("wordSearched");
+            wordSearched = wordSearched.toLowerCase();
             categorySearched = (Integer) session.getAttribute("categorySearched");
             //faccio ricerca ordinata
             if ("alfabetico".equals(orderBy)) {
