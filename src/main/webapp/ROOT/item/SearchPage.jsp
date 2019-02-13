@@ -90,30 +90,32 @@
                     </a>
                     <hr>
 
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
+                    <c:if test="${pageTot!=0}">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
 
-                            <c:if test="${page != 1}">
-                                <li class="page-item">
-                                    <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=1&orderBy=${orderBy}" tabindex="-1">&laquo;</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${Integer.parseInt(page)-1}&orderBy=${orderBy}">
-                                        ${Integer.parseInt(page)-1}</a>
-                                </li>
-                            </c:if>
-                            <li class="page-item active"><span class="page-link">${page}</span></li>
-                            <c:if test="${page != pageTot}">
-                                <li class="page-item">
-                                    <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${Integer.parseInt(page)+1}&orderBy=${orderBy}">
-                                        ${Integer.parseInt(page)+1}</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${pageTot}&orderBy=${orderBy}">&raquo;</a>
-                                </li>
-                            </c:if>
-                        </ul>
-                    </nav>
+                                <c:if test="${page != 1}">
+                                    <li class="page-item">
+                                        <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=1&orderBy=${orderBy}" tabindex="-1">&laquo;</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${Integer.parseInt(page)-1}&orderBy=${orderBy}">
+                                            ${Integer.parseInt(page)-1}</a>
+                                    </li>
+                                </c:if>
+                                <li class="page-item active"><span class="page-link">${page}</span></li>
+                                <c:if test="${page != pageTot}">
+                                    <li class="page-item">
+                                        <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${Integer.parseInt(page)+1}&orderBy=${orderBy}">
+                                            ${Integer.parseInt(page)+1}</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/form-action/search?wordSearched=${wordSearched}&categorySearched=${categorySearched}&page=${pageTot}&orderBy=${orderBy}">&raquo;</a>
+                                    </li>
+                                </c:if>
+                            </ul>
+                        </nav>
+                    </c:if>
                 </div>
                 <div class="col-md-1"></div>
 
@@ -126,55 +128,63 @@
                     </div>
 
                     <hr>
+                    
 
                     <div class="container-fluid">
                         <div class="row">
+                            
+                            <c:if test="${pageTot!=0}">
+                                <c:forEach var="item" items="${items}">
+                                    <!--carta-->
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                        <div class="card">
+                                            <div id="card-trash-solo"><span class="badge badge-pill badge-info my-2">${mapIdCat.get(item.getIdCat())}</span></div>
+                                            <img class="card-img-top border-bottom" src="<c:url value="/ItemServlet">
+                                                     <c:param value="${item.getId()}" name="itemID"/>
+                                                     <c:param value="retrieveImage" name="action"/>
+                                                 </c:url>">
+                                            <%--<img class="card-img-top" src="<c:url value="/ROOT/logos/durango.png"></c:url>">--%>
+                                            <div class="card-body">
+                                                <h4 class="card-title font-12">${item.getName()}</h4>
+                                                <p id="p-card-body-search" class="card-text font-10">${item.getNote()}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <a href="<c:url value="/ItemServlet">
+                                                       <c:param value="${item.getId()}" name="itemID"/>
+                                                       <c:param value="viewItem" name="action"/>
+                                                   </c:url>
+                                                   " class="btn btn-md btn-danger fluid m-2" >see</a><br>
 
-                            <c:forEach var="item" items="${items}">
-                                <!--carta-->
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
-                                    <div class="card">
-                                        <div id="card-trash-solo"><span class="badge badge-pill badge-info my-2">${mapIdCat.get(item.getIdCat())}</span></div>
-                                        <img class="card-img-top border-bottom" src="<c:url value="/ItemServlet">
-                                                 <c:param value="${item.getId()}" name="itemID"/>
-                                                 <c:param value="retrieveImage" name="action"/>
-                                             </c:url>">
-                                        <%--<img class="card-img-top" src="<c:url value="/ROOT/logos/durango.png"></c:url>">--%>
-                                        <div class="card-body">
-                                            <h4 class="card-title font-12">${item.getName()}</h4>
-                                            <p id="p-card-body-search" class="card-text font-10">${item.getNote()}</p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <a href="<c:url value="/ItemServlet">
-                                                   <c:param value="${item.getId()}" name="itemID"/>
-                                                   <c:param value="viewItem" name="action"/>
-                                               </c:url>
-                                               " class="btn btn-md btn-danger fluid m-2" >see</a><br>
+                                                <div class="btn-group fluid ml-2" role="group">
+                                                    <button id="btnGroupDrop1" type="button" class="btn btn-md btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Add to list
+                                                    </button>
+                                                    <div class="dropdown-menu mr-sm-2" aria-labelledby="btnGroupDrop1">
 
-                                            <div class="btn-group fluid ml-2" role="group">
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-md btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Add to list
-                                                </button>
-                                                <div class="dropdown-menu mr-sm-2" aria-labelledby="btnGroupDrop1">
-
-                                                    <c:forEach var="idlist" items="${mapListAddPermissionByItem.get(item.getId())}">
-                                                        <a class="dropdown-item" 
-                                                           href="../List?listID=${listOfUser.get(idlist).getId()}&itemID=${item.getId()}&action=addItem">
-                                                            ${listOfUser.get(idlist).getName()}</a>
-                                                        </c:forEach>
+                                                        <c:forEach var="idlist" items="${mapListAddPermissionByItem.get(item.getId())}">
+                                                            <a class="dropdown-item" 
+                                                               href="../List?listID=${listOfUser.get(idlist).getId()}&itemID=${item.getId()}&action=addItem">
+                                                                ${listOfUser.get(idlist).getName()}</a>
+                                                            </c:forEach>
 
 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${pageTot==0}">   
+                                <div class="col-12 text-center">
+                                    <div class="display-4 font-15" style="color:grey">No results found</div>
                                 </div>
-                            </c:forEach>
-
+                            </c:if>    
                         </div>
 
 
                     </div>
+                    
 
                 </div>
             </div>
