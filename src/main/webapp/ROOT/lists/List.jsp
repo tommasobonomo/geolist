@@ -175,7 +175,8 @@
             <form method="POST" action="<c:url value="/List">
                       <c:param value="view" name="action"/>
                       <c:param name="listID" value="${listID}" />
-                  </c:url>" enctype="multipart/form-data" id="changeLogo">
+                      <c:param name="modify" value="logo" />
+                  </c:url>" enctype="multipart/form-data" id="changeImage">
                 <div class="row center-phone">
                     <div class="col-xs-12 col-md-12 text-center">
                         <div class="display-4 font-15 my-2">
@@ -203,7 +204,7 @@
                     </div>
                     <div class="col-xs-12 col-md-12">
                         <div class="form-group text-center">
-                            <button type="submit" name="modify" value="logo" class="btn btn-outline-danger btn-large">Submit logo</button>
+                            <button type="submit" class="btn btn-outline-danger btn-large">Submit logo</button>
                         </div>
                     </div>
 

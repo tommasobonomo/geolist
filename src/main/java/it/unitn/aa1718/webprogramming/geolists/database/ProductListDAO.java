@@ -67,19 +67,16 @@ public class ProductListDAO implements CrudDao<ProductList> {
     
     public void updateWithoutImage(long id, ProductList obj) {
         String query = "UPDATE List "
-                + "SET userowner=?, useranonowner=?, idcat=?, name=?, description=? "
+                + "SET name=?, description=? "
                 + "WHERE id=?";
 
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
 
-            ps.setLong(1, obj.getUserOwner());
-            ps.setLong(2, obj.getUserAnonOwner());
-            ps.setLong(3, obj.getIdCat());
-            ps.setString(4, obj.getName());
-            ps.setString(5, obj.getDescription());
-            ps.setLong(6, id);
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getDescription());
+            ps.setLong(3, id);
 
             ps.executeUpdate();
 
