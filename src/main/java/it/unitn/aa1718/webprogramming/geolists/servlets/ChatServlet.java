@@ -83,7 +83,7 @@ public class ChatServlet extends HttpServlet {
             request.setAttribute("url", "wss://" + ADDRESS + ":" + String.valueOf(request.getLocalPort()) + "/chat/");
 
             try {
-                getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
+                getServletContext().getRequestDispatcher("/ROOT/lists/Chat.jsp").forward(request, response);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

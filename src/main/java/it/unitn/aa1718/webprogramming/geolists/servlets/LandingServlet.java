@@ -234,7 +234,7 @@ public class LandingServlet extends HttpServlet {
         request.setAttribute("hasPermissionInThisList", hasPermissionInThisList);
         request.setAttribute("mapCatOfLists", mapCatOfLists);
         request.setAttribute("mapCompose", mapCompose);
-        request.setAttribute("listOfPL", listOfPL);
+        session.setAttribute("listOfPL", listOfPL);
         request.setAttribute("itemsOfList", itemsOfList);
         request.setAttribute("username", username);
         request.setAttribute("isAnon", isAnon);

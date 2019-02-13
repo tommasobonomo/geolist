@@ -9,15 +9,20 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
-        <style><%@include file="./css/main.css" %></style>
-        <style><%@include file="./css/chat.css" %></style>
-        <script><%@include file="./javascript/clientChat.js" %></script>
+        <style><%@include file="/ROOT/css/main.css" %></style>
+        <style><%@include file="/ROOT/css/chat.css" %></style>
+        <script><%@include file="/ROOT/javascript/clientChat.js" %></script>
         <script type="text/javascript">
             connect('${url}', '${listID}', '${userCookie}', '${myUsername}');
         </script>
+        <!-- Geolocation scripts in JS -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/geolocation.js"></script>
     </head>
 
     <body>
+        <!-- Geolocation -->
+        <p id="listcategories" style="display: none"><c:forEach var="list" items="${listOfPL}">${list.getIdCat()},</c:forEach></p>
 
         <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -57,6 +62,9 @@
                             <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">Geo</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
                                 </li>
                             </ul>
@@ -94,6 +102,26 @@
             </div>
         </div>
 
+                
+        <!--finestra modale geolocation-->
+        <div class="modal fade show" id="geoModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="center-absolute">
+                            <span class="display-4 font-15">Geolocation</span>
+                        </div><br><br>
+                        <p id="geoerror" class="padding-top" style="display: none">Location not available!</p>
+                        <div class="georesults"></div>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-outline-secondary btn-md" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
             var input = document.getElementById("textMessage");
             
@@ -109,7 +137,6 @@
             });
         </script>
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </body>

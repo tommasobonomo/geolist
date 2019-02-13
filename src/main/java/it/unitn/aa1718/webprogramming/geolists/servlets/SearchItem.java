@@ -173,7 +173,7 @@ public class SearchItem extends HttpServlet {
         session.setAttribute("mapListAddPermissionByItem", mapListAddPermissionByItem);
         session.setAttribute("listOfUser", mapListOfUser);
         session.setAttribute("logged", isLogged);
-        request.getRequestDispatcher("/ROOT/SearchPage.jsp").forward(request, response);
+        request.getRequestDispatcher("/ROOT/item/SearchPage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

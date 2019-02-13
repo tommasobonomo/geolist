@@ -85,7 +85,8 @@ public class EmailSender {
         String UserAddress = (this.userEmail);
         String from = ("geolistunitn@gmail.com");
         String subject = "New Password";
-        String messageText = " Hello, this is your new password: "+password;
+        String messageText = " Hello, this is your new password: "+password+ "\n \n\n \n\n\n Customer Service Manager\n"
+                + "This is an automatically generated email – please do not reply to it \n ";
         Properties props = new Properties();
 
         // ottengo permessi di autenticazione

@@ -48,7 +48,7 @@ public class RememberPassword extends HttpServlet {
         if (!userOptional.isPresent()) {
             try {
                 request.setAttribute("error", false);
-                request.getRequestDispatcher("/ROOT/RequestNewPassword.jsp").forward(request, response);
+                request.getRequestDispatcher("/ROOT/remember/RequestNewPassword.jsp").forward(request, response);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -95,7 +95,7 @@ public class RememberPassword extends HttpServlet {
                 thisUser.setPassword(hashPassword);
                 userDAO.updateWithoutImage(thisUser.getId(), thisUser);
 
-                request.getRequestDispatcher("/ROOT/LandingPage.jsp").forward(request, response);
+                request.getRequestDispatcher("/ROOT/remember/RememberSent.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", true);
                 request.getRequestDispatcher("/ROOT/RequestNewPassword.jsp").forward(request, response);
