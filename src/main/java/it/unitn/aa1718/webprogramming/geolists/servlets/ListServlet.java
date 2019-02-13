@@ -173,13 +173,6 @@ public class ListServlet extends HttpServlet {
             ProductList list = plOpt.get();
             category = new CatProductListDAO().get(list.getIdCat()).get().getName();
 
-            // Get items related to the category id for adding purposes
-            List<CatItem> idCategories = new ItemPermissionDAO().getItemCategories(list.getIdCat());
-            for (CatItem elem : idCategories) {
-                List<Item> itemOfCategory = new ItemDAO().getAllByIdCat(elem.getIdCatItem());
-                items.addAll(itemOfCategory);
-            }
-
             // get friends of user
             UserUtil uUtil = new UserUtil();
             Optional<User> userOptional = uUtil.getUserOptional(request);
@@ -192,6 +185,13 @@ public class ListServlet extends HttpServlet {
                     mapSharing.put(f.getId(), accessDAO.canHaveAccess(f.getId(), listID));
                     mapPermission.put(f.getId(), accessDAO.havePermission(f.getId(), listID));
                 }
+            }
+            
+            // Get items related to the category id for adding purposes
+            List<CatItem> idCategories = new ItemPermissionDAO().getItemCategories(list.getIdCat());
+            for (CatItem elem : idCategories) {
+                List<Item> itemOfCategory = new ItemDAO().getAllByIdCat(elem.getIdCatItem(), userOptional);
+                items.addAll(itemOfCategory);
             }
 
             // <editor-fold defaultstate="collapsed" desc="modifice della lista">

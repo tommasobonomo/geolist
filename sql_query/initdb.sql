@@ -69,7 +69,12 @@ CREATE TABLE item (
     "NAME" VARCHAR(50),
     logo BLOB,
     note VARCHAR(1000),
-    CONSTRAINT item_pk PRIMARY KEY (id)
+    istemplate BOOLEAN NOT NULL,
+    idowner INTEGER,
+    CONSTRAINT item_pk PRIMARY KEY (id),
+    FOREIGN KEY (idowner)
+        REFERENCES users(id)
+        ON DELETE CASCADE
 );
 
 

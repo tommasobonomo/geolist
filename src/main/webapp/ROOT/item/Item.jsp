@@ -99,7 +99,7 @@
                     <hr>
 
 
-                    <c:if test="${isAdmin}">
+                    <c:if test="${isAdmin || isOwner}">
                         <a class="menu-link" href="<c:url value="/ModifyItem" > 
                                <c:param name="items" value="${itemID}"/>   
                            </c:url>">
