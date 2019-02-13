@@ -59,6 +59,11 @@ public class SearchItem extends HttpServlet {
             start = start * total + 1;
         }
 
+        //COSE DI GIORGIO
+        UserUtil u = new UserUtil();
+        Optional<User> userOpt = u.getUserOptional(request);
+        Optional<UserAnonimous> userAnoOpt = u.getUserAnonymousOptional(request);
+        
         //recupero da dove di dovere
         if ("noOrder".equals(orderBy)) {
             wordSearched = (String) request.getParameter("wordSearched");
@@ -66,11 +71,11 @@ public class SearchItem extends HttpServlet {
             categorySearched = Integer.parseInt(request.getParameter("categorySearched"));
             //faccio ricerca normale
             if (categorySearched == 0) {
-                items = itemDAO.getFromPattern(wordSearched, start, total);
-                nResults = itemDAO.getNResultsFromPattern(wordSearched);
+                items = itemDAO.getFromPattern(wordSearched, start, total, userOpt);
+                nResults = itemDAO.getNResultsFromPattern(wordSearched,userOpt);
             } else {
-                items = itemDAO.getFromPatternAndCategory(wordSearched, categorySearched, start, total);
-                nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched);
+                items = itemDAO.getFromPatternAndCategory(wordSearched, categorySearched, start, total, userOpt);
+                nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched, userOpt);
             }
         } else {
             wordSearched = (String) session.getAttribute("wordSearched");
@@ -78,20 +83,20 @@ public class SearchItem extends HttpServlet {
             //faccio ricerca ordinata
             if ("alfabetico".equals(orderBy)) {
                 if (categorySearched == 0) {
-                    items = itemDAO.getFromPatternOrderedByAlfabetico(wordSearched, start, total);
-                    nResults = itemDAO.getNResultsFromPattern(wordSearched);
+                    items = itemDAO.getFromPatternOrderedByAlfabetico(wordSearched, start, total, userOpt);
+                    nResults = itemDAO.getNResultsFromPattern(wordSearched,userOpt);
                 } else {
-                    items = itemDAO.getFromPatternAndCategoryOrderedByAlfabetico(wordSearched, categorySearched, start, total);
-                    nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched);
+                    items = itemDAO.getFromPatternAndCategoryOrderedByAlfabetico(wordSearched, categorySearched, start, total, userOpt);
+                    nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched, userOpt);
                 }
             }
             if ("categoria".equals(orderBy)) {
                 if (categorySearched == 0) {
-                    items = itemDAO.getFromPatternOrderedByCategory(wordSearched, start, total);
-                    nResults = itemDAO.getNResultsFromPattern(wordSearched);
+                    items = itemDAO.getFromPatternOrderedByCategory(wordSearched, start, total, userOpt);
+                    nResults = itemDAO.getNResultsFromPattern(wordSearched,userOpt);
                 } else {
-                    items = itemDAO.getFromPatternAndCategory(wordSearched, categorySearched, start, total);
-                    nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched);
+                    items = itemDAO.getFromPatternAndCategory(wordSearched, categorySearched, start, total, userOpt);
+                    nResults = itemDAO.getNResultsFromPatternAndCategory(wordSearched, categorySearched, userOpt);
                 }
             }
         }
@@ -101,11 +106,6 @@ public class SearchItem extends HttpServlet {
         if (nResults % 12 != 0) {
             pageTot++;
         }
-
-        //COSE DI GIORGIO
-        UserUtil u = new UserUtil();
-        Optional<User> userOpt = u.getUserOptional(request);
-        Optional<UserAnonimous> userAnoOpt = u.getUserAnonymousOptional(request);
 
         //attributi della sessione
         Map<Long, List<Long>> mapListAddPermissionByItem = new HashMap<>();
