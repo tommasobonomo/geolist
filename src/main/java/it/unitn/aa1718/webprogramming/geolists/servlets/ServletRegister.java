@@ -169,6 +169,8 @@ public class ServletRegister extends HttpServlet {
         
         //controllo se c'è stato un errore
         if(!error){
+            System.out.println("\n\nCooKIE PRIMA DELLA CHAT: "+ cookie);
+            System.out.println("\n\n");
             //creo il token (PER ORA A RANDOM)
             this.token = DigestUtils.md5Hex(""+this.rand.nextInt(999999999));
             //creo user che andrò a ficcare nel database e lo inserisco
