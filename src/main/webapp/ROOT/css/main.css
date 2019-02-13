@@ -407,6 +407,12 @@ hr.light {
     display: inline-block;
     object-fit:scale-down;
 }
+.box-image{
+    height: 250px;
+    width: 250px;
+    display: inline-block;
+    object-fit: scale-down;
+}
 
 /*id*/
 #titoloPrincipale{
@@ -451,6 +457,12 @@ hr.light {
   height: 250px;
   overflow-y: auto;
 }
+#logoEdit{
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    object-fit:scale-down;
+}
 
 
 
@@ -473,11 +485,10 @@ hr.light {
 /*media per schermo md*/
 @media all and (max-width: 767px){
     /*centra il contenuto su schermi piccoli*/
-    #center-phone{
+    .center-phone{
         text-align: center;
-        padding-top: 1rem;
     }
-    #center-phone .img-wrap{
+    .center-phone .img-wrap{
         margin: 0 auto;
     }
     #remove-padding-phone{

@@ -77,7 +77,7 @@
                 <div class="col-md-1"></div>
                 
                 <!--body a destra-->
-                <div class="col-md-8 padding-top2 padding-bottom" id="center-phone">
+                <div class="col-md-8 padding-top2 padding-bottom center-phone">
                     <div class="img-wrap border">
                         <object data="  <c:url value="/ViewAccount">
                                     <c:param name="action" value="retrieveImage"/>

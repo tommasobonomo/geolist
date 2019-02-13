@@ -40,7 +40,7 @@ function updatePermission(friendId){
         ws.send('perm '+friendId);
         console.log('perm '+friendId);
     } else {
-       alert("before share with him");
+       alert("You can't give your friend permissions without sharing the list first");
        document.getElementById("permission"+friendId).checked=false;
     }
 }
