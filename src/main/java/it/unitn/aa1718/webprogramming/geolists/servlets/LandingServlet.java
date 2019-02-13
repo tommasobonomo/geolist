@@ -220,7 +220,7 @@ public class LandingServlet extends HttpServlet {
         Optional<Cookie> cookie = u.getCookie(request);
         if (cookie.isPresent()) {
             request.setAttribute("userCookie", cookie.get().getValue());
-            request.setAttribute("url", "ws://localhost:8084/quantity/");
+            request.setAttribute("url", "wss://localhost:" + String.valueOf(request.getLocalPort()) + "/quantity/");
         }
         
         

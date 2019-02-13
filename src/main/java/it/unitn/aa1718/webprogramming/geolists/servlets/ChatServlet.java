@@ -56,7 +56,7 @@ public class ChatServlet extends HttpServlet {
             }
         } else {
             VisualizeMessage v = viewMessageOf(userID, Long.valueOf(listID));
-            
+
             //controll if have access
             if (v.isError()) {
                 try {
@@ -68,6 +68,7 @@ public class ChatServlet extends HttpServlet {
                 }
             }
 
+            
             //set attribute
             User u = new UserDAO().get(userID).get();
             ProductList pl = new ProductListDAO().get(Long.valueOf(listID)).get();
@@ -76,7 +77,7 @@ public class ChatServlet extends HttpServlet {
             request.setAttribute("listName", pl.getName());
             request.setAttribute("myUsername", u.getUsername());
             request.setAttribute("userCookie", u.getCookie());
-            request.setAttribute("url", "ws://localhost:8084/chat/");
+            request.setAttribute("url", "wss://localhost:" + String.valueOf(request.getLocalPort()) + "/chat/");
 
             try {
                 getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
@@ -122,7 +123,7 @@ class VisualizeMessage {
     private ErrorView error = ErrorView.NOERROR;
     private List<Message> messages;
     private Map<Integer, User> mapMessageUser = new HashMap<>();
-    
+
     public void setError(ErrorView error) {
         this.error = error;
     }
@@ -147,9 +148,10 @@ class VisualizeMessage {
 
         UserDAO userDAO = new UserDAO();
 
-        for (Message m : messages)
+        for (Message m : messages) {
             mapMessageUser.put(m.hashCode(), userDAO.get(m.getIdUser()).get());
-            
+        }
+
     }
 
     public Map<Integer, User> getMapMessageUser() {

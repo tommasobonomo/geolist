@@ -206,7 +206,7 @@ public class ListServlet extends HttpServlet {
         items.removeAll(listItems);
         
         request.setAttribute("userCookie", cookie.get().getValue());
-        request.setAttribute("url", "ws://localhost:8084/friend/");
+        request.setAttribute("url", "wss://localhost:" + String.valueOf(request.getLocalPort()) + "/friend/");
 
         // Return everything to List.jsp
         response.setContentType("text/html;charset=UTF-8");

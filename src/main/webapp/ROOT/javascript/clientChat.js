@@ -2,7 +2,6 @@ var ws;
 
 function connect(url, listid, userCookie, myUsername) {
     ws = new WebSocket(url + listid + "/" + userCookie);
-    
 
     ws.onopen = function (evt) {
 
