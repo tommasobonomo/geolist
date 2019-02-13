@@ -101,6 +101,7 @@
 
                     <c:if test="${isAdmin || isOwner}">
                         <a class="menu-link" href="<c:url value="/ModifyItem" > 
+
                                <c:param name="items" value="${itemID}"/>   
                            </c:url>">
                             <button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i>Modify</button></a>

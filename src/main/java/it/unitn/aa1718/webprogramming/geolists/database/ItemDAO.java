@@ -374,6 +374,26 @@ public class ItemDAO implements CrudDao<Item> {
 
         return list;
     }
+    
+     public List<Item> getAllForAdminOrderedByName() {
+        String query = "SELECT * FROM Item Order by name";
+        List list = new ArrayList<>();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            
+            while (rs.next()) {
+                list.add(createItem(rs));
+            }
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
 
     public Optional<byte[]> getBlobImage(long id) {
 

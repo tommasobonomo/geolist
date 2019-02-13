@@ -198,6 +198,25 @@ public class UserDAO implements CrudDao<User> {
         return resList;
     }
     
+    public List<User> getAllUsersNotAdmin(Long id){
+        String query= "SELECT * FROM Users WHERE Admin=false AND not id = "+id;
+        List<User> resList = new ArrayList<>();
+        
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs=s.executeQuery(query);
+        
+            while(rs.next()){
+                resList.add(createUser(rs));
+            }
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }        
+        return resList;
+    }
+    
     private String hash(String pass){
         try {
             return HashGenerator.Hash(pass); //this means pasta
