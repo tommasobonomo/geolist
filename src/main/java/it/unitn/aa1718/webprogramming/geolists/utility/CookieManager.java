@@ -78,6 +78,11 @@ public class CookieManager{
             int n = rand.nextInt(5000000)+1;
             cookieVal = Integer.toString(n);
             
+<<<<<<< HEAD
+=======
+  
+
+>>>>>>> 1eff7556468777dcd78455a75b7f085bd5301e76
         try {
              cookie = HashGenerator.Hash(cookieVal);
         } catch (NoSuchAlgorithmException ex) {
