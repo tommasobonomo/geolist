@@ -77,10 +77,14 @@ public class ChatServlet extends HttpServlet {
             request.setAttribute("listName", pl.getName());
             request.setAttribute("myUsername", u.getUsername());
             request.setAttribute("userCookie", u.getCookie());
+
             
             // Websocket config
             String ADDRESS = request.getLocalAddr().equals("0:0:0:0:0:0:0:1") ? "localhost" : request.getLocalAddr();
             request.setAttribute("url", "wss://" + ADDRESS + ":" + String.valueOf(request.getLocalPort()) + "/chat/");
+
+            System.out.println("\n\nCooKIE DELLA CHAT: "+ u.getCookie());
+            System.out.println("\n\n");
 
             try {
                 getServletContext().getRequestDispatcher("/ROOT/lists/Chat.jsp").forward(request, response);
