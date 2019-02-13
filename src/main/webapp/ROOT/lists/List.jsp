@@ -66,11 +66,17 @@
         <div class="container padding-top2">
 
             <!--titolo-->
-            <div class="row padding-top">
+            <div class="row padding-top center-phone">
                 <div class="col-12">
                     <div class="display-4 font-25 my-2">
-                        <input type="text" id="title-box" name="name" value="${name}" /><br>
-                        <small class="font-15 mr-sm-2">${category}</small>
+                        <form method="POST" action="<c:url value="/List">
+                                      <c:param value="view" name="action"/>
+                                      <c:param name="listID" value="${listID}" />
+                                  </c:url>" class="form-spacer" id="changeName">
+                            <input class="width-phone" name="newName" id="newName" type="text" value="${name}" required/><br>
+                                <small class="font-15 mr-sm-2">${category}</small><br>
+                                <button type="submit" name="modify" value="name" class="btn btn-outline-danger btn-large my-2">Submit name</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -151,29 +157,60 @@
                     </div><br>
                 </div>
                 <div class="col-12 text-center">
-                    <input type="text" id="description-box" name="description" value="${desc}" />
+                    <form method="POST" action="<c:url value="/List">
+                              <c:param value="view" name="action"/>
+                              <c:param name="listID" value="${listID}" />
+                          </c:url>">
+                        <textarea name="newNote" id="description-box" style="height:150px" required>${desc}</textarea>
+                        <div class="form-group my-2">
+                            <button type="submit" name="modify" value="note" class="btn btn-outline-danger btn-large">Submit description</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <hr>
 
 
             <!--cambio del logo-->
-            <div class="row">
-                <div class="col-6 m-auto" >
-                    <div class="dislpay-4 font-10 my-2">
-                        current logo: <img class="mx-auto border" src="<c:url value="/List">
+            <form method="POST" action="<c:url value="/List">
+                      <c:param value="view" name="action"/>
+                      <c:param name="listID" value="${listID}" />
+                      <c:param name="modify" value="logo" />
+                  </c:url>" enctype="multipart/form-data" id="changeImage">
+                <div class="row center-phone">
+                    <div class="col-xs-12 col-md-12 text-center">
+                        <div class="display-4 font-15 my-2">
+                            modify the logo: 
+                        </div><br>
+                    </div>
+                    <div class="col-xs-12 col-md-6 m-auto" >
+                        <div class="dislpay-4 font-10 my-2">
+                            current logo: 
+                            <div class="box-image border">
+                                <img class="mx-auto border" src="<c:url value="/List">
                                                <c:param name="action" value="retrieveImage" />
                                                <c:param name="listID" value="${listID}" />
                                            </c:url>" alt="logo image" id="logoEditItem">
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6  m-auto">
-                    <div class="dislpay-4 font-10 my-2">
-                        change with: <input type="file" id="newLogo" name="newLogo" accept="image/png, image/jpeg">
+                    <div class="col-xs-12 col-md-6  m-auto">
+                        <div class="dislpay-4 font-10 my-2">
+                            <div class="form-group">
+                                <label for="logo">Change with:</label>
+                                <input type="file" id="logo" name="newLogo" accept="image/png, image/jpeg, image/jpg" required>
+                            </div>
+                        </div>
                     </div>
+                    <div class="col-xs-12 col-md-12">
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-outline-danger btn-large">Submit logo</button>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
-            <hr class="padding-bottom">
+            </form>
+            <hr>
 
 
             <c:if test="${friends.size() != 0}">
@@ -186,7 +223,7 @@
 
                         <c:forEach var="friend" items="${friends}">
                             <!--elenco di carte-->
-                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                 <div class="card m-0">
                                     <img class="card-img-top border" src="<c:url value="/friend/profile">
                                              <c:param name="action" value="retrieveImage"/>
@@ -214,6 +251,14 @@
                     </div>
                 </div>
             </c:if>
+        </div>
+        <hr>
+        
+        <!--pulsante di go back-->
+        <div class="row padding-bottom">
+            <div class="col-12 text-center">
+                <a href="/" class="btn btn-md btn-outline-danger m-2" ><i class="fas fa-chevron-left"></i> Back to Home</a>
+            </div>
         </div>
 
 

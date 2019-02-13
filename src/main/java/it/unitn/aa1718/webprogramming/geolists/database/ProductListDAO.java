@@ -64,6 +64,28 @@ public class ProductListDAO implements CrudDao<ProductList> {
 
         return res;
     }
+    
+    public void updateWithoutImage(long id, ProductList obj) {
+        String query = "UPDATE List "
+                + "SET name=?, description=? "
+                + "WHERE id=?";
+
+        try {
+            Connection c = Database.openConnection();
+            PreparedStatement ps = c.prepareStatement(query);
+
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getDescription());
+            ps.setLong(3, id);
+
+            ps.executeUpdate();
+
+            c.commit();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     /**
      * get all product list

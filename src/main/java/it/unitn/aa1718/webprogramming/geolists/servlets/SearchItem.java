@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * servlet that manage the research on the items in the database
  * @author mattia
  */
 @WebServlet(name = "SearchItem", urlPatterns = {"/form-action/search"})
@@ -49,7 +50,9 @@ public class SearchItem extends HttpServlet {
         }
 
         //calcolo page e offset
-        int start = Integer.parseInt(request.getParameter("page"));
+        int start = 1;
+        try{start = Integer.parseInt(request.getParameter("page"));
+        }catch(Exception e){}
         int total = 12;
         start = start - 1;
         if (start != 0) {

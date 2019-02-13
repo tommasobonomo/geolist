@@ -324,7 +324,7 @@ hr.light {
 /*media per schermo md*/
 @media all and (max-width: 767px){
     /*centra il contenuto su schermi piccoli*/
-    #center-phone{
+    .center-phone{
         text-align: center;
         padding-top: 1rem;
     }
