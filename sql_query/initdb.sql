@@ -2,7 +2,7 @@
 
 CREATE TABLE users (
     id INTEGER GENERATED ALWAYS AS IDENTITY,
-    cookie VARCHAR(100),
+    cookie VARCHAR(30),
     username VARCHAR(40) NOT NULL UNIQUE, 
     name VARCHAR(40) NOT NULL ,
     lastname VARCHAR(40) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE users (
 
 CREATE TABLE usersanonimous (
     id INTEGER GENERATED ALWAYS AS IDENTITY,
-    cookie VARCHAR(100) NOT NULL UNIQUE,
+    cookie VARCHAR(30) NOT NULL UNIQUE,
     CONSTRAINT useranonimous_pk PRIMARY KEY (id)
 );
 

@@ -1,6 +1,3 @@
-
-
-
 package it.unitn.aa1718.webprogramming.geolists.endpoint;
 
 import it.unitn.aa1718.webprogramming.geolists.database.AccessDAO;
@@ -33,8 +30,8 @@ public class ChatEndpoint {
     private static HashMap<Long, Session> sessionsFrom = new HashMap<>(); // dall'utente ricavo la sessione
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("userCookie") String userCookie, @PathParam("listid") long listid) throws IOException {
-        Optional<User> u = (new UserDAO()).getUser(userCookie);
+    public void onOpen(Session session, @PathParam("userCookie") long userCookie, @PathParam("listid") long listid) throws IOException {
+        Optional<User> u = (new UserDAO()).getUser(String.valueOf(userCookie));
 
         if (!u.isPresent()) {
             session.getBasicRemote().sendText(new MessageJson("error", "bad request", "").toJson());

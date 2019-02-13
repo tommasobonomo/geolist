@@ -4,12 +4,9 @@ import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -71,32 +68,18 @@ public class CookieManager{
         
         Cookie cookieNew = null;
         String cookieVal = u.getCookie();
-        String cookie ="";   
-        
+                
         if (cookieVal == null){
             Random rand = new Random();
             int n = rand.nextInt(5000000)+1;
             cookieVal = Integer.toString(n);
             
-        try {
-             cookie = HashGenerator.Hash(cookieVal);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(CookieManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
-            
             UserDAO db = new UserDAO();
-            u.setCookie(cookie);
+            u.setCookie(cookieVal);
             db.updateWithoutImage(u.getId(), u);
         }
-   
-
       
-        
-        
-        
-        
-        cookieNew = new Cookie("Cookie", cookie);
+        cookieNew = new Cookie("Cookie", cookieVal);
         cookieNew.setMaxAge(MAXAGE);
         cookieNew.setPath("/");
         
@@ -140,20 +123,11 @@ public class CookieManager{
         int n = rand.nextInt(5000000)+1;
         String cookieVal = Integer.toString(n);
         
-        String cookie ="";
-
-        try {
-             cookie = HashGenerator.Hash(cookieVal);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(CookieManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
-    
         // inserisco nel database
-        UserAnonimous ua = new UserAnonimous(n, cookie);
+        UserAnonimous ua = new UserAnonimous(n, cookieVal);
         db.create(ua);
         
-        c = new Cookie("Cookie", cookie);
+        c = new Cookie("Cookie", cookieVal);
         c.setPath("/");
         c.setMaxAge(60*60*24*365);
         

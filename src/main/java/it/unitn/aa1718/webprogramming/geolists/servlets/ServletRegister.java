@@ -15,10 +15,8 @@ import it.unitn.aa1718.webprogramming.geolists.utility.ParametersController;
 import java.sql.Timestamp;
 import javax.servlet.annotation.WebServlet;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
-import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.InputStream;
-import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,18 +39,10 @@ public class ServletRegister extends HttpServlet {
      
     Random rand = new Random();
     String username="", email="", name="", lastname="", password="",
-            cookieRD = Integer.toString(rand.nextInt(5000000)+1), 
-            token="", time="", timeToken="", cookie = "";
-           
-           
+            cookie= Integer.toString(rand.nextInt(5000000)+1), 
+            token="", time="", timeToken="";
     InputStream image = null;
     boolean admin=false, active=false;
-
-    
-
-    public ServletRegister() throws NoSuchAlgorithmException {
-        this.cookie = HashGenerator.Hash(cookieRD);
-    }
     
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -169,8 +159,6 @@ public class ServletRegister extends HttpServlet {
         
         //controllo se c'è stato un errore
         if(!error){
-            System.out.println("\n\nCooKIE PRIMA DELLA CHAT: "+ cookie);
-            System.out.println("\n\n");
             //creo il token (PER ORA A RANDOM)
             this.token = DigestUtils.md5Hex(""+this.rand.nextInt(999999999));
             //creo user che andrò a ficcare nel database e lo inserisco
