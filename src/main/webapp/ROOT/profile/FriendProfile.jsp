@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
-        <title>Geolist - ${name}</title>
+        <title>Geolist - ${friend.getName()}</title>
         <link rel="icon" href="/ROOT/logos/logo.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">

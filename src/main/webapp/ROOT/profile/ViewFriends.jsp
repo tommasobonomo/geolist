@@ -78,7 +78,7 @@
                     <a href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>" class="menu-link"><p class="menu-link">General Info</p></a>
                     <a href="/ModifyServlet" class="menu-link"><p class="menu-link" >Edit profile</p></a> 
                     <a class="menu-link-active"><p class="menu-link-active" >Friends</p></a> 
-                    <c:if test="${isAdmin}"><a href="admin-profile.html" class="menu-link"><p class="menu-link">Administration area</p></a></c:if>
+                    <c:if test="${isAdmin}"><a href="/AdminServlet" class="menu-link"><p class="menu-link">Administration area</p></a></c:if>
                     <a href="/signOut" class="menu-link"><p class="menu-link">Log out</p></a> 
                     <hr>
                 </div>

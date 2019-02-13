@@ -240,7 +240,7 @@
                                         You share this list with :</p>
                                     <div class="d-inline font-italic font-weight-bold">
                                         <c:forEach var="username" items="${mapWhoHaveAccess.get(list.getId())}">
-                                            ${username},
+                                            ${username}&nbsp;&nbsp;
                                         </c:forEach>
                                     </div>
                                 </c:if>
