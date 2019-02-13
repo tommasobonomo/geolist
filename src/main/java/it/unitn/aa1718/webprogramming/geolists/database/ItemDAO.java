@@ -32,7 +32,7 @@ public class ItemDAO implements CrudDao<Item> {
         if (blob != null) {
             is = blob.getBinaryStream();
         }
-        return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("name"), is, rs.getString("note"));
+        return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("name"), is, rs.getString("note"), rs.getLong("idOwner"), rs.getBoolean("isTemplate"));
     }
 
     @Override

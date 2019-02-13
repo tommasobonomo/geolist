@@ -4,10 +4,13 @@ import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.util.Random;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
@@ -34,42 +37,58 @@ public class ItemRegister extends HttpServlet {
     String ids;
     int id;
     long idCat;
+    long idOwner;
+    boolean isTemplate;
     InputStream inputStream = null;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        if (action == null) {
-            action = "";
-        }
+
+        // Prendo l'utente
+        UserUtil util = new UserUtil();
+        Optional<User> userOpt
+                = (Optional<User>) util.getUserOptional(request);
         
-        switch (action) {
-            case "addItem":
-                Pair<Boolean,String> success = addItem(request);
-                if (success.getKey()) {
-                    response.sendRedirect("/");
-                } else {
-                    response.setContentType("text/html");
-                    request.setAttribute("formError", success.getValue());
-                    request.setAttribute("action", "viewForm");
+        if (action == null) {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "BAD REQUEST");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+        } else if (!userOpt.isPresent()) {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("error", "NOT A REGISTERED USER");
+            request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+        } else {
+            User user = userOpt.get();
+            switch (action) {
+                case "addItem":
+                    Pair<Boolean, String> success = addItem(request, user);
+                    if (success.getKey()) {
+                        response.sendRedirect("/");
+                    } else {
+                        response.setContentType("text/html");
+                        request.setAttribute("formError", success.getValue());
+                        request.setAttribute("action", "viewForm");
+                        request.getRequestDispatcher("/ROOT/AddItem.jsp").forward(request, response);
+                    }
+                    break;
+                case "viewForm":
+                default:
+                    viewForm(request);
                     request.getRequestDispatcher("/ROOT/AddItem.jsp").forward(request, response);
-                }
-                break;
-            case "viewForm":
-            default:
-                viewForm(request);
-                request.getRequestDispatcher("/ROOT/AddItem.jsp").forward(request, response);
+            }
         }
     }
 
     /**
      * Try to add an Item to the DB, checking for errors in parameters
+     *
      * @param request
      * @return a pair object containing a boolean to check if there was an error
      * and a string to describe it if there was one
      */
-    private Pair<Boolean,String> addItem(HttpServletRequest request) {
+    private Pair<Boolean, String> addItem(HttpServletRequest request, User user) {
 
         boolean success_bool = false;
         String success_string = "";
@@ -78,6 +97,8 @@ public class ItemRegister extends HttpServlet {
         this.name = request.getParameter("Name");
         this.note = request.getParameter("Note");
         this.idCat = Long.parseLong(request.getParameter("category"));
+        this.idOwner = user.getId();
+        this.isTemplate = user.isAdmin();
 
         if (this.name.equals("") || this.note.equals("")) {
             success_bool = false;
@@ -100,18 +121,20 @@ public class ItemRegister extends HttpServlet {
             }
 
             //logo="c:\\docs\\DB_photos\\"+name+(".png");
-            Item u = new Item(this.idCat, this.name, this.inputStream, this.note);
+            Item u = new Item(this.idCat, this.name, this.inputStream, this.note,
+                    this.idOwner, this.isTemplate);
 
             ItemDAO ID = new ItemDAO();
             ID.create(u);
         }
-        
-        return new Pair<>(success_bool,success_string);
+
+        return new Pair<>(success_bool, success_string);
     }
 
     /**
      * Add all categories to the session
-     * @param request 
+     *
+     * @param request
      */
     private void viewForm(HttpServletRequest request) {
         CatProductListDAO clDAO = new CatProductListDAO();
