@@ -59,9 +59,9 @@
                     </div>
                 </nav>
 
-                <div class="container padding-top2 center-phone">
+        <div class="container padding-top2 center-phone">
 
-                    <!--titolo-->
+            <!--titolo-->
             <div class="row padding-top">
                 <div class="col-12">
                     <div class="display-4 font-25 my-2">
