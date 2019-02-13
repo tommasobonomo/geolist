@@ -67,7 +67,7 @@ public class FriendEndpoint {
     public void onMessage(Session session, String txt)
             throws IOException {
         long userId = userIdFromSession.get(session);
-        long listId = userIdFromSession.get(session);
+        long listId = listIdFromSession.get(session);
         
         MessageSession message = new MessageSession(txt,1); //op, friendId
         long friendId=message.getId1();
@@ -80,6 +80,7 @@ public class FriendEndpoint {
             session.getBasicRemote().sendText(new MessageJson("server", "bad request", "").toJson());
             this.onClose(session);
         } else if(isFriendDAO.isFriend(userId, friendId) && !accessDAO.canHaveAccess(friendId, listId)) {
+            System.out.println("idfriend:"+friendId+" listid:"+listId);
             Access access = new Access(friendId,listId,false);
             System.out.println("creo nuovo access");
             switch (message.getOp()) {
