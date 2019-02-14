@@ -32,6 +32,7 @@
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                
 
                 <div class="collapse navbar-collapse" id="collapse-target">
                     <!--pulsante ricerca prodotto-->
@@ -76,7 +77,8 @@
                     </div>
                 </nav>
 
-
+                <button type="submit" name="modify" value="back" class="btn btn-outline-danger btn-large my-2">Back</button>
+                
                 <div class="container padding-top2">
 
                     <div class="row padding-top">

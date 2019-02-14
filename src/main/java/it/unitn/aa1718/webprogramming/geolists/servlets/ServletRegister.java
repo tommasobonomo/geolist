@@ -17,6 +17,9 @@ import javax.servlet.annotation.WebServlet;
 import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import it.unitn.aa1718.webprogramming.geolists.utility.HashGenerator;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -117,18 +120,16 @@ public class ServletRegister extends HttpServlet {
         this.lastname = request.getParameter("LastName");
         this.email = request.getParameter("Email");
         this.password = request.getParameter("Password");
-        
-        // carico immagine uploadata
-        try {
-            Part filePart = request.getPart("File");
-            if (filePart != null) {
-                // ottengo InputStream da File caricato
-                this.image = filePart.getInputStream();
-            }
-        } catch (IOException | ServletException ex) {
-            Logger.getLogger(ItemRegister.class.getName()).log(Level.SEVERE, null, ex);
+       
+        Part filePart = request.getPart("File");
+        String header = filePart.getHeader("content-disposition");
+        if (header.contains("\"\"")) {
+            Random r = new Random();
+            int i = r.nextInt((16 - 1) + 1) + 1;
+            this.image = this.getServletContext().getResourceAsStream("/anon_user_images/0" + i + ".png");
+        } else {
+            this.image = filePart.getInputStream();
         }
-        
         
         //variabili varie
         ParametersController pc = new ParametersController();
