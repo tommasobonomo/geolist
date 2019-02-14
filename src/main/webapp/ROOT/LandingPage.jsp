@@ -8,8 +8,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <c:if test="${logged}">
             <script type="text/javascript" src="${pageContext.request.contextPath}/js/clientLanding.js"></script>
-            <script> connect('${url}', '${userCookie}')</script>
+            <script> connect('${url}'+'quantity/', '${userCookie}');</script>
         </c:if>
+        <c:if test="${not logged}">
+            <script type="text/javascript" src="${pageContext.request.contextPath}/js/clientAnonymousLanding.js"></script>
+            <script> connect('${url}'+'anonymous/', '${userCookie}');</script>
+        </c:if>    
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <style><%@include file="/ROOT/css/main.css" %></style>
