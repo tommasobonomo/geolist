@@ -171,7 +171,7 @@ public class ListRegistration extends HttpServlet {
                 }
 
                 // Create ProductList to insert into DB
-                ProductList newList = new ProductList(userID, userAnonID, catID, name, description, image);
+                ProductList newList = new ProductList(userID, userAnonID, catID, name, description, image, false);
 
                 // Add it to DB        
                 ProductListDAO plDAO = new ProductListDAO();

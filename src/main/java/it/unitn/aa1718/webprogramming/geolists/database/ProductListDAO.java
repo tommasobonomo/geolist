@@ -34,7 +34,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             image = blob.getBinaryStream();
         }
         return new ProductList(rs.getLong("id"), rs.getLong("userOwner"), rs.getLong("userAnonOwner"),
-                rs.getLong("idCat"), rs.getString("name"), rs.getString("description"), image);
+                rs.getLong("idCat"), rs.getString("name"), rs.getString("description"), image, rs.getBoolean("isPreMade"));
     }
 
     /**
@@ -94,6 +94,30 @@ public class ProductListDAO implements CrudDao<ProductList> {
     @Override
     public List<ProductList> getAll() {
         String query = "SELECT * FROM List";
+        List list = new ArrayList<>();
+
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+
+            while (rs.next()) {
+                list.add(createProductList(rs));
+            }
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+    
+    /**
+     * get all product list
+     * @return
+     */
+    public List<ProductList> getPremade() {
+        String query = "SELECT * FROM List where ispremade = true";
         List list = new ArrayList<>();
 
         try {

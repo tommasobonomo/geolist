@@ -52,12 +52,12 @@ VALUES  (DEFAULT, 'Meat', 'Everything meaty is to be found here', NULL),
         (DEFAULT, 'Fish Food', 'The feeds, in the form of granules or pellets, provide the nutrition in a stable and concentrated form, enabling the fish to feed efficiently and grow to their full potential. ... They are combined with other ingredients such as vegetable proteins, cereal grains, vitamins and minerals and formed into feed pellets. ', NULL),
         (DEFAULT, 'Grooming', 'Inside Animal Grooming. Animal groomers brush, bathe and style the hair or fur of domestic pets, usually dogs. They also cut animals  nails, clean their ears and maintain their general appearance. Animal groomers work in kennels, veterinary clinics, animal shelters and pet supply stores. ', NULL);
 
-INSERT INTO GEODB.LIST(ID,USEROWNER, USERANONOWNER, IDCAT, "NAME",DESCRIPTION, IMAGE)
-VALUES  (DEFAULT, 1, null, 1, 'Birthday', 'I just wanted to get the goods for the party, not too much sugar for us',NULL),
-        (DEFAULT, 1, null, 6, 'Friday Night', 'As a family, we do celebrate friday-myDAY, in which we like to NOT eat healthy',NULL),
-        (DEFAULT, 2, null, 1, 'Grandma', 'Minimalistic for grandma, Healthy and soupy,with dessert in the end for a good ending ',NULL),        
-        (DEFAULT, 2, null, 6, 'Camping', 'A bunch of sandwiches with unexplored sauce in it',NULL),
-        (DEFAULT, 3, null, 3, 'DIY', 'Do it yourself, with all the good powertools and helpful tools for the right moment',NULL);
+INSERT INTO GEODB.LIST(ID,USEROWNER, USERANONOWNER, IDCAT, "NAME",DESCRIPTION, IMAGE, ISPREMADE)
+VALUES  (DEFAULT, 1, null, 1, 'Birthday', 'I just wanted to get the goods for the party, not too much sugar for us',NULL, false),
+        (DEFAULT, 1, null, 6, 'Friday Night', 'As a family, we do celebrate friday-myDAY, in which we like to NOT eat healthy',NULL, false),
+        (DEFAULT, 2, null, 1, 'Grandma', 'Minimalistic for grandma, Healthy and soupy,with dessert in the end for a good ending ',NULL, false),        
+        (DEFAULT, 2, null, 6, 'Camping', 'A bunch of sandwiches with unexplored sauce in it',NULL, false),
+        (DEFAULT, 3, null, 3, 'DIY', 'Do it yourself, with all the good powertools and helpful tools for the right moment',NULL, false);
 
 INSERT INTO GEODB.ISFRIEND(USR1,USR2)
 VALUES  (1,2),

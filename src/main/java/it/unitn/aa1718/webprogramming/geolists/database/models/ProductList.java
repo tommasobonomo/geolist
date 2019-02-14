@@ -19,6 +19,7 @@ public class ProductList {
     private long idCat;
     private String name;
     private String description;
+    private boolean isPreMade;
     transient private InputStream image;
 
     /**
@@ -31,7 +32,7 @@ public class ProductList {
      * @param description
      * @param image
      */
-    public ProductList(long id, long userOwner, long userAnonOwner, long idCat, String name, String description, InputStream image) {
+    public ProductList(long id, long userOwner, long userAnonOwner, long idCat, String name, String description, InputStream image, boolean isPremade) {
         this.id = id;
         this.userOwner = userOwner;
         this.userAnonOwner = userAnonOwner;
@@ -39,6 +40,7 @@ public class ProductList {
         this.name = name;
         this.description = description;
         this.image = image;
+        this.isPreMade = isPremade;
     }
   
     /**
@@ -50,13 +52,14 @@ public class ProductList {
      * @param description
      * @param image
      */
-    public ProductList(long userOwner, long userAnonOwner, long idCat, String name, String description, InputStream image) {
+    public ProductList(long userOwner, long userAnonOwner, long idCat, String name, String description, InputStream image, boolean isPremade) {
         this.userOwner = userOwner;
         this.userAnonOwner = userAnonOwner;
         this.idCat = idCat;
         this.name = name;
         this.description = description;
         this.image = image;
+        this.isPreMade = isPremade;
     }
     
     public long getId() {
@@ -113,6 +116,14 @@ public class ProductList {
 
     public void setImage(InputStream image) {
         this.image = image;
+    }
+    
+    public boolean isPreMade(){
+        return this.isPreMade;
+    }
+    
+    public void setIsPreMade(boolean isPreMade){
+         this.isPreMade = isPreMade;
     }
 
     @Override
