@@ -27,7 +27,8 @@ function search(word){
     clearListItems();
     
     items.forEach((item)=>{
-        if(item.search(word)> -1){
+        let name = item.toLowerCase();
+        if(name.search(word)> -1){
             createItemSearch(mapNameId.get(item),item);
         }
         
