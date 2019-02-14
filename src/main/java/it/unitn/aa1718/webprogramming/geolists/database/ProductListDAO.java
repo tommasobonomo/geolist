@@ -229,8 +229,8 @@ public class ProductListDAO implements CrudDao<ProductList> {
      * @return
      */
     public Optional<Long> createAndReturnID(ProductList obj) {
-        String query = "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE)\n"
-                + "VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO GEODB.LIST(USEROWNER,USERANONOWNER,IDCAT,\"NAME\",DESCRIPTION,IMAGE, ISPREMADE)\n"
+                + "VALUES (?,?,?,?,?,?,?)";
         Optional<Long> listID = Optional.empty();
         try {
             Connection c = Database.openConnection();
@@ -250,6 +250,7 @@ public class ProductListDAO implements CrudDao<ProductList> {
             ps.setString(4, obj.getName());
             ps.setString(5, obj.getDescription());
             ps.setBlob(6, obj.getImage());
+            ps.setBoolean(7, obj.isPreMade());
 
             ps.executeUpdate();
 

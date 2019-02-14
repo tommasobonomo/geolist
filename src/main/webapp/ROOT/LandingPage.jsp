@@ -361,33 +361,30 @@
                 <div class="row padding-bottom">
                     <div class="card-deck">
                         <div class="card">
-                            <img class="card-img-top" src="images/cards/carne.jpg">
+                            <img class="card-img-top" src="${pageContext.request.contextPath}/anon_user_images/carne.jpg">
                             <div class="card-body" style="height:160px">
                                 <h4 class="card-title">Meat lover</h4>
                                 <p class="card-text">Perfect for someone who loves cooking meat</p>
-                                <a href="" class="btn btn-outline-danger">see list</a>
                             </div>
                         </div>
                         <div class="card">
-                            <img class="card-img-top" src="images/cards/farmacia.jpg">
+                            <img class="card-img-top" src="${pageContext.request.contextPath}/anon_user_images/farmacia.jpg">
                             <div class="card-body" style="height:160px">
                                 <h4 class="card-title">All for your Health</h4>
-                                <p class="card-text">Never remain without medications</p>
-                                <a href="" class="btn btn-outline-danger">see list</a>
+                                <p class="card-text">Never remain without medications</p>                                
                             </div>
                         </div>
                         <div class="card">
-                            <img class="card-img-top" src="images/cards/vegetariano.jpg">
+                            <img class="card-img-top" src="${pageContext.request.contextPath}/anon_user_images/vegetariano.jpg">
                             <div class="card-body" style="height:160px">
                                 <h4 class="card-title">Veggie time</h4>
-                                <p class="card-text">Just remain healty for today</p>
-                                <a href="" class="btn btn-outline-danger">see list</a>
+                                <p class="card-text">Just remain healty for today</p>                                
                             </div>
                         </div>
                         <div class="card">
                             <div class="mx-auto text-center padding-top" id="addList" style="width:100%">
                                 <h4 class="card-title">Try out your own</h4>
-                                <p class="card-text">create a simple list without an account and test the experience</p>
+                                <p class="card-text">create a simple list without an account and test the experience</p>zsssssssssssssssss
                                 <button data-toggle="modal" data-target="#listModal" class="btn btn-outline-danger">Create one</button>
                             </div>
                         </div>
