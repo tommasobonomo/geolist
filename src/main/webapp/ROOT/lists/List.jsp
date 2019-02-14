@@ -143,12 +143,14 @@
             <div class="display-4 font-15 my-2 padding-bottom padding-top text-center">
                 Elements you can add in your list:
             </div>
-            <div>
-              <input type="text" placeholder="Search.." id="searchBar">
-              <button type="submit" class="btn btn-outline-success btn-md my-2" 
-                      onClick="clickButton()" id="buttonSearch"/>
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" placeholder="Search item.." id="searchBar">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit" onClick="clickButton()" id="buttonSearch">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
             </div>
-            
             <script type="text/javascript">
                 var input = document.getElementById("searchBar");
             

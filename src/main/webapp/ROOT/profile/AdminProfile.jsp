@@ -95,29 +95,27 @@
                         Edit items <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <div>use this option to edit, add or delete items</div>
-                    <div class="collapse" id="listsWindow">
-                        <div class="container">
-                            <ul class="list-group list-group-flush border" id="listItems">
-                                <c:forEach var="item" items="${mapItems}">
-                                    <li class="list-group-item">${item.value}
-                                        <a href="<c:url value="/ItemServlet">
-                                           <c:param value="${item.key}" name="itemID"/>
-                                           <c:param value="viewItem" name="action"/>
-                                       </c:url>"><button class="btn btn-outline-warning btn-md ml-2 my-2"><i class="far fa-eye"></i></button></a>
-                                        <a href="<c:url value="/ModifyItem" > 
-                                            <c:param name="items" value="${item.key}"/>   
-                                        </c:url>"><button class="btn btn-outline-info btn-md ml-2 my-2"><i class="fas fa-pencil-alt"></i></button></a>
-                                        <form style="display: inline-block;" class="form-inline" method="POST" action="<c:url value="/AdminServlet">
-                                                    <c:param name="itemID" value="${item.key}"/>
-                                           </c:url>"><button type="submit" name="modify" value="deleteItem" class="btn btn-outline-danger btn-md ml-2 my-2"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </li>
-                                </c:forEach>
-                            </ul>
-                            <button class="btn btn-outline-success btn-md my-2" data-toggle="modal" data-target="#itemModal">
-                                Create a new one <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
+                    <div class="container">
+                        <ul class="list-group list-group-flush border" style="height:250px; overflow-y: scroll">
+                            <c:forEach var="item" items="${mapItems}">
+                                <li class="list-group-item">${item.value}
+                                    <a href="<c:url value="/ItemServlet">
+                                       <c:param value="${item.key}" name="itemID"/>
+                                       <c:param value="viewItem" name="action"/>
+                                   </c:url>"><button class="btn btn-outline-warning btn-md ml-2 my-2"><i class="far fa-eye"></i></button></a>
+                                    <a href="<c:url value="/ModifyItem" > 
+                                        <c:param name="items" value="${item.key}"/>   
+                                    </c:url>"><button class="btn btn-outline-info btn-md ml-2 my-2"><i class="fas fa-pencil-alt"></i></button></a>
+                                    <form style="display: inline-block;" class="form-inline" method="POST" action="<c:url value="/AdminServlet">
+                                                <c:param name="itemID" value="${item.key}"/>
+                                       </c:url>"><button type="submit" name="modify" value="deleteItem" class="btn btn-outline-danger btn-md ml-2 my-2"><i class="far fa-trash-alt"></i></button>
+                                    </form>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                        <button class="btn btn-outline-success btn-md my-2" data-toggle="modal" data-target="#itemModal">
+                            Create a new one <i class="fas fa-plus"></i>
+                        </button>
                     </div>
                     <hr class="padding-bottom">
                     
@@ -126,26 +124,26 @@
                         Users <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <div>use this option to upgrade users to admin</div>
-                    <div class="collapse" id="usersWindow">
-                        <div class="container">
-                            <ul class="list-group list-group-flush border" id="listItems">
-                                <c:forEach var="user" items="${mapUsers}">
-                                    <li class="list-group-item">${user.value}
-                                        <a style="display: inline-block;" href="<c:url value="/friend/profile">
-                                                    <c:param name="friendId" value="${user.key}"/>
-                                                    <c:param name="action" value="viewFriend"/>
-                                                 </c:url>">
-                                            <button class="btn btn-outline-info btn-md ml-2 my-2"><i class="far fa-eye"></i></button>
-                                        </a>
-                                        <form style="display: inline-block;" class="form-inline" method="POST" action="<c:url value="/AdminServlet">
-                                                    <c:param name="userID" value="${user.key}"/>
-                                                 </c:url>"><button type="submit" name="modify" value="admin" class="btn btn-outline-success btn-md my-2"><i class="fas fa-level-up-alt"></i></button>
-                                        </form>
-                                    </li>
-                                </c:forEach>
-                            </ul>
-                        </div>
+
+                    <div class="container">
+                        <ul class="list-group list-group-flush border" id="listItems">
+                            <c:forEach var="user" items="${mapUsers}">
+                                <li class="list-group-item">${user.value}
+                                    <a style="display: inline-block;" href="<c:url value="/friend/profile">
+                                                <c:param name="friendId" value="${user.key}"/>
+                                                <c:param name="action" value="viewFriend"/>
+                                             </c:url>">
+                                        <button class="btn btn-outline-info btn-md ml-2 my-2"><i class="far fa-eye"></i></button>
+                                    </a>
+                                    <form style="display: inline-block;" class="form-inline" method="POST" action="<c:url value="/AdminServlet">
+                                                <c:param name="userID" value="${user.key}"/>
+                                             </c:url>"><button type="submit" name="modify" value="admin" class="btn btn-outline-success btn-md my-2"><i class="fas fa-level-up-alt"></i></button>
+                                    </form>
+                                </li>
+                            </c:forEach>
+                        </ul>
                     </div>
+
                     <hr class="padding-bottom">
 
                 </div>
