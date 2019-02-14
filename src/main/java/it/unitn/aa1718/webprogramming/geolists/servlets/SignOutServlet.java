@@ -5,6 +5,8 @@
  */
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
+import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
+import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.util.Optional;
 import javax.servlet.ServletException;
@@ -32,20 +34,31 @@ public class SignOutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        Cookie[] cookies = request.getCookies();
-        
-        for (Cookie cookie : cookies) {
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
+        UserUtil userUtil = new UserUtil();
+        Optional<Long> userAnoOpt = userUtil.getUserAnonymousOptionalID(request);
+
+        if (!userAnoOpt.isPresent()) {
+            Cookie[] cookies = request.getCookies();
+
+            for (Cookie cookie : cookies) {
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+
+            request.getSession().setAttribute("logged", false);
+            request.getSession().setAttribute("userOpt", Optional.empty());
+            request.getSession().setAttribute("userAnonOpt", Optional.empty());
+
+            response.sendRedirect("/");
+        } else {
+            try {
+                    response.setContentType("text/html;charset=UTF-8");
+                    request.setAttribute("error", "YOU ARE ALREADY UNLOGGED");
+                    getServletContext().getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
         }
-        
-        request.getSession().setAttribute("logged", false);
-        request.getSession().setAttribute("userOpt", Optional.empty());
-        request.getSession().setAttribute("userAnonOpt", Optional.empty());
-        
-        
-        response.sendRedirect("/");
     }
 
     /**
@@ -60,7 +73,9 @@ public class SignOutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-    };
+    }
+
+    ;
 
     /**
      * Handles the HTTP <code>POST</code> method.
