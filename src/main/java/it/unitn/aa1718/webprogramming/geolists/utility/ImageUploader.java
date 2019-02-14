@@ -54,7 +54,7 @@ public class ImageUploader {
     private static boolean uploadItemImage(Item item) {
         ItemDAO itemDAO = new ItemDAO();
         boolean res = false;
-        InputStream image = getInputStreamFromFile("/items/" + item.getName().toLowerCase());
+        InputStream image = getInputStreamFromFile("/items/" + item.getName());
         if (image != null) {
             res = true;
             item.setLogo(image);
@@ -73,7 +73,7 @@ public class ImageUploader {
     private static boolean uploadListImage(ProductList list) {
         ProductListDAO plDAO = new ProductListDAO();
         boolean res = false;
-        InputStream image = getInputStreamFromFile("/lists/" + list.getName().toLowerCase());
+        InputStream image = getInputStreamFromFile("/lists/" + list.getName());
         if (image != null) {
             res = true;
             list.setImage(image);
@@ -111,7 +111,7 @@ public class ImageUploader {
     private static boolean uploadCatItemImage(CatItem catItem) {
         CatItemDAO catItemDAO = new CatItemDAO();
         boolean res = false;
-        InputStream image = getInputStreamFromFile("/cat_item/" + catItem.getName().toLowerCase());
+        InputStream image = getInputStreamFromFile("/cat_item/" + catItem.getName());
         if (image != null) {
             res = true;
             catItem.setImage(image);
@@ -130,7 +130,7 @@ public class ImageUploader {
     private static boolean uploadCatListImage(CatList catList) {
         CatProductListDAO catListDAO = new CatProductListDAO();
         boolean res = false;
-        InputStream image = getInputStreamFromFile("/cat_list/" + catList.getName().toLowerCase());
+        InputStream image = getInputStreamFromFile("/cat_list/" + catList.getName());
         if (image != null) {
             res = true;
             catList.setImage(image);

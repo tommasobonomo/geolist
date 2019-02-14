@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import static java.sql.Types.INTEGER;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -147,17 +148,17 @@ public class ItemDAO implements CrudDao<Item> {
     public List<Item> getFromPatternOrderedByAlfabetico(String pattern, int start, int total, Optional<User> userOpt) {
         String query;
         if (userOpt.isPresent()) {
-            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%" 
+            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%"
                     + pattern + "%' AND (I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
                     + ") ORDER BY I.name "
                     + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
         } else {
-            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%" 
+            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%"
                     + pattern + "%' AND I.isTemplate = TRUE "
                     + "ORDER BY I.name "
                     + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
         }
-        
+
         List list = new ArrayList<>();
 
         try {
@@ -180,12 +181,12 @@ public class ItemDAO implements CrudDao<Item> {
     public List<Item> getFromPatternOrderedByCategory(String pattern, int start, int total, Optional<User> userOpt) {
         String query;
         if (userOpt.isPresent()) {
-            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%" 
+            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%"
                     + pattern + "%' AND (I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
                     + ") ORDER BY I.idCat"
                     + " OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
         } else {
-            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%" 
+            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%"
                     + pattern + "%' AND I.isTemplate = TRUE "
                     + "ORDER BY I.idCat "
                     + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
@@ -214,13 +215,13 @@ public class ItemDAO implements CrudDao<Item> {
         if (userOpt.isPresent()) {
             query = "SELECT * FROM Item AS I WHERE "
                     + "(I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
-                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = "+category+" "
+                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = " + category + " "
                     + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
         } else {
             query = "SELECT * FROM Item AS I WHERE "
                     + "I.isTemplate = TRUE "
-                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = "+category+" "
-                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";      
+                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = " + category + " "
+                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
         }
         List list = new ArrayList<>();
 
@@ -276,13 +277,13 @@ public class ItemDAO implements CrudDao<Item> {
         if (userOpt.isPresent()) {
             query = "SELECT * FROM Item AS I WHERE "
                     + "(I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
-                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = "+category+" "
+                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = " + category + " "
                     + "Order by I.name "
                     + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
         } else {
             query = "SELECT * FROM Item AS I WHERE "
                     + "I.isTemplate = TRUE "
-                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = "+category+" "
+                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = " + category + " "
                     + "Order by I.name "
                     + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
         }
@@ -374,16 +375,16 @@ public class ItemDAO implements CrudDao<Item> {
 
         return list;
     }
-    
-     public List<Item> getAllForAdminOrderedByName() {
+
+    public List<Item> getAllForAdminOrderedByName() {
         String query = "SELECT * FROM Item Order by name";
         List list = new ArrayList<>();
-        
+
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
-            
+
             while (rs.next()) {
                 list.add(createItem(rs));
             }
@@ -445,7 +446,11 @@ public class ItemDAO implements CrudDao<Item> {
             ps.setString(2, obj.getName());
             ps.setString(4, obj.getNote());
             ps.setBoolean(5, obj.isIsTemplate());
-            ps.setLong(6, obj.getIdOwner());
+            if (obj.getIdOwner() != 0) {
+                ps.setLong(6, obj.getIdOwner());
+            } else {
+                ps.setNull(6, INTEGER);
+            }
 
             int row = ps.executeUpdate();
             c.commit();
@@ -469,7 +474,11 @@ public class ItemDAO implements CrudDao<Item> {
             ps.setBlob(3, obj.getLogo());
             ps.setString(4, obj.getNote());
             ps.setBoolean(5, obj.isIsTemplate());
-            ps.setLong(6, obj.getIdOwner());
+            if (obj.getIdOwner() != 0) {
+                ps.setLong(6, obj.getIdOwner());
+            } else {
+                ps.setNull(6, INTEGER);
+            }
             ps.setLong(7, id);
 
             ps.executeUpdate();
@@ -494,7 +503,11 @@ public class ItemDAO implements CrudDao<Item> {
             ps.setString(2, obj.getName());
             ps.setString(3, obj.getNote());
             ps.setBoolean(4, obj.isIsTemplate());
-            ps.setLong(5, obj.getIdOwner());
+            if (obj.getIdOwner() != 0) {
+                ps.setLong(5, obj.getIdOwner());
+            } else {
+                ps.setNull(5, INTEGER);
+            }
             ps.setLong(6, id);
 
             ps.executeUpdate();
