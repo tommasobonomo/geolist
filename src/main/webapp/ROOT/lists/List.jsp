@@ -75,7 +75,7 @@
                             <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">Geo</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/ViewAccount">Profile</a>
+                            <a class="nav-link" href="/ViewAccount?action=viewAccount">Profile</a>
                         </li>
                     </ul>
 
