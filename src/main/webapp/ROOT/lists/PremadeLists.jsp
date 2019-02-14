@@ -110,7 +110,10 @@
                                 <i class="fas fa-bars"></i>
                             </button>
                         </div>
-                        <a href=""><button class="d-inline btn btn-outline-success btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="add">
+                        <a href="<c:url value="/PremadeLists">
+                                   <c:param name="listID" value="${list.getId()}"/>
+                                   <c:param name="action" value="add"/>
+                               </c:url>"><button class="d-inline btn btn-outline-success btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="add">
                                 <i class="fas fa-plus"></i></button>
                         </a>
                         <c:if test="${isAdmin}">      
@@ -123,6 +126,7 @@
                             <a href="<c:url value="/ListRegistration">
                                    <c:param name="action" value="removeList"/>
                                    <c:param name="listID" value="${list.getId()}"/>
+                                   <c:param name="from" value="premade"/>
                                </c:url>"><button class="d-inline btn btn-outline-danger btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="Remove">
                                     <i class="far fa-trash-alt"></i></button>
                             </a>
@@ -173,6 +177,14 @@
                 <hr class="padding-bottom">
             </c:forEach>
         </div>
+    
+    <hr>
+
+    <div class="row text-center padding-bottom">
+        <div class="col-12">
+            <a href="/"><button type="button" class="btn btn-outline-Danger btn-lg">Go Home</button></a>
+        </div>
+    </div>
 
     
     

@@ -6,8 +6,10 @@
 package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.UserDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
+import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
@@ -85,8 +87,12 @@ public class AdminServlet extends HttpServlet {
             for(User elem : usersNotAdmin){
                 mapUsers.put(elem.getId(), elem.getName());
             }
+            
+            //prendo le liste premade
+            List<ProductList> lists = new ProductListDAO().getPremade();
                 
             request.setAttribute("mapUsers", mapUsers);
+            request.setAttribute("premadeLists", lists);
             request.setAttribute("mapItems", mapItems);
             request.getRequestDispatcher("/ROOT/profile/AdminProfile.jsp").forward(request, response);
         }
