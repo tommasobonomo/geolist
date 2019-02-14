@@ -53,13 +53,22 @@
                     <!--lista degli elementi cliccabili-->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
+                            <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">
+                                <i class="fas fa-globe-europe" id="globe"></i>
+                                Geo
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">Geo</a>
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-home"></i>
+                                Home
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
+                            <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">
+                                        <i class="fas fa-user"></i>
+                                        Profile
+                                    </a>
                                 </li>
                             </ul>
 

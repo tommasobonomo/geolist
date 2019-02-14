@@ -18,13 +18,13 @@
         <!-- Geolocation -->
         <p id="listcategories" style="display: none"><c:forEach var="list" items="${listOfPL}">${list.getIdCat()},</c:forEach></p>
 
-        <!--navbar-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <div class="container-fluid">
+            <!--navbar-->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                <div class="container-fluid">
 
-                <!--logo e titolo del sito-->
-                <a class="navbar-brand" href="/">
-                    <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"/>" height="40" width="120" alt="logo">
+                    <!--logo e titolo del sito-->
+                    <a class="navbar-brand" href="/">
+                        <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"/>" height="40" width="120" alt="logo">
                 </a>
 
                 <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
@@ -53,13 +53,22 @@
                     <!--lista degli elementi cliccabili-->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
+                            <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">
+                                <i class="fas fa-globe-europe" id="globe"></i>
+                                Geo
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">Geo</a>
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-home"></i>
+                                Home
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
+                            <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">
+                                        <i class="fas fa-user"></i>
+                                        Profile
+                                    </a>
                                 </li>
                             </ul>
 
@@ -102,8 +111,8 @@
                     <c:if test="${isAdmin || isOwner}">
                         <a class="menu-link" href="<c:url value="/ModifyItem" > 
 
-                               <c:param name="items" value="${itemID}"/>   
-                           </c:url>">
+                           <c:param name="items" value="${itemID}"/>   
+                            </c:url>">
                             <button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i>Modify</button></a>
                         </c:if>
 

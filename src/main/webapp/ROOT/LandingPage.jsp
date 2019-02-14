@@ -8,11 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <c:if test="${logged}">
             <script type="text/javascript" src="${pageContext.request.contextPath}/js/clientLanding.js"></script>
-            <script> connect('${url}'+'quantity/', '${userCookie}');</script>
+            <script> connect('${url}' + 'quantity/', '${userCookie}');</script>
         </c:if>
         <c:if test="${not logged}">
             <script type="text/javascript" src="${pageContext.request.contextPath}/js/clientAnonymousLanding.js"></script>
-            <script> connect('${url}'+'anonymous/', '${userCookie}');</script>
+            <script> connect('${url}' + 'anonymous/', '${userCookie}');</script>
         </c:if>    
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
@@ -44,7 +44,7 @@
                 <div class="collapse navbar-collapse" id="collapse-target">
                     <!--pulsante ricerca prodotto-->
                     <form method="POST" action="/form-action/search" class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search.." aria-label="Search" name="wordSearched">
+                        <input class="form-control mr-sm-2" id="searchline" type="search" placeholder="Search.." aria-label="Search" name="wordSearched">
                         <select class="form-control mr-sm-2" id="selezione" name="categorySearched">
                             <option value="0" selected>all</option>
                             <c:forEach var="cat" items="${listOfCat}">
@@ -60,20 +60,32 @@
 
                     <!--lista degli elementi cliccabili-->
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">Geo</a>
+                            <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">
+                                <i class="fas fa-globe-europe" id="globe"></i>
+                                Geo
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-home"></i>
+                                Home
+                            </a>
                         </li>
                         <c:if test="${logged}">
                             <li class="nav-item">
-                                <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
+                                <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">
+                                            <i class="fas fa-user"></i>
+                                            Profile
+                                        </a>
                                     </li>
                         </c:if>
                         <c:if test="${not logged}">
                             <li class="nav-item"> <!--bottone user, deve anche aprire la finestra modale-->
-                                <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
+                                <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Login
+                                </a>
                             </li>
                         </c:if>
                     </ul>

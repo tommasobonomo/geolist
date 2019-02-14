@@ -485,6 +485,9 @@ hr.light {
     object-fit:scale-down;
 }
 
+#searchline {
+    width: 180px;
+}
 
 
 @media (max-width: 576px) { 
