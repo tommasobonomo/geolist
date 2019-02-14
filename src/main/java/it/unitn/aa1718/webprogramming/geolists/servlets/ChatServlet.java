@@ -61,7 +61,7 @@ public class ChatServlet extends HttpServlet {
             AccessDAO accessDAO = new AccessDAO();
             
             //controll if have access
-            if (!accessDAO.canHaveAccess(userID, userID)) {
+            if (!accessDAO.canHaveAccess(userID, Long.parseLong(listID))) {
                 try {
                     response.setContentType("text/html;charset=UTF-8");
                     request.setAttribute("error", "YOU DON'T HAVE ACCESS");
