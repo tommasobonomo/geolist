@@ -12,11 +12,13 @@ import it.unitn.aa1718.webprogramming.geolists.database.IsFriendDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemPermissionDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ProductListDAO;
+import it.unitn.aa1718.webprogramming.geolists.database.UserAnonimousDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.models.CatItem;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Compose;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
+import it.unitn.aa1718.webprogramming.geolists.database.models.UserAnonimous;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,13 +65,30 @@ public class ListServlet extends HttpServlet {
 
         UserUtil u = new UserUtil();
         Optional<Long> userID = u.getUserOptionalID(request);
+        Optional<User> user = u.getUserOptional(request);
+        Optional<UserAnonimous> oAnon = u.getUserAnonymousOptional(request);
 
         long listID = Long.parseLong(request.getParameter("listID"));
         String action = request.getParameter("action");
 
         AccessDAO accessDAO = new AccessDAO();
 
-        if (userID.isPresent() && !accessDAO.canHaveAccess(userID.get(), listID)) {
+        if (userID.isPresent() && user.get().isAdmin()) {
+            switch (action) {
+                case "addItem":
+                    addItem(request, response, listID);
+                    break;
+                case "removeItem":
+                    removeItem(request, response, listID);
+                    break;
+                case "retrieveImage":
+                    retrieveImage(request, response, listID);
+                    break;
+                case "view":
+                default:
+                    viewList(request, response, listID);
+            }
+        } else if (userID.isPresent() && !accessDAO.canHaveAccess(userID.get(), listID)) {
             // System.out.println("errore non ha accesso");
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("error", "YOU DON'T HAVE ACCESS");
@@ -80,6 +99,28 @@ public class ListServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("error", "YOU CAN'T MODIFY THIS LIST <br> ASK TO THE OWNER FOR PERMISSIONS ");
             request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+        } else if (oAnon.isPresent()) {
+            Optional<ProductList> plOpt = new ProductListDAO().getListAnon(oAnon.get().getId());
+            if (plOpt.isPresent() && plOpt.get().getId() == listID) {
+                switch (action) {
+                    case "addItem":
+                        addItem(request, response, listID);
+                        break;
+                    case "removeItem":
+                        removeItem(request, response, listID);
+                        break;
+                    case "retrieveImage":
+                        retrieveImage(request, response, listID);
+                        break;
+                    case "view":
+                    default:
+                        viewList(request, response, listID);
+                }
+            } else {
+                response.setContentType("text/html;charset=UTF-8");
+                request.setAttribute("error", "YOU DON'T HAVE ACCESS");
+                request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
+            }
         } else {
             switch (action) {
                 case "addItem":
@@ -186,7 +227,7 @@ public class ListServlet extends HttpServlet {
                     mapPermission.put(f.getId(), accessDAO.havePermission(f.getId(), listID));
                 }
             }
-            
+
             // Get items related to the category id for adding purposes
             List<CatItem> idCategories = new ItemPermissionDAO().getItemCategories(list.getIdCat());
             for (CatItem elem : idCategories) {
@@ -245,7 +286,7 @@ public class ListServlet extends HttpServlet {
             items.removeAll(listItems);
 
             request.setAttribute("userCookie", cookie.get().getValue());
-            
+
             // Websocket config
             String ADDRESS = request.getLocalAddr().equals("0:0:0:0:0:0:0:1") ? "localhost" : request.getLocalAddr();
             request.setAttribute("url", "wss://" + ADDRESS + ":" + String.valueOf(request.getLocalPort()) + "/friend/");

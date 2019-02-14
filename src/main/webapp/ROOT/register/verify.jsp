@@ -25,7 +25,7 @@
                 <div class="col-12">
                     <p class="display-4 font-20">Thanks for your registration!</p>
                     <p class="display-4 font-20">You will receive an email to activate your account</p>
-                    <p><a href="/"><button type="button" class="btn btn-outline-Danger btn-lg">Go Home</button></a></p
+                    <p><a href="/"><button type="button" class="btn btn-outline-Danger btn-lg">Go Home</button></a></p>
                 </div>   
 
             </div>

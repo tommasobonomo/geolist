@@ -39,6 +39,7 @@ CREATE TABLE list (
     "NAME" VARCHAR(50),
     description VARCHAR(1000),
     image BLOB,
+    isPreMade BOOLEAN,
     FOREIGN KEY (userowner) 
         REFERENCES users(id)
         ON DELETE CASCADE,

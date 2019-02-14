@@ -100,7 +100,7 @@
                 <div class="col-md-8 padding-top2 padding-bottom" id="remove-padding-phone">
              
                     <!--view items-->
-                    <button class="button-collapse display-4 font-15" data-toggle="collapse" data-target="#listsWindow">
+                    <button class="button-collapse display-4 font-15" >
                         Edit items <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <div>use this option to edit, add or delete items</div>
@@ -129,7 +129,7 @@
                     <hr class="padding-bottom">
                     
                     <!--view items-->
-                    <button class="button-collapse display-4 font-15" data-toggle="collapse" data-target="#usersWindow">
+                    <button class="button-collapse display-4 font-15">
                         Users <i class="fas fa-arrow-circle-right"></i>
                     </button>
                     <div>use this option to upgrade users to admin</div>
@@ -147,6 +147,35 @@
                                     <form style="display: inline-block;" class="form-inline" method="POST" action="<c:url value="/AdminServlet">
                                                 <c:param name="userID" value="${user.key}"/>
                                              </c:url>"><button type="submit" name="modify" value="admin" class="btn btn-outline-success btn-md my-2"><i class="fas fa-level-up-alt"></i></button>
+                                    </form>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+
+                    <hr class="padding-bottom">
+                    
+                    <!--view premade Lists-->
+                    <button class="button-collapse display-4 font-15" >
+                        Premade lists <i class="fas fa-arrow-circle-right"></i>
+                    </button>
+                    <div>use this option to see, modify and add premade lists</div>
+
+                    <div class="container">
+                        <ul class="list-group list-group-flush border" id="listItems">
+                            <c:forEach var="list" items="${premadeLists}">
+                                <li class="list-group-item">${list.getName()}
+                                    <a style="display: inline-block;" href="<c:url value="/List">
+                                            <c:param name="listID" value="${list.getId()}"/>
+                                            <c:param name="action" value="view"/>
+                                        </c:url>">
+                                        <button class="btn btn-outline-info btn-md ml-2 my-2"><i class="fas fa-pencil-alt"></i></button>
+                                    </a>
+                                    <form style="display: inline-block;" class="form-inline" method="POST" action="<c:url value="/ListRegistration">
+                                            <c:param name="action" value="removeList"/>
+                                            <c:param name="listID" value="${list.getId()}"/>
+                                            <c:param name="from" value="admin"/>
+                                        </c:url>"><button type="submit" name="modify" value="delete" class="btn btn-outline-danger btn-md my-2"><i class="far fa-trash-alt"></i></button>
                                     </form>
                                 </li>
                             </c:forEach>

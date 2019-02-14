@@ -84,7 +84,6 @@ public class ListRegistration extends HttpServlet {
                     break;
                 case "removeList":
                     removeList(request, response, userOpt, userAnonOpt);
-                    response.sendRedirect("/");
                     break;
                 case "viewForm":
                 default:
@@ -171,7 +170,7 @@ public class ListRegistration extends HttpServlet {
                 }
 
                 // Create ProductList to insert into DB
-                ProductList newList = new ProductList(userID, userAnonID, catID, name, description, image);
+                ProductList newList = new ProductList(userID, userAnonID, catID, name, description, image, false);
 
                 // Add it to DB        
                 ProductListDAO plDAO = new ProductListDAO();
@@ -208,13 +207,24 @@ public class ListRegistration extends HttpServlet {
         return clDAO.getAll();
     }
 
-    private void removeList(HttpServletRequest request, HttpServletResponse response, Optional<User> userOpt, Optional<UserAnonimous> userAnonOpt) {
+    private void removeList(HttpServletRequest request, HttpServletResponse response, Optional<User> userOpt, Optional<UserAnonimous> userAnonOpt) throws ServletException, IOException {
         long listID = Long.parseLong(request.getParameter("listID"));
+        String from = request.getParameter("from");
 
         // Rimuovo direttamente da CLIST
         // Cascade dovrebbe rimuovere dalle altre, tipo ACCESS
         ProductListDAO plDAO = new ProductListDAO();
         plDAO.delete(listID);
+        
+        if("premade".equals(from)){
+            request.getRequestDispatcher("/ROOT/List/PremadeLists.jsp").forward(request, response);
+        } 
+        if("admin".equals(from)){
+            request.getRequestDispatcher("/ROOT/profile/AdminProfile.jsp").forward(request, response);
+        }
+        else{
+            request.getRequestDispatcher("/").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
