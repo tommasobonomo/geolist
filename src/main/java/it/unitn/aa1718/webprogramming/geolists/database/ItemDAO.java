@@ -214,12 +214,12 @@ public class ItemDAO implements CrudDao<Item> {
         if (userOpt.isPresent()) {
             query = "SELECT * FROM Item AS I WHERE "
                     + "(I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
-                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' "
+                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = "+category+" "
                     + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
         } else {
             query = "SELECT * FROM Item AS I WHERE "
                     + "I.isTemplate = TRUE "
-                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' "
+                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = "+category+" "
                     + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";      
         }
         List list = new ArrayList<>();
@@ -227,7 +227,7 @@ public class ItemDAO implements CrudDao<Item> {
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
-            ps.setInt(1, category);
+            //ps.setInt(1, category);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -276,13 +276,13 @@ public class ItemDAO implements CrudDao<Item> {
         if (userOpt.isPresent()) {
             query = "SELECT * FROM Item AS I WHERE "
                     + "(I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
-                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' "
+                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = "+category+" "
                     + "Order by I.name "
                     + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
         } else {
             query = "SELECT * FROM Item AS I WHERE "
                     + "I.isTemplate = TRUE "
-                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' "
+                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = "+category+" "
                     + "Order by I.name "
                     + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
         }
@@ -291,7 +291,7 @@ public class ItemDAO implements CrudDao<Item> {
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
-            ps.setInt(1, category);
+            //ps.setInt(1, category);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
