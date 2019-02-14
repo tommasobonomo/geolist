@@ -16,8 +16,10 @@ function hideAll(){
 }
 
 function createItemSearch(itemId,itemName){
-    var div = document.createElement("div");
-    div.innerHTML = "<li class=\"list-group-item\" id=\" "+itemId+" \"> " + itemName + " <a style=\"display: inline-block;\" href=\"/ItemServlet?itemID="+itemId+"&action=viewItem&listID="+listId+"\"><button class=\"btn btn-outline-info btn-md ml-2 my-2 mr-2\"><i class=\"far fa-eye\"></i></button></a><form style=\"display: inline-block;\" class=\"form-inline\" method=\"POST\" action=\"/List?listID="+listId+"&itemID="+itemId+"&action=addItem\"><button type=\"submit\" class=\"btn btn-outline-success btn-md my-2\"><i class=\"fas fa-plus\"></i></button></form></li>";
+    var div = document.createElement("li");
+    div.classList.add("list-group-item");
+    div.id = "itemId"
+    div.innerHTML =  itemName + " <a style=\"display: inline-block;\" href=\"/ItemServlet?itemID="+itemId+"&action=viewItem&listID="+listId+"\"><button class=\"btn btn-outline-info btn-md ml-2 my-2 mr-2\"><i class=\"far fa-eye\"></i></button></a><form style=\"display: inline-block;\" class=\"form-inline\" method=\"POST\" action=\"/List?listID="+listId+"&itemID="+itemId+"&action=addItem\"><button type=\"submit\" class=\"btn btn-outline-success btn-md my-2\"><i class=\"fas fa-plus\"></i></button></form>";
     document.getElementById("listItems").appendChild(div);
 }
 

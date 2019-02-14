@@ -167,7 +167,6 @@
                 <ul class="list-group list-group-flush border" id="listItems">
 
                     <c:forEach var="item" items="${allItems}">
-                        <div id="${item.getName()}${item.getId()}">
                             <li class="list-group-item" id="${item.getName()}${item.getId()}">${item.getName()}
                                 <a style="display: inline-block;" href="<c:url value="/ItemServlet">
                                        <c:param name="itemID" value="${item.getId()}"/>
@@ -184,7 +183,6 @@
                                     <button type="submit" class="btn btn-outline-success btn-md my-2"><i class="fas fa-plus"></i></button>
                                 </form>
                             </li>
-                        </div>
                     </c:forEach>
 
                 </ul>
