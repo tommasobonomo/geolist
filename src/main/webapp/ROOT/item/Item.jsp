@@ -9,17 +9,22 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <style><%@include file="/ROOT/css/main.css" %></style>
+        <!-- Geolocation scripts in JS -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/geolocation.js"></script>
     </head>
 
     <body>
+        <!-- Geolocation -->
+        <p id="listcategories" style="display: none"><c:forEach var="list" items="${listOfPL}">${list.getIdCat()},</c:forEach></p>
 
-        <!--navbar-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <div class="container-fluid">
+            <!--navbar-->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                <div class="container-fluid">
 
-                <!--logo e titolo del sito-->
-                <a class="navbar-brand" href="/">
-                    <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"/>" height="40" width="120" alt="logo">
+                    <!--logo e titolo del sito-->
+                    <a class="navbar-brand" href="/">
+                        <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"/>" height="40" width="120" alt="logo">
                 </a>
 
                 <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
@@ -27,6 +32,7 @@
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapse-target" >
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                
 
                 <div class="collapse navbar-collapse" id="collapse-target">
                     <!--pulsante ricerca prodotto-->
@@ -48,10 +54,22 @@
                     <!--lista degli elementi cliccabili-->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
+                            <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">
+                                <i class="fas fa-globe-europe" id="globe"></i>
+                                Geo
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-home"></i>
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">
+                                        <i class="fas fa-user"></i>
+                                        Profile
+                                    </a>
                                 </li>
                             </ul>
 
@@ -59,7 +77,8 @@
                     </div>
                 </nav>
 
-
+                <button type="submit" name="modify" value="back" class="btn btn-outline-danger btn-large my-2">Back</button>
+                
                 <div class="container padding-top2">
 
                     <div class="row padding-top">
@@ -91,10 +110,11 @@
                     <hr>
 
 
-                    <c:if test="${isAdmin}">
+                    <c:if test="${isAdmin || isOwner}">
                         <a class="menu-link" href="<c:url value="/ModifyItem" > 
-                               <c:param name="items" value="${itemID}"/>   
-                           </c:url>">
+
+                           <c:param name="items" value="${itemID}"/>   
+                            </c:url>">
                             <button class="btn btn-outline-info btn-md my-2"><i class="fas fa-pencil-alt"></i>Modify</button></a>
                         </c:if>
 
@@ -114,8 +134,27 @@
             </div> <!-- row.// -->
         </div>
 
+        <!--finestra modale geolocation-->
+        <div class="modal fade show" id="geoModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="center-absolute">
+                            <span class="display-4 font-15">Geolocation</span>
+                        </div><br><br>
+                        <p id="geoerror" class="padding-top" style="display: none">Location not available!</p>
+                        <div class="georesults"></div>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-outline-secondary btn-md" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </body>

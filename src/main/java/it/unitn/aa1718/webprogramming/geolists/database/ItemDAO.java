@@ -6,6 +6,7 @@ package it.unitn.aa1718.webprogramming.geolists.database;
  * and open the template in the editor.
  */
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
+import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import static java.sql.Types.INTEGER;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +34,7 @@ public class ItemDAO implements CrudDao<Item> {
         if (blob != null) {
             is = blob.getBinaryStream();
         }
-        return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("name"), is, rs.getString("note"));
+        return new Item(rs.getLong("id"), rs.getLong("idCat"), rs.getString("name"), is, rs.getString("note"), rs.getLong("idOwner"), rs.getBoolean("isTemplate"));
     }
 
     @Override
@@ -59,21 +61,20 @@ public class ItemDAO implements CrudDao<Item> {
 
         return res;
     }
-    
-    
-        public Optional<Item> get(String name) {
-        String query= "SELECT * FROM Item as I WHERE I.name=?";
-        Optional<Item> u=Optional.empty();
-        
+
+    public Optional<Item> get(String name) {
+        String query = "SELECT * FROM Item as I WHERE I.name=?";
+        Optional<Item> u = Optional.empty();
+
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
-            
+
             ps.setString(1, name);
-            
-            ResultSet rs=ps.executeQuery();
-            if(rs.next()){
-                u=Optional.of(createItem(rs));
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                u = Optional.of(createItem(rs));
             }
             c.commit();
         } catch (SQLException ex) {
@@ -81,8 +82,20 @@ public class ItemDAO implements CrudDao<Item> {
         }
         return u;
     }
-    public List<Item> getFromPattern(String pattern, int start, int total) {
-        String query = "SELECT * FROM Item AS I WHERE I.name LIKE '%" + pattern + "%' OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+
+    public List<Item> getFromPattern(String pattern, int start, int total, Optional<User> userOpt) {
+        String query;
+        if (userOpt.isPresent()) {
+            query = "SELECT * FROM Item AS I WHERE "
+                    + "(I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
+                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' "
+                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+        } else {
+            query = "SELECT * FROM Item AS I WHERE "
+                    + "I.isTemplate = TRUE "
+                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' "
+                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+        }
         List list = new ArrayList<>();
 
         try {
@@ -102,8 +115,17 @@ public class ItemDAO implements CrudDao<Item> {
         return list;
     }
 
-    public int getNResultsFromPattern(String pattern) {
-        String query = "SELECT count(I.name) FROM Item AS I WHERE I.name LIKE '%" + pattern + "%'";
+    public int getNResultsFromPattern(String pattern, Optional<User> userOpt) {
+        String query;
+        if (userOpt.isPresent()) {
+            query = "SELECT count(I.name) FROM Item AS I WHERE "
+                    + "(I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
+                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%'";
+        } else {
+            query = "SELECT count(I.name) FROM Item AS I WHERE "
+                    + "I.isTemplate = TRUE "
+                    + "AND LOWER(I.name) LIKE '%" + pattern + "%'";
+        }
         int n = 0;
 
         try {
@@ -123,8 +145,20 @@ public class ItemDAO implements CrudDao<Item> {
         return n;
     }
 
-    public List<Item> getFromPatternOrderedByAlfabetico(String pattern, int start, int total) {
-        String query = "SELECT * FROM Item AS I WHERE I.name LIKE '%" + pattern + "%' order by name OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+    public List<Item> getFromPatternOrderedByAlfabetico(String pattern, int start, int total, Optional<User> userOpt) {
+        String query;
+        if (userOpt.isPresent()) {
+            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%"
+                    + pattern + "%' AND (I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
+                    + ") ORDER BY I.name "
+                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+        } else {
+            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%"
+                    + pattern + "%' AND I.isTemplate = TRUE "
+                    + "ORDER BY I.name "
+                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+        }
+
         List list = new ArrayList<>();
 
         try {
@@ -144,8 +178,19 @@ public class ItemDAO implements CrudDao<Item> {
         return list;
     }
 
-    public List<Item> getFromPatternOrderedByCategory(String pattern, int start, int total) {
-        String query = "SELECT * FROM Item AS I WHERE I.name LIKE '%" + pattern + "%' order by idCat OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+    public List<Item> getFromPatternOrderedByCategory(String pattern, int start, int total, Optional<User> userOpt) {
+        String query;
+        if (userOpt.isPresent()) {
+            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%"
+                    + pattern + "%' AND (I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
+                    + ") ORDER BY I.idCat"
+                    + " OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+        } else {
+            query = "SELECT * FROM Item AS I WHERE LOWER(I.name) LIKE '%"
+                    + pattern + "%' AND I.isTemplate = TRUE "
+                    + "ORDER BY I.idCat "
+                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+        }
         List list = new ArrayList<>();
 
         try {
@@ -165,16 +210,25 @@ public class ItemDAO implements CrudDao<Item> {
         return list;
     }
 
-    public List<Item> getFromPatternAndCategory(String pattern, Integer category, int start, int total) {
-        String query = "SELECT * "
-                + "FROM Item AS I "
-                + "WHERE I.idcat = ? AND I.name LIKE '%" + pattern + "%' OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+    public List<Item> getFromPatternAndCategory(String pattern, Integer category, int start, int total, Optional<User> userOpt) {
+        String query;
+        if (userOpt.isPresent()) {
+            query = "SELECT * FROM Item AS I WHERE "
+                    + "(I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
+                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = " + category + " "
+                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+        } else {
+            query = "SELECT * FROM Item AS I WHERE "
+                    + "I.isTemplate = TRUE "
+                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = " + category + " "
+                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+        }
         List list = new ArrayList<>();
 
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
-            ps.setInt(1, category);
+            //ps.setInt(1, category);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -188,10 +242,17 @@ public class ItemDAO implements CrudDao<Item> {
         return list;
     }
 
-    public int getNResultsFromPatternAndCategory(String pattern, Integer category) {
-        String query = "SELECT count(I.name) "
-                + "FROM Item AS I "
-                + "WHERE I.idcat = ? AND I.name LIKE '%" + pattern + "%'";
+    public int getNResultsFromPatternAndCategory(String pattern, Integer category, Optional<User> userOpt) {
+        String query;
+        if (userOpt.isPresent()) {
+            query = "SELECT count(I.name) FROM Item AS I WHERE "
+                    + "(I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
+                    + ") AND I.idcat = ? AND LOWER(I.name) LIKE '%" + pattern + "%' ";
+        } else {
+            query = "SELECT count(I.name) FROM Item AS I WHERE "
+                    + "I.isTemplate = TRUE "
+                    + "AND I.idcat = ? AND LOWER(I.name) LIKE '%" + pattern + "%' ";
+        }
         int n = 0;
 
         try {
@@ -211,16 +272,27 @@ public class ItemDAO implements CrudDao<Item> {
         return n;
     }
 
-    public List<Item> getFromPatternAndCategoryOrderedByAlfabetico(String pattern, Integer category, int start, int total) {
-        String query = "SELECT * "
-                + "FROM Item AS I "
-                + "WHERE I.idcat = ? AND I.name LIKE '%" + pattern + "%' Order by I.name OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+    public List<Item> getFromPatternAndCategoryOrderedByAlfabetico(String pattern, Integer category, int start, int total, Optional<User> userOpt) {
+        String query;
+        if (userOpt.isPresent()) {
+            query = "SELECT * FROM Item AS I WHERE "
+                    + "(I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId()
+                    + ") AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = " + category + " "
+                    + "Order by I.name "
+                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+        } else {
+            query = "SELECT * FROM Item AS I WHERE "
+                    + "I.isTemplate = TRUE "
+                    + "AND LOWER(I.name) LIKE '%" + pattern + "%' AND I.idCat = " + category + " "
+                    + "Order by I.name "
+                    + "OFFSET " + start + " ROWS FETCH NEXT " + total + " ROWS ONLY";
+        }
         List list = new ArrayList<>();
 
         try {
             Connection c = Database.openConnection();
             PreparedStatement ps = c.prepareStatement(query);
-            ps.setInt(1, category);
+            //ps.setInt(1, category);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -251,19 +323,28 @@ public class ItemDAO implements CrudDao<Item> {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
         return list;
     }
-    
-    public List<Item> getAllByIdCat(Long idCat) {
-        String query = "SELECT * FROM item WHERE idcat="+idCat;
+
+    public List<Item> getAllByIdCat(Long idCat, Optional<User> userOpt) {
+        String query;
+        if (userOpt.isPresent()) {
+            query = "SELECT * FROM Item AS I "
+                    + "WHERE I.idcat=" + idCat + " AND "
+                    + "(I.isTemplate = TRUE OR I.idOwner = " + userOpt.get().getId() + ")";
+        } else {
+            query = "SELECT * FROM Item AS I "
+                    + "WHERE I.idcat=" + idCat + " AND "
+                    + "I.isTemplate = TRUE";
+        }
         List list = new ArrayList<>();
-        
+
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
-            
+
             while (rs.next()) {
                 list.add(createItem(rs));
             }
@@ -271,19 +352,39 @@ public class ItemDAO implements CrudDao<Item> {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
         return list;
     }
-    
+
     public List<Item> getAllOrderedByName() {
         String query = "SELECT * FROM Item Order by name";
         List list = new ArrayList<>();
-        
+
         try {
             Connection c = Database.openConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
-            
+
+            while (rs.next()) {
+                list.add(createItem(rs));
+            }
+            c.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public List<Item> getAllForAdminOrderedByName() {
+        String query = "SELECT * FROM Item Order by name";
+        List list = new ArrayList<>();
+
+        try {
+            Connection c = Database.openConnection();
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(query);
+
             while (rs.next()) {
                 list.add(createItem(rs));
             }
@@ -330,8 +431,8 @@ public class ItemDAO implements CrudDao<Item> {
 
     @Override
     public void create(Item obj) {
-        String query = "INSERT INTO GEODB.ITEM(IDCAT,\"NAME\",LOGO,NOTE)\n"
-                + "VALUES (?,?,?,?)";
+        String query = "INSERT INTO GEODB.ITEM(IDCAT,\"NAME\",LOGO,NOTE,ISTEMPLATE,IDOWNER)\n"
+                + "VALUES (?,?,?,?,?,?)";
         String message = null;
         try {
             Connection c = Database.openConnection();
@@ -344,6 +445,12 @@ public class ItemDAO implements CrudDao<Item> {
             ps.setLong(1, obj.getIdCat());
             ps.setString(2, obj.getName());
             ps.setString(4, obj.getNote());
+            ps.setBoolean(5, obj.isIsTemplate());
+            if (obj.getIdOwner() != 0) {
+                ps.setLong(6, obj.getIdOwner());
+            } else {
+                ps.setNull(6, INTEGER);
+            }
 
             int row = ps.executeUpdate();
             c.commit();
@@ -355,7 +462,7 @@ public class ItemDAO implements CrudDao<Item> {
     @Override
     public void update(long id, Item obj) {
         String query = "UPDATE Item "
-                + "SET idcat=?, name=?, logo=?, note=?"
+                + "SET idcat=?, name=?, logo=?, note=?, istemplate=?, idowner=?"
                 + "WHERE id=?";
 
         try {
@@ -366,7 +473,13 @@ public class ItemDAO implements CrudDao<Item> {
             ps.setString(2, obj.getName());
             ps.setBlob(3, obj.getLogo());
             ps.setString(4, obj.getNote());
-            ps.setLong(5, id);
+            ps.setBoolean(5, obj.isIsTemplate());
+            if (obj.getIdOwner() != 0) {
+                ps.setLong(6, obj.getIdOwner());
+            } else {
+                ps.setNull(6, INTEGER);
+            }
+            ps.setLong(7, id);
 
             ps.executeUpdate();
 
@@ -379,7 +492,7 @@ public class ItemDAO implements CrudDao<Item> {
 
     public void updateWithoutImage(long id, Item obj) {
         String query = "UPDATE Item "
-                + "SET idcat=?, name=?, note=?"
+                + "SET idcat=?, name=?, note=?, istemplate=?, idowner=?"
                 + "WHERE id=?";
 
         try {
@@ -389,7 +502,13 @@ public class ItemDAO implements CrudDao<Item> {
             ps.setLong(1, obj.getIdCat());
             ps.setString(2, obj.getName());
             ps.setString(3, obj.getNote());
-            ps.setLong(4, id);
+            ps.setBoolean(4, obj.isIsTemplate());
+            if (obj.getIdOwner() != 0) {
+                ps.setLong(5, obj.getIdOwner());
+            } else {
+                ps.setNull(5, INTEGER);
+            }
+            ps.setLong(6, id);
 
             ps.executeUpdate();
 
@@ -399,7 +518,7 @@ public class ItemDAO implements CrudDao<Item> {
             ex.printStackTrace();
         }
     }
-    
+
     @Override
     public void delete(long id) {
         String query = "DELETE FROM Item WHERE id=?";

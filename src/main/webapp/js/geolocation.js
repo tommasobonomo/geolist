@@ -5,7 +5,7 @@ let loginHappened = true;
 
 const geoSuccess = position => {
     $("#geoerror").hide();
-    
+    $("#globe").css("color","green");
     // aggiungo precisione per evitare chiamate in più
     const eps_precision = 0.00001;
     
@@ -52,6 +52,7 @@ const geoSuccess = position => {
 
 const geoError = () => {
     $("#geoerror").show();
+    $("#globe").css("color","red");
 }
 
 const geoOptions = {
@@ -60,33 +61,35 @@ const geoOptions = {
   timeout           : 27000
 };
  
+const removebr = vicinity => {
+    let index = vicinity.search("<br/>");
+    return vicinity.substring(0,index) + vicinity.substring(index+5);
+}
+
 const displayResult = result => {
     let j = 0;
+    let no_res = true;
     $(".georesults").empty();
     for (category in result) {
         $(`.catTitle${j}`).empty();
         let shops = result[category];
         if (shops !== undefined && shops !== null && shops.length > 0) {
+            no_res = false;
+            shops = shops.slice(0,5);
             $(".georesults").append(
-                        `<div class="catTitle${j}">${shops[0].catName}</div>`
+                        `<div class="catTitle${j}"> <div class="display-4 font-15 py-4">${shops[0].catName}</div> </div>`
             );
             for (let i = 0; i < shops.length; i++) {
                 let shop = shops[i];
-                $(`.catTitle${j}`).append(
-                    `<p>
-                        ${shop.title}, ${shop.vicinity}, Location: ${shop.location},
-                        Distance: ${shop.distance}. 
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=${shop.location}" target="_blank">
-                            Directions
-                        </a>
-                    </p>`
-                )
+                let vicinity = removebr(shop.vicinity);
+                $(`.catTitle${j}`).append(`<p>${shop.title}, ${vicinity}<br/>Location: ${shop.location}, Distance: ${shop.distance}, <a href="https://www.google.com/maps/dir/?api=1&destination=${shop.location}" target="_blank">Directions</a></p>`);
             }
         }
         j++;
     }
-    
-    
+    if (no_res) {
+        $("#georesults").append('<div class="display-4 font-15 py-4 text-center">No shop found for your lists!</div>')
+    }
 }
 
 $(window).load(() => {

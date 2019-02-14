@@ -105,7 +105,8 @@ public class ViewFriendProfileServlet extends HttpServlet {
         
         
         // se l'utente è loggato, l'amico esiste e sono realmente amici
-        if (friendOpt.isPresent() && thisUserOpt.isPresent() && isFriendDAO.isFriend(thisUserOpt.get().getId(), friendOpt.get().getId())) {
+        if ((friendOpt.isPresent() && thisUserOpt.isPresent() && isFriendDAO.isFriend(thisUserOpt.get().getId(), friendOpt.get().getId())) 
+                || (friendOpt.isPresent() && thisUserOpt.isPresent() && thisUserOpt.get().isAdmin())) {
             User friend = friendOpt.get();
 
             response.setContentType("text/html;charset=UTF-8");

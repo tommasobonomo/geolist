@@ -7,9 +7,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <c:if test="${logged}">
-            <script><%@include file="./javascript/clientLanding.js" %></script>
-            <script> connect('${url}', '${userCookie}')</script>
+            <script type="text/javascript" src="${pageContext.request.contextPath}/js/clientLanding.js"></script>
+            <script> connect('${url}' + 'quantity/', '${userCookie}');</script>
         </c:if>
+        <c:if test="${not logged}">
+            <script type="text/javascript" src="${pageContext.request.contextPath}/js/clientAnonymousLanding.js"></script>
+            <script> connect('${url}' + 'anonymous/', '${userCookie}');</script>
+        </c:if>    
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
         <style><%@include file="/ROOT/css/main.css" %></style>
@@ -22,13 +26,13 @@
         <!-- Geolocation -->
         <p id="listcategories" style="display: none"><c:forEach var="list" items="${listOfPL}">${list.getIdCat()},</c:forEach></p>
 
-        <!--navbar-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <div class="container-fluid">
+            <!--navbar-->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                <div class="container-fluid">
 
-                <!--logo e titolo del sito-->
-                <a class="navbar-brand" href="/">
-                    <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"/>" height="40" width="120" alt="logo">
+                    <!--logo e titolo del sito-->
+                    <a class="navbar-brand" href="/">
+                        <img src="<c:url value="/ROOT/logos/logo-orizzontale.png"/>" height="40" width="120" alt="logo">
                 </a>
 
                 <!--bottone che serve per la navabar quando collassa, viene visualizzato solamente quando la finestra raggiunge
@@ -40,11 +44,11 @@
                 <div class="collapse navbar-collapse" id="collapse-target">
                     <!--pulsante ricerca prodotto-->
                     <form method="POST" action="/form-action/search" class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search.." aria-label="Search" name="wordSearched">
+                        <input class="form-control mr-sm-2" id="searchline" type="search" placeholder="Search.." aria-label="Search" name="wordSearched">
                         <select class="form-control mr-sm-2" id="selezione" name="categorySearched">
                             <option value="0" selected>all</option>
-                            <c:forEach var="category" items="${listOfCat}">
-                                <option value="${category.getIdCatItem()}">${category.getName()}</option>
+                            <c:forEach var="cat" items="${listOfCat}">
+                                <option value="${cat.getIdCatItem()}">${cat.getName()}</option>
                             </c:forEach>
                         </select>
                         <button name="page" value="1" class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
@@ -56,17 +60,32 @@
 
                     <!--lista degli elementi cliccabili-->
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">
+                                <i class="fas fa-globe-europe" id="globe"></i>
+                                Geo
+                            </a>
+                        </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-home"></i>
+                                Home
+                            </a>
                         </li>
                         <c:if test="${logged}">
                             <li class="nav-item">
-                                <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
+                                <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">
+                                            <i class="fas fa-user"></i>
+                                            Profile
+                                        </a>
                                     </li>
                         </c:if>
                         <c:if test="${not logged}">
                             <li class="nav-item"> <!--bottone user, deve anche aprire la finestra modale-->
-                                <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login / Register</a>
+                                <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Login
+                                </a>
                             </li>
                         </c:if>
                     </ul>
@@ -160,7 +179,7 @@
                     <div class="col-12">
                         <p class="lead">Organize better your shopping lists with your friends and family.
                             <br> You will always know what and where buy stuff for your needs.
-                            </h1>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -207,13 +226,14 @@
                                </c:url>"><button class="d-inline btn btn-outline-info btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="Modify">
                                     <i class="fas fa-pencil-alt"></i></button>
                             </a>
-                            <a href="<c:url value="/ListRegistration">
-                                   <c:param name="action" value="removeList"/>
-                                   <c:param name="listID" value="${list.getId()}"/>
-                               </c:url>"><button class="d-inline btn btn-outline-danger btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="Remove">
-                                    <i class="far fa-trash-alt"></i></button>
-                            </a>
                         </c:if>
+                        <a href="<c:url value="/ListRegistration">
+                               <c:param name="action" value="removeList"/>
+                               <c:param name="listID" value="${list.getId()}"/>
+                           </c:url>"><button class="d-inline btn btn-outline-danger btn-md my-2" data-toggle="tooltip" data-placement="bottom" title="Remove">
+                                <i class="far fa-trash-alt"></i></button>
+                        </a>
+
                     </div>
 
                     <!--collapse-->
@@ -230,11 +250,16 @@
                             <div class="col-xs-12 col-sm-9">
                                 <h5 class="mt-0">Description</h5>
                                 <p>${list.getDescription()}</p>
-                                <p class="d-inline padding-top mb-0">
-                                    You shared this list with :</p>
-                                <div class="d-inline font-italic font-weight-bold">
-                                    Mario rossi, Giorgio Segalla, Carlo Carlino.
-                                </div>
+
+                                <c:if test="${not mapWhoHaveAccess.get(list.getId()).isEmpty()}">
+                                    <p class="d-inline padding-top mb-0">
+                                        You share this list with :</p>
+                                    <div class="d-inline font-italic font-weight-bold">
+                                        <c:forEach var="username" items="${mapWhoHaveAccess.get(list.getId())}">
+                                            ${username}&nbsp;&nbsp;
+                                        </c:forEach>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -376,9 +401,6 @@
         <button class="button-fixed-list btn btn-danger" data-toggle="modal" data-target="#listModal">
             New list <i class="fas fa-plus"></i>
         </button>
-        <button class="button-fixed-geo btn btn-success" data-toggle="modal" data-target="#geoModal">
-            Geolocation
-        </button>
         <c:if test="${logged}"> 
             <button class="button-fixed-item btn btn-info" data-toggle="modal" data-target="#itemModal">
                 New item <i class="fas fa-plus"></i>
@@ -428,9 +450,7 @@
                                     </div>
                                     <div class="col-6 text-center">
                                         <!--div da cambiare in button-->
-                                        <a href="create-lists.html">
-                                            <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
-                                        </a>
+                                        <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
                                     </div>
                                 </div>
                             </div>
@@ -447,12 +467,17 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
-
-                        <p id="geoerror" style="display: none">Location not available!</p>
+                        <div class="center-absolute">
+                            <span class="display-4 font-15">Geolocation</span>
+                        </div><br><br>
+                        <p id="geoerror" class="padding-top" style="display: none">Location not available!</p>
                         <div class="georesults"></div>
-
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-outline-secondary btn-md" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -505,9 +530,7 @@
                                         </div>
                                         <div class="col-6 text-center">
                                             <!--div da cambiare in button-->
-                                            <a href="create-lists.html">
-                                                <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
-                                            </a>
+                                            <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
                                         </div>
                                     </div>
                                 </div>
@@ -526,14 +549,12 @@
                                     </div>
                                     <div class="col-6 text-center">
                                         <!--div da cambiare in button-->
-                                        <a href="create-lists.html">
                                             <a href="<c:url value="/form-actions/register"><c:param name="action" value="view"></c:param></c:url>" >
-                                                        <button class="btn btn-outline-danger btn-md">Register</button>
-                                                    </a>
-                                                </a>
-                                            </div>
-                                        </div>
+                                                <button class="btn btn-outline-danger btn-md">Register</button>
+                                            </a>
                                     </div>
+                                </div>
+                            </div>
                         </c:if>
                     </div>
 
@@ -541,8 +562,6 @@
             </div>
         </div>
 
-
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </body>

@@ -2,7 +2,6 @@ package it.unitn.aa1718.webprogramming.geolists.servlets;
 
 import it.unitn.aa1718.webprogramming.geolists.database.CatProductListDAO;
 import it.unitn.aa1718.webprogramming.geolists.database.ItemDAO;
-import it.unitn.aa1718.webprogramming.geolists.database.models.CatList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.Item;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.ParametersController;
@@ -10,8 +9,6 @@ import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;

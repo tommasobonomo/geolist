@@ -25,7 +25,7 @@
                 <div class="col-12">
                     <p class="display-4 font-20">Welcome to Geolist!</p>
                     <p class="display-4 font-20">Now your account is active</p>
-                    <p><a href="/"><button type="button" class="btn btn-outline-Danger btn-lg">Go Home</button></a></p
+                    <p><a href="/"><button type="button" class="btn btn-outline-Danger btn-lg">Go Home</button></a></p>
                 </div>   
 
             </div>

@@ -131,12 +131,19 @@ public class ItemServlet extends HttpServlet {
             isAdmin = user.isAdmin();
         }
         
+        // Guardo anche se l'utente è owner dell'item
+        Boolean isOwner = false;
+        if (userOptional.isPresent() && itemOpt.isPresent()) {
+            isOwner = itemOpt.get().getIdOwner() == userOptional.get().getId();
+        }
+        
         
         response.setContentType("text/html;charset=UTF-8");
         request.setAttribute("itemID", id);
         request.setAttribute("name", name);
         request.setAttribute("note", note);
         request.setAttribute("isAdmin", isAdmin);
+        request.setAttribute("isOwner", isOwner);
         request.setAttribute("category", category);
         request.setAttribute("listID", request.getParameter("listID"));
     }
@@ -152,7 +159,6 @@ public class ItemServlet extends HttpServlet {
             response.setContentType("image/gif");
             OutputStream os = response.getOutputStream();
             os.write(byteArrayOpt.get());
-            os.flush();
             os.close();
         }
     }

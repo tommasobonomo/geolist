@@ -50,38 +50,45 @@ public class ChatServlet extends HttpServlet {
         if (listID == null) {
             try {
 
-                getServletContext().getRequestDispatcher("/").forward(request, response);
+                response.setContentType("text/html;charset=UTF-8");
+                request.setAttribute("error", "BAD REQUEST");
+                getServletContext().getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         } else {
             VisualizeMessage v = viewMessageOf(userID, Long.valueOf(listID));
+            AccessDAO accessDAO = new AccessDAO();
             
             //controll if have access
-            if (v.isError()) {
+            if (!accessDAO.canHaveAccess(userID, Long.parseLong(listID))) {
                 try {
                     response.setContentType("text/html;charset=UTF-8");
-                    request.setAttribute("error", "you don't have access");
+                    request.setAttribute("error", "YOU DON'T HAVE ACCESS");
                     getServletContext().getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }
+            } else {
 
-            //set attribute
-            User u = new UserDAO().get(userID).get();
-            ProductList pl = new ProductListDAO().get(Long.valueOf(listID)).get();
-            response.setContentType("text/html;charset=UTF-8");
-            request.setAttribute("listID", Long.valueOf(listID));
-            request.setAttribute("listName", pl.getName());
-            request.setAttribute("myUsername", u.getUsername());
-            request.setAttribute("userCookie", u.getCookie());
-            request.setAttribute("url", "ws://localhost:8084/chat/");
+                //set attribute
+                User u = new UserDAO().get(userID).get();
+                ProductList pl = new ProductListDAO().get(Long.valueOf(listID)).get();
+                response.setContentType("text/html;charset=UTF-8");
+                request.setAttribute("listID", Long.valueOf(listID));
+                request.setAttribute("listName", pl.getName());
+                request.setAttribute("myUsername", u.getUsername());
+                request.setAttribute("userCookie", u.getCookie());
 
-            try {
-                getServletContext().getRequestDispatcher("/ROOT/Chat.jsp").forward(request, response);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+                // Websocket config
+                String ADDRESS = request.getLocalAddr().equals("0:0:0:0:0:0:0:1") ? "localhost" : request.getLocalAddr();
+                request.setAttribute("url", "wss://" + ADDRESS + ":" + String.valueOf(request.getLocalPort()) + "/chat/");
+
+                try {
+                    getServletContext().getRequestDispatcher("/ROOT/lists/Chat.jsp").forward(request, response);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
@@ -122,7 +129,7 @@ class VisualizeMessage {
     private ErrorView error = ErrorView.NOERROR;
     private List<Message> messages;
     private Map<Integer, User> mapMessageUser = new HashMap<>();
-    
+
     public void setError(ErrorView error) {
         this.error = error;
     }
@@ -147,9 +154,10 @@ class VisualizeMessage {
 
         UserDAO userDAO = new UserDAO();
 
-        for (Message m : messages)
+        for (Message m : messages) {
             mapMessageUser.put(m.hashCode(), userDAO.get(m.getIdUser()).get());
-            
+        }
+
     }
 
     public Map<Integer, User> getMapMessageUser() {

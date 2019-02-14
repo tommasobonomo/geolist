@@ -25,26 +25,30 @@
     </servlet>
 
 
-    <servlet-mapping>
-        <servlet-name>LandingServlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/form-actions/login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ServletRegister</servlet-name>
-        <url-pattern>/form-actions/register</url-pattern> 
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ActivateAccount</servlet-name>
-        <url-pattern>/activateAccount</url-pattern>
-    </servlet-mapping>
--->
+        <servlet-mapping>
+            <servlet-name>LandingServlet</servlet-name>
+            <url-pattern>/</url-pattern>
+        </servlet-mapping>
+        <servlet-mapping>
+            <servlet-name>LoginServlet</servlet-name>
+            <url-pattern>/form-actions/login</url-pattern>
+        </servlet-mapping>
+        <servlet-mapping>
+            <servlet-name>ServletRegister</servlet-name>
+            <url-pattern>/form-actions/register</url-pattern> 
+        </servlet-mapping>
+        <servlet-mapping>
+            <servlet-name>ActivateAccount</servlet-name>
+            <url-pattern>/activateAccount</url-pattern>
+        </servlet-mapping>
+    -->
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/js/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/anon_user_images/*</url-pattern>
     </servlet-mapping>
                                 
     <servlet-mapping>
@@ -55,4 +59,17 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/ROOT/css/*</url-pattern>
     </servlet-mapping>
+    
+    <security-constraint>
+
+        <web-resource-collection>
+            <web-resource-name></web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+
+    </security-constraint>
 </web-app>

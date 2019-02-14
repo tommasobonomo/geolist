@@ -19,6 +19,8 @@ public class Item implements Serializable{
     private String name;
     transient private InputStream logo;
     private String note;
+    private long idOwner;
+    private boolean isTemplate;
 
 
     /**
@@ -29,12 +31,14 @@ public class Item implements Serializable{
      * @param logo
      * @param note
      */
-    public Item(long id, long idCat, String name, InputStream logo, String note) {
+    public Item(long id, long idCat, String name, InputStream logo, String note, long idOwner, boolean isTemplate) {
         this.id = id;
         this.idCat = idCat;
         this.name = name;
         this.logo = logo;
         this.note = note;
+        this.idOwner = idOwner;
+        this.isTemplate = isTemplate;
     }
     
     /**
@@ -44,13 +48,15 @@ public class Item implements Serializable{
      * @param logo
      * @param note
      */
-    public Item(long idCat, String name, InputStream logo, String note) {
+    public Item(long idCat, String name, InputStream logo, String note, long idOwner, boolean isTemplate) {
         this.idCat = idCat;
         this.name = name;
         this.logo = logo;
         this.note = note;
+        this.idOwner = idOwner;
+        this.isTemplate = isTemplate;
     }
-
+        
     public long getId() {
         return id;
     }
@@ -91,6 +97,22 @@ public class Item implements Serializable{
         this.note = note;
     }
 
+    public long getIdOwner() {
+        return idOwner;
+    }
+
+    public void setIdOwner(long idOwner) {
+        this.idOwner = idOwner;
+    }
+
+    public boolean isIsTemplate() {
+        return isTemplate;
+    }
+
+    public void setIsTemplate(boolean isTemplate) {
+        this.isTemplate = isTemplate;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -115,7 +137,8 @@ public class Item implements Serializable{
 
     @Override
     public String toString() {
-        return "Item{" + "idItem=" + id + ", idCat=" + idCat + ", name=" + name + ", logo=" + logo + ", note=" + note + '}';
+        return "Item{" + "id=" + id + ", idCat=" + idCat + ", name=" + name + ", logo=" + logo + ", note=" + note + ", idOwner=" + idOwner + ", isTemplate=" + isTemplate + '}';
     }
-    
+
+        
 }

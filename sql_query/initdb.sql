@@ -2,7 +2,7 @@
 
 CREATE TABLE users (
     id INTEGER GENERATED ALWAYS AS IDENTITY,
-    cookie VARCHAR(30),
+    cookie VARCHAR(100),
     username VARCHAR(40) NOT NULL UNIQUE, 
     name VARCHAR(40) NOT NULL ,
     lastname VARCHAR(40) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE users (
 
 CREATE TABLE usersanonimous (
     id INTEGER GENERATED ALWAYS AS IDENTITY,
-    cookie VARCHAR(30) NOT NULL UNIQUE,
+    cookie VARCHAR(100) NOT NULL UNIQUE,
     CONSTRAINT useranonimous_pk PRIMARY KEY (id)
 );
 
@@ -69,7 +69,12 @@ CREATE TABLE item (
     "NAME" VARCHAR(50),
     logo BLOB,
     note VARCHAR(1000),
-    CONSTRAINT item_pk PRIMARY KEY (id)
+    istemplate BOOLEAN NOT NULL,
+    idowner INTEGER,
+    CONSTRAINT item_pk PRIMARY KEY (id),
+    FOREIGN KEY (idowner)
+        REFERENCES users(id)
+        ON DELETE CASCADE
 );
 
 

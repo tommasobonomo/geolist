@@ -19,18 +19,23 @@ import it.unitn.aa1718.webprogramming.geolists.database.models.ProductList;
 import it.unitn.aa1718.webprogramming.geolists.database.models.User;
 import it.unitn.aa1718.webprogramming.geolists.utility.UserUtil;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -40,6 +45,9 @@ import javax.servlet.http.HttpServletResponse;
         name = "ListServlet",
         urlPatterns = "/List"
 )
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class ListServlet extends HttpServlet {
 
     /**
@@ -52,28 +60,27 @@ public class ListServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        
+
         UserUtil u = new UserUtil();
         Optional<Long> userID = u.getUserOptionalID(request);
-        
+
         long listID = Long.parseLong(request.getParameter("listID"));
         String action = request.getParameter("action");
-        
+
         AccessDAO accessDAO = new AccessDAO();
-        
-        
+
         if (userID.isPresent() && !accessDAO.canHaveAccess(userID.get(), listID)) {
             // System.out.println("errore non ha accesso");
             response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("error", "YOU DON'T HAVE ACCESS");
             request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
-            
-        } else if (userID.isPresent() && !accessDAO.havePermission(userID.get(), listID) ) { // se non ha i permessi di modifica
+
+        } else if (userID.isPresent() && !accessDAO.havePermission(userID.get(), listID)) { // se non ha i permessi di modifica
             // System.out.println("errore non ha permesso");
             response.setContentType("text/html;charset=UTF-8");
-            request.setAttribute("error", "YOU CAN'T MODIFY THIS LIST <br> ASK TO THE OWNER FOR PERMISSION ");
+            request.setAttribute("error", "YOU CAN'T MODIFY THIS LIST <br> ASK TO THE OWNER FOR PERMISSIONS ");
             request.getRequestDispatcher("/ROOT/error/Error.jsp").forward(request, response);
-        }else {
+        } else {
             switch (action) {
                 case "addItem":
                     addItem(request, response, listID);
@@ -90,11 +97,11 @@ public class ListServlet extends HttpServlet {
             }
         }
     }
-    
+
     private void retrieveImage(HttpServletRequest request, HttpServletResponse response, long id) throws IOException {
         ProductListDAO listDAO = new ProductListDAO();
         Optional<byte[]> byteArrayOpt = listDAO.getBlobImage(id);
-        
+
         if (byteArrayOpt.isPresent()) {
             response.setContentType("image/gif");
             OutputStream os = response.getOutputStream();
@@ -104,11 +111,11 @@ public class ListServlet extends HttpServlet {
         }
     }
 
-    private void addItem(HttpServletRequest request, HttpServletResponse response, long listID) {
+    private void addItem(HttpServletRequest request, HttpServletResponse response, long listID) throws ServletException, IOException {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
 
-        if (composeDAO.addItemToList(itemID, listID, 1,false)) {
+        if (composeDAO.addItemToList(itemID, listID, 1, false)) {
             request.setAttribute("success", true);
         } else {
             request.setAttribute("success", false);
@@ -117,7 +124,7 @@ public class ListServlet extends HttpServlet {
         viewList(request, response, listID);
     }
 
-    private void removeItem(HttpServletRequest request, HttpServletResponse response, long listID) {
+    private void removeItem(HttpServletRequest request, HttpServletResponse response, long listID) throws ServletException, IOException {
         long itemID = Long.parseLong(request.getParameter("itemID"));
         ComposeDAO composeDAO = new ComposeDAO();
 
@@ -130,7 +137,7 @@ public class ListServlet extends HttpServlet {
         viewList(request, response, listID);
     }
 
-    private void viewList(HttpServletRequest request, HttpServletResponse response, long listID) {
+    private void viewList(HttpServletRequest request, HttpServletResponse response, long listID) throws ServletException, IOException {
         // Get needed DAOs
         ComposeDAO composeDAO = new ComposeDAO();
         ItemDAO itemDAO = new ItemDAO();
@@ -149,18 +156,11 @@ public class ListServlet extends HttpServlet {
                 listItems.add(itemOpt.get());
             }
         }
-        
-        
-        Map<Long,Integer> mapQuantityItem = new HashMap<>();
-        mapQuantityItem = createMapQuantityItem(listItems,listID);
-        
-        Map<Long,Boolean> mapIsTakeItem = new HashMap<>();
-        mapIsTakeItem = createMapIsTakeItem(listItems,listID);
 
         //map permessi e sharing della lista
-        Map<Long,Boolean> mapPermission = new HashMap<>();
-        Map<Long,Boolean> mapSharing = new HashMap<>();
-        
+        Map<Long, Boolean> mapPermission = new HashMap<>();
+        Map<Long, Boolean> mapSharing = new HashMap<>();
+
         // Get list details if present
         Optional<ProductList> plOpt = plDAO.get(listID);
         List<Item> items = new ArrayList<>();
@@ -170,67 +170,105 @@ public class ListServlet extends HttpServlet {
         String category = "";
 
         if (plOpt.isPresent()) {
-            ProductList pl = plOpt.get();
-            name = pl.getName();
-            desc = pl.getDescription();
-            category = new CatProductListDAO().get(pl.getIdCat()).get().getName();
-            
-            // Get items related to the category id for adding purposes
-            List<CatItem> idCategories = new ItemPermissionDAO().getItemCategories(pl.getIdCat());
-            for (CatItem elem : idCategories) {
-                List<Item> itemOfCategory = new ItemDAO().getAllByIdCat(elem.getIdCatItem());
-                items.addAll(itemOfCategory);
-            }
-            
+            ProductList list = plOpt.get();
+            category = new CatProductListDAO().get(list.getIdCat()).get().getName();
+
             // get friends of user
             UserUtil uUtil = new UserUtil();
             Optional<User> userOptional = uUtil.getUserOptional(request);
-            if(userOptional.isPresent()){
+            if (userOptional.isPresent()) {
                 long userId = userOptional.get().getId();
-                
+
                 friends = new IsFriendDAO().getFriends(userId);
-                
-                for(User f: friends){
-                    mapSharing.put(f.getId(),accessDAO.canHaveAccess(f.getId(),listID));
-                    mapPermission.put(f.getId(),accessDAO.havePermission(f.getId(), listID));
+
+                for (User f : friends) {
+                    mapSharing.put(f.getId(), accessDAO.canHaveAccess(f.getId(), listID));
+                    mapPermission.put(f.getId(), accessDAO.havePermission(f.getId(), listID));
                 }
             }
-        }
-        
-        
-        //get user id from cookie
-        UserUtil us = new UserUtil();
-        Optional<Cookie> cookie = us.getCookie(request);
-        
-        //rimuovo dalla lista di items che posso aggiungere gli items che sono già nella lista
-        items.removeAll(listItems);
-        
-        request.setAttribute("userCookie", cookie.get().getValue());
-        request.setAttribute("url", "ws://localhost:8084/friend/");
+            
+            // Get items related to the category id for adding purposes
+            List<CatItem> idCategories = new ItemPermissionDAO().getItemCategories(list.getIdCat());
+            for (CatItem elem : idCategories) {
+                List<Item> itemOfCategory = new ItemDAO().getAllByIdCat(elem.getIdCatItem(), userOptional);
+                items.addAll(itemOfCategory);
+            }
 
-        // Return everything to List.jsp
-        response.setContentType("text/html;charset=UTF-8");
-        request.setAttribute("listID", listID);
-        request.setAttribute("listItems", listItems);
-        request.setAttribute("allItems", items);
-        request.setAttribute("name", name);
-        request.setAttribute("desc", desc);
-        request.setAttribute("category",category);
-        request.setAttribute("friends", friends);
-        
-        //for retrieve quantity
-        request.setAttribute("mapQuantityItem", mapQuantityItem);
-        request.setAttribute("mapIsTakeItem", mapIsTakeItem);
-        
-        //friend sharing and permission map
-        request.setAttribute("mapPermission", mapPermission);
-        request.setAttribute("mapSharing", mapSharing);
-        
-        
-        try {
-            request.getRequestDispatcher("/ROOT/lists/List.jsp").forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            // <editor-fold defaultstate="collapsed" desc="modifice della lista">
+            //modifica della lista
+            String modify = request.getParameter("modify");
+            InputStream inputStream = null;
+            ProductListDAO listDAO = new ProductListDAO();
+            String newNote = "", newName = "";
+
+            if ("note".equals(modify)) {
+                newNote = (String) request.getParameter("newNote");
+                if (!"".equals(newNote)) {
+                    list.setDescription(newNote);
+                    listDAO.updateWithoutImage(list.getId(), list);
+                }
+            }
+
+            //cambio nome
+            if ("name".equals(modify)) {
+                newName = (String) request.getParameter("newName");
+                if (!"".equals(newName)) {
+                    list.setName(newName);
+                    listDAO.updateWithoutImage(list.getId(), list);
+                }
+            }
+
+            //cambio logo
+            if ("logo".equals(modify)) {
+                try {
+
+                    Part filePart = request.getPart("newLogo");
+                    if (filePart != null) {
+                        // obtains input stream of the upload file
+                        inputStream = filePart.getInputStream();
+                        list.setImage(inputStream);
+                        listDAO.update(list.getId(), list);
+                    }
+                } catch (IOException | ServletException ex) {
+                    Logger.getLogger(ItemRegister.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } // </editor-fold>
+
+            name = list.getName();
+            desc = list.getDescription();
+
+            //get user id from cookie
+            UserUtil us = new UserUtil();
+            Optional<Cookie> cookie = us.getCookie(request);
+
+            //rimuovo dalla lista di items che posso aggiungere gli items che sono già nella lista
+            items.removeAll(listItems);
+
+            request.setAttribute("userCookie", cookie.get().getValue());
+            
+            // Websocket config
+            String ADDRESS = request.getLocalAddr().equals("0:0:0:0:0:0:0:1") ? "localhost" : request.getLocalAddr();
+            request.setAttribute("url", "wss://" + ADDRESS + ":" + String.valueOf(request.getLocalPort()) + "/friend/");
+
+            // Return everything to List.jsp
+            response.setContentType("text/html;charset=UTF-8");
+            request.setAttribute("listID", listID);
+            request.setAttribute("listItems", listItems);
+            request.setAttribute("allItems", items);
+            request.setAttribute("name", name);
+            request.setAttribute("desc", desc);
+            request.setAttribute("category", category);
+            request.setAttribute("friends", friends);
+
+            //friend sharing and permission map
+            request.setAttribute("mapPermission", mapPermission);
+            request.setAttribute("mapSharing", mapSharing);
+
+            try {
+                request.getRequestDispatcher("/ROOT/lists/List.jsp").forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -272,31 +310,4 @@ public class ListServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    private Map<Long,Integer> createMapQuantityItem (List<Item> items,long listID) {
-
-        ComposeDAO composeDAO = new ComposeDAO();
-        Map<Long,Integer> mapQuantityItem = new HashMap<>();
-        
-        
-        for (Item i : items) {
-            mapQuantityItem.put(i.getId(), composeDAO.getQuantityFromItemAndList(i.getId(),listID).get());
-        }
-        
-        return mapQuantityItem;
-    }
-    
-    private Map<Long,Boolean> createMapIsTakeItem (List<Item> items,long listID) {
-
-        ComposeDAO composeDAO = new ComposeDAO();
-        Map<Long,Boolean> mapIsTakeItem = new HashMap<>();
-        
-        
-        for (Item i : items) {
-            mapIsTakeItem.put(i.getId(), composeDAO.getComposeObjectFromItemIdListId(i.getId(),listID).get().isTake());
-        }
-        
-        return mapIsTakeItem;
-    }
-    
 }

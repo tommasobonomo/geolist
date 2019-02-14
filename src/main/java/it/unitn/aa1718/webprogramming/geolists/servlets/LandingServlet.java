@@ -102,6 +102,9 @@ public class LandingServlet extends HttpServlet {
 
         //mappa per i permessi
         Map<Long, Boolean> hasPermissionInThisList = new HashMap<>();
+        
+        //mappa username //TODO: da aggiornare pesa troppo
+        Map<Long, List<String> > mapWhoHaveAccess = new HashMap<>();
 
         // Se cookie indica un normale utente
         if (userOpt.isPresent() && userOpt.get().isActive()) {
@@ -111,16 +114,16 @@ public class LandingServlet extends HttpServlet {
             ComposeDAO composeDAO = new ComposeDAO();
             ItemDAO itemDAO = new ItemDAO();
 
-            User user = userOpt.get();
-            listOfPL = accessDAO.getAllLists(user.getId());
-
+            User userLogged = userOpt.get();
+            listOfPL = accessDAO.getAllLists(userLogged.getId());
+            
             // Per ogni lista, prendi ogni suo Item
             itemsOfList = new HashMap<>();
             for (ProductList list : listOfPL) {
                 long listID = list.getId();
 
                 //controllo permessi
-                boolean havePermission = accessDAO.havePermission(user.getId(), listID);
+                boolean havePermission = accessDAO.havePermission(userLogged.getId(), listID);
                 hasPermissionInThisList.put(listID, havePermission);
 
                 //item della lista
@@ -134,10 +137,20 @@ public class LandingServlet extends HttpServlet {
 
                 }
                 itemsOfList.put(listID, items);
+                List <String> listUsername = new ArrayList<>();
+                
+                for(User u : accessDAO.getUser(listID)){
+                    if(u.getId()!=userLogged.getId())
+                        listUsername.add(u.getUsername());
+                
+                }
+                mapWhoHaveAccess.put(listID, listUsername);
             }
 
-            username = user.getUsername();
+            username = userLogged.getUsername();
             //prendo liste di utenti con cui la lista è condivisa
+            
+            
 
         } else if (alreadyLogged) { // Utente anonimo
             ProductListDAO plistDAO = new ProductListDAO();
@@ -207,8 +220,13 @@ public class LandingServlet extends HttpServlet {
         Optional<Cookie> cookie = u.getCookie(request);
         if (cookie.isPresent()) {
             request.setAttribute("userCookie", cookie.get().getValue());
-            request.setAttribute("url", "ws://localhost:8084/quantity/");
+            // Websocket
+            String ADDRESS = request.getLocalAddr().equals("0:0:0:0:0:0:0:1") ? "localhost" : request.getLocalAddr();
+            request.setAttribute("url", "wss://" + ADDRESS + ":" + String.valueOf(request.getLocalPort()) + "/");
         }
+        
+        request.setAttribute("mapWhoHaveAccess", mapWhoHaveAccess);
+        
 
         //Aggiungo i parametri alla richiesta da inoltrare alla JSP
         response.setContentType("text/html;charset=UTF-8");
@@ -216,7 +234,7 @@ public class LandingServlet extends HttpServlet {
         request.setAttribute("hasPermissionInThisList", hasPermissionInThisList);
         request.setAttribute("mapCatOfLists", mapCatOfLists);
         request.setAttribute("mapCompose", mapCompose);
-        request.setAttribute("listOfPL", listOfPL);
+        session.setAttribute("listOfPL", listOfPL);
         request.setAttribute("itemsOfList", itemsOfList);
         request.setAttribute("username", username);
         request.setAttribute("isAnon", isAnon);
@@ -267,4 +285,7 @@ public class LandingServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
 }
+
+

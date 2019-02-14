@@ -27,6 +27,11 @@ import java.util.List;
  */
 public class ImageUploader {
     
+    /**
+     * returns a new file
+     * @param name of the image
+     * @return the image file
+     */
     private static File chooseImage(String name) {
         String userDir = System.getProperty("user.dir");
         String imagesDir = userDir + File.separator + "images" + File.separator;
@@ -35,6 +40,11 @@ public class ImageUploader {
         return f;
     }
     
+    /**
+     * 
+     * @param name of the file
+     * @return the image itselves
+     */
     private static InputStream getInputStreamFromFile(String name) {
         File selectedFile = chooseImage(name);
         InputStream image = null;        
@@ -142,7 +152,7 @@ public class ImageUploader {
     
     /**
      * Upload all images in /images to DB
-     * @param args 
+     * @param args  
      */
     public static void main(String[] args) {
         // Items

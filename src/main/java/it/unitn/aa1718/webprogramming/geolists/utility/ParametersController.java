@@ -123,7 +123,7 @@ public class ParametersController {
         
         ItemDAO db = new ItemDAO();
         Optional<Item> u = db.get(name);
-        if(u.isPresent() || name.contains(" "))
+        if(u.isPresent() || name.length()>25)
             return false;
         
         return true;
