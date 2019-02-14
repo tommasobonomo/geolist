@@ -37,7 +37,7 @@ public class Geolocation extends HttpServlet {
 
     private final String app_id = "R6mhWpHMAL1WKFiqlNVn";
     private final String app_code = "fjkiwApcOJdDm38A_tvw_Q";
-    private final double MAX_DISTANCE = 1000; // in metri, fino a quanto lontano includere i posti 
+    private final double MAX_DISTANCE = 3000; // in metri, fino a quanto lontano includere i posti 
     
     private HttpResponse<JsonNode> makeRequest(String location, String category) {
         HttpResponse<JsonNode> res = null;

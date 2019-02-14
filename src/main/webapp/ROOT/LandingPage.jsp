@@ -384,7 +384,7 @@
                         <div class="card">
                             <div class="mx-auto text-center padding-top" id="addList" style="width:100%">
                                 <h4 class="card-title">Try out your own</h4>
-                                <p class="card-text">create a simple list without an account and test the experience</p>zsssssssssssssssss
+                                <p class="card-text">create a simple list without an account and test the experience</p>
                                 <button data-toggle="modal" data-target="#listModal" class="btn btn-outline-danger">Create one</button>
                             </div>
                         </div>

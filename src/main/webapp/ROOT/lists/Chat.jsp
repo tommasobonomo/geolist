@@ -44,11 +44,11 @@
                 <div class="collapse navbar-collapse" id="collapse-target">
                     <!--pulsante ricerca prodotto-->
                     <form method="POST" action="/form-action/search" class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search.." aria-label="Search" name="wordSearched">
+                        <input class="form-control mr-sm-2" id="searchline" type="search" placeholder="Search.." aria-label="Search" name="wordSearched">
                         <select class="form-control mr-sm-2" id="selezione" name="categorySearched">
                             <option value="0" selected>all</option>
-                            <c:forEach var="category" items="${listOfCat}">
-                                <option value="${category.getIdCatItem()}">${category.getName()}</option>
+                            <c:forEach var="cat" items="${listOfCat}">
+                                <option value="${cat.getIdCatItem()}">${cat.getName()}</option>
                             </c:forEach>
                         </select>
                         <button name="page" value="1" class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>

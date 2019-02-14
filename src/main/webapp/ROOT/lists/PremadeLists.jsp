@@ -38,41 +38,53 @@
             </button>
 
             <div class="collapse navbar-collapse" id="collapse-target">
-                <!--pulsante ricerca prodotto-->
-                <form method="POST" action="/form-action/search" class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search.." aria-label="Search" name="wordSearched">
-                    <select class="form-control mr-sm-2" id="selezione" name="categorySearched">
-                        <option value="0" selected>all</option>
-                        <c:forEach var="cat" items="${listOfCat}">
-                            <option value="${cat.getIdCatItem()}">${cat.getName()}</option>
-                        </c:forEach>
-                    </select>
-                    <button name="page" value="1" class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
+                    <!--pulsante ricerca prodotto-->
+                    <form method="POST" action="/form-action/search" class="form-inline my-2 search-form padding-left2" id="navbarSearchForm">
+                        <input class="form-control mr-sm-2" id="searchline" type="search" placeholder="Search.." aria-label="Search" name="wordSearched">
+                        <select class="form-control mr-sm-2" id="selezione" name="categorySearched">
+                            <option value="0" selected>all</option>
+                            <c:forEach var="cat" items="${listOfCat}">
+                                <option value="${cat.getIdCatItem()}">${cat.getName()}</option>
+                            </c:forEach>
+                        </select>
+                        <button name="page" value="1" class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
 
             <!--tutto quello che voglio fare collassare lo metto all'interno di questo div-->
             <div class="collapse navbar-collapse" id="collapse-target">
 
                 <!--lista degli elementi cliccabili-->
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">Geo</a>
-                    </li>
-                    <c:if test="${logged}">
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">Profile</a>
+                            <a href="" class="nav-link" data-toggle="modal" data-target="#geoModal">
+                                <i class="fas fa-globe-europe" id="globe"></i>
+                                Geo
+                            </a>
                         </li>
-                    </c:if>
-                    <c:if test="${not logged}">
-                        <li class="nav-item"> <!--bottone user, deve anche aprire la finestra modale-->
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-home"></i>
+                                Home
+                            </a>
                         </li>
-                    </c:if>
-                </ul>
+                        <c:if test="${logged}">
+                            <li class="nav-item">
+                                <a class="nav-link" href="<c:url value="/ViewAccount"><c:param name="action" value="viewAccount"></c:param></c:url>">
+                                            <i class="fas fa-user"></i>
+                                            Profile
+                                        </a>
+                                    </li>
+                        </c:if>
+                        <c:if test="${not logged}">
+                            <li class="nav-item"> <!--bottone user, deve anche aprire la finestra modale-->
+                                <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Login
+                                </a>
+                            </li>
+                        </c:if>
+                    </ul>
 
             </div>
         </div>
