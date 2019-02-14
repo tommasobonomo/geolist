@@ -179,7 +179,7 @@
                     <div class="col-12">
                         <p class="lead">Organize better your shopping lists with your friends and family.
                             <br> You will always know what and where buy stuff for your needs.
-                            </h1>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -450,9 +450,7 @@
                                     </div>
                                     <div class="col-6 text-center">
                                         <!--div da cambiare in button-->
-                                        <a href="create-lists.html">
-                                            <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
-                                        </a>
+                                        <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
                                     </div>
                                 </div>
                             </div>
@@ -532,9 +530,7 @@
                                         </div>
                                         <div class="col-6 text-center">
                                             <!--div da cambiare in button-->
-                                            <a href="create-lists.html">
-                                                <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
-                                            </a>
+                                            <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
                                         </div>
                                     </div>
                                 </div>
@@ -553,14 +549,12 @@
                                     </div>
                                     <div class="col-6 text-center">
                                         <!--div da cambiare in button-->
-                                        <a href="create-lists.html">
                                             <a href="<c:url value="/form-actions/register"><c:param name="action" value="view"></c:param></c:url>" >
-                                                        <button class="btn btn-outline-danger btn-md">Register</button>
-                                                    </a>
-                                                </a>
-                                            </div>
-                                        </div>
+                                                <button class="btn btn-outline-danger btn-md">Register</button>
+                                            </a>
                                     </div>
+                                </div>
+                            </div>
                         </c:if>
                     </div>
 

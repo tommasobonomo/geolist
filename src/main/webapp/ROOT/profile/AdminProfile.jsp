@@ -222,9 +222,7 @@
                                     </div>
                                     <div class="col-6 text-center">
                                         <!--div da cambiare in button-->
-                                        <a href="create-lists.html">
-                                            <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
-                                        </a>
+                                        <button value="Submit" type="submit" class="btn btn-outline-danger btn-md">Create</button>
                                     </div>
                                 </div>
                             </div>
