@@ -128,7 +128,7 @@ public class EmailSender {
         @Override
         public PasswordAuthentication getPasswordAuthentication() {
            String username = "geolistunitn";
-           String password = "Geolist2018";
+           String password = "Geolist2019";
            return new PasswordAuthentication(username, password);
         }
     }
